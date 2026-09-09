@@ -103,9 +103,26 @@ strong, b { font-weight: var(--weight-bold); }
 .brand-name strong { font-weight: var(--weight-bold); }
 .brand-name em { color: var(--clay-500); font-style: normal; }
 .nav-list { display: flex; margin: 0; padding: 0; align-items: center; justify-content: center; gap: clamp(0.8rem, 1.7vw, 1.6rem); list-style: none; }
-.nav-list a { position: relative; color: var(--forest-950); font-size: 0.76rem; font-weight: var(--weight-bold); letter-spacing: 0.045em; text-transform: uppercase; }
-.nav-list a::after { position: absolute; right: 0; bottom: -0.45rem; left: 0; height: 1px; transform: scaleX(0); background: var(--clay-500); content: ""; transition: transform 220ms ease; }
-.nav-list a:hover::after { transform: scaleX(1); }
+.nav-list a { position: relative; display: inline-flex; padding-block: 0.45rem; color: var(--forest-950); font-size: 0.76rem; font-weight: var(--weight-bold); letter-spacing: 0.045em; text-transform: uppercase; }
+.nav-list a::before,
+.nav-list a::after {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 1px;
+  transform: scaleX(0);
+  transform-origin: center;
+  border-radius: 999px;
+  background: var(--cta-accent);
+  content: "";
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-list a::before { top: 0; }
+.nav-list a::after { bottom: 0; }
+.nav-list a:hover::before,
+.nav-list a:hover::after,
+.nav-list a:focus-visible::before,
+.nav-list a:focus-visible::after { transform: scaleX(1); }
 .header-actions { display: flex; align-items: center; justify-content: flex-end; gap: 0.35rem; color: var(--forest-950); }
 .header-icon-button { display: inline-grid; width: 2.75rem; height: 2.75rem; flex: 0 0 auto; place-items: center; padding: 0; border: 0; border-radius: 0.35rem; background: transparent; color: inherit; cursor: pointer; transition: background-color 180ms ease, color 180ms ease; }
 .header-icon-button svg { width: 1.35rem; height: 1.35rem; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
