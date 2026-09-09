@@ -1,0 +1,118 @@
+{
+  "title": "Escolha o mundo visual da nova Home",
+  "question": "Todas as direções preservam a paleta definida, o catálogo como ação principal e sete etnias visíveis na segunda seção.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Atlas das Confluências",
+      "kicker": "THE ROLL",
+      "lineage": "atlas hidrográficos, mapas de percurso e cadernos de navegação fluvial",
+      "thesis": "A origem de cada medicina aparece como uma confluência entre território, povo, produto e cliente.",
+      "palette": ["#17401D", "#248C34", "#EF492B", "#A3250F", "#F4F0E6"],
+      "materials": ["papel cartográfico", "linhas de percurso", "selos de origem", "fotografia documental"],
+      "viewport": "Hero assimétrico com uma rota fluvial atravessando fotografia, promessa de origem e um CTA laranja direto para o catálogo; abaixo, sete retratos circulares formam pontos de encontro.",
+      "risk": "Pode parecer institucional se os produtos e o CTA perderem protagonismo.",
+      "raised": [
+        {"from": "tensegrity", "raise": "A composição passa a equilibrar forças visuais opostas sem perder estabilidade."},
+        {"from": "data-sublime", "raise": "A informação de origem ganha precisão e ritmo, sem virar decoração."},
+        {"from": "oscilloscope", "raise": "A página recebe um único gesto vivo de movimento, contínuo e acessível."}
+      ],
+      "comp": ".impeccable/mocks/decision/atlas-confluencias.png"
+    },
+    {
+      "id": "model-pick",
+      "label": "Arquivo Vivo de Origem",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "dossiês de procedência, arquivos fotográficos e etiquetas de acervo contemporâneas",
+      "thesis": "Cada produto entra como um registro verificável de povo, origem, história e cuidado.",
+      "palette": ["#17401D", "#248C34", "#EF492B", "#A3250F", "#F4F0E6"],
+      "materials": ["fichas de procedência", "carimbos tipográficos", "fotografia emoldurada", "papel de arquivo"],
+      "viewport": "Uma fotografia forte e um grande registro de procedência dividem o primeiro viewport; o catálogo é o próximo arquivo a abrir, e os sete círculos funcionam como fichas de acesso às etnias.",
+      "risk": "É a direção mais clara, mas também pode ficar excessivamente museológica se as vozes das comunidades não permanecerem vivas.",
+      "comp": ".impeccable/mocks/decision/arquivo-vivo.png"
+    },
+    {
+      "id": "challenger-wpa",
+      "label": "Cartaz da Floresta",
+      "verdict": "competitive",
+      "lineage": "cartazes serigráficos de parques e encontros culturais",
+      "thesis": "A Home funciona como um cartaz editorial em movimento que convida o visitante a conhecer e comprar.",
+      "palette": ["#17401D", "#248C34", "#EF492B", "#A3250F", "#F4F0E6"],
+      "materials": ["tintas planas", "recortes fotográficos", "papel serigráfico", "tipografia de impacto"],
+      "viewport": "Uma paisagem amazônica construída em planos, produto real em primeiro plano e um comando direto para entrar no catálogo; os círculos das etnias continuam como uma faixa de encontros.",
+      "case": "Identifica-se rapidamente com floresta e território e mantém o CTA legível, mas comunica menos procedência que o Atlas.",
+      "risk": "Pode cair em linguagem turística se a fotografia e as histórias reais não dominarem as ilustrações.",
+      "comp": ".impeccable/mocks/decision/cartaz-floresta.png",
+      "hero": "https://impeccable.style/worlds/cards/posters-covers-sleeves-wpa-park-poster-hero.webp"
+    },
+    {
+      "id": "challenger-boxes",
+      "label": "Caixas de Origem",
+      "verdict": "competitive",
+      "lineage": "paredes de caixas etiquetadas e arquivos comerciais de variantes",
+      "thesis": "O catálogo vira uma parede tátil de remessas, com cada produto identificado por etnia, medicina e origem.",
+      "palette": ["#17401D", "#248C34", "#EF492B", "#A3250F", "#F4F0E6"],
+      "materials": ["papelão colorido", "etiquetas modulares", "selos de lote", "papel de proteção"],
+      "viewport": "Blocos empilhados organizam as categorias e um módulo aberto revela fotografia, origem e CTA; a faixa de etnias se comporta como gavetas circulares de acesso.",
+      "case": "É excelente para compra e organização do catálogo, porém tem menor identificação espiritual e cultural.",
+      "risk": "Pode aproximar demais a marca de moda ou logística e diminuir a dimensão humana.",
+      "comp": ".impeccable/mocks/decision/caixas-origem.png",
+      "hero": "https://impeccable.style/worlds/cards/textiles-weave-drape-fashion-sneaker-box-stacks-hero.webp"
+    },
+    {
+      "id": "challenger-tensegrity",
+      "label": "Rede em Equilíbrio",
+      "verdict": "declined",
+      "lineage": "esculturas de tensegridade",
+      "thesis": "Comunidades, produtos e clientes aparecem como forças que sustentam a mesma rede.",
+      "palette": ["#17401D", "#EF492B", "#F4F0E6"],
+      "materials": ["hastes", "cordas tensionadas", "diagramas de força"],
+      "viewport": "Uma rede estrutural ocupa o hero e conecta os pontos de origem ao catálogo.",
+      "case": "A metáfora é inteligente, mas não identifica com clareza medicinas indígenas ou Amazônia.",
+      "kept": "Equilíbrio estrutural entre imagem, narrativa e conversão.",
+      "risk": "Abstrata demais para uma primeira visita.",
+      "hero": "https://impeccable.style/worlds/cards/kinetic-sculpture-automata-tensegrity-breathing-column-hero.webp"
+    },
+    {
+      "id": "challenger-data",
+      "label": "Campo de Dados",
+      "verdict": "declined",
+      "lineage": "campos de dados de alto contraste",
+      "thesis": "A origem é apresentada como informação densa, rastreável e precisa.",
+      "palette": ["#17401D", "#248C34", "#EF492B", "#A3250F"],
+      "materials": ["barras", "linhas finas", "numeração tabular"],
+      "viewport": "Uma matriz codifica etnias, produtos e procedência no primeiro viewport.",
+      "case": "Traz rigor, mas afasta a marca da experiência humana e da materialidade dos produtos.",
+      "kept": "Disciplina informacional e contraste sem hesitação.",
+      "risk": "Frio e pouco acolhedor para este público.",
+      "hero": "https://impeccable.style/worlds/cards/ikeda-datamatics-hero.webp"
+    },
+    {
+      "id": "challenger-terminal",
+      "label": "Terminal de Consulta",
+      "verdict": "declined",
+      "lineage": "terminais industriais de consulta",
+      "thesis": "O visitante consulta cada medicina como um registro operacional de origem e uso.",
+      "palette": ["#17401D", "#248C34", "#EF492B", "#F4F0E6"],
+      "materials": ["tela fosforescente", "placas de instrução", "códigos de equipamento"],
+      "viewport": "Uma interface de consulta pede a categoria e devolve produtos e procedência.",
+      "case": "Os estados seriam claros, mas o vocabulário tecnológico contradiz o coração cultural do produto.",
+      "kept": "Estados, ações e mensagens devem ser inequívocos.",
+      "risk": "Parece ficção científica, não Medicina Sagrada.",
+      "hero": "https://impeccable.style/worlds/cards/pop-culture-shelf-industrial-starship-terminal-hero.webp"
+    }
+  ],
+  "reroll": {"registers": ["safer", "bolder"]},
+  "buildPath": {"value": "comp", "toggle": true},
+  "canon": true,
+  "canonCard": {
+    "label": "E-commerce natural premium",
+    "thesis": "A linguagem conhecida do segmento, executada com fotografia forte e excelente acabamento.",
+    "palette": ["#17401D", "#248C34", "#EF492B", "#A3250F", "#F4F0E6"],
+    "materials": ["fotografia de floresta", "cards limpos", "texturas naturais discretas"],
+    "viewport": "Hero fotográfico, título, CTA de catálogo e uma grade clara de categorias logo abaixo.",
+    "risk": "É fácil de compreender, mas pode ficar semelhante a muitas marcas naturais e espirituais.",
+    "comp": ".impeccable/mocks/decision/canon.png"
+  },
+  "steer": true
+}

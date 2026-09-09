@@ -1,0 +1,251 @@
+{
+  "tool": "build-phase",
+  "version": 2,
+  "startedAt": "2026-09-08T20:15:32.063Z",
+  "comp": ".impeccable/mocks/topbar-01.png",
+  "direction": null,
+  "breakpoint": "1440x40",
+  "artifact": "components/header.tsx",
+  "phase": "hero",
+  "phases": {
+    "comps": {
+      "status": "skipped",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [
+        {
+          "at": "2026-09-08T20:15:32.063Z",
+          "text": "started with an approved comp; the comp round happened before this state (surface round or manual)"
+        }
+      ],
+      "gate": null,
+      "forced": null
+    },
+    "spec": {
+      "status": "closed",
+      "openedAt": "2026-09-08T20:15:32.063Z",
+      "closedAt": "2026-09-08T20:15:42.622Z",
+      "attempts": 3,
+      "notes": [],
+      "gate": {
+        "ok": true,
+        "reasons": [],
+        "summary": "4 regions, 0 plates, 2 text regions measured",
+        "at": "2026-09-08T20:15:42.621Z"
+      },
+      "forced": null
+    },
+    "plates": {
+      "status": "closed",
+      "openedAt": "2026-09-08T20:15:42.622Z",
+      "closedAt": "2026-09-08T20:15:42.672Z",
+      "attempts": 1,
+      "notes": [],
+      "gate": {
+        "ok": true,
+        "reasons": [],
+        "summary": "no plates owed",
+        "at": "2026-09-08T20:15:42.671Z"
+      },
+      "forced": null
+    },
+    "hero": {
+      "status": "open",
+      "openedAt": "2026-09-08T20:15:42.672Z",
+      "closedAt": null,
+      "attempts": 4,
+      "notes": [],
+      "gate": {
+        "ok": false,
+        "reasons": [
+          "region left-truck is missing (detail 0%, structure 84%): the comp shows material the build does not"
+        ],
+        "summary": "hero 86% (match)",
+        "score": 0.8632,
+        "verdict": "match",
+        "report": ".impeccable\\review\\diff\\hero\\report.json",
+        "sideBySide": ".impeccable\\review\\diff\\hero\\side-by-side.png",
+        "worst": [
+          "left-truck missing 68%",
+          "right-whatsapp drift 76%",
+          "left-copy match 81%"
+        ],
+        "worstIds": [
+          "left-truck",
+          "right-whatsapp",
+          "left-copy"
+        ],
+        "worstCrops": [
+          {
+            "id": "left-truck",
+            "verdict": "missing",
+            "score": {
+              "overall": 0.6786,
+              "structure": 0.8445,
+              "color": 0.9319,
+              "colorIntersection": 0.8056,
+              "paletteMatch": 1,
+              "detail": 0,
+              "detailRaw": 0,
+              "detailAdded": 0.0833,
+              "bands": 1
+            },
+            "file": ".impeccable\\review\\diff\\hero\\regions\\left-truck.png"
+          },
+          {
+            "id": "right-whatsapp",
+            "verdict": "drift",
+            "score": {
+              "overall": 0.7608,
+              "structure": 0.7558,
+              "color": 0.9202,
+              "colorIntersection": 0.884,
+              "paletteMatch": 0.9396,
+              "detail": 0.4648,
+              "detailRaw": 0.4961,
+              "detailAdded": 0.0625,
+              "bands": 1
+            },
+            "file": ".impeccable\\review\\diff\\hero\\regions\\right-whatsapp.png"
+          },
+          {
+            "id": "left-copy",
+            "verdict": "match",
+            "score": {
+              "overall": 0.8141,
+              "structure": 0.7995,
+              "color": 0.9068,
+              "colorIntersection": 0.8514,
+              "paletteMatch": 0.9367,
+              "detail": 0.6646,
+              "detailRaw": 0.6646,
+              "detailAdded": 0,
+              "bands": 0.88
+            },
+            "file": ".impeccable\\review\\diff\\hero\\regions\\left-copy.png"
+          }
+        ],
+        "advisories": [
+          "(advisory, unchanged for 3+ attempts) text left-copy: cap height 10px in the build, 14.1px in the comp (-29%); set font-size so the cap height renders at 14.1px (font-match ranked Josefin Sans 400 at 20px)"
+        ],
+        "regionVerdicts": {
+          "left-truck": "missing",
+          "left-copy": "match",
+          "right-whatsapp": "drift",
+          "right-copy": "match"
+        },
+        "at": "2026-09-08T20:16:06.334Z"
+      },
+      "forced": null,
+      "readingsSeen": {
+        "text left-copy: cap height 10px in the build, 14.1px in the comp (-29%); set font-size so the cap height renders at 14.1px (font-match ranked Josefin Sans 400 at 20px)": 5
+      },
+      "records": 1,
+      "history": [
+        {
+          "at": "2026-09-08T20:16:05.391Z",
+          "score": 0.8632,
+          "worstIds": [
+            "left-truck",
+            "right-whatsapp",
+            "left-copy"
+          ],
+          "regionVerdicts": {
+            "left-truck": "missing",
+            "left-copy": "match",
+            "right-whatsapp": "drift",
+            "right-copy": "match"
+          },
+          "artifactHash": "febb4f4f52da"
+        },
+        {
+          "at": "2026-09-08T20:16:05.710Z",
+          "score": 0.8632,
+          "worstIds": [
+            "left-truck",
+            "right-whatsapp",
+            "left-copy"
+          ],
+          "regionVerdicts": {
+            "left-truck": "missing",
+            "left-copy": "match",
+            "right-whatsapp": "drift",
+            "right-copy": "match"
+          },
+          "artifactHash": "febb4f4f52da"
+        },
+        {
+          "at": "2026-09-08T20:16:06.024Z",
+          "score": 0.8632,
+          "worstIds": [
+            "left-truck",
+            "right-whatsapp",
+            "left-copy"
+          ],
+          "regionVerdicts": {
+            "left-truck": "missing",
+            "left-copy": "match",
+            "right-whatsapp": "drift",
+            "right-copy": "match"
+          },
+          "artifactHash": "febb4f4f52da"
+        },
+        {
+          "at": "2026-09-08T20:16:06.335Z",
+          "score": 0.8632,
+          "worstIds": [
+            "left-truck",
+            "right-whatsapp",
+            "left-copy"
+          ],
+          "regionVerdicts": {
+            "left-truck": "missing",
+            "left-copy": "match",
+            "right-whatsapp": "drift",
+            "right-copy": "match"
+          },
+          "artifactHash": "febb4f4f52da"
+        }
+      ]
+    },
+    "sections": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    },
+    "motion": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    },
+    "responsive": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    },
+    "review": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    }
+  },
+  "finish": null,
+  "plates": {}
+}

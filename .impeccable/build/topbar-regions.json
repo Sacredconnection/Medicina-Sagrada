@@ -1,0 +1,9 @@
+{
+  "allowUncovered": true,
+  "regions": [
+    { "id": "left-truck", "kind": "chrome", "grid": "A0:A9", "note": "Outlined delivery truck icon." },
+    { "id": "left-copy", "kind": "text", "grid": "B0:C9", "note": "Exact shipping deadline copy." },
+    { "id": "right-whatsapp", "kind": "chrome", "grid": "H0:H9", "note": "Outlined WhatsApp icon." },
+    { "id": "right-copy", "kind": "text", "grid": "I0:J9", "note": "Exact human support copy." }
+  ]
+}
