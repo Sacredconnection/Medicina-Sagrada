@@ -5,19 +5,37 @@ import { useEffect, useRef, useState } from "react";
 
 type LiveHeroProps = {
   children: ReactNode;
-  image: string;
+  desktopImage: string;
+  mobileImage: string;
 };
 
-export function LiveHero({ children, image }: LiveHeroProps) {
-  const [currentImage, setCurrentImage] = useState(image);
-  const currentVersion = useRef("");
+type HeroImages = {
+  desktop: string;
+  mobile: string;
+};
+
+export function LiveHero({
+  children,
+  desktopImage,
+  mobileImage,
+}: LiveHeroProps) {
+  const [currentImages, setCurrentImages] = useState<HeroImages>({
+    desktop: desktopImage,
+    mobile: mobileImage,
+  });
+  const currentVersions = useRef<Record<keyof HeroImages, string>>({
+    desktop: "",
+    mobile: "",
+  });
 
   useEffect(() => {
+    currentVersions.current = { desktop: "", mobile: "" };
+
     if (process.env.NODE_ENV !== "development") return;
 
     let active = true;
 
-    const refreshImage = async () => {
+    const refreshImage = async (variant: keyof HeroImages, image: string) => {
       try {
         const response = await fetch(
           `/api/dev/asset-version/?path=${encodeURIComponent(image)}`,
@@ -27,15 +45,17 @@ export function LiveHero({ children, image }: LiveHeroProps) {
         if (!response.ok) return;
 
         const data = (await response.json()) as { version?: string };
-        if (!data.version || data.version === currentVersion.current) return;
+        if (!data.version || data.version === currentVersions.current[variant]) {
+          return;
+        }
 
         const nextImage = `${image}?v=${encodeURIComponent(data.version)}`;
         const preload = new Image();
 
         preload.onload = () => {
           if (!active) return;
-          currentVersion.current = data.version ?? "";
-          setCurrentImage(nextImage);
+          currentVersions.current[variant] = data.version ?? "";
+          setCurrentImages((images) => ({ ...images, [variant]: nextImage }));
         };
         preload.src = nextImage;
       } catch {
@@ -43,19 +63,31 @@ export function LiveHero({ children, image }: LiveHeroProps) {
       }
     };
 
-    void refreshImage();
-    const interval = window.setInterval(refreshImage, 750);
+    const refreshImages = () => {
+      void Promise.all([
+        refreshImage("desktop", desktopImage),
+        refreshImage("mobile", mobileImage),
+      ]);
+    };
+
+    refreshImages();
+    const interval = window.setInterval(refreshImages, 750);
 
     return () => {
       active = false;
       window.clearInterval(interval);
     };
-  }, [image]);
+  }, [desktopImage, mobileImage]);
 
   return (
     <section
       className="home-hero"
-      style={{ "--hero-image": `url("${currentImage}")` } as CSSProperties}
+      style={
+        {
+          "--hero-image-desktop": `url("${currentImages.desktop}")`,
+          "--hero-image-mobile": `url("${currentImages.mobile}")`,
+        } as CSSProperties
+      }
     >
       {children}
     </section>

@@ -1,20 +1,31 @@
 # Hero da página inicial
 
-- Arquivo: `medicina-sagrada-home-hero.webp`
-- Dimensão: 2560 x 1440 px
+## Desktop
+
+- Arquivo: `medicina-sagrada-home-hero-desktop.webp`
+- Dimensão recomendada: 2560 x 1440 px
 - Proporção: 16:9
 - Formato: WebP, sRGB
 - Peso recomendado: até 800 KB
-- Uso no site: `/assets/home/hero/medicina-sagrada-home-hero.webp`
+- Uso no site: `/assets/home/hero/medicina-sagrada-home-hero-desktop.webp`
+
+## Mobile
+
+- Arquivo: `medicina-sagrada-home-hero-mobile.webp`
+- Dimensão recomendada: 1080 x 1440 px
+- Proporção: 3:4
+- Formato: WebP, sRGB
+- Peso recomendado: até 500 KB
+- Uso no site: `/assets/home/hero/medicina-sagrada-home-hero-mobile.webp`
 
 ## Atualização durante a edição
 
-Com `npm run dev` aberto, substitua e salve o WebP mantendo o nome indicado. A
-página verifica alterações a cada 750 ms, pré-carrega a nova versão e atualiza o
-hero automaticamente, sem reiniciar o servidor. Em produção, a troca continua
-dependendo de um novo deploy.
+Com `npm run dev` aberto, substitua e salve qualquer um dos WebPs mantendo os
+nomes indicados. A página verifica alterações nos dois arquivos a cada 750 ms,
+pré-carrega a nova versão e atualiza o hero automaticamente, sem reiniciar o
+servidor. Em produção, a troca continua dependendo de um novo deploy.
 
-O banner usa `background-size: cover`, portanto sofre recorte nas laterais ou na
-altura conforme a tela. Mantenha o ponto focal entre 45% e 65% da largura e
-deixe os 40% à esquerda visualmente mais calmos para preservar a leitura do
-título. Não inclua textos, logotipo ou CTA dentro da imagem.
+Os banners usam `background-size: cover`, portanto ainda podem sofrer pequenos
+recortes conforme a proporção da tela. No desktop, mantenha o ponto focal entre
+45% e 65% da largura. No mobile, priorize a área central e mantenha a região sob
+o título visualmente mais calma. Não inclua textos, logotipo ou CTA nas imagens.

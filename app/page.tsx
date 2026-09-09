@@ -4,7 +4,8 @@ import { BenefitsStrip } from "@/components/benefits-strip";
 import { JsonLd } from "@/components/json-ld";
 import { LiveHero } from "@/components/live-hero";
 import { ProductCard } from "@/components/product-card";
-import { getProducts } from "@/lib/woocommerce";
+import { ProductMatcher } from "@/components/product-matcher";
+import { getAllProducts, getProducts } from "@/lib/woocommerce";
 import {
   demoProducts,
   editorialBanners,
@@ -16,8 +17,12 @@ import { absoluteUrl } from "@/lib/url";
 export const revalidate = 900;
 
 export default async function Home() {
-  const apiProducts = await getProducts({ perPage: 6 }).catch(() => []);
+  const [apiProducts, apiRitualProducts] = await Promise.all([
+    getProducts({ perPage: 6 }).catch(() => []),
+    getAllProducts().catch(() => []),
+  ]);
   const products = apiProducts.length ? apiProducts : demoProducts;
+  const ritualProducts = apiRitualProducts.length ? apiRitualProducts : demoProducts;
   const pageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -29,15 +34,19 @@ export default async function Home() {
 
   return (
     <>
-      <LiveHero image={homeAssets.hero.image}>
+      <LiveHero
+        desktopImage={homeAssets.hero.desktopImage}
+        mobileImage={homeAssets.hero.mobileImage}
+      >
         <div className="container home-hero-inner">
           <div className="home-hero-copy">
-            <h1>Conhecimento ancestral, vivo e compartilhado com respeito</h1>
+            <h1 className="hero-title">
+              <span className="hero-title-primary">Conhecimento ancestral,</span>
+              <span className="hero-title-secondary">vivo e compartilhado com respeito.</span>
+            </h1>
             <p>
               Medicinas ancestrais autênticas, rapés tradicionais e instrumentos
-              rituais originais, direto das comunidades
-              <br />
-              da Amazônia.
+              rituais originais, direto das comunidades da&nbsp;Amazônia.
             </p>
             <div className="hero-actions">
               <div className="hero-journey-wrapper">
@@ -51,6 +60,8 @@ export default async function Home() {
       </LiveHero>
 
       <BenefitsStrip />
+
+      <ProductMatcher products={ritualProducts} />
 
       <section className="category-rail-wrap" aria-labelledby="categorias-title">
         <div className="container">
