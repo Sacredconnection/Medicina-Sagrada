@@ -62,8 +62,10 @@ export function BenefitsStrip() {
         {benefits.map((benefit) => (
           <div className="benefit-item" key={benefit.title}>
             <BenefitIcon name={benefit.icon} />
-            <strong>{benefit.title}</strong>
-            <span>{benefit.detail}</span>
+            <div className="benefit-copy">
+              <strong>{benefit.title}</strong>
+              <span>{benefit.detail}</span>
+            </div>
           </div>
         ))}
       </div>

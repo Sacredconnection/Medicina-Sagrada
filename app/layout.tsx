@@ -40,7 +40,13 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://use.typekit.net" />
         <link rel="preconnect" href="https://p.typekit.net" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href="https://use.typekit.net/vjh7vll.css" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400..700,1,0&icon_names=close,menu,person,search,shopping_bag"
+        />
       </head>
       <body>
         <a className="skip-link" href="#conteudo">
