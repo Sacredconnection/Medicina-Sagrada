@@ -285,15 +285,13 @@ strong, b { font-weight: var(--weight-bold); }
 }
 .matcher-inner { width: min(calc(100% - 3rem), 76rem); }
 .matcher-stage { animation: matcher-reveal 420ms cubic-bezier(0.16, 1, 0.3, 1); }
-.matcher-intro { position: relative; display: grid; min-height: 25rem; overflow: hidden; padding: clamp(2rem, 5vw, 4.5rem); border-radius: 1rem; background: var(--forest-950); color: var(--white); grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 3rem; }
-.matcher-intro::after { position: absolute; width: 26rem; height: 26rem; right: -9rem; bottom: -16rem; border: 1px solid rgba(155, 185, 120, 0.35); border-radius: 50%; content: ""; }
-.matcher-intro-copy { position: relative; z-index: 1; max-width: 43rem; }
+.matcher-intro { position: relative; min-height: 25rem; overflow: hidden; padding: clamp(2rem, 5vw, 4.5rem); border-radius: 1rem; background: var(--forest-950); color: var(--white); }
+.matcher-intro-copy { position: relative; z-index: 1; max-width: min(43rem, 62%); }
 .matcher-intro h2 { max-width: 12ch; font-size: clamp(3rem, 6vw, 5.2rem); letter-spacing: -0.04em; }
 .matcher-intro p { max-width: 50ch; margin-top: 1.5rem; color: rgba(255, 255, 255, 0.76); font-size: clamp(1rem, 1.4vw, 1.18rem); }
 .matcher-start-button { margin-top: 1rem; color: var(--white); }
-.matcher-intro-mark { position: relative; z-index: 1; display: grid; width: clamp(8rem, 14vw, 11rem); aspect-ratio: 1; place-content: center; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50%; text-align: center; }
-.matcher-intro-mark span { font-size: clamp(3rem, 6vw, 5rem); font-weight: var(--weight-light); letter-spacing: -0.04em; line-height: 0.75; }
-.matcher-intro-mark small { margin-top: 0.75rem; color: var(--leaf-400); font-size: 0.68rem; font-weight: var(--weight-bold); letter-spacing: 0.12em; text-transform: uppercase; }
+.matcher-intro-visual { --matcher-intro-image: url("/assets/home/matcher/medicina-sagrada-ritual-finder-intro.webp"); position: absolute; top: 50%; right: -33%; width: auto; height: 180%; overflow: hidden; aspect-ratio: 1; border-radius: 50%; background: #f7f4ec; transform: translateY(-50%); }
+.matcher-intro-visual::after { position: absolute; inset: 18% 12% 18% 18%; background-image: var(--matcher-intro-image); background-position: center; background-repeat: no-repeat; background-size: contain; content: ""; }
 .matcher-progress { display: flex; width: min(100%, 34rem); margin: 0 auto clamp(2.5rem, 4vw, 3.5rem); padding: 0; list-style: none; }
 .matcher-progress li { position: relative; display: grid; min-width: 0; flex: 1; justify-items: center; gap: 0.45rem; color: var(--matcher-muted); font-size: 0.66rem; font-weight: var(--weight-bold); letter-spacing: 0.07em; text-transform: uppercase; }
 .matcher-progress li:not(:last-child)::after { position: absolute; z-index: 0; top: 0.9rem; left: calc(50% + 1.15rem); width: calc(100% - 2.3rem); height: 1px; background: #cbc8bb; content: ""; }
@@ -555,9 +553,11 @@ strong, b { font-weight: var(--weight-bold); }
   .price { font-size: 0.9rem; }
   .product-layout { grid-template-columns: 1fr; }
   .matcher-section { padding-block: 3.5rem 4.25rem; }
-  .matcher-intro { min-height: 27rem; padding: 2rem 1.35rem; grid-template-columns: 1fr; align-content: center; gap: 1.75rem; }
+  .matcher-intro { min-height: 39rem; padding: 2rem 1.35rem 16rem; }
+  .matcher-intro-copy { max-width: none; }
   .matcher-intro h2 { font-size: clamp(2.7rem, 13vw, 3.8rem); }
-  .matcher-intro-mark { display: none; }
+  .matcher-intro-visual { top: auto; right: -4rem; bottom: -4rem; width: 18rem; height: 18rem; transform: none; }
+  .matcher-intro-visual::after { inset: 16% 10% 18% 18%; }
   .matcher-start-button { width: 100%; }
   .matcher-progress { margin-bottom: 2.5rem; }
   .matcher-progress li { font-size: 0.59rem; }

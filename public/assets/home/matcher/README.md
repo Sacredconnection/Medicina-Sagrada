@@ -16,6 +16,18 @@ O CSS já referencia esse nome. Enquanto o arquivo não estiver na pasta, a seç
 mantém automaticamente o fundo bege atual. Depois de substituir ou inserir o
 arquivo, basta atualizar a página local.
 
+## Imagem do card de entrada
+
+Adicione a imagem que ficará dentro do meio círculo branco à direita usando o
+nome exato:
+
+- `medicina-sagrada-ritual-finder-intro.webp`
+
+Especificação recomendada: **1200 × 1200 px**, WebP com fundo transparente,
+sRGB e preferencialmente até **500 KB**. Mantenha o elemento principal
+centralizado. A imagem usa `background-size: contain`, portanto será exibida
+inteira dentro da área branca, sem cortes.
+
 ## Imagens dos cards
 
 O Ritual Finder usa exclusivamente estes cinco arquivos locais, configurados em

@@ -224,10 +224,7 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
                   Iniciar Jornada
                 </button>
               </div>
-              <div aria-hidden="true" className="matcher-intro-mark">
-                <span>2</span>
-                <small>perguntas</small>
-              </div>
+              <div aria-hidden="true" className="matcher-intro-visual" />
             </div>
           ) : null}
 
