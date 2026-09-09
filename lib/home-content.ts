@@ -9,9 +9,8 @@ import type { WooProduct } from "@/lib/types";
  */
 export const homeAssets = {
   hero: {
-    image:
-      "https://medicinasagrada.com.br/wp-content/uploads/2024/12/Nawashahu.jpg",
-    alt: "Vegetação da floresta amazônica ao redor de uma clareira",
+    image: "/assets/home/hero/medicina-sagrada-home-hero.webp",
+    alt: "Latas de rapé e colar sobre madeira diante da floresta amazônica",
   },
   story: {
     image:

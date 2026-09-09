@@ -225,8 +225,8 @@ strong, b { font-weight: var(--weight-bold); }
 .hero-journey-label { position: relative; z-index: 1; }
 
 /* Homepage */
-.home-hero { position: relative; min-height: min(50rem, 80vh); overflow: hidden; background-color: var(--forest-950); background-image: linear-gradient(90deg, rgba(5, 26, 18, 0.86) 0%, rgba(5, 26, 18, 0.57) 42%, rgba(5, 26, 18, 0.15) 80%), var(--hero-image); background-position: center; background-size: cover; color: var(--white); }
-.home-hero::after { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(155, 185, 120, 0.12), transparent 42%); pointer-events: none; content: ""; }
+.home-hero { position: relative; min-height: min(50rem, 80vh); overflow: hidden; background-color: var(--forest-950); background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.86) 0%, rgba(0, 0, 0, 0.57) 42%, rgba(0, 0, 0, 0.15) 80%), var(--hero-image); background-position: center; background-size: cover; color: var(--white); }
+.home-hero::after { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0, 0, 0, 0.12), transparent 42%); pointer-events: none; content: ""; }
 .home-hero-inner { position: relative; z-index: 1; display: flex; min-height: inherit; align-items: center; justify-content: space-between; gap: 3rem; }
 .home-hero-copy { width: min(100%, 44rem); padding-block: 5rem; }
 .home-hero .eyebrow { color: #c2dba9; }
@@ -267,11 +267,11 @@ strong, b { font-weight: var(--weight-bold); }
 .products-section { padding-block: clamp(4rem, 8vw, 7rem); background: var(--white); }
 .home-product-grid { gap: 1.25rem; }
 .benefits-strip { border-block: 1px solid rgba(217, 214, 199, 0.7); background: var(--white); }
-.benefits-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
-.benefits-grid > div { display: grid; grid-template-columns: auto 1fr; column-gap: 0.75rem; padding: 1.45rem 1.2rem; border-right: 1px solid var(--line); }
-.benefits-grid > div:first-child { padding-left: 0; }
-.benefits-grid > div:last-child { border-right: 0; }
-.benefit-icon { grid-row: span 2; color: var(--clay-500); font-family: var(--font-primary); font-size: 1.65rem; font-weight: var(--weight-semibold); line-height: 1; }
+.benefits-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.benefit-item { display: grid; min-width: 0; grid-template-columns: auto minmax(0, 1fr); column-gap: 0.85rem; padding: 1.55rem 1.25rem; border-right: 1px solid var(--line); }
+.benefit-item:first-child { padding-left: 0; }
+.benefit-item:last-child { border-right: 0; }
+.benefit-icon { width: 1.35rem; height: 1.35rem; grid-row: span 2; margin-top: 0.1rem; fill: none; stroke: var(--clay-500); stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.65; }
 .benefits-grid strong { color: var(--forest-950); font-size: 0.75rem; font-weight: var(--weight-bold); letter-spacing: 0.04em; text-transform: uppercase; }
 .benefits-grid span:last-child { color: var(--muted); font-size: 0.75rem; }
 
@@ -450,10 +450,10 @@ strong, b { font-weight: var(--weight-bold); }
   .section-heading-inline { align-items: flex-start; flex-direction: column; gap: 1rem; }
   .editorial-grid { grid-template-columns: repeat(3, minmax(15rem, 1fr)); overflow-x: auto; padding-bottom: 0.5rem; }
   .editorial-card { min-height: 20rem; }
-  .benefits-grid { grid-template-columns: repeat(2, 1fr); }
-  .benefits-grid > div, .benefits-grid > div:first-child { padding: 1.2rem 0.8rem; border-bottom: 1px solid var(--line); }
-  .benefits-grid > div:nth-child(2) { border-right: 0; }
-  .benefits-grid > div:nth-child(3), .benefits-grid > div:nth-child(4) { border-bottom: 0; }
+  .benefits-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .benefit-item, .benefit-item:first-child { padding: 1.2rem 0.8rem; border-bottom: 1px solid var(--line); }
+  .benefit-item:nth-child(2) { border-right: 0; }
+  .benefit-item:nth-child(3), .benefit-item:nth-child(4) { border-bottom: 0; }
   .story-section { grid-template-columns: 1fr; gap: 2.5rem; }
   .story-image { min-height: 24rem; }
   .community-inner { min-height: 22rem; align-items: flex-start; flex-direction: column; justify-content: center; }

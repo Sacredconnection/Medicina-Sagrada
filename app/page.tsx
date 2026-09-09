@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { BenefitsStrip } from "@/components/benefits-strip";
 import { JsonLd } from "@/components/json-ld";
+import { LiveHero } from "@/components/live-hero";
 import { ProductCard } from "@/components/product-card";
 import { getProducts } from "@/lib/woocommerce";
 import {
@@ -27,14 +29,10 @@ export default async function Home() {
 
   return (
     <>
-      <section
-        className="home-hero"
-        style={{ "--hero-image": `url(${homeAssets.hero.image})` } as CSSProperties}
-      >
+      <LiveHero image={homeAssets.hero.image}>
         <div className="container home-hero-inner">
           <div className="home-hero-copy">
-            <p className="eyebrow">Saberes da floresta</p>
-            <h1>Conhecimento ancestral, vivo e compartilhado com respeito.</h1>
+            <h1>Conhecimento ancestral, vivo e compartilhado com respeito</h1>
             <p>
               Medicinas ancestrais autênticas, rapés tradicionais e instrumentos
               rituais originais, direto das comunidades
@@ -50,7 +48,9 @@ export default async function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </LiveHero>
+
+      <BenefitsStrip />
 
       <section className="category-rail-wrap" aria-labelledby="categorias-title">
         <div className="container">
@@ -117,15 +117,6 @@ export default async function Home() {
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="benefits-strip" aria-label="Benefícios da loja">
-        <div className="container benefits-grid">
-          <div><span className="benefit-icon">✦</span><strong>Envio para todo o Brasil</strong><span>Receba seu pedido com cuidado</span></div>
-          <div><span className="benefit-icon">◌</span><strong>Parcerias responsáveis</strong><span>Relações que valorizam a origem</span></div>
-          <div><span className="benefit-icon">□</span><strong>Compra segura</strong><span>Pagamento protegido no checkout</span></div>
-          <div><span className="benefit-icon">⌁</span><strong>Atendimento próximo</strong><span>Estamos aqui para ajudar</span></div>
         </div>
       </section>
 
