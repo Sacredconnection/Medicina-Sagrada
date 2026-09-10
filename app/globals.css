@@ -83,7 +83,7 @@ strong, b { font-weight: var(--weight-bold); }
 .header-inner { display: grid; width: calc(100% - 10rem); min-height: 5.5rem; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 2rem; }
 .brand, .footer-brand { display: inline-flex; align-items: center; gap: 0.7rem; width: fit-content; }
 .site-header .brand { justify-self: center; }
-.brand-logo { display: block; width: clamp(9.5rem, 13vw, 11.5rem); height: auto; }
+.brand-logo { display: block; width: clamp(10rem, 14vw, 12.25rem); height: auto; }
 .brand-symbol { display: grid; width: 2.55rem; aspect-ratio: 1; place-items: center; border: 1px solid var(--forest-650); border-radius: 50%; color: var(--forest-800); font-family: var(--font-primary); font-size: 0.7rem; font-weight: var(--weight-semibold); letter-spacing: 0.12em; }
 .brand-name { display: grid; line-height: 0.88; color: var(--forest-950); font-family: var(--font-primary); font-size: 1.3rem; font-weight: var(--weight-semibold); letter-spacing: -0.025em; }
 .brand-name strong { font-weight: var(--weight-bold); }
@@ -286,28 +286,58 @@ strong, b { font-weight: var(--weight-bold); }
 .matcher-section {
   --matcher-muted: #59655d;
   --matcher-accent: #a4472d;
-  --matcher-section-image: url("/assets/home/matcher/medicina-sagrada-ritual-finder-background.webp");
   scroll-margin-top: 6rem;
   position: relative;
   overflow: clip;
-  padding-block: clamp(4.5rem, 8vw, 7rem);
-  background-color: #f3f0e7;
+  padding-block: clamp(4.5rem, 7vw, 6rem);
+  background: var(--white);
+}
+.matcher-inner { width: min(calc(100% - 3rem), var(--max-width)); }
+.matcher-stage { animation: matcher-reveal 420ms cubic-bezier(0.16, 1, 0.3, 1); }
+.matcher-intro {
+  --matcher-intro-background-desktop: url("/assets/home/matcher/medicina-sagrada-ritual-finder-intro-background.webp");
+  --matcher-intro-background-mobile: url("/assets/home/matcher/medicina-sagrada-ritual-finder-intro-background-mobile.webp");
+  --matcher-intro-background: var(--matcher-intro-background-desktop);
+  position: relative;
+  min-height: 28rem;
+  overflow: hidden;
+  isolation: isolate;
+  padding: clamp(3rem, 5.5vw, 5rem);
+  border-radius: 1rem;
+  background-color: var(--forest-950);
   background-image:
-    linear-gradient(rgba(243, 240, 231, 0.84), rgba(243, 240, 231, 0.9)),
-    var(--matcher-section-image);
+    radial-gradient(circle at 14% 8%, rgba(155, 185, 120, 0.14), transparent 32%),
+    linear-gradient(90deg, rgba(6, 28, 20, 0.95) 0%, rgba(8, 34, 24, 0.86) 54%, rgba(8, 34, 24, 0.58) 100%),
+    var(--matcher-intro-background);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  box-shadow: 0 2rem 5rem rgba(11, 38, 29, 0.15), 0 0.5rem 1.25rem rgba(11, 38, 29, 0.08);
+  color: var(--white);
 }
-.matcher-inner { width: min(calc(100% - 3rem), 76rem); }
-.matcher-stage { animation: matcher-reveal 420ms cubic-bezier(0.16, 1, 0.3, 1); }
-.matcher-intro { position: relative; min-height: 25rem; overflow: hidden; padding: clamp(2rem, 5vw, 4.5rem); border-radius: 1rem; background: var(--forest-950); color: var(--white); }
-.matcher-intro-copy { position: relative; z-index: 1; max-width: min(43rem, 62%); }
-.matcher-intro h2 { max-width: 12ch; font-size: clamp(3rem, 6vw, 5.2rem); letter-spacing: -0.04em; }
-.matcher-intro p { max-width: 50ch; margin-top: 1.5rem; color: rgba(255, 255, 255, 0.76); font-size: clamp(1rem, 1.4vw, 1.18rem); }
-.matcher-start-button { margin-top: 1rem; color: var(--white); }
-.matcher-intro-visual { --matcher-intro-image: url("/assets/home/matcher/medicina-sagrada-ritual-finder-intro.webp"); position: absolute; top: 50%; right: -33%; width: auto; height: 180%; overflow: hidden; aspect-ratio: 1; border-radius: 50%; background: #f7f4ec; transform: translateY(-50%); }
-.matcher-intro-visual::after { position: absolute; inset: 18% 12% 18% 18%; background-image: var(--matcher-intro-image); background-position: center; background-repeat: no-repeat; background-size: contain; content: ""; }
+.matcher-intro-copy { position: relative; z-index: 2; max-width: min(41rem, 56%); }
+.matcher-intro h2 { max-width: 14ch; font-size: clamp(2.9rem, 4.8vw, 4.6rem); letter-spacing: -0.035em; line-height: 0.94; }
+.matcher-intro h2::after { display: block; width: 3rem; height: 0.125rem; margin-top: 1.2rem; border-radius: 999px; background: rgba(255, 255, 255, 0.92); content: ""; }
+.matcher-intro p { max-width: 38rem; margin-top: 1.25rem; color: rgba(255, 255, 255, 0.82); font-size: clamp(1rem, 1.2vw, 1.12rem); line-height: 1.55; }
+.matcher-start-button { min-width: 11.5rem; margin-top: 0.8rem; background: rgba(255, 255, 255, 0.025); box-shadow: 0 0.75rem 1.6rem rgba(0, 0, 0, 0.14); color: var(--white); }
+.matcher-intro-visual {
+  --matcher-intro-image-desktop: url("/assets/home/matcher/medicina-sagrada-ritual-finder-intro.webp");
+  --matcher-intro-image-mobile: url("/assets/home/matcher/medicina-sagrada-ritual-finder-intro-mobile.webp");
+  --matcher-intro-image: var(--matcher-intro-image-desktop);
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: -25rem;
+  width: 54rem;
+  height: auto;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #f7f4ec;
+  box-shadow: -0.35rem 0.5rem 1rem rgba(4, 17, 12, 0.22), -1.25rem 1.75rem 3rem rgba(4, 17, 12, 0.18);
+  transform: translateY(-50%);
+}
+.matcher-intro-visual::after { position: absolute; inset: 0; border: 6px solid var(--white); border-radius: inherit; background-image: var(--matcher-intro-image), var(--matcher-intro-image-desktop); background-position: center; background-repeat: no-repeat; background-size: cover; content: ""; }
 .matcher-progress { display: flex; width: min(100%, 34rem); margin: 0 auto clamp(2.5rem, 4vw, 3.5rem); padding: 0; list-style: none; }
 .matcher-progress li { position: relative; display: grid; min-width: 0; flex: 1; justify-items: center; gap: 0.45rem; color: var(--matcher-muted); font-size: 0.66rem; font-weight: var(--weight-bold); letter-spacing: 0.07em; text-transform: uppercase; }
 .matcher-progress li:not(:last-child)::after { position: absolute; z-index: 0; top: 0.9rem; left: calc(50% + 1.15rem); width: calc(100% - 2.3rem); height: 1px; background: #cbc8bb; content: ""; }
@@ -498,13 +528,24 @@ strong, b { font-weight: var(--weight-bold); }
   .nav-list { gap: 0.8rem; }
   .nav-list a { font-size: 0.68rem; }
   .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .matcher-intro { min-height: 27rem; padding: clamp(2.75rem, 5vw, 4rem); }
+  .matcher-intro-copy { max-width: 55%; }
+  .matcher-intro h2 { font-size: clamp(2.75rem, 5.5vw, 4rem); }
+  .matcher-intro-visual { right: -22rem; width: 48rem; }
+}
+
+@media (max-width: 900px) {
+  .matcher-intro { min-height: 44rem; padding: 2.75rem 2.5rem 20rem; }
+  .matcher-intro-copy { max-width: 36rem; }
+  .matcher-intro h2 { max-width: 12ch; }
+  .matcher-intro-visual { top: auto; right: auto; bottom: -24rem; left: 50%; width: min(48rem, calc(100% + 10rem)); height: auto; transform: translateX(-50%); }
 }
 
 @media (max-width: 800px) {
   .container { width: min(calc(100% - 2rem), var(--max-width)); }
   .header-inner { position: relative; display: flex; width: min(calc(100% - 1rem), var(--max-width)); min-height: 4.5rem; align-items: center; justify-content: space-between; gap: 0.25rem; }
   .site-header .brand { position: absolute; left: 50%; transform: translateX(-50%); }
-  .brand-logo { width: clamp(7rem, 34vw, 8.5rem); }
+  .brand-logo { width: clamp(7.5rem, 36vw, 9rem); }
   .desktop-nav { display: none; }
   .header-actions { gap: 0; margin-left: auto; }
   .header-desktop-actions { display: none; }
@@ -545,7 +586,7 @@ strong, b { font-weight: var(--weight-bold); }
   .benefit-item, .benefit-item:first-child { padding: 1.2rem 0.8rem; border-bottom: 1px solid var(--line); }
   .benefit-item:nth-child(2) { border-right: 0; }
   .benefit-item:nth-child(3), .benefit-item:nth-child(4) { border-bottom: 0; }
-  .matcher-inner { width: min(calc(100% - 2rem), 76rem); }
+  .matcher-inner { width: min(calc(100% - 2rem), var(--max-width)); }
   .matcher-intention-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .matcher-intention-card { aspect-ratio: 0.82; }
   .matcher-result-heading { grid-template-columns: 1fr; align-items: start; gap: 1.25rem; }
@@ -578,12 +619,12 @@ strong, b { font-weight: var(--weight-bold); }
   .product-card h2 { font-size: 0.9rem; }
   .price { font-size: 0.9rem; }
   .product-layout { grid-template-columns: 1fr; }
-  .matcher-section { padding-block: 3.5rem 4.25rem; }
-  .matcher-intro { min-height: 39rem; padding: 2rem 1.35rem 16rem; }
+  .matcher-section { padding-block: 3.75rem 4.5rem; }
+  .matcher-intro { --matcher-intro-background: var(--matcher-intro-background-mobile); min-height: 36.5rem; padding: 2rem 1.35rem 15rem; }
   .matcher-intro-copy { max-width: none; }
-  .matcher-intro h2 { font-size: clamp(2.7rem, 13vw, 3.8rem); }
-  .matcher-intro-visual { top: auto; right: -4rem; bottom: -4rem; width: 18rem; height: 18rem; transform: none; }
-  .matcher-intro-visual::after { inset: 16% 10% 18% 18%; }
+  .matcher-intro h2 { font-size: clamp(2.55rem, 12vw, 3.35rem); }
+  .matcher-intro p { margin-top: 1.1rem; font-size: 1rem; }
+  .matcher-intro-visual { --matcher-intro-image: var(--matcher-intro-image-mobile); bottom: -18.5rem; width: calc(100% + 8rem); }
   .matcher-start-button { width: 100%; }
   .matcher-progress { margin-bottom: 2.5rem; }
   .matcher-progress li { font-size: 0.59rem; }
