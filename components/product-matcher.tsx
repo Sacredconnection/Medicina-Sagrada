@@ -176,7 +176,12 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
   }, [step]);
 
   return (
-    <section className="matcher-section" aria-labelledby="matcher-title" ref={sectionRef}>
+    <section
+      className="matcher-section"
+      aria-labelledby="matcher-title"
+      id="descubra-seu-rape"
+      ref={sectionRef}
+    >
       <div className="container matcher-inner">
         {step !== "intro" ? (
           <>
@@ -211,10 +216,10 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
           {step === "intro" ? (
             <div className="matcher-intro">
               <div className="matcher-intro-copy">
-                <h2 id="matcher-title">Descubra sua Medicina de hoje</h2>
+                <h2 id="matcher-title">Descubra sua Medicina de Hoje</h2>
                 <p>
-                  Responda a 2 perguntas rápidas para encontrar o rapé e o ritual
-                  ideal para o seu momento.
+                  Em 2 passos simples, encontre o rapé ideal para o seu momento e
+                  intenção de consagração.
                 </p>
                 <button
                   className="button matcher-start-button"

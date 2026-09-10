@@ -11,6 +11,8 @@ export const homeAssets = {
   hero: {
     desktopImage: "/assets/home/hero/medicina-sagrada-home-hero-desktop.webp",
     mobileImage: "/assets/home/hero/medicina-sagrada-home-hero-mobile.webp",
+    accessoriesDesktopImage: "/assets/home/hero/medicina-sagrada-home-hero-02-desktop.webp",
+    accessoriesMobileImage: "/assets/home/hero/medicina-sagrada-home-hero-02-mobile.webp",
     alt: "Latas de rapé e colar sobre madeira diante da floresta amazônica",
   },
   story: {

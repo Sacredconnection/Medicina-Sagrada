@@ -18,6 +18,27 @@
 - Peso recomendado: até 500 KB
 - Uso no site: `/assets/home/hero/medicina-sagrada-home-hero-mobile.webp`
 
+## Segundo banner — acessórios, kuripes e tepis
+
+### Desktop
+
+- Arquivo: `medicina-sagrada-home-hero-02-desktop.webp`
+- Dimensão recomendada: 2560 x 1440 px
+- Proporção: 16:9
+- Formato: WebP, sRGB
+- Peso recomendado: até 800 KB
+
+### Mobile
+
+- Arquivo: `medicina-sagrada-home-hero-02-mobile.webp`
+- Dimensão recomendada: 1080 x 1440 px
+- Proporção: 3:4
+- Formato: WebP, sRGB
+- Peso recomendado: até 500 KB
+
+Enquanto esses arquivos não estiverem na pasta, o segundo banner usa a imagem
+do primeiro como fallback. Não inclua texto, logotipo ou CTA na arte.
+
 ## Atualização durante a edição
 
 Com `npm run dev` aberto, substitua e salve qualquer um dos WebPs mantendo os

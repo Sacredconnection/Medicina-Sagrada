@@ -30,6 +30,9 @@ export async function GET(request: Request) {
       { headers: { "Cache-Control": "no-store, max-age=0" } },
     );
   } catch {
-    return NextResponse.json({ error: "Asset não encontrado." }, { status: 404 });
+    return NextResponse.json(
+      { version: null },
+      { headers: { "Cache-Control": "no-store, max-age=0" } },
+    );
   }
 }

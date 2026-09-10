@@ -31,33 +31,36 @@ export default async function Home() {
     name: "Medicina Sagrada",
     inLanguage: "pt-BR",
   };
+  const heroSlides = [
+    {
+      id: "ancestralidade",
+      desktopImage: homeAssets.hero.desktopImage,
+      mobileImage: homeAssets.hero.mobileImage,
+      titlePrimary: "Conhecimento ancestral,",
+      titleSecondary: "vivo e compartilhado com respeito.",
+      description:
+        "Medicinas ancestrais autênticas, rapés tradicionais e instrumentos rituais originais, direto das comunidades da Amazônia.",
+      ctaLabel: "JORNADA",
+      ctaHref: "/product-category/rape/",
+    },
+    {
+      id: "acessorios-kuripe-tepi",
+      desktopImage: homeAssets.hero.accessoriesDesktopImage,
+      mobileImage: homeAssets.hero.accessoriesMobileImage,
+      fallbackDesktopImage: homeAssets.hero.desktopImage,
+      fallbackMobileImage: homeAssets.hero.mobileImage,
+      titlePrimary: "Kuripes\n& Tepis:",
+      titleSecondary: "Instrumentos Sagrados de Sopro.",
+      description:
+        "Seja para a autoaplicação ou para conduzir o sopro em rituais, descubra nossos aplicadores confeccionados com intenção e respeito à medicina.",
+      ctaLabel: "VER ACESSÓRIOS",
+      ctaHref: "/product-category/acessorios/",
+    },
+  ];
 
   return (
     <>
-      <LiveHero
-        desktopImage={homeAssets.hero.desktopImage}
-        mobileImage={homeAssets.hero.mobileImage}
-      >
-        <div className="container home-hero-inner">
-          <div className="home-hero-copy">
-            <h1 className="hero-title">
-              <span className="hero-title-primary">Conhecimento ancestral,</span>
-              <span className="hero-title-secondary">vivo e compartilhado com respeito.</span>
-            </h1>
-            <p>
-              Medicinas ancestrais autênticas, rapés tradicionais e instrumentos
-              rituais originais, direto das comunidades da&nbsp;Amazônia.
-            </p>
-            <div className="hero-actions">
-              <div className="hero-journey-wrapper">
-                <Link className="hero-journey-cta" href="/product-category/rape/">
-                  <span className="hero-journey-label">JORNADA</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </LiveHero>
+      <LiveHero slides={heroSlides} />
 
       <BenefitsStrip />
 
