@@ -1,11 +1,11 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { BenefitsStrip } from "@/components/benefits-strip";
+import { HomeProductGrid } from "@/components/home-product-grid";
 import { JsonLd } from "@/components/json-ld";
 import { LiveHero } from "@/components/live-hero";
-import { ProductCard } from "@/components/product-card";
 import { ProductMatcher } from "@/components/product-matcher";
-import { getAllProducts, getProducts } from "@/lib/woocommerce";
+import { getAllProducts } from "@/lib/woocommerce";
 import {
   demoProducts,
   editorialBanners,
@@ -17,12 +17,8 @@ import { absoluteUrl } from "@/lib/url";
 export const revalidate = 900;
 
 export default async function Home() {
-  const [apiProducts, apiRitualProducts] = await Promise.all([
-    getProducts({ perPage: 8 }).catch(() => []),
-    getAllProducts().catch(() => []),
-  ]);
+  const apiProducts = await getAllProducts().catch(() => []);
   const products = apiProducts.length ? apiProducts : demoProducts;
-  const ritualProducts = apiRitualProducts.length ? apiRitualProducts : demoProducts;
   const pageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -87,23 +83,21 @@ export default async function Home() {
         </div>
       </section>
 
-      <ProductMatcher products={ritualProducts} />
+      <ProductMatcher products={products} />
 
       <section className="products-section" aria-labelledby="mais-vendidos-title">
         <div className="container">
           <div className="section-heading section-heading-inline">
             <div>
-              <p className="eyebrow">Curadoria Medicina Sagrada</p>
+              <p className="eyebrow">Recomendações da Medicina Sagrada</p>
               <h2 id="mais-vendidos-title">Mais procurados</h2>
             </div>
-            <Link className="text-link" href="/product-category/rape/">
+          </div>
+          <HomeProductGrid products={products} />
+          <div className="products-section-action">
+            <Link className="button" href="/product-category/rape/">
               Ver todos os produtos
             </Link>
-          </div>
-          <div className="product-grid home-product-grid">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} headingLevel={3} />
-            ))}
           </div>
         </div>
       </section>
