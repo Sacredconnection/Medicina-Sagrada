@@ -89,6 +89,25 @@ export default async function Home() {
 
       <ProductMatcher products={ritualProducts} />
 
+      <section className="products-section" aria-labelledby="mais-vendidos-title">
+        <div className="container">
+          <div className="section-heading section-heading-inline">
+            <div>
+              <p className="eyebrow">Curadoria Medicina Sagrada</p>
+              <h2 id="mais-vendidos-title">Mais procurados</h2>
+            </div>
+            <Link className="text-link" href="/product-category/rape/">
+              Ver todos os produtos
+            </Link>
+          </div>
+          <div className="product-grid home-product-grid">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="section container" aria-labelledby="editoriais-title">
         <div className="section-heading section-heading-inline">
           <div>
@@ -110,25 +129,6 @@ export default async function Home() {
               <span className="editorial-link">{banner.label}</span>
             </Link>
           ))}
-        </div>
-      </section>
-
-      <section className="products-section" aria-labelledby="mais-vendidos-title">
-        <div className="container">
-          <div className="section-heading section-heading-inline">
-            <div>
-              <p className="eyebrow">Curadoria Medicina Sagrada</p>
-              <h2 id="mais-vendidos-title">Mais procurados</h2>
-            </div>
-            <Link className="text-link" href="/product-category/rape/">
-              Ver todos os produtos
-            </Link>
-          </div>
-          <div className="product-grid home-product-grid">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
         </div>
       </section>
 
