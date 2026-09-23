@@ -64,18 +64,10 @@ export default async function Home() {
 
       <BenefitsStrip />
 
-      <ProductMatcher products={ritualProducts} />
-
       <section className="category-rail-wrap" aria-labelledby="categorias-title">
         <div className="container">
-          <div className="section-heading section-heading-inline">
-            <div>
-              <p className="eyebrow">Explore por caminho</p>
-              <h2 id="categorias-title">Encontre o que chama você</h2>
-            </div>
-            <Link className="text-link" href="/product-category/rape/">
-              Ver todo o catálogo
-            </Link>
+          <div className="section-heading category-rail-heading">
+            <h2 id="categorias-title">Nossas Categorias</h2>
           </div>
           <div className="category-rail">
             {homeCategories.map((category) => (
@@ -90,6 +82,8 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      <ProductMatcher products={ritualProducts} />
 
       <section className="section container" aria-labelledby="editoriais-title">
         <div className="section-heading section-heading-inline">
