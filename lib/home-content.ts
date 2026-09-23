@@ -41,31 +41,31 @@ export const homeCategories = [
   {
     href: "/product-category/rape/",
     name: "Rapé",
-    detail: "Medicinas de diferentes povos e linhagens",
+    detail: "Medicinas de diferentes etnias da Amazônia.",
     image: homeAssets.categories.rape,
   },
   {
     href: "/product-category/sananga/",
     name: "Sananga",
-    detail: "Presença, cuidado e conhecimento tradicional",
+    detail: "Limpeza profunda para clareza e intuição.",
     image: homeAssets.categories.sananga,
   },
   {
     href: "/product-category/incensos/",
     name: "Incensos",
-    detail: "Aromas naturais para criar seus momentos",
+    detail: "Purificação natural para elevar a energia do ambiente.",
     image: homeAssets.categories.incense,
   },
   {
     href: "/product-category/acessorios/",
     name: "Acessórios",
-    detail: "Instrumentos para acompanhar a prática",
+    detail: "Conecte-se às raízes através da arte e da tradição.",
     image: homeAssets.categories.accessories,
   },
   {
     href: "/product-category/artesanato/",
     name: "Artesanato",
-    detail: "Arte, memória e expressão dos povos",
+    detail: "A força da ancestralidade em cada detalhe.",
     image: homeAssets.categories.craft,
   },
 ] as const;
