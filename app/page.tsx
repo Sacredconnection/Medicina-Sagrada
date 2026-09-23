@@ -18,7 +18,7 @@ export const revalidate = 900;
 
 export default async function Home() {
   const [apiProducts, apiRitualProducts] = await Promise.all([
-    getProducts({ perPage: 6 }).catch(() => []),
+    getProducts({ perPage: 8 }).catch(() => []),
     getAllProducts().catch(() => []),
   ]);
   const products = apiProducts.length ? apiProducts : demoProducts;
@@ -102,7 +102,7 @@ export default async function Home() {
           </div>
           <div className="product-grid home-product-grid">
             {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product} headingLevel={3} />
             ))}
           </div>
         </div>

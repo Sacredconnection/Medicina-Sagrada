@@ -59,8 +59,33 @@ export const cleanHtml = (html: string) =>
     },
   });
 
+const namedEntities: Record<string, string> = {
+  amp: "&",
+  apos: "'",
+  gt: ">",
+  lt: "<",
+  nbsp: " ",
+  quot: '"',
+};
+
+const decodeHtmlEntities = (value: string) =>
+  value
+    .replace(/&#x([\da-f]+);/gi, (entity, code: string) => {
+      const point = Number.parseInt(code, 16);
+      return Number.isSafeInteger(point) ? String.fromCodePoint(point) : entity;
+    })
+    .replace(/&#(\d+);/g, (entity, code: string) => {
+      const point = Number.parseInt(code, 10);
+      return Number.isSafeInteger(point) ? String.fromCodePoint(point) : entity;
+    })
+    .replace(/&(amp|apos|gt|lt|nbsp|quot);/gi, (entity, name: string) =>
+      namedEntities[name.toLowerCase()] ?? entity,
+    );
+
 export const plainText = (html: string) =>
-  sanitizeHtml(html, { allowedTags: [], allowedAttributes: {} })
+  decodeHtmlEntities(
+    sanitizeHtml(html, { allowedTags: [], allowedAttributes: {} }),
+  )
     .replace(/\s+/g, " ")
     .trim();
 
