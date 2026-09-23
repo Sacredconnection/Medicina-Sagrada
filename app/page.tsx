@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { BenefitsStrip } from "@/components/benefits-strip";
+import { HomeKitGrid } from "@/components/home-kit-grid";
 import { HomeProductGrid } from "@/components/home-product-grid";
 import { JsonLd } from "@/components/json-ld";
 import { LiveHero } from "@/components/live-hero";
@@ -11,6 +12,7 @@ import {
   editorialBanners,
   homeAssets,
   homeCategories,
+  kitBanners,
 } from "@/lib/home-content";
 import { absoluteUrl } from "@/lib/url";
 
@@ -99,6 +101,22 @@ export default async function Home() {
               Ver todos os produtos
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section className="kits-section" aria-labelledby="kits-title">
+        <div className="container">
+          <div className="kits-section-heading">
+            <h2 id="kits-title">Kits em destaque</h2>
+            <p>Seleções prontas para explorar diferentes caminhos da medicina.</p>
+            <Link className="button kits-section-cta kits-section-cta-desktop" href="/product-category/kits/">
+              Ver todos os kits
+            </Link>
+          </div>
+          <HomeKitGrid banners={kitBanners} />
+          <Link className="button kits-section-cta kits-section-cta-mobile" href="/product-category/kits/">
+            Ver todos os kits
+          </Link>
         </div>
       </section>
 

@@ -35,6 +35,12 @@ export const homeAssets = {
     incense:
       "https://medicinasagrada.com.br/wp-content/uploads/2026/01/medicina_jan26_BannerQuadrado_BreuBranco.webp",
   },
+  kits: {
+    fourElements: "/assets/home/kits/medicina-sagrada-kit-4-elementos.webp",
+    tenTribes: "/assets/home/kits/medicina-sagrada-kit-10-tribos.webp",
+    amazonianStrength:
+      "/assets/home/kits/medicina-sagrada-kit-forca-amazonica.webp",
+  },
 } as const;
 
 export const homeCategories = [
@@ -94,6 +100,33 @@ export const editorialBanners = [
     label: "Explorar incensos",
     image: homeAssets.editorial.incense,
     tone: "light",
+  },
+] as const;
+
+export const kitBanners = [
+  {
+    href: "/product/kit-4-elementos/",
+    title: "Kit 4 Elementos",
+    label: "Conhecer o kit",
+    image: homeAssets.kits.fourElements,
+    fallbackImage:
+      "https://medicinasagrada.com.br/wp-content/uploads/2025/01/4-Elementos-3.jpg",
+  },
+  {
+    href: "/product/kit-10-tribos-10-x-10g/",
+    title: "Kit 10 Tribos",
+    label: "Conhecer o kit",
+    image: homeAssets.kits.tenTribes,
+    fallbackImage:
+      "https://medicinasagrada.com.br/wp-content/uploads/2023/05/10tribes1.webp",
+  },
+  {
+    href: "/product/kit-forca-amazonica/",
+    title: "Kit Força Amazônica",
+    label: "Conhecer o kit",
+    image: homeAssets.kits.amazonianStrength,
+    fallbackImage:
+      "https://medicinasagrada.com.br/wp-content/uploads/2022/07/forcaamazonica.webp",
   },
 ] as const;
 
