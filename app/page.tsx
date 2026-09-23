@@ -68,6 +68,9 @@ export default async function Home() {
         <div className="container">
           <div className="section-heading category-rail-heading">
             <h2 id="categorias-title">Nossas Categorias</h2>
+            <p className="category-rail-subtitle">
+              Tradição e respeito: medicinas e artesanatos originais, direto das aldeias.
+            </p>
           </div>
           <div className="category-rail">
             {homeCategories.map((category) => (
