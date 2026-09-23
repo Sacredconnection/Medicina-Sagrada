@@ -21,15 +21,11 @@ export const homeAssets = {
     alt: "Detalhe de uma paisagem da floresta",
   },
   categories: {
-    rape: "https://medicinasagrada.com.br/wp-content/uploads/2024/04/Rapes.png",
-    sananga:
-      "https://medicinasagrada.com.br/wp-content/uploads/2024/04/Sananga.png",
-    incense:
-      "https://medicinasagrada.com.br/wp-content/uploads/2024/04/Incensos.png",
-    accessories:
-      "https://medicinasagrada.com.br/wp-content/uploads/2024/04/Artesanato.png",
-    craft:
-      "https://medicinasagrada.com.br/wp-content/uploads/2024/04/Artesanato.png",
+    rape: "/assets/home/categories/medicina-sagrada-categoria-rape.webp",
+    sananga: "/assets/home/categories/medicina-sagrada-categoria-sananga.webp",
+    incense: "/assets/home/categories/medicina-sagrada-categoria-incensos.webp",
+    accessories: "/assets/home/categories/medicina-sagrada-categoria-acessorios.webp",
+    craft: "/assets/home/categories/medicina-sagrada-categoria-artesanato.webp",
   },
   editorial: {
     sananga:

@@ -77,6 +77,7 @@ export default async function Home() {
                 </span>
                 <span className="category-tile-name">{category.name}</span>
                 <span className="category-tile-detail">{category.detail}</span>
+                <span className="category-tile-cta">Ver produtos</span>
               </Link>
             ))}
           </div>

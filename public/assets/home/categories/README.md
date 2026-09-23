@@ -1,17 +1,39 @@
-# Categorias da página inicial
+# Imagens das categorias da página inicial
 
-- Dimensão: 1200 x 1200 px
-- Proporção: 1:1
-- Formato: WebP, sRGB
+Substitua os cinco arquivos desta pasta mantendo exatamente os mesmos nomes.
+O código da página inicial já aponta para eles.
+
+## Especificação de exportação
+
+- Prancheta: 1200 × 1200 px
+- Proporção: 1:1 (quadrada)
+- Formato: WebP
+- Perfil de cor: sRGB
 - Peso recomendado: até 250 KB por imagem
+- Enquadramento: imagem preenchendo toda a prancheta
+- Área segura: mantenha o assunto principal dentro dos 76% centrais
 
-Arquivos:
+## Dimensões exibidas no site
 
-- `medicina-sagrada-categoria-rape.webp`
-- `medicina-sagrada-categoria-sananga.webp`
-- `medicina-sagrada-categoria-incensos.webp`
-- `medicina-sagrada-categoria-acessorios.webp`
-- `medicina-sagrada-categoria-artesanato.webp`
+- Desktop amplo: 184 × 184 px
+- Desktop compacto e tablet horizontal: mínimo de 152 × 152 px
+- Tablet vertical e celular: 144 × 144 px
 
-O site recorta essas imagens em círculo. Centralize o objeto principal e deixe
-uma margem segura aproximada de 12% em todos os lados.
+As dimensões acima são apenas o tamanho visual dos círculos. Os arquivos devem
+continuar sendo exportados em 1200 × 1200 px para preservar nitidez em telas de
+alta densidade.
+
+O site aplica o recorte circular automaticamente com `object-fit: cover`. Os
+cantos da imagem quadrada não aparecem no resultado final.
+
+## Nomes obrigatórios
+
+- Rapé: `medicina-sagrada-categoria-rape.webp`
+- Sananga: `medicina-sagrada-categoria-sananga.webp`
+- Incensos: `medicina-sagrada-categoria-incensos.webp`
+- Acessórios: `medicina-sagrada-categoria-acessorios.webp`
+- Artesanato: `medicina-sagrada-categoria-artesanato.webp`
+
+Não acrescente sufixos como `final`, `novo` ou `02`. Ao salvar por cima do
+arquivo correspondente, a seção passa a usar a nova imagem sem alteração no
+código.
