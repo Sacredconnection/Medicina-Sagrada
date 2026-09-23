@@ -2,8 +2,8 @@
 
 ## Fundo da seção de entrada
 
-Adicione as imagens que ficarão sobre o verde do painel “Descubra sua Medicina
-de Hoje” usando os nomes exatos:
+Adicione as imagens que ficarão sobre o verde do painel “A Medicina ideal para
+sua intenção.” usando os nomes exatos:
 
 - Desktop: `medicina-sagrada-ritual-finder-intro-background.webp`
 - Mobile: `medicina-sagrada-ritual-finder-intro-background-mobile.webp`
@@ -21,6 +21,12 @@ No mobile, o CSS prioriza o arquivo terminado em `-mobile.webp`; se ele estiver
 temporariamente indisponível, a versão desktop permanece como fallback. Em
 desenvolvimento, salvar por cima de qualquer um dos arquivos atualiza a imagem
 visível automaticamente, sem recarregar a página ou reiniciar o servidor.
+
+## Círculos de intenção da abertura
+
+Os cinco slots circulares acima do texto usam arquivos separados dos cards
+verticais. Coloque as imagens em `intro-intentions/` seguindo o contrato descrito
+no README dessa pasta.
 
 ## Imagens dos cards
 

@@ -20,10 +20,27 @@ type FinderStep = "intro" | "intention" | "experience" | "result";
 
 const finderStepOrder: FinderStep[] = ["intro", "intention", "experience", "result"];
 
-const MATCHER_BACKGROUND_IMAGES = {
+const MATCHER_LIVE_IMAGE_PATHS = {
   desktop: "/assets/home/matcher/medicina-sagrada-ritual-finder-intro-background.webp",
   mobile: "/assets/home/matcher/medicina-sagrada-ritual-finder-intro-background-mobile.webp",
-} as const;
+  grounding: "/assets/home/matcher/intro-intentions/aterramento-presenca.webp",
+  strength: "/assets/home/matcher/intro-intentions/forca-coragem.webp",
+  serenity: "/assets/home/matcher/intro-intentions/silencio-mental-paz.webp",
+  heart: "/assets/home/matcher/intro-intentions/abertura-coracao.webp",
+  purification: "/assets/home/matcher/intro-intentions/purificacao-limpeza.webp",
+} as const satisfies Record<"desktop" | "mobile" | RitualIntentionId, string>;
+
+type MatcherLiveImageKey = keyof typeof MATCHER_LIVE_IMAGE_PATHS;
+
+const MATCHER_INITIAL_IMAGES: Record<MatcherLiveImageKey, string> = {
+  desktop: MATCHER_LIVE_IMAGE_PATHS.desktop,
+  mobile: MATCHER_LIVE_IMAGE_PATHS.mobile,
+  grounding: "none",
+  strength: "none",
+  serenity: "none",
+  heart: "none",
+  purification: "none",
+};
 
 const progressSteps = [
   { id: "intention", label: "Intenção", icon: "explore" },
@@ -128,15 +145,20 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const shouldReduceMotion = useReducedMotion();
-  const backgroundVersions = useRef<Record<keyof typeof MATCHER_BACKGROUND_IMAGES, string>>({
+  const imageVersions = useRef<Record<MatcherLiveImageKey, string>>({
     desktop: "",
     mobile: "",
+    grounding: "",
+    strength: "",
+    serenity: "",
+    heart: "",
+    purification: "",
   });
   const [step, setStep] = useState<FinderStep>("intro");
   const [direction, setDirection] = useState(1);
   const [intention, setIntention] = useState<RitualIntentionId | null>(null);
   const [experience, setExperience] = useState<RitualExperienceId | null>(null);
-  const [backgroundImages, setBackgroundImages] = useState(MATCHER_BACKGROUND_IMAGES);
+  const [liveImages, setLiveImages] = useState(MATCHER_INITIAL_IMAGES);
 
   const recommendation = useMemo(() => {
     if (!intention || !experience) return null;
@@ -204,14 +226,11 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
     if (process.env.NODE_ENV !== "development") return;
 
     let active = true;
-    const images = Object.entries(MATCHER_BACKGROUND_IMAGES) as Array<
-      [keyof typeof MATCHER_BACKGROUND_IMAGES, string]
+    const images = Object.entries(MATCHER_LIVE_IMAGE_PATHS) as Array<
+      [MatcherLiveImageKey, string]
     >;
 
-    const refreshBackground = async (
-      key: keyof typeof MATCHER_BACKGROUND_IMAGES,
-      imagePath: string,
-    ) => {
+    const refreshImage = async (key: MatcherLiveImageKey, imagePath: string) => {
       try {
         const response = await fetch(
           `/api/dev/asset-version/?path=${encodeURIComponent(imagePath)}`,
@@ -221,27 +240,27 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
         if (!response.ok) return;
 
         const data = (await response.json()) as { version?: string | null };
-        if (!data.version || data.version === backgroundVersions.current[key]) return;
+        if (!data.version || data.version === imageVersions.current[key]) return;
 
         const nextImage = `${imagePath}?v=${encodeURIComponent(data.version)}`;
         const preload = new window.Image();
 
         preload.onload = () => {
           if (!active) return;
-          backgroundVersions.current[key] = data.version ?? "";
-          setBackgroundImages((current) => ({ ...current, [key]: nextImage }));
+          imageVersions.current[key] = data.version ?? "";
+          setLiveImages((current) => ({ ...current, [key]: nextImage }));
         };
         preload.src = nextImage;
       } catch {
-        // Mantém o último fundo válido enquanto o arquivo está sendo salvo.
+        // Mantém a última imagem válida enquanto o arquivo está sendo salvo.
       }
     };
 
-    const refreshAllBackgrounds = () =>
-      Promise.all(images.map(([key, imagePath]) => refreshBackground(key, imagePath)));
+    const refreshAllImages = () =>
+      Promise.all(images.map(([key, imagePath]) => refreshImage(key, imagePath)));
 
-    void refreshAllBackgrounds();
-    const interval = window.setInterval(() => void refreshAllBackgrounds(), 750);
+    void refreshAllImages();
+    const interval = window.setInterval(() => void refreshAllImages(), 750);
 
     return () => {
       active = false;
@@ -289,8 +308,8 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
       ref={sectionRef}
       style={
         {
-          "--matcher-section-image-desktop": `url("${backgroundImages.desktop}")`,
-          "--matcher-section-image-mobile": `url("${backgroundImages.mobile}")`,
+          "--matcher-section-image-desktop": `url("${liveImages.desktop}")`,
+          "--matcher-section-image-mobile": `url("${liveImages.mobile}")`,
         } as CSSProperties
       }
     >
@@ -336,11 +355,30 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
           >
           {step === "intro" ? (
             <div className="matcher-intro">
-              <h2 id="matcher-title">Descubra sua Medicina de Hoje</h2>
+              <h2 id="matcher-title">
+                A Medicina ideal para sua <strong>intenção.</strong>
+              </h2>
               <div className="matcher-intro-action">
+                <div aria-hidden="true" className="matcher-intro-intention-slots">
+                  {ritualIntentions.map((option) => (
+                    <span
+                      className="matcher-intro-intention-slot"
+                      data-intention={option.id}
+                      key={option.id}
+                      style={
+                        {
+                          "--matcher-intention-image":
+                            liveImages[option.id] === "none"
+                              ? "none"
+                              : `url("${liveImages[option.id]}")`,
+                        } as CSSProperties
+                      }
+                    />
+                  ))}
+                </div>
                 <p>
-                  Em 2 passos simples, encontre o rapé ideal para o seu momento e
-                  intenção de consagração.
+                  Em 2 passos simples, descubra o rapé que melhor acompanha o seu
+                  momento de consagração.
                 </p>
                 <button
                   className="button matcher-start-button"
