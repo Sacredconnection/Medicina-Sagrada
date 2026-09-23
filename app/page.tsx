@@ -39,7 +39,7 @@ export default async function Home() {
       titlePrimary: "Conhecimento ancestral,",
       titleSecondary: "vivo e compartilhado com respeito.",
       description:
-        "Medicinas ancestrais autênticas, rapés tradicionais e instrumentos rituais originais, direto das comunidades da Amazônia.",
+        "Medicinas indígenas autênticas: rapés, kuripes e tepis tradicionais, diretamente das comunidades da Amazônia.",
       ctaLabel: "JORNADA",
       ctaHref: "/product-category/rape/",
     },

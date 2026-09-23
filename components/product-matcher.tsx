@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
 import type { CSSProperties } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { plainText } from "@/lib/html";
@@ -16,6 +17,13 @@ import {
 import type { WooProduct } from "@/lib/types";
 
 type FinderStep = "intro" | "intention" | "experience" | "result";
+
+const finderStepOrder: FinderStep[] = ["intro", "intention", "experience", "result"];
+
+const MATCHER_BACKGROUND_IMAGES = {
+  desktop: "/assets/home/matcher/medicina-sagrada-ritual-finder-intro-background.webp",
+  mobile: "/assets/home/matcher/medicina-sagrada-ritual-finder-intro-background-mobile.webp",
+} as const;
 
 const progressSteps = [
   { id: "intention", label: "Intenção", icon: "explore" },
@@ -119,9 +127,16 @@ function FinderProduct({
 export function ProductMatcher({ products }: { products: WooProduct[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+  const backgroundVersions = useRef<Record<keyof typeof MATCHER_BACKGROUND_IMAGES, string>>({
+    desktop: "",
+    mobile: "",
+  });
   const [step, setStep] = useState<FinderStep>("intro");
+  const [direction, setDirection] = useState(1);
   const [intention, setIntention] = useState<RitualIntentionId | null>(null);
   const [experience, setExperience] = useState<RitualExperienceId | null>(null);
+  const [backgroundImages, setBackgroundImages] = useState(MATCHER_BACKGROUND_IMAGES);
 
   const recommendation = useMemo(() => {
     if (!intention || !experience) return null;
@@ -138,10 +153,17 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
     return products.find(({ slug }) => slug === recommendation.aplicador.slug);
   }, [products, recommendation]);
 
+  const goToStep = (nextStep: FinderStep) => {
+    setDirection(
+      finderStepOrder.indexOf(nextStep) >= finderStepOrder.indexOf(step) ? 1 : -1,
+    );
+    setStep(nextStep);
+  };
+
   const reset = () => {
     setIntention(null);
     setExperience(null);
-    setStep("intention");
+    goToStep("intention");
   };
 
   const total =
@@ -149,9 +171,91 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
       ? formatAmount(getAmount(primaryProduct) + getAmount(applicator), primaryProduct)
       : null;
 
+  const stageVariants = useMemo<Variants>(
+    () => ({
+      enter: (travelDirection: number) => ({
+        opacity: 0,
+        x: shouldReduceMotion ? 0 : travelDirection * 2.25 + "rem",
+        filter: shouldReduceMotion ? "none" : "blur(3px)",
+      }),
+      center: {
+        opacity: 1,
+        x: 0,
+        filter: "blur(0px)",
+        transition: {
+          duration: shouldReduceMotion ? 0.18 : 0.38,
+          ease: [0.16, 1, 0.3, 1],
+        },
+      },
+      exit: (travelDirection: number) => ({
+        opacity: 0,
+        x: shouldReduceMotion ? 0 : travelDirection * -1.5 + "rem",
+        filter: shouldReduceMotion ? "none" : "blur(2px)",
+        transition: {
+          duration: shouldReduceMotion ? 0.12 : 0.22,
+          ease: [0.4, 0, 1, 1],
+        },
+      }),
+    }),
+    [shouldReduceMotion],
+  );
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "development") return;
+
+    let active = true;
+    const images = Object.entries(MATCHER_BACKGROUND_IMAGES) as Array<
+      [keyof typeof MATCHER_BACKGROUND_IMAGES, string]
+    >;
+
+    const refreshBackground = async (
+      key: keyof typeof MATCHER_BACKGROUND_IMAGES,
+      imagePath: string,
+    ) => {
+      try {
+        const response = await fetch(
+          `/api/dev/asset-version/?path=${encodeURIComponent(imagePath)}`,
+          { cache: "no-store" },
+        );
+
+        if (!response.ok) return;
+
+        const data = (await response.json()) as { version?: string | null };
+        if (!data.version || data.version === backgroundVersions.current[key]) return;
+
+        const nextImage = `${imagePath}?v=${encodeURIComponent(data.version)}`;
+        const preload = new window.Image();
+
+        preload.onload = () => {
+          if (!active) return;
+          backgroundVersions.current[key] = data.version ?? "";
+          setBackgroundImages((current) => ({ ...current, [key]: nextImage }));
+        };
+        preload.src = nextImage;
+      } catch {
+        // Mantém o último fundo válido enquanto o arquivo está sendo salvo.
+      }
+    };
+
+    const refreshAllBackgrounds = () =>
+      Promise.all(images.map(([key, imagePath]) => refreshBackground(key, imagePath)));
+
+    void refreshAllBackgrounds();
+    const interval = window.setInterval(() => void refreshAllBackgrounds(), 750);
+
+    return () => {
+      active = false;
+      window.clearInterval(interval);
+    };
+  }, []);
+
   useEffect(() => {
     if (step === "intro") return;
 
+    const focusTimer = window.setTimeout(
+      () => headingRef.current?.focus({ preventScroll: true }),
+      shouldReduceMotion ? 50 : 420,
+    );
     const frame = window.requestAnimationFrame(() => {
       const section = sectionRef.current;
       if (!section) return;
@@ -169,18 +273,26 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
         });
       }
 
-      headingRef.current?.focus({ preventScroll: true });
     });
 
-    return () => window.cancelAnimationFrame(frame);
-  }, [step]);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(focusTimer);
+    };
+  }, [shouldReduceMotion, step]);
 
   return (
     <section
-      className="matcher-section"
+      className={`matcher-section${step === "intro" ? " matcher-section-intro" : ""}`}
       aria-labelledby="matcher-title"
       id="descubra-seu-rape"
       ref={sectionRef}
+      style={
+        {
+          "--matcher-section-image-desktop": `url("${backgroundImages.desktop}")`,
+          "--matcher-section-image-mobile": `url("${backgroundImages.mobile}")`,
+        } as CSSProperties
+      }
     >
       <div className="container matcher-inner">
         {step !== "intro" ? (
@@ -212,24 +324,32 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
           </>
         ) : null}
 
-        <div className="matcher-stage" key={step}>
+        <AnimatePresence custom={direction} initial={false} mode="wait">
+          <motion.div
+            animate="center"
+            className="matcher-stage"
+            custom={direction}
+            exit="exit"
+            initial="enter"
+            key={step}
+            variants={stageVariants}
+          >
           {step === "intro" ? (
             <div className="matcher-intro">
-              <div className="matcher-intro-copy">
-                <h2 id="matcher-title">Descubra sua Medicina de Hoje</h2>
+              <h2 id="matcher-title">Descubra sua Medicina de Hoje</h2>
+              <div className="matcher-intro-action">
                 <p>
                   Em 2 passos simples, encontre o rapé ideal para o seu momento e
                   intenção de consagração.
                 </p>
                 <button
                   className="button matcher-start-button"
-                  onClick={() => setStep("intention")}
+                  onClick={() => goToStep("intention")}
                   type="button"
                 >
                   Iniciar Jornada
                 </button>
               </div>
-              <div aria-hidden="true" className="matcher-intro-visual" />
             </div>
           ) : null}
 
@@ -253,7 +373,7 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
                       key={option.id}
                       onClick={() => {
                         setIntention(option.id);
-                        setStep("experience");
+                        goToStep("experience");
                       }}
                       style={cardStyle}
                       type="button"
@@ -286,7 +406,7 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
                     key={option.id}
                     onClick={() => {
                       setExperience(option.id);
-                      setStep("result");
+                      goToStep("result");
                     }}
                     type="button"
                   >
@@ -302,7 +422,7 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
               </div>
               <button
                 className="matcher-back"
-                onClick={() => setStep("intention")}
+                onClick={() => goToStep("intention")}
                 type="button"
               >
                 Voltar e mudar a intenção
@@ -369,7 +489,8 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
               </p>
             </div>
           ) : null}
-        </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );

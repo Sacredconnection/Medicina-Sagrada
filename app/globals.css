@@ -286,58 +286,42 @@ strong, b { font-weight: var(--weight-bold); }
 .matcher-section {
   --matcher-muted: #59655d;
   --matcher-accent: #a4472d;
+  --matcher-section-image-desktop: url("/assets/home/matcher/medicina-sagrada-ritual-finder-intro-background.webp");
+  --matcher-section-image-mobile: url("/assets/home/matcher/medicina-sagrada-ritual-finder-intro-background-mobile.webp");
   scroll-margin-top: 6rem;
   position: relative;
   overflow: clip;
   padding-block: clamp(4.5rem, 7vw, 6rem);
-  background: var(--white);
+  background-color: #ffffff;
+  background-image: none;
 }
-.matcher-inner { width: min(calc(100% - 3rem), var(--max-width)); }
-.matcher-stage { animation: matcher-reveal 420ms cubic-bezier(0.16, 1, 0.3, 1); }
-.matcher-intro {
-  --matcher-intro-background-desktop: url("/assets/home/matcher/medicina-sagrada-ritual-finder-intro-background.webp");
-  --matcher-intro-background-mobile: url("/assets/home/matcher/medicina-sagrada-ritual-finder-intro-background-mobile.webp");
-  --matcher-intro-background: var(--matcher-intro-background-desktop);
-  position: relative;
-  min-height: 28rem;
-  overflow: hidden;
-  isolation: isolate;
-  padding: clamp(3rem, 5.5vw, 5rem);
-  border-radius: 1rem;
+.matcher-section-intro {
+  display: grid;
+  min-height: clamp(31rem, 42vw, 38rem);
+  align-items: center;
+  padding-block: clamp(5rem, 8vw, 7rem);
   background-color: var(--forest-950);
   background-image:
     radial-gradient(circle at 14% 8%, rgba(155, 185, 120, 0.14), transparent 32%),
-    linear-gradient(90deg, rgba(6, 28, 20, 0.95) 0%, rgba(8, 34, 24, 0.86) 54%, rgba(8, 34, 24, 0.58) 100%),
-    var(--matcher-intro-background);
+    linear-gradient(90deg, rgba(6, 28, 20, 0.97) 0%, rgba(8, 34, 24, 0.9) 58%, rgba(8, 34, 24, 0.76) 100%),
+    var(--matcher-section-image-desktop);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  box-shadow: 0 2rem 5rem rgba(11, 38, 29, 0.15), 0 0.5rem 1.25rem rgba(11, 38, 29, 0.08);
+}
+.matcher-inner { width: min(calc(100% - 3rem), var(--max-width)); }
+.matcher-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(20rem, 0.82fr);
+  align-items: end;
+  gap: clamp(4rem, 8vw, 8rem);
   color: var(--white);
 }
-.matcher-intro-copy { position: relative; z-index: 2; max-width: min(41rem, 56%); }
-.matcher-intro h2 { max-width: 14ch; font-size: clamp(2.9rem, 4.8vw, 4.6rem); letter-spacing: -0.035em; line-height: 0.94; }
-.matcher-intro h2::after { display: block; width: 3rem; height: 0.125rem; margin-top: 1.2rem; border-radius: 999px; background: rgba(255, 255, 255, 0.92); content: ""; }
-.matcher-intro p { max-width: 38rem; margin-top: 1.25rem; color: rgba(255, 255, 255, 0.82); font-size: clamp(1rem, 1.2vw, 1.12rem); line-height: 1.55; }
-.matcher-start-button { min-width: 11.5rem; margin-top: 0.8rem; background: rgba(255, 255, 255, 0.025); box-shadow: 0 0.75rem 1.6rem rgba(0, 0, 0, 0.14); color: var(--white); }
-.matcher-intro-visual {
-  --matcher-intro-image-desktop: url("/assets/home/matcher/medicina-sagrada-ritual-finder-intro.webp");
-  --matcher-intro-image-mobile: url("/assets/home/matcher/medicina-sagrada-ritual-finder-intro-mobile.webp");
-  --matcher-intro-image: var(--matcher-intro-image-desktop);
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  right: -25rem;
-  width: 54rem;
-  height: auto;
-  overflow: hidden;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: #f7f4ec;
-  box-shadow: -0.35rem 0.5rem 1rem rgba(4, 17, 12, 0.22), -1.25rem 1.75rem 3rem rgba(4, 17, 12, 0.18);
-  transform: translateY(-50%);
-}
-.matcher-intro-visual::after { position: absolute; inset: 0; border: 6px solid var(--white); border-radius: inherit; background-image: var(--matcher-intro-image), var(--matcher-intro-image-desktop); background-position: center; background-repeat: no-repeat; background-size: cover; content: ""; }
+.matcher-intro h2 { max-width: 10ch; font-size: clamp(3.65rem, 5.6vw, 5.6rem); letter-spacing: -0.04em; line-height: 0.9; text-wrap: balance; }
+.matcher-intro h2::after { display: block; width: 4rem; height: 0.125rem; margin-top: 1.65rem; border-radius: 999px; background: rgba(255, 255, 255, 0.92); content: ""; }
+.matcher-intro-action { max-width: 31rem; padding: 0.25rem 0 0.35rem clamp(2rem, 4vw, 4rem); border-left: 1px solid rgba(255, 255, 255, 0.22); }
+.matcher-intro p { max-width: 33rem; color: rgba(255, 255, 255, 0.8); font-size: clamp(1.02rem, 1.2vw, 1.14rem); line-height: 1.65; }
+.matcher-start-button { min-width: 13rem; margin-top: 2rem; background: rgba(255, 255, 255, 0.025); box-shadow: 0 0.75rem 1.6rem rgba(0, 0, 0, 0.14); color: var(--white); }
 .matcher-progress { display: flex; width: min(100%, 34rem); margin: 0 auto clamp(2.5rem, 4vw, 3.5rem); padding: 0; list-style: none; }
 .matcher-progress li { position: relative; display: grid; min-width: 0; flex: 1; justify-items: center; gap: 0.45rem; color: var(--matcher-muted); font-size: 0.66rem; font-weight: var(--weight-bold); letter-spacing: 0.07em; text-transform: uppercase; }
 .matcher-progress li:not(:last-child)::after { position: absolute; z-index: 0; top: 0.9rem; left: calc(50% + 1.15rem); width: calc(100% - 2.3rem); height: 1px; background: #cbc8bb; content: ""; }
@@ -396,11 +380,6 @@ strong, b { font-weight: var(--weight-bold); }
 .matcher-cart-note { grid-column: 2; margin: 0; color: rgba(255, 255, 255, 0.6); font-size: 0.7rem; text-align: right; }
 .matcher-reset { grid-column: 1 / -1; margin-top: 0.5rem; color: rgba(255, 255, 255, 0.78); }
 .matcher-care-note { max-width: 72ch; margin: 1.25rem auto 0; color: var(--matcher-muted); font-size: 0.72rem; line-height: 1.5; text-align: center; }
-
-@keyframes matcher-reveal {
-  from { transform: translateY(0.6rem); opacity: 0.35; }
-  to { transform: translateY(0); opacity: 1; }
-}
 
 .story-section { display: grid; grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr); gap: clamp(2.5rem, 7vw, 7rem); align-items: center; padding-block: clamp(5rem, 10vw, 9rem); }
 .story-image { position: relative; min-height: 32rem; overflow: hidden; border-radius: var(--radius); background-color: var(--forest-900); background-image: linear-gradient(180deg, transparent 50%, rgba(5, 26, 18, 0.66)), var(--story-image); background-position: center; background-size: cover; }
@@ -528,17 +507,13 @@ strong, b { font-weight: var(--weight-bold); }
   .nav-list { gap: 0.8rem; }
   .nav-list a { font-size: 0.68rem; }
   .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .matcher-intro { min-height: 27rem; padding: clamp(2.75rem, 5vw, 4rem); }
-  .matcher-intro-copy { max-width: 55%; }
   .matcher-intro h2 { font-size: clamp(2.75rem, 5.5vw, 4rem); }
-  .matcher-intro-visual { right: -22rem; width: 48rem; }
 }
 
 @media (max-width: 900px) {
-  .matcher-intro { min-height: 44rem; padding: 2.75rem 2.5rem 20rem; }
-  .matcher-intro-copy { max-width: 36rem; }
-  .matcher-intro h2 { max-width: 12ch; }
-  .matcher-intro-visual { top: auto; right: auto; bottom: -24rem; left: 50%; width: min(48rem, calc(100% + 10rem)); height: auto; transform: translateX(-50%); }
+  .matcher-intro { grid-template-columns: 1fr; align-items: start; gap: 2.5rem; }
+  .matcher-intro h2 { max-width: 11ch; }
+  .matcher-intro-action { max-width: 38rem; padding: 2rem 0 0; border-top: 1px solid rgba(255, 255, 255, 0.22); border-left: 0; }
 }
 
 @media (max-width: 800px) {
@@ -620,11 +595,20 @@ strong, b { font-weight: var(--weight-bold); }
   .price { font-size: 0.9rem; }
   .product-layout { grid-template-columns: 1fr; }
   .matcher-section { padding-block: 3.75rem 4.5rem; }
-  .matcher-intro { --matcher-intro-background: var(--matcher-intro-background-mobile); min-height: 36.5rem; padding: 2rem 1.35rem 15rem; }
-  .matcher-intro-copy { max-width: none; }
-  .matcher-intro h2 { font-size: clamp(2.55rem, 12vw, 3.35rem); }
-  .matcher-intro p { margin-top: 1.1rem; font-size: 1rem; }
-  .matcher-intro-visual { --matcher-intro-image: var(--matcher-intro-image-mobile); bottom: -18.5rem; width: calc(100% + 8rem); }
+  .matcher-section-intro {
+    min-height: 31rem;
+    padding-block: 4.5rem;
+    background-image:
+      radial-gradient(circle at 14% 8%, rgba(155, 185, 120, 0.14), transparent 32%),
+      linear-gradient(90deg, rgba(6, 28, 20, 0.97) 0%, rgba(8, 34, 24, 0.9) 58%, rgba(8, 34, 24, 0.76) 100%),
+      var(--matcher-section-image-mobile);
+    background-position: 32% center;
+  }
+  .matcher-intro { gap: 1.75rem; }
+  .matcher-intro h2 { max-width: 10ch; font-size: clamp(2.65rem, 12vw, 3.35rem); line-height: 0.92; }
+  .matcher-intro h2::after { width: 3rem; margin-top: 1.1rem; }
+  .matcher-intro-action { max-width: none; padding-top: 0; border-top: 0; }
+  .matcher-intro p { font-size: 1rem; line-height: 1.55; }
   .matcher-start-button { width: 100%; }
   .matcher-progress { margin-bottom: 2.5rem; }
   .matcher-progress li { font-size: 0.59rem; }
