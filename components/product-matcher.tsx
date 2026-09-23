@@ -35,11 +35,11 @@ type MatcherLiveImageKey = keyof typeof MATCHER_LIVE_IMAGE_PATHS;
 const MATCHER_INITIAL_IMAGES: Record<MatcherLiveImageKey, string> = {
   desktop: MATCHER_LIVE_IMAGE_PATHS.desktop,
   mobile: MATCHER_LIVE_IMAGE_PATHS.mobile,
-  grounding: "none",
-  strength: "none",
-  serenity: "none",
-  heart: "none",
-  purification: "none",
+  grounding: MATCHER_LIVE_IMAGE_PATHS.grounding,
+  strength: MATCHER_LIVE_IMAGE_PATHS.strength,
+  serenity: MATCHER_LIVE_IMAGE_PATHS.serenity,
+  heart: MATCHER_LIVE_IMAGE_PATHS.heart,
+  purification: MATCHER_LIVE_IMAGE_PATHS.purification,
 };
 
 const progressSteps = [

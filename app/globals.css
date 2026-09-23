@@ -321,7 +321,8 @@ strong, b { font-weight: var(--weight-bold); }
 .matcher-intro h2 { max-width: 10ch; font-size: clamp(3.65rem, 5.6vw, 5.6rem); font-weight: var(--weight-semibold); letter-spacing: -0.04em; line-height: 0.9; text-wrap: balance; }
 .matcher-intro h2 strong { display: block; color: var(--cta-accent); font-weight: var(--weight-extrabold); }
 .matcher-intro h2::after { display: block; width: 4rem; height: 0.125rem; margin-top: 1.65rem; border-radius: 999px; background: rgba(255, 255, 255, 0.92); content: ""; }
-.matcher-intro-action { max-width: 31rem; padding: 0.25rem 0 0.35rem clamp(2rem, 4vw, 4rem); border-left: 1px solid rgba(255, 255, 255, 0.22); }
+.matcher-intro-action { position: relative; max-width: 31rem; padding: 0.25rem 0 0.35rem clamp(2rem, 4vw, 4rem); }
+.matcher-intro-action::before { position: absolute; top: 10%; bottom: 10%; left: 0; width: 1px; background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.34) 22%, rgba(255, 255, 255, 0.34) 78%, transparent); content: ""; }
 .matcher-intro-intention-slots { display: flex; isolation: isolate; align-items: center; flex-wrap: nowrap; gap: 0; margin: 0 0 clamp(1.25rem, 3vw, 1.75rem); }
 .matcher-intro-intention-slot { --matcher-intention-image: none; position: relative; width: clamp(5rem, 7.8vw, 7rem); aspect-ratio: 1; flex: 0 0 auto; border: 2px solid rgba(255, 255, 255, 0.92); border-radius: 50%; background-color: rgba(255, 255, 255, 0.08); background-image: var(--matcher-intention-image); background-position: center; background-size: cover; }
 .matcher-intro-intention-slot + .matcher-intro-intention-slot { margin-left: -1.625rem; }
@@ -526,7 +527,8 @@ strong, b { font-weight: var(--weight-bold); }
 @media (max-width: 900px) {
   .matcher-intro { grid-template-columns: 1fr; align-items: start; gap: 2.5rem; }
   .matcher-intro h2 { max-width: 11ch; }
-  .matcher-intro-action { max-width: 38rem; padding: 2rem 0 0; border-top: 1px solid rgba(255, 255, 255, 0.22); border-left: 0; }
+  .matcher-intro-action { max-width: 38rem; padding: 2rem 0 0; border-top: 1px solid rgba(255, 255, 255, 0.22); }
+  .matcher-intro-action::before { display: none; }
 }
 
 @media (max-width: 800px) {
