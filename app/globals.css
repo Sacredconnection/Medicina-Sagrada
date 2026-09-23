@@ -280,11 +280,11 @@ strong, b { font-weight: var(--weight-bold); }
 .home-product-grid { gap: 1.25rem; }
 .products-section-action { display: flex; justify-content: center; margin-top: clamp(2.25rem, 4vw, 3.5rem); }
 .products-section-action .button { min-width: 13.5rem; }
-.kits-section { padding-block: clamp(4rem, 7vw, 6.5rem); background: var(--paper-deep); }
+.kits-section { overflow: hidden; padding-block: clamp(4rem, 7vw, 6.5rem); background-color: var(--paper-deep); background-image: var(--kits-background-desktop, url("/assets/home/kits/background/medicina-sagrada-kits-background-desktop.webp")); background-position: center; background-repeat: no-repeat; background-size: cover; }
 .kits-section > .container { display: grid; grid-template-columns: minmax(15rem, 0.72fr) minmax(0, 1.75fr); align-items: center; gap: clamp(3rem, 6vw, 6rem); }
 .kits-section-heading { align-self: center; }
-.kits-section-heading h2 { max-width: 12ch; }
-.kits-section-heading p { max-width: 23rem; margin: 1.15rem 0 0; color: #536158; font-size: clamp(0.95rem, 1.2vw, 1.075rem); line-height: 1.55; }
+.kits-section-heading h2 { max-width: 13ch; text-wrap: balance; }
+.kits-section-heading p { max-width: 27rem; margin: 1.35rem 0 0; color: #536158; font-size: clamp(1rem, 1.25vw, 1.125rem); line-height: 1.6; text-wrap: pretty; }
 .kits-section-cta { margin-top: 1.75rem; }
 .kits-section-cta-mobile { display: none; }
 .kits-grid { display: grid; min-width: 0; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: clamp(0.75rem, 1.4vw, 1rem); aspect-ratio: 3 / 2; }
@@ -560,6 +560,7 @@ strong, b { font-weight: var(--weight-bold); }
 }
 
 @media (max-width: 900px) {
+  .kits-section { background-image: var(--kits-background-mobile, url("/assets/home/kits/background/medicina-sagrada-kits-background-mobile.webp")); }
   .kits-section > .container { grid-template-columns: 1fr; align-items: start; gap: 2.5rem; }
   .kits-section-heading { max-width: 34rem; }
   .kits-grid { width: min(100%, 46rem); margin-inline: auto; }
