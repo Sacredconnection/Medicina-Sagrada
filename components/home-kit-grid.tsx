@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 
 type KitBanner = {
@@ -12,8 +12,6 @@ type KitBanner = {
   fallbackImage: string;
 };
 
-const SESSION_FEATURED_KEY = "medicina-sagrada:featured-kit-session";
-const PREVIOUS_FEATURED_KEY = "medicina-sagrada:featured-kit-previous";
 const KIT_BACKGROUND_PATHS = {
   desktop: "/assets/home/kits/background/medicina-sagrada-kits-background-desktop.webp",
   mobile: "/assets/home/kits/background/medicina-sagrada-kits-background-mobile.webp",
@@ -21,82 +19,10 @@ const KIT_BACKGROUND_PATHS = {
 
 type KitBackgroundVariant = keyof typeof KIT_BACKGROUND_PATHS;
 
-const subscribe = (onStoreChange: () => void) => {
-  const timeoutId = window.setTimeout(onStoreChange, 0);
-  return () => window.clearTimeout(timeoutId);
-};
-
-const moveFeaturedFirst = (banners: readonly KitBanner[], href: string) => {
-  const featuredIndex = banners.findIndex((banner) => banner.href === href);
-  if (featuredIndex <= 0) return [...banners];
-
-  return [
-    banners[featuredIndex],
-    ...banners.slice(0, featuredIndex),
-    ...banners.slice(featuredIndex + 1),
-  ];
-};
-
-const selectKitOrder = (banners: readonly KitBanner[]) => {
-  if (typeof window === "undefined" || banners.length === 0) return [...banners];
-
-  try {
-    const sessionFeatured = window.sessionStorage.getItem(SESSION_FEATURED_KEY);
-    if (sessionFeatured && banners.some(({ href }) => href === sessionFeatured)) {
-      return moveFeaturedFirst(banners, sessionFeatured);
-    }
-
-    const previousFeatured = window.localStorage.getItem(PREVIOUS_FEATURED_KEY);
-    const previousIndex = banners.findIndex(
-      ({ href }) => href === previousFeatured,
-    );
-    const nextIndex = previousIndex >= 0 ? (previousIndex + 1) % banners.length : 0;
-
-    return moveFeaturedFirst(banners, banners[nextIndex].href);
-  } catch {
-    return [...banners];
-  }
-};
-
-const createKitSelection = (banners: readonly KitBanner[]) => {
-  const serverSelection = [...banners];
-  const browserSelection = selectKitOrder(banners);
-
-  return {
-    browserFeaturedHref: browserSelection[0]?.href,
-    getServerSnapshot: () => serverSelection,
-    getSnapshot: () => browserSelection,
-  };
-};
-
 function HomeKitGrid({ banners }: { banners: readonly KitBanner[] }) {
-  const selection = useMemo(() => createKitSelection(banners), [banners]);
-  const visibleBanners = useSyncExternalStore(
-    subscribe,
-    selection.getSnapshot,
-    selection.getServerSnapshot,
-  );
-
-  useEffect(() => {
-    if (!selection.browserFeaturedHref) return;
-
-    try {
-      window.sessionStorage.setItem(
-        SESSION_FEATURED_KEY,
-        selection.browserFeaturedHref,
-      );
-      window.localStorage.setItem(
-        PREVIOUS_FEATURED_KEY,
-        selection.browserFeaturedHref,
-      );
-    } catch {
-      // Mantém a ordem padrão quando o armazenamento do navegador está indisponível.
-    }
-  }, [selection.browserFeaturedHref]);
-
   return (
     <div className="kits-grid">
-      {visibleBanners.map((banner) => (
+      {banners.map((banner) => (
         <Link
           className="kit-card"
           href={banner.href}
@@ -195,12 +121,9 @@ export function HomeKitsSection({ banners }: { banners: readonly KitBanner[] }) 
             Reunimos diferentes medicinas em seleções prontas para você conhecer novas combinações e encontrar o kit
             que melhor acompanha a sua intenção.
           </p>
-          <Link className="button kits-section-cta kits-section-cta-desktop" href="/product-category/kits/">
-            Explorar todos os kits
-          </Link>
         </div>
         <HomeKitGrid banners={banners} />
-        <Link className="button kits-section-cta kits-section-cta-mobile" href="/product-category/kits/">
+        <Link className="button kits-section-cta" href="/product-category/kits/">
           Explorar todos os kits
         </Link>
       </div>
