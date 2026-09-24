@@ -413,7 +413,8 @@ strong, b { font-weight: var(--weight-bold); }
 .section-heading .eyebrow { margin-bottom: 0.65rem; }
 .section-note { max-width: 19rem; margin: 0; color: var(--muted); font-size: 0.9rem; }
 .category-rail-shell { position: relative; }
-.category-scroll-cue { display: none; }
+.scroll-hint { display: none; width: fit-content; align-items: center; gap: 0.65rem; font-size: 0.6875rem; font-weight: var(--weight-semibold); letter-spacing: 0.12em; line-height: 1; text-transform: uppercase; }
+.scroll-hint::before { width: 2.5rem; height: 1px; background: linear-gradient(90deg, transparent, var(--cta-accent)); content: ""; }
 .category-rail { display: grid; grid-template-columns: repeat(5, minmax(9.5rem, 1fr)); align-items: stretch; gap: clamp(1.5rem, 3vw, 3rem); overflow-x: auto; padding: 0.75rem 0 1rem; scrollbar-width: none; }
 .category-rail::-webkit-scrollbar { display: none; }
 .category-tile { display: flex; width: 100%; min-width: 0; flex: 0 0 auto; align-items: center; flex-direction: column; padding: 0.5rem 0.25rem 0.25rem; text-align: center; }
@@ -429,19 +430,11 @@ strong, b { font-weight: var(--weight-bold); }
 .category-tile:is(:hover, :focus-visible) .category-tile-cta { border-color: var(--cta-accent); background: var(--cta-accent); box-shadow: 0 0.45rem 1.1rem rgba(169, 47, 29, 0.22); color: var(--cta-on-accent); transform: translateY(-0.125rem); }
 
 .incense-section { --incense-background-image: url("/assets/home/incense/background/medicina-sagrada-incensos-background-desktop.webp"); overflow: hidden; margin-top: clamp(1.5rem, 3vw, 2.5rem); padding-block: clamp(4.5rem, 7vw, 6.5rem); background-color: var(--paper-deep); background-image: var(--incense-background-image); background-position: center; background-repeat: no-repeat; background-size: cover; }
-.incense-layout { display: grid; grid-template-areas: "copy features" "cta features"; grid-template-columns: minmax(18rem, 0.72fr) minmax(0, 1.28fr); align-items: start; column-gap: clamp(3.5rem, 6vw, 6.75rem); row-gap: 0; }
-.incense-copy { display: flex; max-width: 31rem; grid-area: copy; align-items: flex-start; flex-direction: column; }
+.incense-layout { display: grid; justify-items: start; }
+.incense-copy { display: flex; max-width: 31rem; align-items: flex-start; flex-direction: column; }
 .incense-copy h2 { max-width: 12ch; font-size: var(--type-section-title); font-weight: var(--weight-bold); letter-spacing: -0.035em; line-height: 1.02; text-wrap: balance; }
 .incense-copy p { max-width: 31rem; margin: 1rem 0 0; color: rgba(20, 37, 29, 0.72); font-size: clamp(0.95rem, 1.2vw, 1.075rem); line-height: 1.55; text-wrap: pretty; }
-.incense-cta { grid-area: cta; justify-self: start; margin-top: 1.75rem; }
-.incense-features { display: grid; min-width: 0; margin: 0; padding: 0; grid-area: features; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.25rem, 2.5vw, 2.4rem); list-style: none; }
-.incense-feature { min-width: 0; }
-.incense-feature figure { display: grid; justify-items: center; margin: 0; text-align: center; }
-.incense-feature-image { display: block; width: min(100%, 12.5rem); overflow: hidden; aspect-ratio: 1; padding: 0.35rem; border-radius: 50%; background: rgba(255, 255, 255, 0.68); box-shadow: 0 0.8rem 2rem rgba(11, 38, 29, 0.12); }
-.incense-feature-image img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-.incense-feature figcaption { display: grid; justify-items: center; gap: 0.4rem; margin-top: 1.25rem; }
-.incense-feature figcaption strong { color: var(--forest-950); font-size: clamp(1.05rem, 1.4vw, 1.25rem); font-weight: var(--weight-bold); letter-spacing: -0.018em; line-height: 1.15; }
-.incense-feature figcaption span { max-width: 18ch; color: rgba(20, 37, 29, 0.68); font-size: 0.8125rem; line-height: 1.45; text-wrap: balance; }
+.incense-cta { margin-top: 1.75rem; }
 
 .products-section { padding-block: clamp(4rem, 8vw, 7rem); background: var(--white); }
 .home-product-grid { gap: 1.25rem; }
@@ -787,21 +780,16 @@ strong, b { font-weight: var(--weight-bold); }
   .category-rail-wrap .section-heading h2 { font-size: var(--type-section-title); }
   .category-rail-subtitle { max-width: 29rem; margin-top: 0.75rem; padding-inline: 1rem; font-size: 0.95rem; line-height: 1.5; }
   .category-rail-shell { margin-inline: -1rem; }
-  .category-scroll-cue { position: absolute; z-index: 2; top: 5.65rem; display: grid; width: 2.25rem; height: 2.25rem; place-items: center; border: 1px solid rgba(239, 73, 43, 0.76); border-radius: 50%; background: rgba(255, 253, 247, 0.94); box-shadow: 0 0.45rem 1.2rem rgba(11, 38, 29, 0.16); color: #a92f1d; pointer-events: none; }
-  .category-scroll-cue svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.25; }
-  .category-scroll-cue-prev { left: 0.3rem; }
-  .category-scroll-cue-next { right: 0.3rem; }
   .category-rail { display: flex; justify-content: flex-start; gap: 1.5rem; padding: 0.75rem 1rem 1rem; scroll-padding-inline: 1rem; scroll-snap-type: x proximity; }
+  .category-scroll-hint { display: flex; margin: 0.75rem auto 0; color: var(--muted); }
   .category-tile { width: 10.25rem; scroll-snap-align: start; }
   .category-tile-image { width: 9.25rem; margin-bottom: 1.4rem; }
   .category-tile-name { font-size: 1.125rem; }
   .category-tile-detail { min-height: 4.5em; max-width: 18ch; margin-top: 0.55rem; margin-inline: auto; font-size: 0.8125rem; line-height: 1.5; }
   .category-tile-cta { width: 8.5rem; min-height: 2.5rem; margin-top: 0.75rem; }
   .section-heading-inline { align-items: flex-start; flex-direction: column; gap: 1rem; }
-  .incense-layout { grid-template-areas: "copy" "cta" "features"; grid-template-columns: 1fr; column-gap: 0; row-gap: 0; }
   .incense-copy { max-width: 34rem; }
   .incense-copy h2 { max-width: 13ch; }
-  .incense-features { width: 100%; margin-top: 3.5rem; }
   .benefits-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .benefit-item, .benefit-item:first-child { padding: 1.2rem 0.8rem; border-bottom: 1px solid var(--line); }
   .benefit-item:nth-child(2) { border-right: 0; }
@@ -887,15 +875,10 @@ strong, b { font-weight: var(--weight-bold); }
   .search-form .button { width: 100%; }
   .product-summary { position: static; }
   .incense-section { --incense-background-image: url("/assets/home/incense/background/medicina-sagrada-incensos-background-mobile.webp"); padding-block: 4rem; }
-  .incense-layout { grid-template-areas: "copy" "features" "cta"; }
+  .incense-layout { justify-items: center; }
   .incense-copy { align-items: center; margin-inline: auto; text-align: center; }
   .incense-copy p { margin-top: 0.85rem; }
-  .incense-cta { justify-self: center; margin-top: 2.5rem; }
-  .incense-features { width: 100%; margin-top: 2.75rem; padding: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1rem; row-gap: 2.5rem; }
-  .incense-feature { width: 100%; }
-  .incense-feature:last-child { width: calc(50% - 0.5rem); grid-column: 1 / -1; justify-self: center; }
-  .incense-feature-image { width: min(100%, 9rem); }
-  .incense-feature figcaption { margin-top: 1.1rem; }
+  .incense-cta { margin-top: 2.5rem; }
   .post-list, .footer-main, .diagnostic-grid { grid-template-columns: 1fr; }
   .footer-brand-block, .footer-contact { grid-column: auto; }
   .footer-bottom { align-items: flex-start; flex-direction: column; justify-content: center; padding-block: 1rem; }
@@ -912,6 +895,8 @@ strong, b { font-weight: var(--weight-bold); }
   .kit-card-item { min-width: min(82vw, 20rem); min-height: 0; aspect-ratio: 1; flex: 0 0 min(82vw, 20rem); scroll-snap-align: start; scroll-snap-stop: always; }
   .kit-card-content { padding: 1.25rem; }
   .kit-card-title { font-size: clamp(1.35rem, 6vw, 1.65rem); }
+  .kits-scroll-hint { display: flex; margin: 0 auto; color: rgba(255, 255, 255, 0.7); }
+  .kits-section-cta { margin-top: 1.5rem; }
 }
 
 @media (max-width: 360px) {

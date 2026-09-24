@@ -203,6 +203,9 @@ export function HomeKitsSection({ banners }: { banners: readonly HomeKitBanner[]
           </p>
         </div>
         <HomeKitGrid banners={banners} />
+        <span className="scroll-hint kits-scroll-hint" aria-hidden="true">
+          Deslize para ver mais
+        </span>
         <Link className="button kits-section-cta" href="/product-category/kits/">
           Explorar todos os kits
         </Link>

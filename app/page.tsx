@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { CSSProperties } from "react";
 import { BenefitsStrip } from "@/components/benefits-strip";
 import { HomeKitsSection } from "@/components/home-kit-grid";
@@ -72,11 +71,6 @@ export default async function Home() {
             </p>
           </div>
           <div className="category-rail-shell">
-            <span className="category-scroll-cue category-scroll-cue-prev" aria-hidden="true">
-              <svg viewBox="0 0 24 24" focusable="false">
-                <path d="m14.5 6-6 6 6 6" />
-              </svg>
-            </span>
             <div className="category-rail">
               {homeCategories.map((category) => (
                 <Link className="category-tile" href={category.href} key={category.href}>
@@ -89,11 +83,7 @@ export default async function Home() {
                 </Link>
               ))}
             </div>
-            <span className="category-scroll-cue category-scroll-cue-next" aria-hidden="true">
-              <svg viewBox="0 0 24 24" focusable="false">
-                <path d="m9.5 6 6 6-6 6" />
-              </svg>
-            </span>
+            <span className="scroll-hint category-scroll-hint" aria-hidden="true">Deslize para ver mais</span>
           </div>
         </div>
       </section>
@@ -128,60 +118,6 @@ export default async function Home() {
               e acompanhar seus momentos de presença.
             </p>
           </div>
-
-          <ul className="incense-features" aria-label="Tipos de incensos e aromas">
-            <li className="incense-feature">
-              <figure>
-                <span className="incense-feature-image">
-                  <Image
-                    src="/assets/home/incense/medicina-sagrada-incensos-resinas.webp"
-                    alt="Embalagem de resina de breu branco"
-                    width="300"
-                    height="300"
-                    sizes="(max-width: 600px) 144px, 200px"
-                  />
-                </span>
-                <figcaption>
-                  <strong>Resinas</strong>
-                  <span>Breu branco e outras resinas naturais.</span>
-                </figcaption>
-              </figure>
-            </li>
-            <li className="incense-feature">
-              <figure>
-                <span className="incense-feature-image">
-                  <Image
-                    src="/assets/home/incense/medicina-sagrada-incensos-varetas.webp"
-                    alt="Incenso natural em vareta ao lado da embalagem"
-                    width="300"
-                    height="300"
-                    sizes="(max-width: 600px) 144px, 200px"
-                  />
-                </span>
-                <figcaption>
-                  <strong>Varetas</strong>
-                  <span>Incensos naturais em diferentes aromas.</span>
-                </figcaption>
-              </figure>
-            </li>
-            <li className="incense-feature">
-              <figure>
-                <span className="incense-feature-image">
-                  <Image
-                    src="/assets/home/incense/medicina-sagrada-incensos-agua-de-cheiro.webp"
-                    alt="Frascos de água de cheiro entre flores amarelas"
-                    width="300"
-                    height="300"
-                    sizes="(max-width: 600px) 144px, 200px"
-                  />
-                </span>
-                <figcaption>
-                  <strong>Água de cheiro</strong>
-                  <span>Colônias aromáticas para rituais e ambientes.</span>
-                </figcaption>
-              </figure>
-            </li>
-          </ul>
 
           <Link className="button incense-cta" href="/product-category/incensos/">
             Ver incensos e resinas
