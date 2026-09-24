@@ -31,6 +31,7 @@ async function apiFetch<T>(
 ): Promise<T> {
   const response = await fetch(buildUrl(origin, path, query), {
     headers: { Accept: "application/json" },
+    signal: AbortSignal.timeout(15_000),
     next: { revalidate: config.contentRevalidate, tags },
   });
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { plainText } from "@/lib/html";
 import { runContentDiagnostic } from "@/lib/diagnostics";
+import { runCommerceDiagnostic } from "@/lib/commerce-diagnostics";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function DiagnosticPage() {
-  const diagnostic = await runContentDiagnostic();
+  const [diagnostic, commerce] = await Promise.all([runContentDiagnostic(), runCommerceDiagnostic()]);
   const checks = [
     { name: "WordPress REST API", result: diagnostic.wordpress },
     { name: "WooCommerce Store API", result: diagnostic.woocommerce },
@@ -79,6 +80,18 @@ export default async function DiagnosticPage() {
       <p className="diagnostic-footer">
         Resposta JSON: <Link href="/api/diagnostico/">/api/diagnostico/</Link>
       </p>
+      <section className="diagnostic-commerce">
+        <h2>Compras e pagamento</h2>
+        <ul>
+          <li>Carrinho com sessão: {commerce.cart ? "conectado" : "indisponível"}.</li>
+          <li>Destino do checkout: {commerce.checkout ? "origem separada configurada" : "corrigir: checkout aponta para o próprio frontend"}.</li>
+          <li>Pagar.me: {commerce.pagarme ? commerce.paymentMethods.join(", ") : "não identificado"}.</li>
+          <li>Plugin complementar: {commerce.companionPlugin ? "ativo" : "instalação pendente no WordPress"}.</li>
+          <li>Revalidação do catálogo: {commerce.revalidation ? "configurada" : "configuração pendente"}.</li>
+        </ul>
+        <p>A presença do gateway não confirma uma cobrança. A homologação de Pix, cartão, boleto e retorno de status deve ser concluída no ambiente de testes do Pagar.me.</p>
+        <Link href="/api/commerce-status/">Ver diagnóstico de compras em JSON</Link>
+      </section>
     </section>
   );
 }

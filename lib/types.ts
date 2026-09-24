@@ -84,9 +84,14 @@ export type WooProduct = {
   categories: Array<Pick<WooCategory, "id" | "name" | "slug">>;
   is_purchasable?: boolean;
   is_in_stock?: boolean;
+  variation?: string;
+  variations?: Array<{ id: number; attributes: Array<{ name: string; value: string }> }>;
   add_to_cart?: {
     text: string;
     description: string;
     url: string;
+    minimum?: number;
+    maximum?: number;
+    multiple_of?: number;
   };
 };

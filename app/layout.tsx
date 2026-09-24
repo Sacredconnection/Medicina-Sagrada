@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { CartProvider } from "@/components/cart-provider";
 import { JsonLd } from "@/components/json-ld";
 import { config } from "@/lib/config";
 import { organizationSchema, websiteSchema } from "@/lib/seo";
@@ -36,7 +37,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" data-scroll-behavior="smooth">
       <head>
         <link rel="preconnect" href="https://use.typekit.net" />
         <link rel="preconnect" href="https://p.typekit.net" />
@@ -52,9 +53,11 @@ export default function RootLayout({
         <a className="skip-link" href="#conteudo">
           Ir para o conteúdo
         </a>
-        <Header />
-        <main id="conteudo">{children}</main>
-        <Footer />
+        <CartProvider>
+          <Header />
+          <main id="conteudo">{children}</main>
+          <Footer />
+        </CartProvider>
         <JsonLd data={[organizationSchema, websiteSchema]} />
       </body>
     </html>

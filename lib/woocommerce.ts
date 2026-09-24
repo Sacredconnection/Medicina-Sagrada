@@ -10,6 +10,14 @@ export async function getProductBySlug(slug: string) {
   return products[0] ?? null;
 }
 
+export async function getProductVariations(product: WooProduct) {
+  if (product.type !== "variable") return [];
+  const results = await Promise.allSettled((product.variations ?? []).slice(0, 60).map((variant) =>
+    wooFetch<WooProduct>(`products/${variant.id}`, {}, ["woocommerce", "products", `product:${product.slug}`]),
+  ));
+  return results.flatMap((result) => result.status === "fulfilled" ? [result.value] : []);
+}
+
 export async function getProducts(
   options: {
     categoryId?: number;

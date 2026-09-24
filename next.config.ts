@@ -5,6 +5,7 @@ const wordpressOrigin = new URL(
 );
 
 const nextConfig: NextConfig = {
+  distDir: process.env.NEXT_DIST_DIR ?? ".next",
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,

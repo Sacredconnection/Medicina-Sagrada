@@ -1,5 +1,29 @@
 # Medicina Sagrada — frontend headless
 
+## Ambiente integrado
+
+Vitrine Next.js conectada ao catálogo real, com sacola persistente, seleção de
+variações, quantidades, cupons e transferência para o checkout WooCommerce com
+o Pagar.me já configurado. Os dados de cartão ficam no checkout existente.
+
+```bash
+npm ci
+npm run setup
+npm run dev
+```
+
+Requer Node 22.18+; validado com Node 24. `npm run setup` cria `.env.local` sem
+sobrescrever configurações existentes. A porta é indicada no terminal.
+Abrir `/cart/` para a sacola e `/diagnostico-api/` para conferir conexões.
+
+Veja [a configuração e a homologação do pagamento](docs/PAGAMENTOS.md).
+O complemento em `wordpress/medicina-sagrada-headless/` está pronto para instalar
+na homologação. A ativação no WordPress, ajuste do LiteSpeed e testes de cobranças
+Pagar.me ainda precisam ser concluídos antes de publicar para clientes.
+
+Validações: `npm run check`, `npm run test:e2e` (Chrome instalado) e `npm run build`.
+Os testes de navegador usam WooCommerce simulado e nunca enviam pagamentos reais.
+
 Fundação do novo frontend da Medicina Sagrada, preparada para consumir o
 WordPress e o WooCommerce existentes sem alterar as URLs públicas que já
 acumulam autoridade orgânica.
@@ -117,13 +141,17 @@ que disparará esse webhook deve ser adicionado na etapa de integração.
 - Depois do corte, enviar o sitemap e acompanhar indexação, 404, soft 404,
   canonicals e queda de impressões diariamente.
 
-## Limites desta primeira etapa
+## Pontos que ainda exigem homologação
 
-A estrutura já lê conteúdo público real e entrega páginas indexáveis. Carrinho,
-checkout, conta, busca, filtros, variações, menus administráveis, campos de SEO
-do Rank Math e componentes específicos de shortcodes/Elementor ainda precisam
-ser conectados. Essas lacunas devem ser fechadas antes de publicar o frontend
-no domínio principal.
+A estrutura lê conteúdo real e entrega páginas indexáveis. A sacola, variações
+e transferência para checkout estão implementadas; conta e histórico usam o
+WooCommerce. A aprovação/recusa e os retornos de Pix, cartão e boleto ainda
+dependem de homologação no Pagar.me. O complemento WordPress deve ser instalado
+para concluir a sincronização da sacola e a revalidação do catálogo.
+
+Filtros avançados, compra conjunta no curador de rituais, menus administráveis,
+campos SEO Rank Math e componentes específicos de shortcodes/Elementor permanecem
+como etapas próprias. A migração do domínio depende também do checklist SEO acima.
 
 ## Troca de materiais visuais da home
 
