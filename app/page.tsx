@@ -71,17 +71,29 @@ export default async function Home() {
               Tradição e respeito: medicinas e artesanatos originais, direto das aldeias.
             </p>
           </div>
-          <div className="category-rail">
-            {homeCategories.map((category) => (
-              <Link className="category-tile" href={category.href} key={category.href}>
-                <span className="category-tile-image">
-                  <img src={category.image} alt="" />
-                </span>
-                <span className="category-tile-name">{category.name}</span>
-                <span className="category-tile-detail">{category.detail}</span>
-                <span className="category-tile-cta">Ver produtos</span>
-              </Link>
-            ))}
+          <div className="category-rail-shell">
+            <span className="category-scroll-cue category-scroll-cue-prev" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="m14.5 6-6 6 6 6" />
+              </svg>
+            </span>
+            <div className="category-rail">
+              {homeCategories.map((category) => (
+                <Link className="category-tile" href={category.href} key={category.href}>
+                  <span className="category-tile-image">
+                    <img src={category.image} alt="" />
+                  </span>
+                  <span className="category-tile-name">{category.name}</span>
+                  <span className="category-tile-detail">{category.detail}</span>
+                  <span className="category-tile-cta">Ver produtos</span>
+                </Link>
+              ))}
+            </div>
+            <span className="category-scroll-cue category-scroll-cue-next" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="m9.5 6 6 6-6 6" />
+              </svg>
+            </span>
           </div>
         </div>
       </section>
