@@ -13,7 +13,8 @@ export function parseCatalogQuery(values: SearchValues) {
   const sort = first(values.ordem);
   const minimum = price(first(values.min));
   const maximum = price(first(values.max));
-  const category = Number(first(values.categoria));
+  const rawCategories = Array.isArray(values.categoria) ? values.categoria : [values.categoria ?? ""];
+  const categories = [...new Set(rawCategories.flatMap(value => value.split(",")).filter(value => /^\d+$/.test(value)).map(Number).filter(value => Number.isSafeInteger(value) && value > 0))].slice(0, 50);
   const page = Number(first(values.pagina));
   const invalidPrice = (!!first(values.min) && minimum === undefined) || (!!first(values.max) && maximum === undefined) || (minimum !== undefined && maximum !== undefined && minimum > maximum);
   return {
@@ -23,7 +24,7 @@ export function parseCatalogQuery(values: SearchValues) {
     max: invalidPrice ? undefined : maximum,
     stock: first(values.estoque) === "1",
     sale: first(values.oferta) === "1",
-    category: Number.isSafeInteger(category) && category > 0 ? category : undefined,
+    categories,
     page: Number.isSafeInteger(page) && page > 0 && page <= 1000 ? page : 1,
     invalidPrice,
   };
@@ -37,6 +38,6 @@ export function catalogSearch(query: CatalogQuery) {
   if (query.max !== undefined) params.set("max", String(query.max / 100));
   if (query.stock) params.set("estoque", "1");
   if (query.sale) params.set("oferta", "1");
-  if (query.category) params.set("categoria", String(query.category));
+  for (const category of query.categories) params.append("categoria", String(category));
   return params;
 }

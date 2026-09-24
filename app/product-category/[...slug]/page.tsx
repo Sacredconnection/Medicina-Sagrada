@@ -85,7 +85,6 @@ export default async function ProductCategoryPage({
   }
 
   const query = parseCatalogQuery(await searchParams);
-  query.category = undefined;
 
   const breadcrumbs = [
     { name: "Início", pathname: "/" },

@@ -21,6 +21,42 @@ test("catálogo filtra, ordena e preserva a consulta na paginação", async ({ p
   await expect(page.locator(".product-card")).toHaveCount(1);
 });
 
+test("checkboxes acumulam categorias, estoque e oferta sem botão aplicar", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/busca/?ordem=menor_preco");
+  await page.getByRole("button", { name: "Filtros +" }).click();
+  await page.getByRole("checkbox", { name: "Colares (12)", exact: true }).check();
+  await expect(page).toHaveURL(/categoria=11/);
+  await expect(page.getByRole("button", { name: "Filtros −" })).toBeVisible();
+  await page.getByRole("checkbox", { name: "Artesanato (14)", exact: true }).check();
+  await expect.poll(() => new URL(page.url()).searchParams.getAll("categoria").sort()).toEqual(["10", "11"]);
+  await page.getByRole("checkbox", { name: "Somente em estoque" }).check();
+  await expect(page).toHaveURL(/estoque=1/);
+  await page.getByRole("checkbox", { name: "Em oferta", exact: true }).check();
+  await expect(page).toHaveURL(/oferta=1/);
+  await expect(page.locator(".product-card")).toHaveCount(5);
+  await expect(page.getByRole("checkbox", { name: "Colares (12)", exact: true })).toBeChecked();
+  await expect(page.getByRole("checkbox", { name: "Artesanato (14)", exact: true })).toBeChecked();
+  await page.screenshot({ path: "test-results/incremental-filters-mobile.png" });
+  await page.getByRole("checkbox", { name: "Artesanato (14)", exact: true }).uncheck();
+  await expect.poll(() => new URL(page.url()).searchParams.getAll("categoria")).toEqual(["11"]);
+  await expect(page.getByRole("checkbox", { name: "Em oferta", exact: true })).toBeChecked();
+  await page.goBack();
+  await expect(page.getByRole("checkbox", { name: "Artesanato (14)", exact: true })).toBeChecked();
+});
+
+test("subcategorias refinam a categoria atual e não escapam dela", async ({ page }) => {
+  await page.goto("/product-category/artesanato/?categoria=999");
+  await page.getByRole("checkbox", { name: "Colares (12)", exact: true }).check();
+  await expect(page).toHaveURL(/categoria=11/);
+  await expect(page.locator(".catalog-toolbar")).toContainText("13 produtos encontrados");
+  await page.getByRole("link", { name: "Próxima página" }).click();
+  await expect(page).toHaveURL(/page\/2\/\?categoria=11/);
+  await page.getByRole("checkbox", { name: "Somente em estoque" }).check();
+  await expect(page).not.toHaveURL(/page\/2/);
+  await expect(page.getByRole("checkbox", { name: "Colares (12)", exact: true })).toBeChecked();
+});
+
 test("falha ao carregar mais avaliações oferece nova tentativa sem duplicar", async ({ page }) => {
   await page.goto("/product/colar-de-sementes/");
   await page.route("**/api/reviews/**", route => route.fulfill({ status: 503, json: { error: "indisponível" } }));

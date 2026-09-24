@@ -6,7 +6,7 @@ export function getCatalog(query: CatalogQuery, categoryId?: number, page = quer
   const sort = sortOptions[query.sort];
   return wooCollection<WooProduct>("products", {
     per_page: 12, page, search: query.q || undefined,
-    category: categoryId ?? query.category, orderby: sort.orderby, order: sort.order,
+    category: query.categories.length ? query.categories.join(",") : categoryId, category_operator: "in", orderby: sort.orderby, order: sort.order,
     min_price: query.min, max_price: query.max,
     "stock_status[0]": query.stock ? "instock" : undefined,
     on_sale: query.sale ? true : undefined,

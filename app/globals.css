@@ -46,6 +46,9 @@
 .catalog-price-fields input { min-width: 0; }
 .catalog-checkbox { display: flex; gap: 0.65rem; align-items: center; margin: 1rem 0; font-size: 0.9375rem; }
 .catalog-checkbox input { accent-color: var(--forest-800); width: 1.1rem; height: 1.1rem; }
+.catalog-category-options { max-height: 22rem; overflow-y: auto; scrollbar-width: thin; }
+.catalog-checkbox input { flex-shrink: 0; }
+.catalog-checkbox small { color: var(--muted); }
 .catalog-filter-fields .commerce-button { width: 100%; margin-top: 0.5rem; }
 .catalog-filter-fields .commerce-text-button { display: block; text-align: center; margin-top: 0.5rem; }
 .catalog-categories { display: grid; gap: 0.8rem; margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: 0.9375rem; }

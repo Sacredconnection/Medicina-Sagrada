@@ -70,7 +70,7 @@ createServer(async (req, res) => {
     const params = url.searchParams;
     let result = products.filter(p => p.type !== "variation" && (!params.has("slug") || p.slug === params.get("slug")));
     if (params.get("search")) result = result.filter(p => p.name.toLowerCase().includes(params.get("search").toLowerCase()));
-    if (params.get("category")) result = result.filter(p => p.categories.some(c => c.id === Number(params.get("category")) || c.parent === Number(params.get("category"))));
+    if (params.get("category")) { const ids = params.get("category").split(",").map(Number); result = result.filter(p => p.categories.some(c => ids.includes(c.id) || ids.includes(c.parent))); }
     if (params.has("min_price")) result = result.filter(p => Number(p.prices.price) >= Number(params.get("min_price")));
     if (params.has("max_price")) result = result.filter(p => Number(p.prices.price) <= Number(params.get("max_price")));
     if (params.get("stock_status[0]") === "instock") result = result.filter(p => p.is_in_stock);
