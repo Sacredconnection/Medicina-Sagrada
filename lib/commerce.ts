@@ -43,7 +43,7 @@ export async function fetchCart(token?: string, path = "", body?: Record<string,
   const data = await response.json().catch(() => null);
   if (!response.ok) {
     const expired = response.status === 401 || response.status === 403;
-    throw new CommerceError(expired ? "Sua sessão expirou. Atualize a sacola para continuar." : plainText(data?.message ?? "Não foi possível atualizar a sacola."), expired ? 401 : response.status >= 500 ? 502 : response.status);
+    throw new CommerceError(expired ? "Sua sessão expirou. Atualize a sacola para continuar." : response.status >= 500 ? "A loja está temporariamente indisponível. Atualize a sacola antes de tentar novamente." : plainText(data?.message ?? "Não foi possível atualizar a sacola."), expired ? 401 : response.status >= 500 ? 502 : response.status);
   }
   const nextToken = response.headers.get("Cart-Token") ?? token;
   if (!nextToken || !data || !Array.isArray(data.items) || !data.totals) throw new CommerceError("A loja não retornou uma sessão de compra válida.");

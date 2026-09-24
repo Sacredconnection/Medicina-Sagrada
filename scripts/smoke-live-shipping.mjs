@@ -14,7 +14,8 @@ try {
   const added = await adding;
   const addedData = await added.json();
   assert.equal(added.status(), 200, addedData.error);
-  await page.getByRole("status").filter({ hasText: "Produto adicionado" }).waitFor();
+  await page.getByRole("dialog", { name: /Minha sacola/ }).waitFor();
+  await page.getByRole("button", { name: "Continuar comprando" }).click();
   const beforeResponse = await context.request.get(`${origin}/api/cart/`);
   assert.ok(beforeResponse.ok());
   const before = (await beforeResponse.json()).cart;

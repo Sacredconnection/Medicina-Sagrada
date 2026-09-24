@@ -1,5 +1,18 @@
-import { fetchAll, wooFetch } from "@/lib/api";
+import { fetchAll, wooFetch, wooCollection } from "@/lib/api";
+import { sortOptions, type CatalogQuery } from "@/lib/catalog-query";
 import type { WooCategory, WooProduct } from "@/lib/types";
+
+export function getCatalog(query: CatalogQuery, categoryId?: number, page = query.page) {
+  const sort = sortOptions[query.sort];
+  return wooCollection<WooProduct>("products", {
+    per_page: 12, page, search: query.q || undefined,
+    category: categoryId ?? query.category, orderby: sort.orderby, order: sort.order,
+    min_price: query.min, max_price: query.max,
+    "stock_status[0]": query.stock ? "instock" : undefined,
+    on_sale: query.sale ? true : undefined,
+    catalog_visibility: query.q ? "search" : "catalog",
+  }, ["woocommerce", "products"]);
+}
 
 export async function getProductBySlug(slug: string) {
   const products = await wooFetch<WooProduct[]>(

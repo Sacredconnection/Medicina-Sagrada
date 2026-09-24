@@ -52,7 +52,7 @@ export const homeCategories = [
     image: homeAssets.categories.rape,
   },
   {
-    href: "/product-category/sananga/",
+    href: "/product-category/medicinais/sananga-medicinais/",
     name: "Sananga",
     detail: "Limpeza profunda para clareza e intuição.",
     image: homeAssets.categories.sananga,
@@ -79,7 +79,7 @@ export const homeCategories = [
 
 export const editorialBanners = [
   {
-    href: "/product-category/sananga/",
+    href: "/product-category/medicinais/sananga-medicinais/",
     eyebrow: "Cuidado e presença",
     title: "Um caminho de atenção para o agora.",
     label: "Conheça Sananga",

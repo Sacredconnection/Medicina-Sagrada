@@ -28,7 +28,7 @@ async function apiFetch<T>(
   path: string,
   query: Record<string, QueryValue>,
   tags: string[],
-): Promise<T> {
+): Promise<{ data: T; total: number; totalPages: number }> {
   const response = await fetch(buildUrl(origin, path, query), {
     headers: { Accept: "application/json" },
     signal: AbortSignal.timeout(15_000),
@@ -42,20 +42,23 @@ async function apiFetch<T>(
     );
   }
 
-  return (await response.json()) as T;
+  return { data: (await response.json()) as T, total: Number(response.headers.get("X-WP-Total") ?? 0), totalPages: Number(response.headers.get("X-WP-TotalPages") ?? 0) };
 }
 
 export const wpFetch = <T>(
   path: string,
   query: Record<string, QueryValue> = {},
   tags: string[] = ["wordpress"],
-) => apiFetch<T>(config.wordpressApiUrl, path, query, tags);
+) => apiFetch<T>(config.wordpressApiUrl, path, query, tags).then(result => result.data);
 
 export const wooFetch = <T>(
   path: string,
   query: Record<string, QueryValue> = {},
   tags: string[] = ["woocommerce"],
-) => apiFetch<T>(config.wooStoreApiUrl, path, query, tags);
+) => apiFetch<T>(config.wooStoreApiUrl, path, query, tags).then(result => result.data);
+
+export const wooCollection = <T>(path: string, query: Record<string, QueryValue> = {}, tags: string[] = ["woocommerce"]) =>
+  apiFetch<T[]>(config.wooStoreApiUrl, path, query, tags);
 
 export async function fetchAll<T>(
   fetchPage: (page: number) => Promise<T[]>,

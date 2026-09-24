@@ -5,7 +5,7 @@ import { config } from "@/lib/config";
 
 const navigation = [
   { href: "/product-category/rape/", label: "Rapé" },
-  { href: "/product-category/sananga/", label: "Sananga" },
+  { href: "/product-category/medicinais/sananga-medicinais/", label: "Sananga" },
   { href: "/product-category/incensos/", label: "Incensos" },
   { href: "/product-category/acessorios/", label: "Acessórios" },
   { href: "/product-category/artesanato/", label: "Artesanato" },
@@ -82,6 +82,7 @@ export function Header() {
             </a>
             <CartLink />
           </span>
+          <span className="header-mobile-cart"><CartLink /></span>
         </div>
       </div>
       <div className="header-accent-bar" aria-hidden="true" />

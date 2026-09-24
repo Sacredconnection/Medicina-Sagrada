@@ -5,9 +5,10 @@ import { useState } from "react";
 import { ShippingCalculator } from "@/components/shipping-calculator";
 import { useCart } from "@/components/cart-provider";
 import { formatMoney } from "@/lib/cart-types";
+import { RichText } from "@/components/rich-text";
 import type { WooProduct } from "@/lib/types";
 
-export function ProductPurchase({ product, variants, originalUrl }: { product: WooProduct; variants: WooProduct[]; originalUrl: string }) {
+export function ProductPurchase({ product, variants, originalUrl, children }: { product: WooProduct; variants: WooProduct[]; originalUrl: string; children?: React.ReactNode }) {
   const { mutate, busy, loading, error } = useCart();
   const [selection, setSelection] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -23,7 +24,7 @@ export function ProductPurchase({ product, variants, originalUrl }: { product: W
     return <div className="purchase-panel"><p>Confira as opções disponíveis para este produto.</p><a className="commerce-button" href={originalUrl}>Escolher na loja</a></div>;
   }
 
-  return <><form className="purchase-panel" onSubmit={async (event) => {
+  return <><div className="purchase-price" aria-live="polite"><RichText html={(selected ?? product).price_html} className="product-price" />{variable && !selected ? <p className="purchase-detail">Selecione uma opção para ver o preço exato.</p> : null}</div>{children}<form className="purchase-panel" onSubmit={async (event) => {
     event.preventDefault();
     if (!selected || !purchasable) return;
     setAdded(false);
@@ -45,6 +46,7 @@ export function ProductPurchase({ product, variants, originalUrl }: { product: W
       <button className="commerce-button" disabled={busy || loading || !selected || !purchasable} type="submit">{busy ? "Atualizando…" : selected && !purchasable ? "Produto indisponível" : "Adicionar à sacola"}</button>
     </div>
     <p className="purchase-detail">Frete e condições de pagamento na finalização.</p>
+    {selected && maximum < 9999 ? <p className="purchase-detail">Até {maximum} {maximum === 1 ? "unidade" : "unidades"} por compra.</p> : null}
     {error ? <p className="commerce-error" role="alert">{error}</p> : null}
     {added ? <p className="commerce-success" role="status">Produto adicionado. <Link href="/cart/">Ver minha sacola →</Link></p> : null}
   </form><ShippingCalculator productId={selected?.id} quantity={quantity} available={purchasable} /></>;

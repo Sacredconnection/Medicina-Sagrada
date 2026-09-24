@@ -9,7 +9,7 @@ import { plainText } from "@/lib/html";
 
 export function CartDrawer({ open, onClose, trigger }: { open: boolean; onClose: () => void; trigger: RefObject<HTMLElement | null> }) {
   const dialog = useRef<HTMLDialogElement>(null);
-  const { cart, busy, loading, error, mutate, checkout } = useCart();
+  const { cart, busy, loading, error, mutate, checkout, refresh } = useCart();
   useEffect(() => {
     const element = dialog.current;
     if (!open || !element) return;
@@ -37,14 +37,18 @@ export function CartDrawer({ open, onClose, trigger }: { open: boolean; onClose:
   }}>
     <header className="cart-drawer-heading"><div><p className="eyebrow">Sua escolha</p><h2 id="cart-drawer-title">Minha sacola <small>({cart?.items_count ?? 0})</small></h2></div><button type="button" className="cart-drawer-close" aria-label="Fechar sacola" onClick={onClose}>×</button></header>
     <div className="cart-drawer-items" aria-busy={busy || loading}>
-      {error ? <p className="commerce-error" role="alert">{error}</p> : null}
+      {error ? <div className="commerce-error" role="alert"><p>{error}</p><button className="commerce-text-button" disabled={busy || loading} onClick={() => void refresh()}>Atualizar sacola</button></div> : null}
       {loading && !cart ? <p>Carregando sua sacola…</p> : null}
       {cart?.items.length === 0 ? <p>Sua sacola está vazia. Continue explorando a loja.</p> : null}
       {cart?.items.map(item => <article className="cart-drawer-item" key={item.key}>
         {item.images[0] ? <Image src={item.images[0].thumbnail || item.images[0].src} alt="" width={88} height={88} /> : <span />}
         <div><h3><Link href={new URL(item.permalink).pathname} onClick={onClose}>{plainText(item.name)}</Link></h3>
           {item.variation.length ? <p>{item.variation.map(option => `${plainText(option.attribute)}: ${plainText(option.value)}`).join(" · ")}</p> : null}
-          <p>Quantidade: {item.quantity}</p><strong>{money(item.totals.line_total)}</strong><br />
+          <p>Quantidade: {item.quantity}</p>
+          <div className="bag-quantity" aria-label={`Quantidade de ${plainText(item.name)}`}>
+            <button type="button" disabled={busy || loading || !item.quantity_limits.editable || item.quantity - item.quantity_limits.multiple_of < item.quantity_limits.minimum} aria-label={`Diminuir quantidade de ${plainText(item.name)}`} onClick={() => void mutate({ action: "update", key: item.key, quantity: item.quantity - item.quantity_limits.multiple_of })}>−</button><span aria-live="polite">{item.quantity}</span>
+            <button type="button" disabled={busy || loading || !item.quantity_limits.editable || item.quantity + item.quantity_limits.multiple_of > item.quantity_limits.maximum} aria-label={`Aumentar quantidade de ${plainText(item.name)}`} onClick={() => void mutate({ action: "update", key: item.key, quantity: item.quantity + item.quantity_limits.multiple_of })}>+</button>
+          </div><strong>{money(item.totals.line_total)}</strong><br />
           <button type="button" className="commerce-text-button" disabled={busy || loading} aria-label={`Remover ${plainText(item.name)}`} onClick={() => void mutate({ action: "remove", key: item.key })}>Remover</button>
         </div>
       </article>)}
