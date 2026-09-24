@@ -3,10 +3,12 @@
 
 # next.js
 /.next/
+/.next-e2e/
 /out/
 
 # production
 /build
+/.vercel/
 
 # local environment files
 .env*
@@ -20,6 +22,9 @@ pnpm-debug.log*
 # local browser QA artifacts
 /.playwright-cli/
 /output/playwright/
+/playwright-report/
+/test-results/
+/artifacts/
 
 # operating systems and editors
 .DS_Store

@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
 import { RichText } from "@/components/rich-text";
+import { ProductPurchase } from "@/components/product-purchase";
+import { config } from "@/lib/config";
 import { plainText } from "@/lib/html";
 import {
   breadcrumbSchema,
@@ -12,7 +14,7 @@ import {
   productSchema,
 } from "@/lib/seo";
 import { pathMatches } from "@/lib/url";
-import { getProductBySlug } from "@/lib/woocommerce";
+import { getProductBySlug, getProductVariations } from "@/lib/woocommerce";
 
 export const revalidate = 900;
 
@@ -55,6 +57,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     { name: plainText(product.name), pathname },
   ];
   const image = product.images[0];
+  const variants = await getProductVariations(product);
 
   return (
     <article className="container content-page product-page">
@@ -96,10 +99,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <p className="availability">
             {product.is_in_stock ? "Em estoque" : "Consulte a disponibilidade"}
           </p>
-          <p className="commerce-note">
-            A integração de variações, carrinho e checkout será conectada à
-            Store API na próxima etapa.
-          </p>
+          <ProductPurchase product={product} variants={variants} originalUrl={new URL(pathname, config.wordpressSiteUrl).toString()} />
         </div>
       </div>
       <section className="product-description" aria-labelledby="descricao">

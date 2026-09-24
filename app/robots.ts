@@ -17,6 +17,8 @@ export default function robots(): MetadataRoute.Robots {
           "/api/",
           "/checkout/",
           "/cart/",
+          "/account/",
+          "/diagnostico-api/",
           "/minha-conta/",
           "/*?add-to-cart=",
           "/*?*add-to-cart=",
