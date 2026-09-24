@@ -10,9 +10,9 @@ import { getAllProducts } from "@/lib/woocommerce";
 import {
   demoProducts,
   editorialBanners,
+  getHomeKitBanners,
   homeAssets,
   homeCategories,
-  kitBanners,
 } from "@/lib/home-content";
 import { absoluteUrl } from "@/lib/url";
 
@@ -21,6 +21,7 @@ export const revalidate = 900;
 export default async function Home() {
   const apiProducts = await getAllProducts().catch(() => []);
   const products = apiProducts.length ? apiProducts : demoProducts;
+  const rotatingKitBanners = getHomeKitBanners(apiProducts);
   const pageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -104,7 +105,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <HomeKitsSection banners={kitBanners} />
+      <HomeKitsSection banners={rotatingKitBanners} />
 
       <section className="section container" aria-labelledby="editoriais-title">
         <div className="section-heading section-heading-inline">

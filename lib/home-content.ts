@@ -1,4 +1,5 @@
 import type { WooProduct } from "@/lib/types";
+import { plainText } from "@/lib/html";
 
 /**
  * Conteúdo visual da home.
@@ -103,8 +104,18 @@ export const editorialBanners = [
   },
 ] as const;
 
-export const kitBanners = [
+export type HomeKitBanner = {
+  key: string;
+  href: string;
+  title: string;
+  label: string;
+  image: string;
+  fallbackImage: string;
+};
+
+export const kitBanners: HomeKitBanner[] = [
   {
+    key: "kit-4-elementos",
     href: "/product/kit-4-elementos/",
     title: "Kit 4 Elementos",
     label: "Conhecer o kit",
@@ -113,6 +124,7 @@ export const kitBanners = [
       "https://medicinasagrada.com.br/wp-content/uploads/2025/01/4-Elementos-3.jpg",
   },
   {
+    key: "kit-10-tribos-10-x-10g",
     href: "/product/kit-10-tribos-10-x-10g/",
     title: "Kit 10 Tribos",
     label: "Conhecer o kit",
@@ -121,6 +133,7 @@ export const kitBanners = [
       "https://medicinasagrada.com.br/wp-content/uploads/2023/05/10tribes1.webp",
   },
   {
+    key: "kit-forca-amazonica",
     href: "/product/kit-forca-amazonica/",
     title: "Kit Força Amazônica",
     label: "Conhecer o kit",
@@ -128,7 +141,42 @@ export const kitBanners = [
     fallbackImage:
       "https://medicinasagrada.com.br/wp-content/uploads/2022/07/forcaamazonica.webp",
   },
-] as const;
+];
+
+export const getHomeKitBanners = (products: WooProduct[]) => {
+  const curatedByHref = new Map(
+    kitBanners.map((banner) => [banner.href, banner] as const),
+  );
+
+  const productBanners = products
+    .filter(
+      (product) =>
+        product.categories.some((category) => category.slug === "kits") &&
+        product.is_in_stock !== false &&
+        Boolean(product.images[0]?.src),
+    )
+    .map<HomeKitBanner>((product) => {
+      const href = `/product/${product.slug}/`;
+      const curated = curatedByHref.get(href);
+      const productImage = product.images[0]?.src ?? "";
+
+      return {
+        key: String(product.id),
+        href,
+        title: plainText(product.name),
+        label: "Conhecer o kit",
+        image: curated?.image ?? productImage,
+        fallbackImage: productImage || curated?.fallbackImage || curated?.image || "",
+      };
+    });
+
+  const productHrefs = new Set(productBanners.map(({ href }) => href));
+
+  return [
+    ...productBanners,
+    ...kitBanners.filter(({ href }) => !productHrefs.has(href)),
+  ];
+};
 
 const demoImage = (src: string, alt: string) => ({
   id: 0,
