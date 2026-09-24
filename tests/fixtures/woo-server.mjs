@@ -28,6 +28,22 @@ createServer(async (req, res) => {
   const url = new URL(req.url, "http://127.0.0.1:4010");
   const send = (data, status = 200, headers = {}) => { res.writeHead(status, { "Content-Type": "application/json", ...headers }); res.end(JSON.stringify(data)); };
   if (url.pathname === "/health") return send({ ok: true });
+  if (url.pathname === "/wp-admin/admin-ajax.php") {
+    if (req.headers.cookie || req.headers.authorization || req.headers["cart-token"]) return send({ error: "Sessão não pode ser compartilhada com a cotação." }, 500);
+    const chunks = []; for await (const chunk of req) chunks.push(chunk);
+    const body = new URLSearchParams(Buffer.concat(chunks).toString());
+    if (body.get("action") !== "cotation_product_page") return send({ error: "Ação incorreta" }, 400);
+    const cep = body.get("data[cep_origem]");
+    const id = Number(body.get("data[id_produto]"));
+    const quantity = Number(body.get("data[quantity]"));
+    if (cep === "99999000") return send({ success: false, error: "Error establishing a database connection" }, 500);
+    if (cep === "20200000") await new Promise(resolve => setTimeout(resolve, 750));
+    return send({ success: true, data: { quotations: cep === "01001000" ? [] : [
+      { id: "pac", name: "Correios PAC (Melhor Envio)", price: `R$${quantity * 10},00`, delivery_time: "(5 a 8 dias úteis)" },
+      { id: "sedex", name: id === 201 ? "Sedex — tamanho P" : "Correios Sedex", price: "R$35,16", delivery_time: null },
+      { id: "free_shipping", name: "Frete grátis", price: "R$0,00", delivery_time: null, observations: "Somente em pedidos acima de R$300,00" },
+    ] } }, 200, { "Set-Cookie": "wordpress_quote_only=test; Path=/" });
+  }
   if (url.pathname === "/wp-json/ms-headless/v1/status") return send({ version: "1.0.0", cart_completion: true, revalidation: true });
   if (url.pathname === "/checkout/") {
     const session = sessions.get(url.searchParams.get("session"));

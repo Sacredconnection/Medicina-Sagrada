@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { ShippingCalculator } from "@/components/shipping-calculator";
 import { useCart } from "@/components/cart-provider";
 import { formatMoney } from "@/lib/cart-types";
 import type { WooProduct } from "@/lib/types";
@@ -22,7 +23,7 @@ export function ProductPurchase({ product, variants, originalUrl }: { product: W
     return <div className="purchase-panel"><p>Confira as opções disponíveis para este produto.</p><a className="commerce-button" href={originalUrl}>Escolher na loja</a></div>;
   }
 
-  return <form className="purchase-panel" onSubmit={async (event) => {
+  return <><form className="purchase-panel" onSubmit={async (event) => {
     event.preventDefault();
     if (!selected || !purchasable) return;
     setAdded(false);
@@ -46,5 +47,5 @@ export function ProductPurchase({ product, variants, originalUrl }: { product: W
     <p className="purchase-detail">Frete e condições de pagamento na finalização.</p>
     {error ? <p className="commerce-error" role="alert">{error}</p> : null}
     {added ? <p className="commerce-success" role="status">Produto adicionado. <Link href="/cart/">Ver minha sacola →</Link></p> : null}
-  </form>;
+  </form><ShippingCalculator productId={selected?.id} quantity={quantity} available={purchasable} /></>;
 }

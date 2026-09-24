@@ -44,6 +44,19 @@
 .commerce-field { display: grid; gap: 0.4rem; color: var(--ink); font-size: 0.875rem; font-weight: 600; }
 .commerce-field select, .commerce-field input, .bag-coupon input { width: 100%; min-height: 3rem; padding: 0.7rem; border: 1px solid var(--line); border-radius: 0.2rem; background: white; color: var(--ink); font: inherit; font-weight: 400; }
 .purchase-panel { display: grid; gap: 1rem; padding-block: 1.25rem; border-top: 1px solid var(--line); }
+.shipping-calculator { padding-block: 1.5rem; border-top: 1px solid var(--line); }
+.shipping-calculator h2 { margin: 0 0 1rem; font-size: 1.2rem; letter-spacing: -0.015em; }
+.shipping-calculator label { display: block; margin-bottom: 0.4rem; font-size: 0.875rem; font-weight: 600; }
+.shipping-input-row { display: flex; gap: 0.65rem; }
+.shipping-input-row input { width: 100%; min-width: 0; min-height: 3rem; padding: 0.7rem; border: 1px solid var(--line); border-radius: 0.2rem; background: white; color: var(--ink); font: inherit; }
+.shipping-input-row button { flex-shrink: 0; }
+.shipping-help { margin: 0.65rem 0 0; color: var(--muted); font-size: 0.8125rem; line-height: 1.6; }
+.shipping-destination { margin: 1.25rem 0 0.65rem; font-size: 0.875rem; font-weight: 600; }
+.shipping-results { margin: 0; padding: 0; list-style: none; }
+.shipping-results li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.85rem 0; border-bottom: 1px solid var(--line); font-size: 0.875rem; }
+.shipping-results li > div { display: grid; gap: 0.3rem; }
+.shipping-results li > strong { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.shipping-results span, .shipping-results small { color: var(--muted); }
 .purchase-actions { display: flex; align-items: end; gap: 1rem; }
 .purchase-actions > .commerce-button { flex: 1; }
 .purchase-quantity { flex: 0 0 6rem; }
