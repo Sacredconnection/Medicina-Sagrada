@@ -77,33 +77,6 @@ export const homeCategories = [
   },
 ] as const;
 
-export const editorialBanners = [
-  {
-    href: "/product-category/sananga/",
-    eyebrow: "Cuidado e presença",
-    title: "Um caminho de atenção para o agora.",
-    label: "Conheça Sananga",
-    image: homeAssets.editorial.sananga,
-    tone: "light",
-  },
-  {
-    href: "/product-category/acessorios/",
-    eyebrow: "Feito para a prática",
-    title: "Objetos que acompanham o sopro.",
-    label: "Ver acessórios",
-    image: homeAssets.editorial.kuripe,
-    tone: "dark",
-  },
-  {
-    href: "/product-category/incensos/",
-    eyebrow: "A casa como altar",
-    title: "Aromas para marcar a passagem.",
-    label: "Explorar incensos",
-    image: homeAssets.editorial.incense,
-    tone: "light",
-  },
-] as const;
-
 export type HomeKitBanner = {
   key: string;
   href: string;

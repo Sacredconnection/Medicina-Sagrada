@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { CSSProperties } from "react";
 import { BenefitsStrip } from "@/components/benefits-strip";
 import { HomeKitsSection } from "@/components/home-kit-grid";
@@ -9,7 +10,6 @@ import { ProductMatcher } from "@/components/product-matcher";
 import { getAllProducts } from "@/lib/woocommerce";
 import {
   demoProducts,
-  editorialBanners,
   getHomeKitBanners,
   homeAssets,
   homeCategories,
@@ -119,27 +119,73 @@ export default async function Home() {
 
       <HomeKitsSection banners={rotatingKitBanners} />
 
-      <section className="section container" aria-labelledby="editoriais-title">
-        <div className="section-heading section-heading-inline">
-          <div>
-            <p className="eyebrow">Escolhas para o seu caminho</p>
-            <h2 id="editoriais-title">Objetos, aromas e presença</h2>
+      <section className="incense-section" aria-labelledby="incensos-title">
+        <div className="container incense-layout">
+          <div className="incense-copy">
+            <h2 id="incensos-title">Incensos e aromas da floresta</h2>
+            <p>
+              Água de cheiro, incensos em vareta e resinas para preparar o ambiente
+              e acompanhar seus momentos de presença.
+            </p>
           </div>
-          <p className="section-note">Uma curadoria para acompanhar seus momentos de cuidado.</p>
-        </div>
-        <div className="editorial-grid">
-          {editorialBanners.map((banner) => (
-            <Link
-              className={`editorial-card editorial-card-${banner.tone}`}
-              href={banner.href}
-              key={banner.href}
-              style={{ "--card-image": `url(${banner.image})` } as CSSProperties}
-            >
-              <span className="eyebrow">{banner.eyebrow}</span>
-              <h3>{banner.title}</h3>
-              <span className="editorial-link">{banner.label}</span>
-            </Link>
-          ))}
+
+          <ul className="incense-features" aria-label="Tipos de incensos e aromas">
+            <li className="incense-feature">
+              <figure>
+                <span className="incense-feature-image">
+                  <Image
+                    src="/assets/home/incense/medicina-sagrada-incensos-resinas.webp"
+                    alt="Embalagem de resina de breu branco"
+                    width="300"
+                    height="300"
+                    sizes="(max-width: 600px) 144px, 200px"
+                  />
+                </span>
+                <figcaption>
+                  <strong>Resinas</strong>
+                  <span>Breu branco e outras resinas naturais.</span>
+                </figcaption>
+              </figure>
+            </li>
+            <li className="incense-feature">
+              <figure>
+                <span className="incense-feature-image">
+                  <Image
+                    src="/assets/home/incense/medicina-sagrada-incensos-varetas.webp"
+                    alt="Incenso natural em vareta ao lado da embalagem"
+                    width="300"
+                    height="300"
+                    sizes="(max-width: 600px) 144px, 200px"
+                  />
+                </span>
+                <figcaption>
+                  <strong>Varetas</strong>
+                  <span>Incensos naturais em diferentes aromas.</span>
+                </figcaption>
+              </figure>
+            </li>
+            <li className="incense-feature">
+              <figure>
+                <span className="incense-feature-image">
+                  <Image
+                    src="/assets/home/incense/medicina-sagrada-incensos-agua-de-cheiro.webp"
+                    alt="Frascos de água de cheiro entre flores amarelas"
+                    width="300"
+                    height="300"
+                    sizes="(max-width: 600px) 144px, 200px"
+                  />
+                </span>
+                <figcaption>
+                  <strong>Água de cheiro</strong>
+                  <span>Colônias aromáticas para rituais e ambientes.</span>
+                </figcaption>
+              </figure>
+            </li>
+          </ul>
+
+          <Link className="button incense-cta" href="/product-category/incensos/">
+            Ver incensos e resinas
+          </Link>
         </div>
       </section>
 
