@@ -1,15 +1,78 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type { CSSProperties } from "react";
+import type { HomeKitBanner } from "@/lib/home-content";
 
-type KitBanner = {
-  href: string;
-  title: string;
-  label: string;
-  image: string;
-  fallbackImage: string;
+const HOME_KIT_LIMIT = 3;
+const PREVIOUS_KITS_KEY = "medicina-sagrada:home-kits";
+
+const subscribe = (onStoreChange: () => void) => {
+  const timeoutId = window.setTimeout(onStoreChange, 0);
+  return () => window.clearTimeout(timeoutId);
+};
+
+const shuffleKits = (banners: readonly HomeKitBanner[]) => {
+  const shuffled = [...banners];
+
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[randomIndex]] = [
+      shuffled[randomIndex],
+      shuffled[index],
+    ];
+  }
+
+  return shuffled;
+};
+
+const selectKits = (banners: readonly HomeKitBanner[], previousKeys: string[]) => {
+  const selection = shuffleKits(banners).slice(0, HOME_KIT_LIMIT);
+  const previousSet = new Set(previousKeys);
+  const repeatsPreviousSet =
+    selection.length === previousKeys.length &&
+    selection.every(({ key }) => previousSet.has(key));
+
+  if (repeatsPreviousSet && banners.length > HOME_KIT_LIMIT) {
+    const replacement = banners.find(({ key }) => !previousSet.has(key));
+    if (replacement) selection[selection.length - 1] = replacement;
+  } else if (
+    repeatsPreviousSet &&
+    selection.length > 1 &&
+    selection.every(({ key }, index) => key === previousKeys[index])
+  ) {
+    selection.push(selection.shift() as HomeKitBanner);
+  }
+
+  return selection;
+};
+
+const readPreviousKitKeys = () => {
+  if (typeof window === "undefined") return [];
+
+  try {
+    const storedKeys = JSON.parse(
+      window.localStorage.getItem(PREVIOUS_KITS_KEY) ?? "[]",
+    ) as unknown;
+
+    return Array.isArray(storedKeys) &&
+      storedKeys.every((key) => typeof key === "string")
+      ? storedKeys
+      : [];
+  } catch {
+    return [];
+  }
+};
+
+const createKitSelection = (banners: readonly HomeKitBanner[]) => {
+  const serverSelection = banners.slice(0, HOME_KIT_LIMIT);
+  const browserSelection = selectKits(banners, readPreviousKitKeys());
+
+  return {
+    getServerSnapshot: () => serverSelection,
+    getSnapshot: () => browserSelection,
+  };
 };
 
 const KIT_BACKGROUND_PATHS = {
@@ -19,14 +82,32 @@ const KIT_BACKGROUND_PATHS = {
 
 type KitBackgroundVariant = keyof typeof KIT_BACKGROUND_PATHS;
 
-function HomeKitGrid({ banners }: { banners: readonly KitBanner[] }) {
+function HomeKitGrid({ banners }: { banners: readonly HomeKitBanner[] }) {
+  const selection = useMemo(() => createKitSelection(banners), [banners]);
+  const visibleBanners = useSyncExternalStore(
+    subscribe,
+    selection.getSnapshot,
+    selection.getServerSnapshot,
+  );
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(
+        PREVIOUS_KITS_KEY,
+        JSON.stringify(visibleBanners.map(({ key }) => key)),
+      );
+    } catch {
+      // A rotaÃ§Ã£o continua funcionando quando o armazenamento estÃ¡ indisponÃ­vel.
+    }
+  }, [visibleBanners]);
+
   return (
     <div className="kits-grid">
-      {banners.map((banner) => (
+      {visibleBanners.map((banner) => (
         <Link
-          className="kit-card"
+          className="kit-card-item"
           href={banner.href}
-          key={banner.href}
+          key={banner.key}
           style={
             {
               "--kit-image": `url("${banner.image}")`,
@@ -35,8 +116,7 @@ function HomeKitGrid({ banners }: { banners: readonly KitBanner[] }) {
           }
         >
           <span className="kit-card-content">
-            <strong>{banner.title}</strong>
-            <span className="kit-card-link">{banner.label}</span>
+            <strong className="kit-card-title">{banner.title}</strong>
           </span>
         </Link>
       ))}
@@ -44,7 +124,7 @@ function HomeKitGrid({ banners }: { banners: readonly KitBanner[] }) {
   );
 }
 
-export function HomeKitsSection({ banners }: { banners: readonly KitBanner[] }) {
+export function HomeKitsSection({ banners }: { banners: readonly HomeKitBanner[] }) {
   const [backgrounds, setBackgrounds] = useState<Record<KitBackgroundVariant, string>>(
     KIT_BACKGROUND_PATHS,
   );
