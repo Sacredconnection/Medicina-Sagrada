@@ -2,24 +2,23 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
-import { Pagination } from "@/components/pagination";
-import { ProductCard } from "@/components/product-card";
+import { Catalog } from "@/components/catalog";
+import { parseCatalogQuery, catalogSearch, type SearchValues } from "@/lib/catalog-query";
 import { RichText } from "@/components/rich-text";
 import {
   breadcrumbSchema,
   metadataForProductCategory,
 } from "@/lib/seo";
-import { ensureTrailingSlash, pathMatches } from "@/lib/url";
+import { pathMatches } from "@/lib/url";
 import {
   getProductCategoryBySlug,
-  getProducts,
 } from "@/lib/woocommerce";
 
 export const revalidate = 900;
-const PRODUCTS_PER_PAGE = 12;
 
 type CategoryPageProps = {
   params: Promise<{ slug: string[] }>;
+  searchParams: Promise<SearchValues>;
 };
 
 const parseCategoryPath = (segments: string[]) => {
@@ -52,6 +51,7 @@ const parseCategoryPath = (segments: string[]) => {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: CategoryPageProps): Promise<Metadata> {
   const parsed = parseCategoryPath((await params).slug);
   if (!parsed) return { robots: { index: false } };
@@ -64,6 +64,7 @@ export async function generateMetadata({
   const metadata = metadataForProductCategory(category, parsed.pathname);
   return {
     ...metadata,
+    ...(catalogSearch(parseCatalogQuery(await searchParams)).size ? { robots: { index: false, follow: true } } : {}),
     title:
       parsed.page > 1
         ? `${category.name} — Página ${parsed.page}`
@@ -73,6 +74,7 @@ export async function generateMetadata({
 
 export default async function ProductCategoryPage({
   params,
+  searchParams,
 }: CategoryPageProps) {
   const parsed = parseCategoryPath((await params).slug);
   if (!parsed) notFound();
@@ -82,12 +84,7 @@ export default async function ProductCategoryPage({
     notFound();
   }
 
-  const products = await getProducts({
-    categoryId: category.id,
-    page: parsed.page,
-    perPage: PRODUCTS_PER_PAGE,
-  });
-  if (parsed.page > 1 && products.length === 0) notFound();
+  const query = parseCatalogQuery(await searchParams);
 
   const breadcrumbs = [
     { name: "Início", pathname: "/" },
@@ -107,23 +104,7 @@ export default async function ProductCategoryPage({
         <h1>{category.name}</h1>
         {parsed.page === 1 ? <RichText html={category.description} /> : null}
       </header>
-      {products.length ? (
-        <section
-          className="product-grid"
-          aria-label={`Produtos de ${category.name}`}
-        >
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </section>
-      ) : (
-        <p>Nenhum produto disponível nesta categoria.</p>
-      )}
-      <Pagination
-        page={parsed.page}
-        hasNextPage={products.length === PRODUCTS_PER_PAGE}
-        basePath={ensureTrailingSlash(parsed.basePath)}
-      />
+      <Catalog query={query} categoryId={category.id} page={parsed.page} basePath={parsed.basePath} />
       <JsonLd data={breadcrumbSchema(breadcrumbs)} />
     </div>
   );

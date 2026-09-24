@@ -16,3 +16,9 @@ test("URL explícita tem prioridade; Vercel não usa localhost sem configuraçã
   assert.equal(siteUrl({ VERCEL_URL: "preview.vercel.app" }), "https://preview.vercel.app");
   assert.equal(siteUrl({ NEXT_PUBLIC_SITE_URL: "https://medicinasagrada.com.br/", VERCEL_PROJECT_PRODUCTION_URL: "medicina-sagrada.vercel.app" }), "https://medicinasagrada.com.br");
 });
+
+test("corrige a URL legada da conta sem alterar outra origem configurada", () => {
+  const resolve = value => execFileSync(process.execPath, ["--input-type=module", "-e", "import { config } from './lib/config.ts'; process.stdout.write(config.wooAccountUrl)"], { env: { ...process.env, WORDPRESS_SITE_URL: "https://medicinasagrada.com.br", WOOCOMMERCE_ACCOUNT_URL: value }, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
+  assert.equal(resolve("https://medicinasagrada.com.br/my-account/"), "https://medicinasagrada.com.br/account/");
+  assert.equal(resolve("https://conta.example/my-account/"), "https://conta.example/my-account/");
+});

@@ -16,7 +16,7 @@ export function Footer() {
           <p className="footer-title">Explore</p>
           <ul>
             <li><Link href="/product-category/rape/">Rapé</Link></li>
-            <li><Link href="/product-category/sananga/">Sananga</Link></li>
+            <li><Link href="/product-category/medicinais/sananga-medicinais/">Sananga</Link></li>
             <li><Link href="/product-category/incensos/">Incensos</Link></li>
             <li><Link href="/product-category/artesanato/">Artesanato</Link></li>
           </ul>
@@ -27,7 +27,7 @@ export function Footer() {
             <li><Link href="/sobre-nos/">Sobre nós</Link></li>
             <li><Link href="/atendimento/">Atendimento</Link></li>
             <li><Link href="/politica-de-privacidade/">Privacidade</Link></li>
-            <li><Link href="/trocas-e-devolucoes/">Trocas e devoluções</Link></li>
+            <li><Link href="/refund_returns/">Trocas e devoluções</Link></li>
           </ul>
         </nav>
         <div className="footer-contact">

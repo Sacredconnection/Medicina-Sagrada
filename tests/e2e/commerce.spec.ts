@@ -3,8 +3,8 @@ import { expect, test } from "@playwright/test";
 test("sacola persiste, edita quantidades, trata cupons e transfere valores ao checkout", async ({ page }) => {
   await page.goto("/product/colar-de-sementes/");
   await page.getByRole("button", { name: "Adicionar à sacola" }).click();
-  await expect(page.getByRole("status")).toContainText("Produto adicionado");
-  await page.getByRole("link", { name: "Ver minha sacola" }).click();
+  await expect(page.getByRole("dialog", { name: /Minha sacola/ })).toBeVisible();
+  await page.getByRole("dialog").getByRole("link", { name: "Ver minha sacola", exact: true }).click();
   await expect(page).toHaveURL(/\/cart\/$/);
   await expect(page.getByRole("heading", { name: "Colar de sementes" })).toBeVisible();
   await page.reload();
@@ -41,7 +41,7 @@ test("variações, remoção e sacola vazia", async ({ page }) => {
   await expect(page.getByRole("option", { name: /M — Esgotado/ })).toHaveJSProperty("disabled", true);
   await page.getByLabel("Escolha uma opção").selectOption("201");
   await page.getByRole("button", { name: "Adicionar à sacola" }).click();
-  await page.getByRole("link", { name: "Ver minha sacola" }).click();
+  await page.getByRole("dialog").getByRole("link", { name: "Ver minha sacola", exact: true }).click();
   await expect(page.getByText("Tamanho: P")).toBeVisible();
   await page.getByRole("button", { name: "Remover Pulseira artesanal", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Sua sacola está vazia" })).toBeVisible();

@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
 import { RichText } from "@/components/rich-text";
 import { ProductPurchase } from "@/components/product-purchase";
+import { ProductGallery } from "@/components/product-gallery";
+import { ProductReviews } from "@/components/product-reviews";
+import { ProductCard } from "@/components/product-card";
+import { getReviews } from "@/lib/reviews";
 import { config } from "@/lib/config";
 import { plainText } from "@/lib/html";
 import {
@@ -14,7 +17,7 @@ import {
   productSchema,
 } from "@/lib/seo";
 import { pathMatches } from "@/lib/url";
-import { getProductBySlug, getProductVariations } from "@/lib/woocommerce";
+import { getProductBySlug, getProductVariations, getProductCategoryBySlug, getProducts } from "@/lib/woocommerce";
 
 export const revalidate = 900;
 
@@ -44,20 +47,25 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product || !pathMatches(product.permalink, pathname)) notFound();
 
   const primaryCategory = product.categories[0];
+  const [category, variants, reviews, related] = await Promise.all([
+    primaryCategory ? getProductCategoryBySlug(primaryCategory.slug).catch(() => null) : null,
+    getProductVariations(product),
+    getReviews(product.id).catch(() => null),
+    primaryCategory ? getProducts({ categoryId: primaryCategory.id, perPage: 5 }).catch(() => []) : [],
+  ]);
+  const categoryPath = category ? new URL(category.permalink).pathname : "/busca/";
   const breadcrumbs = [
     { name: "Início", pathname: "/" },
     ...(primaryCategory
       ? [
           {
             name: primaryCategory.name,
-            pathname: `/product-category/${primaryCategory.slug}/`,
+            pathname: categoryPath,
           },
         ]
       : []),
     { name: plainText(product.name), pathname },
   ];
-  const image = product.images[0];
-  const variants = await getProductVariations(product);
 
   return (
     <article className="container content-page product-page">
@@ -68,44 +76,33 @@ export default async function ProductPage({ params }: ProductPageProps) {
         }))}
       />
       <div className="product-layout">
-        <div className="product-gallery">
-          {image ? (
-            <Image
-              src={image.src}
-              alt={image.alt || plainText(product.name)}
-              width={900}
-              height={900}
-              sizes="(max-width: 800px) 100vw, 50vw"
-              priority
-            />
-          ) : (
-            <div className="product-image product-image-large">
-              Imagem indisponível
-            </div>
-          )}
-        </div>
+        <ProductGallery images={product.images} name={plainText(product.name)} />
         <div className="product-summary">
           {primaryCategory ? (
             <Link
               className="eyebrow"
-              href={`/product-category/${primaryCategory.slug}/`}
+              href={categoryPath}
             >
               {primaryCategory.name}
             </Link>
           ) : null}
           <h1>{plainText(product.name)}</h1>
-          <RichText html={product.price_html} className="product-price" />
+          <a className="product-review-link" href="#avaliacoes">{product.review_count ? `★ ${Number(product.average_rating).toLocaleString("pt-BR")} · ${product.review_count} avaliações` : "Seja o primeiro a avaliar"}</a>
+          <ProductPurchase product={product} variants={variants} originalUrl={new URL(pathname, config.wordpressSiteUrl).toString()}>
           <RichText html={product.short_description} />
           <p className="availability">
             {product.is_in_stock ? "Em estoque" : "Consulte a disponibilidade"}
           </p>
-          <ProductPurchase product={product} variants={variants} originalUrl={new URL(pathname, config.wordpressSiteUrl).toString()} />
+          </ProductPurchase>
+          <p className="purchase-detail">Entrega calculada pelo CEP. <Link href="/refund_returns/">Trocas e devoluções</Link>.</p>
         </div>
       </div>
       <section className="product-description" aria-labelledby="descricao">
         <h2 id="descricao">Sobre este produto</h2>
         <RichText html={product.description} />
       </section>
+      <ProductReviews productId={product.id} count={product.review_count} average={product.average_rating} initial={reviews ?? { data: [], totalPages: 0 }} initialError={!reviews} reviewUrl={`${new URL(pathname, config.wordpressSiteUrl)}#review_form`} />
+      {related.some(item => item.id !== product.id) ? <section className="related-products"><h2>Na mesma categoria</h2><div className="product-grid">{related.filter(item => item.id !== product.id).slice(0, 4).map(item => <ProductCard key={item.id} product={item} headingLevel={3} />)}</div></section> : null}
       <JsonLd data={[productSchema(product), breadcrumbSchema(breadcrumbs)]} />
     </article>
   );

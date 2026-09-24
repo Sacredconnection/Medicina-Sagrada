@@ -37,6 +37,7 @@ export function ProductCard({ product, headingLevel = 2 }: ProductCardProps) {
     <article className="product-card">
       <Link className="product-card-link" href={productHref}>
         <div className="product-image" aria-hidden="true">
+          {product.is_in_stock === false || product.on_sale ? <span className="product-badge">{product.is_in_stock === false ? "Esgotado" : "Oferta"}</span> : null}
           {image ? (
             <Image
               src={image.src}
@@ -70,7 +71,7 @@ export function ProductCard({ product, headingLevel = 2 }: ProductCardProps) {
           <Heading>{productName}</Heading>
           <p className="price">{formatPrice(product)}</p>
           <span className="product-cta">
-            <span>Ver produto</span>
+            <span>{product.is_in_stock === false ? "Ver detalhes" : product.type === "variable" ? "Escolher opções" : "Ver produto"}</span>
           </span>
         </div>
       </Link>

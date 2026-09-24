@@ -11,6 +11,16 @@ const products = [
   product(201, "Pulseira artesanal", "pulseira-artesanal-p", 3900, { type: "variation", variation: "P", permalink: "http://127.0.0.1:4010/product/pulseira-artesanal/" }),
   product(202, "Pulseira artesanal", "pulseira-artesanal-m", 4900, { type: "variation", variation: "M", is_in_stock: false }),
 ];
+const categories = [
+  { id: 10, name: "Artesanato", slug: "artesanato", parent: 0, count: 14, description: "", image: null, permalink: "http://127.0.0.1:4010/product-category/artesanato/" },
+  { id: 11, name: "Colares", slug: "colares", parent: 10, count: 12, description: "", image: null, permalink: "http://127.0.0.1:4010/product-category/artesanato/colares/" },
+];
+products[0].images = [1, 2].map(id => ({ id, src: "/assets/logo/medicina-sagrada-logo-01.svg", alt: `Foto ${id}` }));
+products[0].review_count = 7;
+products[0].average_rating = "4.4";
+products[0].categories = [categories[1]];
+products[1].categories = [categories[0]];
+for (let i = 0; i < 12; i++) products.push(product(300 + i, `Artesanato ${i + 1}`, `artesanato-${i + 1}`, 1000 + i * 1000, { categories: [categories[1]], on_sale: i % 2 === 0, is_in_stock: i !== 0 }));
 const keyFor = (id) => createHash("md5").update(String(id)).digest("hex");
 function snapshot(session) {
   const items = session.items.map(({ id, quantity }) => {
@@ -50,7 +60,25 @@ createServer(async (req, res) => {
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
     return res.end(`<h1>Checkout de teste</h1><p>Nenhum pedido ou cobrança foi criado.</p>${session ? `<pre>${JSON.stringify(snapshot(session))}</pre>` : "Sacola vazia"}`);
   }
-  if (url.pathname === "/wp-json/wc/store/v1/products") return send(products.filter((p) => p.type !== "variation" && (!url.searchParams.has("slug") || p.slug === url.searchParams.get("slug"))));
+  if (url.pathname === "/wp-json/wc/store/v1/products/categories") return send(categories);
+  if (url.pathname === "/wp-json/wc/store/v1/products/reviews") {
+    const reviews = Number(url.searchParams.get("product_id")) === 100 ? Array.from({ length: 7 }, (_, i) => ({ id: i + 1, product_id: 100, reviewer: `Cliente de teste ${i + 1}`, review: `<p>Avaliação de teste ${i + 1}.</p><script>alert('xss')</script>`, rating: i ? 5 : 1, verified: i !== 0, date_created_gmt: "2026-01-01T12:00:00" })) : [];
+    const perPage = Number(url.searchParams.get("per_page") || 5), page = Number(url.searchParams.get("page") || 1);
+    return send(reviews.slice((page - 1) * perPage, page * perPage), 200, { "X-WP-Total": String(reviews.length), "X-WP-TotalPages": String(Math.ceil(reviews.length / perPage)) });
+  }
+  if (url.pathname === "/wp-json/wc/store/v1/products") {
+    const params = url.searchParams;
+    let result = products.filter(p => p.type !== "variation" && (!params.has("slug") || p.slug === params.get("slug")));
+    if (params.get("search")) result = result.filter(p => p.name.toLowerCase().includes(params.get("search").toLowerCase()));
+    if (params.get("category")) { const ids = params.get("category").split(",").map(Number); result = result.filter(p => p.categories.some(c => ids.includes(c.id) || ids.includes(c.parent))); }
+    if (params.has("min_price")) result = result.filter(p => Number(p.prices.price) >= Number(params.get("min_price")));
+    if (params.has("max_price")) result = result.filter(p => Number(p.prices.price) <= Number(params.get("max_price")));
+    if (params.get("stock_status[0]") === "instock") result = result.filter(p => p.is_in_stock);
+    if (params.get("on_sale") === "true") result = result.filter(p => p.on_sale);
+    if (params.get("orderby") === "price") result.sort((a, b) => (Number(a.prices.price) - Number(b.prices.price)) * (params.get("order") === "desc" ? -1 : 1));
+    const perPage = Number(params.get("per_page") || 12), page = Number(params.get("page") || 1);
+    return send(result.slice((page - 1) * perPage, page * perPage), 200, { "X-WP-Total": String(result.length), "X-WP-TotalPages": String(Math.ceil(result.length / perPage)) });
+  }
   const productId = url.pathname.match(/^\/wp-json\/wc\/store\/v1\/products\/(\d+)$/);
   if (productId) return send(products.find((p) => p.id === Number(productId[1])) ?? {}, products.some((p) => p.id === Number(productId[1])) ? 200 : 404);
   if (url.pathname.startsWith("/wp-json/wc/store/v1/cart")) {
