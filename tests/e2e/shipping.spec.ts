@@ -3,7 +3,8 @@ import { expect, test } from "@playwright/test";
 test("calcula com quantidade e mantém a sacola intacta, sem propagar cookies", async ({ page }) => {
   await page.goto("/product/colar-de-sementes/");
   await page.getByRole("button", { name: "Adicionar à sacola" }).click();
-  await expect(page.getByRole("status")).toContainText("Produto adicionado");
+  await expect(page.getByRole("dialog", { name: /Minha sacola/ })).toBeVisible();
+  await page.getByRole("button", { name: "Continuar comprando" }).click();
   const before = await (await page.request.get("/api/cart/")).json();
   await page.getByLabel("CEP de entrega").fill("01310100");
   const quoted = page.waitForResponse(r => r.url().includes("/api/shipping/"));
