@@ -115,8 +115,8 @@ export const organizationSchema = {
   url: config.siteUrl,
   email: "contato@medicinasagrada.com.br",
   sameAs: [
-    "https://www.instagram.com/medicinasagrada/",
-    "https://www.youtube.com/@MedicinaSagrada",
+    "https://www.instagram.com/medicinasagradabr/",
+    "https://www.youtube.com/@medicinasagradabr",
   ],
 };
 
