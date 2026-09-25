@@ -878,9 +878,10 @@ strong, b { font-weight: var(--weight-bold); }
   .search-form .button { width: 100%; }
   .product-summary { position: static; }
   .incense-section { --incense-background-image: url("/assets/home/incense/background/medicina-sagrada-incensos-background-mobile.webp"); min-height: clamp(38rem, 174vw, 43rem); padding-block: clamp(3.5rem, 12vw, 4.5rem); background-position: center; background-size: cover; }
-  .incense-layout { width: 100%; min-height: calc(clamp(38rem, 174vw, 43rem) - clamp(7rem, 24vw, 9rem)); align-content: start; justify-items: center; }
-  .incense-copy { align-items: center; margin-inline: auto; text-align: center; }
-  .incense-copy p { margin-top: 0.85rem; }
+  .incense-layout { min-height: calc(clamp(38rem, 174vw, 43rem) - clamp(7rem, 24vw, 9rem)); align-content: start; justify-items: center; }
+  .incense-copy { width: min(100%, 25rem); align-items: center; margin-inline: auto; text-align: center; }
+  .incense-copy h2 { font-size: clamp(2.1rem, 8.75vw, 2.45rem); letter-spacing: -0.03em; line-height: 1.04; }
+  .incense-copy p { width: min(35ch, calc(100% - 2rem)); margin-top: 1rem; color: rgba(20, 37, 29, 0.78); line-height: 1.6; }
   .incense-cta { margin-top: 2rem; background: var(--paper-deep); }
   .post-list, .footer-main, .diagnostic-grid { grid-template-columns: 1fr; }
   .footer-brand-block, .footer-contact { grid-column: auto; }

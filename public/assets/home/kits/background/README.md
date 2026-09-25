@@ -21,10 +21,10 @@ Especificações para mobile:
 - Perfil de cor: sRGB
 - Peso recomendado: até 500 KB
 
-Cor-base do site: `#EBE7D9`.
+Cor-base da seção: `#0B261D` (`--forest-950`).
 
-A cor bege já é aplicada pelo CSS. Portanto, não inclua um fundo bege opaco na
-arte: exporte apenas a textura, grafismos ou elementos decorativos com
+A cor verde já é aplicada pelo CSS. Portanto, não inclua um fundo verde opaco na
+arte: exporte apenas o pattern, a textura ou outros elementos decorativos com
 transparência. Assim a imagem ficará sobre a cor atual e poderá ser ajustada sem
 criar diferenças de tom.
 
@@ -35,6 +35,9 @@ Direção de composição:
 - Ajuste a composição de cada arquivo à sua orientação. A versão desktop deve
   funcionar horizontalmente; a versão mobile deve ser pensada como uma arte
   vertical longa.
+- Na versão mobile, mantenha o pattern principal na faixa inferior da arte e
+  preserve a metade superior com baixa interferência visual para o título e os
+  cards.
 - Mantenha os elementos importantes próximos ao centro e deixe as bordas
   preparadas para cortes.
 - Prefira textura orgânica, grafismos sutis ou elementos com baixa opacidade.
