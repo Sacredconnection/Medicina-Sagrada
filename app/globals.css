@@ -433,7 +433,7 @@ strong, b { font-weight: var(--weight-bold); }
 .incense-layout { display: grid; justify-items: start; }
 .incense-copy { display: flex; max-width: 31rem; align-items: flex-start; flex-direction: column; }
 .incense-copy h2 { max-width: 12ch; font-size: var(--type-section-title); font-weight: var(--weight-bold); letter-spacing: -0.035em; line-height: 1.02; text-wrap: balance; }
-.incense-copy p { max-width: 31rem; margin: 1rem 0 0; color: rgba(20, 37, 29, 0.72); font-size: clamp(0.95rem, 1.2vw, 1.075rem); line-height: 1.55; text-wrap: pretty; }
+.incense-copy p { max-width: 31rem; margin: 1rem 0 0; color: rgba(20, 37, 29, 0.72); font-size: clamp(1rem, 1.2vw, 1.075rem); font-weight: var(--weight-regular); line-height: 1.55; text-wrap: pretty; }
 .incense-cta { margin-top: 1.75rem; }
 
 .products-section { padding-block: clamp(4rem, 8vw, 7rem); background: var(--white); }
@@ -877,11 +877,11 @@ strong, b { font-weight: var(--weight-bold); }
   .search-form { align-items: stretch; flex-direction: column; }
   .search-form .button { width: 100%; }
   .product-summary { position: static; }
-  .incense-section { --incense-background-image: url("/assets/home/incense/background/medicina-sagrada-incensos-background-mobile.webp"); padding-block: 4rem; }
-  .incense-layout { justify-items: center; }
+  .incense-section { --incense-background-image: url("/assets/home/incense/background/medicina-sagrada-incensos-background-mobile.webp"); min-height: clamp(38rem, 174vw, 43rem); padding-block: clamp(3.5rem, 12vw, 4.5rem); background-position: center; background-size: cover; }
+  .incense-layout { width: 100%; min-height: calc(clamp(38rem, 174vw, 43rem) - clamp(7rem, 24vw, 9rem)); align-content: start; justify-items: center; }
   .incense-copy { align-items: center; margin-inline: auto; text-align: center; }
   .incense-copy p { margin-top: 0.85rem; }
-  .incense-cta { margin-top: 2.5rem; }
+  .incense-cta { margin-top: 2rem; background: var(--paper-deep); }
   .post-list, .footer-main, .diagnostic-grid { grid-template-columns: 1fr; }
   .footer-brand-block, .footer-contact { grid-column: auto; }
   .footer-bottom { align-items: flex-start; flex-direction: column; justify-content: center; padding-block: 1rem; }
