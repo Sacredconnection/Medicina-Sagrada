@@ -60,6 +60,9 @@ export const wooFetch = <T>(
 export const wooCollection = <T>(path: string, query: Record<string, QueryValue> = {}, tags: string[] = ["woocommerce"]) =>
   apiFetch<T[]>(config.wooStoreApiUrl, path, query, tags);
 
+export const wpCollection = <T>(path: string, query: Record<string, QueryValue> = {}, tags: string[] = ["wordpress"]) =>
+  apiFetch<T[]>(config.wordpressApiUrl, path, query, tags);
+
 export async function fetchAll<T>(
   fetchPage: (page: number) => Promise<T[]>,
   maximumPages = 50,
