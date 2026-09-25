@@ -49,7 +49,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400..700,1,0&icon_names=close,menu,person,search,shopping_bag"
         />
       </head>
-      <body>
+      <body id="top">
         <a className="skip-link" href="#conteudo">
           Ir para o conteúdo
         </a>

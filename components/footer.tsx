@@ -44,7 +44,7 @@ export function Footer() {
     <footer className="site-footer">
       <div className="container footer-main">
         <div className="footer-brand-block">
-          <Link className="footer-brand" href="/" aria-label="Medicina Sagrada — início">
+          <Link className="footer-brand" href="#top" aria-label="Voltar ao topo da página">
             <Image
               className="footer-brand-logo"
               src="/assets/logo/medicina-sagrada-logo-01.svg"
