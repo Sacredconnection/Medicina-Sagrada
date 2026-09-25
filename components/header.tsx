@@ -24,6 +24,15 @@ export function Header() {
   return (
     <header className="site-header">
       <div className="container header-inner">
+        <Link className="brand" href="/" aria-label="Medicina Sagrada — início">
+          <Image
+            className="brand-logo"
+            src="/assets/logo/medicina-sagrada-logo-01.svg"
+            alt=""
+            width={1200}
+            height={300}
+          />
+        </Link>
         <details className="mobile-menu">
           <summary className="mobile-menu-toggle" aria-label="Abrir ou fechar o menu de categorias">
             <span className="material-symbols-rounded material-symbols-heavy menu-icon menu-icon-open" aria-hidden="true">menu</span>
@@ -59,15 +68,6 @@ export function Header() {
             ))}
           </ul>
         </nav>
-        <Link className="brand" href="/" aria-label="Medicina Sagrada — início">
-          <Image
-            className="brand-logo"
-            src="/assets/logo/medicina-sagrada-logo-01.svg"
-            alt=""
-            width={1200}
-            height={300}
-          />
-        </Link>
         <div className="header-actions" aria-label="Ações da conta e loja">
           <Link
             className="header-icon-button header-search-button"
