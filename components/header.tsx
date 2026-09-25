@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CartLink } from "@/components/cart-link";
+import { ScrollToTopLink } from "@/components/scroll-to-top-link";
 import { config } from "@/lib/config";
 
 const navigation = [
@@ -24,7 +25,7 @@ export function Header() {
   return (
     <header className="site-header">
       <div className="container header-inner">
-        <Link className="brand" href="/" aria-label="Medicina Sagrada — início">
+        <ScrollToTopLink className="brand">
           <Image
             className="brand-logo"
             src="/assets/logo/medicina-sagrada-logo-01.svg"
@@ -32,7 +33,7 @@ export function Header() {
             width={1200}
             height={300}
           />
-        </Link>
+        </ScrollToTopLink>
         <details className="mobile-menu">
           <summary className="mobile-menu-toggle" aria-label="Abrir ou fechar o menu de categorias">
             <span className="material-symbols-rounded material-symbols-heavy menu-icon menu-icon-open" aria-hidden="true">menu</span>

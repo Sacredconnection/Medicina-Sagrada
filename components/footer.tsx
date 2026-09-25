@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ScrollToTopLink } from "@/components/scroll-to-top-link";
 
 type FooterIconName = "email" | "instagram" | "whatsapp" | "youtube";
 
@@ -44,7 +45,7 @@ export function Footer() {
     <footer className="site-footer">
       <div className="container footer-main">
         <div className="footer-brand-block">
-          <Link className="footer-brand" href="#top" aria-label="Voltar ao topo da página">
+          <ScrollToTopLink className="footer-brand">
             <Image
               className="footer-brand-logo"
               src="/assets/logo/medicina-sagrada-logo-01.svg"
@@ -52,7 +53,7 @@ export function Footer() {
               width={1200}
               height={300}
             />
-          </Link>
+          </ScrollToTopLink>
           <p>Conhecimentos ancestrais, arte e cultura das populações indígenas e tradicionais do Brasil.</p>
           <span className="footer-note">Feito com respeito à floresta e aos seus povos.</span>
         </div>
