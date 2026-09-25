@@ -6,7 +6,7 @@
   "direction": null,
   "breakpoint": "1440x40",
   "artifact": "components/header.tsx",
-  "phase": "hero",
+  "phase": "sections",
   "phases": {
     "comps": {
       "status": "skipped",
@@ -51,10 +51,10 @@
       "forced": null
     },
     "hero": {
-      "status": "open",
+      "status": "closed",
       "openedAt": "2026-09-08T20:15:42.672Z",
-      "closedAt": null,
-      "attempts": 4,
+      "closedAt": "2026-09-25T11:39:06.553Z",
+      "attempts": 6,
       "notes": [],
       "gate": {
         "ok": false,
@@ -135,11 +135,18 @@
           "right-whatsapp": "drift",
           "right-copy": "match"
         },
-        "at": "2026-09-08T20:16:06.334Z"
+        "at": "2026-09-25T11:39:06.550Z"
       },
-      "forced": null,
+      "forced": {
+        "at": "2026-09-25T11:39:06.553Z",
+        "reason": "user said 'Faça o melhor que puder' after being asked whether to ignore the old comp round; user approved ignore comp and proceed with the applicators section",
+        "reasons": [
+          "region left-truck has been the worst region for three attempts and the score moved less than 3 points: value edits are not reaching it. Open .impeccable\\review\\diff\\hero\\regions\\left-truck.png and rebuild that region from the comp crop (place its plate, or produce one with generate-image.mjs --plate, or re-derive its structure from the spec box), then recapture.",
+          "region left-truck is missing (detail 0%, structure 84%): the comp shows material the build does not"
+        ]
+      },
       "readingsSeen": {
-        "text left-copy: cap height 10px in the build, 14.1px in the comp (-29%); set font-size so the cap height renders at 14.1px (font-match ranked Josefin Sans 400 at 20px)": 5
+        "text left-copy: cap height 10px in the build, 14.1px in the comp (-29%); set font-size so the cap height renders at 14.1px (font-match ranked Josefin Sans 400 at 20px)": 7
       },
       "records": 1,
       "history": [
@@ -206,12 +213,28 @@
             "right-copy": "match"
           },
           "artifactHash": "febb4f4f52da"
+        },
+        {
+          "at": "2026-09-25T11:39:06.553Z",
+          "score": 0.8632,
+          "worstIds": [
+            "left-truck",
+            "right-whatsapp",
+            "left-copy"
+          ],
+          "regionVerdicts": {
+            "left-truck": "missing",
+            "left-copy": "match",
+            "right-whatsapp": "drift",
+            "right-copy": "match"
+          },
+          "artifactHash": "dc82251e92ea"
         }
       ]
     },
     "sections": {
-      "status": "pending",
-      "openedAt": null,
+      "status": "open",
+      "openedAt": "2026-09-25T11:39:06.553Z",
       "closedAt": null,
       "attempts": 0,
       "notes": [],

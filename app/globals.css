@@ -436,6 +436,23 @@ strong, b { font-weight: var(--weight-bold); }
 .incense-copy p { max-width: 31rem; margin: 1rem 0 0; color: rgba(20, 37, 29, 0.72); font-size: clamp(1rem, 1.2vw, 1.075rem); font-weight: var(--weight-regular); line-height: 1.55; text-wrap: pretty; }
 .incense-cta { margin-top: 1.75rem; }
 
+.applicators-section { padding-block: clamp(5rem, 8vw, 7.5rem); background: var(--white); }
+.applicators-layout { display: grid; grid-template-columns: minmax(15rem, 0.72fr) minmax(28rem, 1.28fr); align-items: start; gap: clamp(3rem, 7vw, 7rem); }
+.applicators-panel { position: sticky; top: 7rem; display: flex; align-items: flex-start; flex-direction: column; padding-top: clamp(0.25rem, 1.5vw, 1.5rem); }
+.applicators-copy { display: flex; align-items: flex-start; flex-direction: column; }
+.applicators-copy h2 { max-width: none; font-size: var(--type-section-title); font-weight: var(--weight-bold); letter-spacing: -0.035em; line-height: 1.02; }
+.applicators-copy h2 span { display: block; white-space: nowrap; }
+.applicators-copy p { max-width: 34rem; margin: 1.25rem 0 0; color: var(--muted); font-size: clamp(1rem, 1.2vw, 1.075rem); line-height: 1.6; text-wrap: pretty; }
+.applicators-cta { margin-top: 2rem; }
+.applicators-mosaic { display: grid; width: min(100%, 38rem); min-width: 0; justify-self: end; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(0.85rem, 1.5vw, 1.25rem); }
+.applicator-card { position: relative; display: flex; min-width: 0; aspect-ratio: 1; overflow: hidden; align-items: flex-end; border-radius: var(--radius); isolation: isolate; background-color: var(--paper-deep); background-image: var(--applicator-image, none); background-position: center; background-size: cover; box-shadow: 0 0.8rem 2rem rgba(11, 38, 29, 0.1); }
+.applicator-card-featured { width: 100%; aspect-ratio: 2 / 1; grid-column: 1 / -1; }
+.applicator-card::before { position: absolute; z-index: 0; inset: 0; background: linear-gradient(180deg, rgba(11, 38, 29, 0) 48%, rgba(11, 38, 29, 0.72) 100%); content: ""; pointer-events: none; }
+.applicator-card::after { position: absolute; z-index: 2; inset: 0; border: 1px solid rgba(18, 55, 42, 0.14); border-radius: inherit; content: ""; pointer-events: none; }
+.applicator-card-content { position: relative; z-index: 1; width: 100%; padding: clamp(1rem, 2.2vw, 1.75rem); }
+.applicator-card h3 { max-width: 14ch; color: var(--white); font-size: clamp(1.35rem, 2vw, 1.8rem); font-weight: var(--weight-bold); letter-spacing: -0.025em; line-height: 1.05; text-shadow: 0 0.125rem 0.7rem rgba(0, 0, 0, 0.4); }
+.applicator-card-featured h3 { font-size: clamp(1.8rem, 3vw, 2.6rem); }
+
 .products-section { padding-block: clamp(4rem, 8vw, 7rem); background: var(--white); }
 .home-product-grid { gap: 1.25rem; }
 .products-section-action { display: flex; justify-content: center; margin-top: clamp(2.25rem, 4vw, 3.5rem); }
@@ -880,9 +897,20 @@ strong, b { font-weight: var(--weight-bold); }
   .incense-section { --incense-background-image: url("/assets/home/incense/background/medicina-sagrada-incensos-background-mobile.webp"); min-height: clamp(38rem, 174vw, 43rem); padding-block: clamp(3.5rem, 12vw, 4.5rem); background-position: center; background-size: cover; }
   .incense-layout { min-height: calc(clamp(38rem, 174vw, 43rem) - clamp(7rem, 24vw, 9rem)); align-content: start; justify-items: center; }
   .incense-copy { width: min(100%, 25rem); align-items: center; margin-inline: auto; text-align: center; }
-  .incense-copy h2 { font-size: clamp(2.1rem, 8.75vw, 2.45rem); letter-spacing: -0.03em; line-height: 1.04; }
+  .incense-copy h2 { font-size: clamp(2.1rem, 8.75vw, 2.45rem); font-weight: var(--weight-bold); letter-spacing: -0.03em; line-height: 1.04; }
   .incense-copy p { width: min(35ch, calc(100% - 2rem)); margin-top: 1rem; color: rgba(20, 37, 29, 0.78); line-height: 1.6; }
   .incense-cta { margin-top: 2rem; background: var(--paper-deep); }
+  .applicators-section { padding-block: 4.25rem 4.75rem; }
+  .applicators-layout { grid-template-columns: minmax(0, 1fr); gap: 2.75rem; }
+  .applicators-panel { position: static; display: contents; padding-top: 0; }
+  .applicators-copy { width: min(100%, 34rem); align-items: center; justify-self: center; grid-row: 1; text-align: center; }
+  .applicators-copy h2 { max-width: 12ch; font-size: clamp(2.35rem, 10vw, 3rem); line-height: 1.02; }
+  .applicators-copy p { width: min(35ch, calc(100% - 1rem)); margin-top: 1rem; }
+  .applicators-cta { justify-self: center; grid-row: 3; margin-top: -0.75rem; }
+  .applicators-mosaic { width: min(100%, 34rem); justify-self: center; grid-row: 2; gap: 0.75rem; }
+  .applicator-card-content { padding: clamp(0.85rem, 4vw, 1.2rem); }
+  .applicator-card h3 { font-size: clamp(1.05rem, 5vw, 1.4rem); }
+  .applicator-card-featured h3 { font-size: clamp(1.65rem, 8vw, 2.25rem); }
   .post-list, .footer-main, .diagnostic-grid { grid-template-columns: 1fr; }
   .footer-brand-block, .footer-contact { grid-column: auto; }
   .footer-bottom { align-items: flex-start; flex-direction: column; justify-content: center; padding-block: 1rem; }
@@ -893,7 +921,7 @@ strong, b { font-weight: var(--weight-bold); }
   .kits-section { padding-block: 4rem 3.75rem; }
   .kits-section-heading { width: min(100%, 34rem); gap: 1.25rem; }
   .kits-section-heading h2 { max-width: 11ch; font-size: clamp(2.5rem, 11vw, 3.25rem); }
-  .kits-section-heading p { max-width: 32rem; line-height: 1.55; }
+  .kits-section-heading p { width: min(35ch, calc(100% - 2rem)); line-height: 1.6; }
   .kits-grid { display: flex; width: calc(100% + 1rem); justify-self: start; gap: 0.9rem; overflow-x: auto; margin-top: 2.5rem; margin-right: -1rem; padding: 0.25rem 1rem 1.5rem 0; overscroll-behavior-inline: contain; scroll-padding-inline: 0 1rem; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .kits-grid::-webkit-scrollbar { display: none; }
   .kit-card-item { min-width: min(82vw, 20rem); min-height: 0; aspect-ratio: 1; flex: 0 0 min(82vw, 20rem); scroll-snap-align: start; scroll-snap-stop: always; }

@@ -1,7 +1,7 @@
 {
   "tool": "comp-diff",
   "version": 1,
-  "createdAt": "2026-09-08T20:16:06.251Z",
+  "createdAt": "2026-09-25T11:39:06.469Z",
   "label": "hero",
   "comp": ".impeccable/mocks/topbar-01.png",
   "build": ".impeccable\\review\\hero-repro.png",
