@@ -82,7 +82,13 @@ export default async function Home() {
               {homeCategories.map((category) => (
                 <Link className="category-tile" href={category.href} key={category.href}>
                   <span className="category-tile-image">
-                    <img src={category.image} alt="" />
+                    <Image
+                      src={category.image}
+                      alt=""
+                      width={1200}
+                      height={1200}
+                      sizes="(max-width: 900px) 9.25rem, 11.5rem"
+                    />
                   </span>
                   <span className="category-tile-name">{category.name}</span>
                   <span className="category-tile-detail">{category.detail}</span>

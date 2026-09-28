@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useCart } from "@/components/cart-provider";
 import { formatMoney } from "@/lib/cart-types";
 import { plainText } from "@/lib/html";
+import { pathnameFromUrl } from "@/lib/url";
 
 export function CartPage() {
   const { cart, busy, loading, error, mutate, refresh, checkout } = useCart();
@@ -21,7 +22,7 @@ export function CartPage() {
       <div className="bag-items">
         <p className="bag-items-heading">{cart.items_count} {cart.items_count === 1 ? "item selecionado" : "itens selecionados"}</p>
         {cart.items.map((item) => {
-          const href = new URL(item.permalink).pathname;
+          const href = pathnameFromUrl(item.permalink);
           const limits = item.quantity_limits;
           return <article className="bag-item" key={item.key}>
             <Link className="bag-item-image" href={href} tabIndex={-1} aria-hidden="true">{item.images[0] ? <Image src={item.images[0].thumbnail || item.images[0].src} alt="" width={140} height={140} /> : <span>Sem imagem</span>}</Link>

@@ -14,12 +14,6 @@ export const homeAssets = {
     mobileImage: "/assets/home/hero/medicina-sagrada-home-hero-mobile.webp",
     accessoriesDesktopImage: "/assets/home/hero/medicina-sagrada-home-hero-02-desktop.webp",
     accessoriesMobileImage: "/assets/home/hero/medicina-sagrada-home-hero-02-mobile.webp",
-    alt: "Latas de rapé e colar sobre madeira diante da floresta amazônica",
-  },
-  story: {
-    image:
-      "https://medicinasagrada.com.br/wp-content/uploads/2024/04/institucional-medicinaB-jpg.webp",
-    alt: "Detalhe de uma paisagem da floresta",
   },
   categories: {
     rape: "/assets/home/categories/medicina-sagrada-categoria-rape.webp",
@@ -28,19 +22,12 @@ export const homeAssets = {
     accessories: "/assets/home/categories/medicina-sagrada-categoria-acessorios.webp",
     craft: "/assets/home/categories/medicina-sagrada-categoria-artesanato.webp",
   },
-  editorial: {
-    sananga:
-      "https://medicinasagrada.com.br/wp-content/uploads/2026/01/medicina_jan26_BannerQuadrado_Sananga1.webp",
-    kuripe:
-      "https://medicinasagrada.com.br/wp-content/uploads/2026/01/medicina_jan26_BannerQuadrado_KuripeSennae.webp",
-    incense:
-      "https://medicinasagrada.com.br/wp-content/uploads/2026/01/medicina_jan26_BannerQuadrado_BreuBranco.webp",
-  },
   kits: {
     fourElements: "/assets/home/kits/medicina-sagrada-kit-4-elementos.webp",
-    tenTribes: "/assets/home/kits/medicina-sagrada-kit-10-tribos.webp",
+    tenTribes:
+      "https://medicinasagrada.com.br/wp-content/uploads/2023/05/10tribes1.webp",
     amazonianStrength:
-      "/assets/home/kits/medicina-sagrada-kit-forca-amazonica.webp",
+      "https://medicinasagrada.com.br/wp-content/uploads/2022/07/forcaamazonica.webp",
   },
 } as const;
 

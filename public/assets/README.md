@@ -7,14 +7,13 @@ não aumentar o deploy.
 ## Estrutura
 
 - `logo/`: marcas e assinaturas visuais.
-- `home/hero/`: banner principal da página inicial.
+- `home/hero/`: banners desktop e mobile da página inicial.
 - `home/categories/`: imagens circulares das categorias.
-- `home/editorial/`: banners editoriais da página inicial.
-- `home/story/`: imagem da seção institucional da página inicial.
-- `catalog/products/`: imagens locais de fallback do catálogo.
-- `pages/`: imagens exclusivas de páginas internas, separadas por slug.
-- `ui/icons/`: ícones vetoriais da interface.
-- `placeholders/`: imagens usadas quando o conteúdo não possui mídia.
+- `home/matcher/`: fundos e imagens do Ritual Finder.
+- `home/incense/background/`: fundos da seção de incensos.
+- `home/applicators/`: imagens e fundos da seção de aplicadores.
+- `home/kits/`: imagens e fundos da seção de kits.
+- `home/story/pillars/`: imagens dos pilares institucionais.
 
 ## Padrão de nomes
 

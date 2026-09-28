@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { plainText } from "@/lib/html";
 import { runContentDiagnostic } from "@/lib/diagnostics";
 import { runCommerceDiagnostic } from "@/lib/commerce-diagnostics";
@@ -12,6 +13,8 @@ export const metadata: Metadata = {
 };
 
 export default async function DiagnosticPage() {
+  if (process.env.NODE_ENV !== "development") notFound();
+
   const [diagnostic, commerce] = await Promise.all([runContentDiagnostic(), runCommerceDiagnostic()]);
   const checks = [
     { name: "WordPress REST API", result: diagnostic.wordpress },

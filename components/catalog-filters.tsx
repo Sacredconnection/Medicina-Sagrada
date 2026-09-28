@@ -5,6 +5,7 @@ import Form from "next/form";
 import { useEffect, useRef, useState } from "react";
 import { catalogSearch, sortOptions, type CatalogQuery } from "@/lib/catalog-query";
 import type { WooCategory } from "@/lib/types";
+import { pathnameFromUrl } from "@/lib/url";
 
 export function CatalogFilters({ query, categories, basePath, categoryId }: { query: CatalogQuery; categories: WooCategory[]; basePath: string; categoryId?: number }) {
   const [open, setOpen] = useState(false);
@@ -41,7 +42,7 @@ export function CatalogFilters({ query, categories, basePath, categoryId }: { qu
         <label className="catalog-checkbox"><input name="oferta" type="checkbox" value="1" defaultChecked={query.sale} />Em oferta</label>
         <noscript><button className="commerce-button" type="submit">Aplicar filtros</button></noscript>
         <Link className="commerce-text-button" href={`${basePath}${query.q ? `?q=${encodeURIComponent(query.q)}` : ""}`}>Limpar filtros</Link>
-        <nav className="catalog-categories" aria-label="Categorias da loja"><h3>Explore as categorias</h3>{categories.filter(c => c.count > 0 && (c.parent === (categoryId ?? 0))).map(c => <Link key={c.id} href={new URL(c.permalink).pathname}>{c.name} <span>({c.count})</span></Link>)}<Link href="/busca/">Ver todos os produtos →</Link></nav>
+        <nav className="catalog-categories" aria-label="Categorias da loja"><h3>Explore as categorias</h3>{categories.filter(c => c.count > 0 && (c.parent === (categoryId ?? 0))).map(c => <Link key={c.id} href={pathnameFromUrl(c.permalink)}>{c.name} <span>({c.count})</span></Link>)}<Link href="/busca/">Ver todos os produtos →</Link></nav>
       </div>
     </Form>
   </aside>;

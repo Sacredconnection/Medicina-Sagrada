@@ -10,14 +10,21 @@ export type YouTubeVideo = {
   publishedAt: string;
 };
 
+const decodeCodePoint = (code: string, radix: number) => {
+  const point = Number.parseInt(code, radix);
+  return point > 0 && point <= 0x10ffff && (point < 0xd800 || point > 0xdfff)
+    ? String.fromCodePoint(point)
+    : "\uFFFD";
+};
+
 const decodeXml = (value: string) =>
   value
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
     .replace(/&#x([0-9a-f]+);/gi, (_, code: string) =>
-      String.fromCodePoint(Number.parseInt(code, 16)),
+      decodeCodePoint(code, 16),
     )
     .replace(/&#(\d+);/g, (_, code: string) =>
-      String.fromCodePoint(Number.parseInt(code, 10)),
+      decodeCodePoint(code, 10),
     )
     .replace(/&quot;/g, '"')
     .replace(/&apos;|&#39;/g, "'")
@@ -89,6 +96,7 @@ export async function getYouTubeVideos(): Promise<YouTubeVideo[]> {
     const response = await fetch(YOUTUBE_FEED_URL, {
       next: { revalidate: 3600 },
       headers: { Accept: "application/atom+xml, application/xml, text/xml" },
+      signal: AbortSignal.timeout(5_000),
     });
 
     if (!response.ok) return [];

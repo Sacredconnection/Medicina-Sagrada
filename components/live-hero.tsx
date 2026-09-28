@@ -31,6 +31,7 @@ const AUTOPLAY_DELAY = 7000;
 export function LiveHero({ slides }: LiveHeroProps) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isAutoplayStopped, setIsAutoplayStopped] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
   const [currentImages, setCurrentImages] = useState<HeroImages[]>(() =>
     slides.map((slide) => ({
@@ -57,7 +58,7 @@ export function LiveHero({ slides }: LiveHeroProps) {
   }, []);
 
   useEffect(() => {
-    if (reduceMotion || isPaused || slides.length < 2) return;
+    if (reduceMotion || isPaused || isAutoplayStopped || slides.length < 2) return;
 
     const interval = window.setInterval(() => {
       if (document.hidden) return;
@@ -65,7 +66,7 @@ export function LiveHero({ slides }: LiveHeroProps) {
     }, AUTOPLAY_DELAY);
 
     return () => window.clearInterval(interval);
-  }, [isPaused, reduceMotion, slides.length]);
+  }, [isPaused, isAutoplayStopped, reduceMotion, slides.length]);
 
   useEffect(() => {
     currentVersions.current = {};
@@ -183,7 +184,26 @@ export function LiveHero({ slides }: LiveHeroProps) {
         );
       })}
 
-      <div aria-label="Selecionar banner" className="hero-carousel-pagination" role="group">
+      <div aria-label="Controles dos banners" className="hero-carousel-pagination" role="group">
+        {slides.length > 1 && !reduceMotion && (
+          <button
+            aria-label={isAutoplayStopped ? "Retomar rotação dos banners" : "Pausar rotação dos banners"}
+            aria-pressed={isAutoplayStopped}
+            className="hero-carousel-autoplay"
+            onClick={() => setIsAutoplayStopped((stopped) => !stopped)}
+            type="button"
+          >
+            {isAutoplayStopped ? (
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="m9 6 9 6-9 6V6Z" fill="currentColor" />
+              </svg>
+            ) : (
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                <path d="M8 6v12M16 6v12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            )}
+          </button>
+        )}
         {slides.map((slide, index) => (
           <button
             aria-label={`Mostrar banner ${index + 1} de ${slides.length}`}

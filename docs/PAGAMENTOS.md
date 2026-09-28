@@ -169,7 +169,7 @@ consegue corrigir uma página que o servidor já devolveu antes de executá-lo.
 
 ## Homologação necessária antes de receber clientes
 
-- Confirmar plugin complementar ativo em `/diagnostico-api/`.
+- Confirmar plugin complementar ativo no WordPress ou em `/diagnostico-api/` com `npm run dev` (rota indisponível em produção).
 - Compra com produto simples e variação, alteração de quantidade, estoque
   insuficiente, cupom válido/inválido, frete e endereço brasileiro.
 - Voltar do checkout, mudar a sacola e confirmar que a segunda ida reflete a mudança.

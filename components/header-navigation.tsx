@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, type CSSProperties } from "react";
+import { getEthnicityTheme } from "@/lib/ethnicity-colors";
 
 type NavigationFeature = {
   name: string;
@@ -27,11 +28,18 @@ const categoryFeatureImages: Record<string, string> = {
   Artesanato: "/assets/home/categories/medicina-sagrada-categoria-artesanato.webp",
 };
 
-function CategoryLinks({ items }: { items: NavigationItem[] }) {
-  return <ul className="mega-category-list">{items.map((item) => <li key={item.href}>
-    <Link href={item.href}>{item.label}</Link>
-    {!!item.children?.length && <CategoryLinks items={item.children} />}
-  </li>)}</ul>;
+function CategoryLinks({ items, isRape }: { items: NavigationItem[]; isRape: boolean }) {
+  return <ul className="mega-category-list">{items.map((item) => {
+    const theme = isRape ? getEthnicityTheme([{ name: item.label, slug: "" }]) : undefined;
+    const style = theme ? {
+      "--ethnicity-accent": theme.accent,
+    } as CSSProperties : undefined;
+
+    return <li key={item.href}>
+      <Link href={item.href} className={theme ? "ethnicity-link" : undefined} style={style}>{item.label}</Link>
+      {!!item.children?.length && <CategoryLinks items={item.children} isRape={isRape} />}
+    </li>;
+  })}</ul>;
 }
 
 function MegaPanel({ item }: { item: NavigationItem }) {
@@ -48,7 +56,7 @@ function MegaPanel({ item }: { item: NavigationItem }) {
       <p>{isRape ? "Conheça as diferentes origens e encontre seu rapé." : `Conheça nossa coleção de ${item.label.toLocaleLowerCase("pt-BR")} e explore as categorias.`}</p>
       <Link className="mega-all" href={item.href}>Ver toda a coleção</Link>
     </div>
-    <div className="mega-categories"><p className="mega-caption">{isRape ? "Explore os rapés" : "Categorias"}</p><CategoryLinks items={item.children ?? []} /></div>
+    <div className="mega-categories"><p className="mega-caption">{isRape ? "Explore os rapés" : "Categorias"}</p><CategoryLinks items={item.children ?? []} isRape={isRape} /></div>
     <div className="mega-feature" style={featureStyle}>
       <p className={`mega-caption${isRape && item.feature ? " mega-feature-caption" : ""}`}>{isRape ? "Rapé do mês" : "Em destaque"}</p>
       {item.feature ? <Link

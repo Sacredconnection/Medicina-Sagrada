@@ -6,6 +6,7 @@ import { useEffect, useRef, type RefObject } from "react";
 import { useCart } from "@/components/cart-provider";
 import { formatMoney } from "@/lib/cart-types";
 import { plainText } from "@/lib/html";
+import { pathnameFromUrl } from "@/lib/url";
 
 export function CartDrawer({ open, onClose, trigger }: { open: boolean; onClose: () => void; trigger: RefObject<HTMLElement | null> }) {
   const dialog = useRef<HTMLDialogElement>(null);
@@ -42,7 +43,7 @@ export function CartDrawer({ open, onClose, trigger }: { open: boolean; onClose:
       {cart?.items.length === 0 ? <p>Sua sacola está vazia. Continue explorando a loja.</p> : null}
       {cart?.items.map(item => <article className="cart-drawer-item" key={item.key}>
         {item.images[0] ? <Image src={item.images[0].thumbnail || item.images[0].src} alt="" width={88} height={88} /> : <span />}
-        <div><h3><Link href={new URL(item.permalink).pathname} onClick={onClose}>{plainText(item.name)}</Link></h3>
+        <div><h3><Link href={pathnameFromUrl(item.permalink)} onClick={onClose}>{plainText(item.name)}</Link></h3>
           {item.variation.length ? <p>{item.variation.map(option => `${plainText(option.attribute)}: ${plainText(option.value)}`).join(" · ")}</p> : null}
           <p>Quantidade: {item.quantity}</p>
           <div className="bag-quantity" aria-label={`Quantidade de ${plainText(item.name)}`}>

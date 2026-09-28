@@ -66,9 +66,10 @@ Assim, um slug igual em outra hierarquia não cria conteúdo duplicado.
 As credenciais reais devem ficar apenas em `.env.local`, que não é versionado.
 O arquivo `.env.example` contém somente nomes e placeholders.
 
-Para conferir a leitura do conteúdo, abra `/diagnostico-api/`. A página faz uma
+Em `npm run dev`, para conferir a leitura do conteúdo, abra `/diagnostico-api/`. A página faz uma
 requisição server-side ao WordPress e à Store API, exibe uma amostra segura e
 tem `noindex`. A mesma verificação em JSON fica em `/api/diagnostico/`.
+Essas rotas de diagnóstico não ficam disponíveis em produção.
 
 Validações:
 
@@ -158,14 +159,12 @@ como etapas próprias. A migração do domínio depende também do checklist SEO
 A composição visual da nova home está separada do conteúdo estrutural. Os
 materiais provisórios ficam centralizados em `lib/home-content.ts`:
 
-- `homeAssets.hero.image`: imagem principal do hero;
-- `homeAssets.story.image`: imagem da seção institucional;
+- `homeAssets.hero`: banners desktop e mobile do hero;
 - `homeAssets.categories`: imagens dos cards de categorias;
-- `homeAssets.editorial`: imagens dos banners editoriais;
-- `demoProducts`: fallback visual usado enquanto a Store API não estiver
-  respondendo no ambiente de desenvolvimento.
+- `homeAssets.kits`: imagens locais dos kits;
+- `demoProducts`: fallback visual usado quando a Store API não responde.
 
-Quando novos materiais forem produzidos, basta substituir as URLs nesse
-arquivo. A proporção recomendada é 16:9 ou 3:2 para hero e banners, 1:1 para
-categorias e produtos. Os componentes já aplicam `cover`, lazy loading e
-comportamento responsivo sem exigir mudança na estrutura da página.
+Para trocar esses materiais, substitua as URLs correspondentes nesse arquivo.
+O hero possui imagens específicas para desktop e mobile; as categorias usam
+imagens quadradas. Outras imagens da home são referenciadas nos respectivos
+componentes e estilos.
