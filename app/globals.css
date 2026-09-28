@@ -422,7 +422,7 @@ strong, b { font-weight: var(--weight-bold); }
 .category-tile-cta { display: inline-flex; width: 8.75rem; min-height: 2.5rem; align-items: center; justify-content: center; margin-top: 0.85rem; padding: 0.55rem 1rem; border: 1px solid rgba(239, 73, 43, 0.72); border-radius: 999px; background: rgba(239, 73, 43, 0.06); color: #a92f1d; font-size: var(--type-action-compact); font-weight: var(--weight-bold); letter-spacing: 0.07em; line-height: 1.15; text-transform: uppercase; transition: border-color 200ms ease, background-color 220ms ease, box-shadow 240ms ease, color 200ms ease, transform 240ms cubic-bezier(0.16, 1, 0.3, 1); }
 .category-tile:is(:hover, :focus-visible) .category-tile-cta { border-color: var(--cta-accent); background: var(--cta-accent); box-shadow: 0 0.45rem 1.1rem rgba(169, 47, 29, 0.22); color: var(--cta-on-accent); transform: translateY(-0.125rem); }
 
-.incense-section { --incense-background-image: url("/assets/home/incense/background/medicina-sagrada-incensos-background-desktop.webp"); overflow: hidden; padding-block: var(--section-space-standard); background-color: var(--paper-deep); background-image: var(--incense-background-image); background-position: center; background-repeat: no-repeat; background-size: cover; }
+.incense-section { --incense-background-color-previous: var(--paper-deep); --incense-background-image: url("/assets/home/incense/background/medicina-sagrada-incensos-background-desktop.webp"); overflow: hidden; padding-block: var(--section-space-standard); background-color: var(--white); background-image: var(--incense-background-image); background-position: center; background-repeat: no-repeat; background-size: cover; }
 .incense-layout { display: grid; justify-items: start; }
 .incense-copy { display: flex; max-width: 31rem; align-items: flex-start; flex-direction: column; }
 .incense-copy h2 { max-width: 12ch; font-size: var(--type-section-title); font-weight: var(--weight-bold); letter-spacing: -0.035em; line-height: 1.02; text-wrap: balance; }
@@ -594,7 +594,7 @@ strong, b { font-weight: var(--weight-bold); }
 .matcher-reset { grid-column: 1 / -1; margin-top: 0.5rem; color: rgba(255, 255, 255, 0.78); }
 .matcher-care-note { max-width: 72ch; margin: 1.25rem auto 0; color: var(--matcher-muted); font-size: 0.8125rem; line-height: 1.55; text-align: center; }
 
-.story-section { position: relative; overflow: hidden; padding-block: var(--section-space-standard); isolation: isolate; background: var(--white); color: var(--forest-950); }
+.story-section { position: relative; overflow: hidden; margin-top: var(--section-space-compact); padding-block: var(--section-space-standard); isolation: isolate; background: var(--white); color: var(--forest-950); }
 .story-section::before { position: absolute; top: 0; left: 0; width: clamp(3.5rem, 7vw, 7rem); aspect-ratio: 1; clip-path: polygon(0 0, 100% 0, 0 100%); background: var(--forest-800); content: ""; }
 .story-layout { position: relative; z-index: 1; }
 .story-heading { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.55fr); align-items: end; gap: clamp(2.5rem, 6vw, 6rem); }
@@ -965,7 +965,7 @@ strong, b { font-weight: var(--weight-bold); }
   .incense-copy { width: min(100%, 25rem); align-items: center; margin-inline: auto; text-align: center; }
   .incense-copy h2 { font-size: clamp(2.1rem, 8.75vw, 2.45rem); font-weight: var(--weight-bold); letter-spacing: -0.03em; line-height: 1.04; }
   .incense-copy p { width: min(35ch, calc(100% - 2rem)); margin-top: 1rem; color: rgba(20, 37, 29, 0.78); line-height: 1.6; }
-  .incense-cta { margin-top: 2rem; background: var(--paper-deep); }
+  .incense-cta { margin-top: 2rem; }
   .applicators-section { --applicators-background-image: url("/assets/home/applicators/background/medicina-sagrada-acessorios-background-mobile.webp"); padding-block: var(--section-space-major); }
   .applicators-layout { grid-template-columns: minmax(0, 1fr); gap: 2.75rem; }
   .applicators-panel { position: static; display: contents; padding-top: 0; }
