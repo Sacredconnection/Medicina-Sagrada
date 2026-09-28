@@ -45,6 +45,35 @@ Visitors may arrive with an interest in spiritual practice, Indigenous knowledge
 - The experience must communicate respect for Indigenous peoples, traditional knowledge, and the forest communities represented by the products.
 - Product origin and the relationship with the producing communities should be understandable to customers rather than hidden behind generic commerce language.
 
+## Ethnicity Color System
+
+The following stakeholder-provided colors are the canonical visual accents for each ethnicity represented in the interface:
+
+| Ethnicity | Accent color | Text on accent |
+| --- | --- | --- |
+| Apurinã | `#83bc43` | Black `#000000` |
+| Caboclo | `#997052` | Black `#000000` |
+| Huni Kuin | `#bfa771` | Black `#000000` |
+| Katukina | `#79bc43` | Black `#000000` |
+| Kuntanawa | `#606161` | White `#ffffff` |
+| Nukini | `#dc9c41` | Black `#000000` |
+| Puyanawa | `#ba9b80` | Black `#000000` |
+| Shanenawa | `#0568a7` | White `#ffffff` |
+| Shawãdawa | `#ec2326` | Black `#000000` |
+| Yawanawa | `#2f2f2a` | White `#ffffff` |
+
+Usage contract:
+
+- Whenever an interface element explicitly represents one ethnicity, its corresponding color should stand out as the contextual accent for that element.
+- Use the exact hexadecimal value consistently; do not approximate, exchange, or automatically derive replacements.
+- The ethnicity accent complements the global Medicina Sagrada palette. It does not replace the site's primary brand colors or need to fill the entire component.
+- Suitable applications include category indicators, filters, labels, badges, dividers, selected states, restrained backgrounds, and other contextual highlights.
+- In the desktop “Rapé do mês” card, the product-information surface must use the accent assigned to the product's explicitly identified ethnicity and update whenever the featured product changes.
+- On surfaces containing multiple ethnicities, apply each accent only to the content associated with that ethnicity.
+- Do not infer an ethnicity from unstructured product copy when the catalog data does not identify it explicitly.
+- Use the documented black or white foreground whenever text appears directly on an ethnicity accent. Each pair selects the higher-contrast neutral and passes WCAG AA for normal text.
+- These colors are stakeholder-defined visual associations for this project and must not be presented as official cultural symbolism unless that status is separately verified.
+
 ## Evidence on Hand
 
 - Existing frontend code in this project, including the home, catalog, product, editorial, diagnostic, and SEO routes.

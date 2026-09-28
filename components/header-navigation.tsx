@@ -2,13 +2,29 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
+
+type NavigationFeature = {
+  name: string;
+  href: string;
+  image?: string;
+  price: string;
+  accent?: string;
+  foreground?: string;
+};
 
 export type NavigationItem = {
   label: string;
   href: string;
   children?: NavigationItem[];
-  feature?: { name: string; href: string; image?: string; price: string };
+  feature?: NavigationFeature;
+};
+
+const categoryFeatureImages: Record<string, string> = {
+  Sananga: "/assets/home/categories/medicina-sagrada-categoria-sananga.webp",
+  Incensos: "/assets/home/categories/medicina-sagrada-categoria-incensos.webp",
+  "Acessórios": "/assets/home/categories/medicina-sagrada-categoria-acessorios.webp",
+  Artesanato: "/assets/home/categories/medicina-sagrada-categoria-artesanato.webp",
 };
 
 function CategoryLinks({ items }: { items: NavigationItem[] }) {
@@ -20,28 +36,65 @@ function CategoryLinks({ items }: { items: NavigationItem[] }) {
 
 function MegaPanel({ item }: { item: NavigationItem }) {
   const isRape = item.href === "/product-category/rape/";
-  const categorySlug = item.href.split("/").filter(Boolean).at(-1);
+  const categoryFeatureImage = categoryFeatureImages[item.label];
+  const featureStyle = item.feature ? {
+    "--mega-product-accent": item.feature.accent,
+    "--mega-product-foreground": item.feature.foreground,
+  } as CSSProperties : undefined;
   return <div className="navigation-mega"><div className="container mega-inner">
     <div className="mega-intro">
       <p className="mega-caption">Explore a loja</p>
       <h2>{item.label}</h2>
       <p>{isRape ? "Conheça as diferentes origens e encontre seu rapé." : `Conheça nossa coleção de ${item.label.toLocaleLowerCase("pt-BR")} e explore as categorias.`}</p>
-      <Link className="mega-all" href={item.href}>Ver toda a coleção <span aria-hidden="true">→</span></Link>
+      <Link className="mega-all" href={item.href}>Ver toda a coleção</Link>
     </div>
     <div className="mega-categories"><p className="mega-caption">{isRape ? "Explore os rapés" : "Categorias"}</p><CategoryLinks items={item.children ?? []} /></div>
-    <div className="mega-feature">
-      <p className="mega-caption">{isRape ? "Rapé do mês" : "Em destaque"}</p>
-      {item.feature ? <Link className="mega-product" href={item.feature.href}>
-        <div className="mega-product-image">{item.feature.image && <Image src={item.feature.image} alt="" width={240} height={240} />}</div>
-        <span className="mega-product-name">{item.feature.name}</span>
-        <span className="mega-product-price">{item.feature.price}</span>
-        <span className="mega-feature-cta">Conhecer este rapé <span aria-hidden="true">→</span></span>
+    <div className="mega-feature" style={featureStyle}>
+      <p className={`mega-caption${isRape && item.feature ? " mega-feature-caption" : ""}`}>{isRape ? "Rapé do mês" : "Em destaque"}</p>
+      {item.feature ? <Link
+        className="mega-product"
+        href={item.feature.href}
+      >
+        <span className="mega-product-image">
+          {item.feature.image && <Image src={item.feature.image} alt="" width={480} height={480} sizes="(min-width: 1001px) 22rem, 1px" />}
+          <span className="mega-product-discount">10% de desconto</span>
+        </span>
+        <span className="mega-product-details">
+          <span className="mega-product-name">{item.feature.name}</span>
+          <span className="mega-feature-cta">Aproveitar o desconto</span>
+        </span>
       </Link> : <Link className="mega-collection" href={item.href}>
-        <Image src={`/assets/home/categories/medicina-sagrada-categoria-${categorySlug}.webp`} alt="" width={340} height={220} />
-        <span className="mega-feature-cta">Conheça {item.label} <span aria-hidden="true">→</span></span>
+        <span className="mega-collection-image">
+          {categoryFeatureImage && <Image src={categoryFeatureImage} alt="" width={480} height={480} sizes="(min-width: 1001px) 22rem, 1px" />}
+        </span>
+        <span className="mega-collection-details">
+          <span className="mega-collection-name">{item.label}</span>
+          <span className="mega-feature-cta">Conheça a coleção</span>
+        </span>
       </Link>}
     </div>
   </div></div>;
+}
+
+function MobileFeaturedProduct({ feature }: { feature: NavigationFeature }) {
+  const featureStyle = {
+    "--mega-product-accent": feature.accent,
+    "--mega-product-foreground": feature.foreground,
+  } as CSSProperties;
+
+  return <Link className="mobile-featured-product" href={feature.href} style={featureStyle}>
+    <span className="mobile-featured-image">
+      {feature.image && <Image src={feature.image} alt="" width={180} height={180} sizes="6.25rem" />}
+    </span>
+    <span className="mobile-featured-content">
+      <span className="mobile-featured-kicker">Rapé do mês</span>
+      <span className="mobile-featured-name">{feature.name}</span>
+      <span className="mobile-featured-footer">
+        <span className="mobile-featured-discount"><strong>10%</strong><span className="mobile-featured-discount-copy"> de desconto</span></span>
+        <span className="mobile-featured-cta">Aproveitar</span>
+      </span>
+    </span>
+  </Link>;
 }
 
 function Branch({ item, mobile }: { item: NavigationItem; mobile: boolean }) {
@@ -105,7 +158,10 @@ export function HeaderNavigation({ items, mobile = false }: { items: NavigationI
         if (menu) menu.open = false;
       }}
     >
-      {items.map((item) => <li key={item.href}><Branch item={item} mobile={mobile} /></li>)}
+      {items.map((item) => <li key={item.href}>
+        {mobile && item.feature ? <MobileFeaturedProduct feature={item.feature} /> : null}
+        <Branch item={item} mobile={mobile} />
+      </li>)}
     </ul>
   );
 }

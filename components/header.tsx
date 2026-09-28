@@ -7,6 +7,7 @@ import { HeaderNavigation, type NavigationItem } from "@/components/header-navig
 import { getAllProductCategories, getProducts } from "@/lib/woocommerce";
 import { pathnameFromUrl } from "@/lib/url";
 import { plainText } from "@/lib/html";
+import { getEthnicityTheme } from "@/lib/ethnicity-colors";
 
 const navigation = [
   { href: "/product-category/rape/", label: "Rapé" },
@@ -49,7 +50,15 @@ export async function Header() {
     if (product) {
       const format = new Intl.NumberFormat("pt-BR", { style: "currency", currency: product.prices.currency_code });
       const amount = Number(product.prices.price_range?.min_amount ?? product.prices.price) / 10 ** product.prices.currency_minor_unit;
-      items[0].feature = { name: plainText(product.name), href: `/product/${product.slug}/`, image: product.images[0]?.src, price: `${product.prices.price_range ? "A partir de " : ""}${format.format(amount)}` };
+      const ethnicityTheme = getEthnicityTheme(product.categories);
+      items[0].feature = {
+        name: plainText(product.name),
+        href: `/product/${product.slug}/`,
+        image: product.images[0]?.src,
+        price: `${product.prices.price_range ? "A partir de " : ""}${format.format(amount)}`,
+        accent: ethnicityTheme?.accent,
+        foreground: ethnicityTheme?.foreground,
+      };
     }
   }
   return (
