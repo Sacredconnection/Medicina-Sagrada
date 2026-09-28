@@ -137,6 +137,13 @@ export function HomeApplicatorsSection() {
             </Link>
           ))}
         </div>
+
+        <Link
+          className="button applicators-cta applicators-cta-mobile"
+          href="/product-category/acessorios/"
+        >
+          Explorar acessórios
+        </Link>
       </div>
     </section>
   );
