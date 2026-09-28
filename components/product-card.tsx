@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { plainText } from "@/lib/html";
+import { canonicalizeEthnicityNames, getEthnicityTheme } from "@/lib/ethnicity-colors";
 import type { WooProduct } from "@/lib/types";
 
 const formatPrice = (product: WooProduct) => {
@@ -27,7 +28,8 @@ type ProductCardProps = {
 
 export function ProductCard({ product, headingLevel = 2 }: ProductCardProps) {
   const image = product.images[0];
-  const productName = plainText(product.name);
+  const productName = canonicalizeEthnicityNames(plainText(product.name));
+  const ethnicityTheme = getEthnicityTheme(product.categories);
   const productHref = `/product/${product.slug}/`;
   const rating = Number(product.average_rating);
   const hasReviews = product.review_count > 0 && Number.isFinite(rating) && rating > 0;
@@ -52,7 +54,7 @@ export function ProductCard({ product, headingLevel = 2 }: ProductCardProps) {
         <div className="product-card-body">
           <div className="product-card-meta">
             <span className="product-category">
-              {product.categories[0]?.name ?? "Medicina Sagrada"}
+              {ethnicityTheme?.name ?? canonicalizeEthnicityNames(product.categories[0]?.name ?? "Medicina Sagrada")}
             </span>
             {hasReviews ? (
               <span

@@ -7,7 +7,7 @@ import { HeaderNavigation, type NavigationItem } from "@/components/header-navig
 import { getAllProductCategories, getProducts } from "@/lib/woocommerce";
 import { pathnameFromUrl } from "@/lib/url";
 import { plainText } from "@/lib/html";
-import { getEthnicityTheme } from "@/lib/ethnicity-colors";
+import { canonicalizeEthnicityNames, getEthnicityTheme } from "@/lib/ethnicity-colors";
 
 const navigation = [
   { href: "/product-category/rape/", label: "Rapé" },
@@ -34,7 +34,7 @@ export async function Header() {
   const descendants = (parent: number, visited = new Set<number>()): NavigationItem[] =>
     categories.filter((category) => category.parent === parent && !visited.has(category.id))
       .map((category) => ({
-        label: plainText(category.name),
+        label: canonicalizeEthnicityNames(plainText(category.name)),
         href: pathnameFromUrl(category.permalink),
         children: descendants(category.id, new Set([...visited, category.id])),
       }));
@@ -52,7 +52,7 @@ export async function Header() {
       const amount = Number(product.prices.price_range?.min_amount ?? product.prices.price) / 10 ** product.prices.currency_minor_unit;
       const ethnicityTheme = getEthnicityTheme(product.categories);
       items[0].feature = {
-        name: plainText(product.name),
+        name: canonicalizeEthnicityNames(plainText(product.name)),
         href: `/product/${product.slug}/`,
         image: product.images[0]?.src,
         price: `${product.prices.price_range ? "A partir de " : ""}${format.format(amount)}`,

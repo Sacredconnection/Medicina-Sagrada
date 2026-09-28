@@ -60,7 +60,7 @@ The following stakeholder-provided colors are the canonical visual accents for e
 | Puyanawa | `#ba9b80` | Black `#000000` |
 | Shanenawa | `#0568a7` | White `#ffffff` |
 | Shawãdawa | `#ec2326` | Black `#000000` |
-| Yawanawa | `#2f2f2a` | White `#ffffff` |
+| Yawanawá | `#2f2f2a` | White `#ffffff` |
 
 Usage contract:
 

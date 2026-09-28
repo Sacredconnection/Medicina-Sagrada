@@ -1,5 +1,6 @@
 import type { WooProduct } from "@/lib/types";
 import { plainText } from "@/lib/html";
+import { canonicalizeEthnicityNames } from "@/lib/ethnicity-colors";
 
 /**
  * Conteúdo visual da home.
@@ -123,7 +124,7 @@ export const getHomeKitBanners = (products: WooProduct[]) => {
       return {
         key: String(product.id),
         href,
-        title: plainText(product.name),
+        title: canonicalizeEthnicityNames(plainText(product.name)),
         label: "Conhecer o kit",
         image: curated?.image ?? productImage,
         fallbackImage: productImage || curated?.fallbackImage || curated?.image || "",
@@ -164,7 +165,7 @@ const demoPrices = (amount: string): WooProduct["prices"] => ({
 export const demoProducts: WooProduct[] = [
   {
     id: 1,
-    name: "Rapé Yawanawa – Tsunu",
+    name: "Rapé Yawanawá – Tsunu",
     slug: "yawanawa-tsunu",
     permalink: "/product/yawanawa-tsunu/",
     sku: "",
@@ -179,7 +180,7 @@ export const demoProducts: WooProduct[] = [
     images: [
       demoImage(
         "https://medicinasagrada.com.br/wp-content/uploads/2019/03/FAMILIA_YAWANAWA-Tsunu-300x300.jpg",
-        "Rapé Yawanawa Tsunu",
+        "Rapé Yawanawá Tsunu",
       ),
     ],
     categories: [{ id: 0, name: "Rapé", slug: "rape" }],

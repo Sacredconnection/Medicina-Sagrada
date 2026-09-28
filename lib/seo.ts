@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { config } from "@/lib/config";
 import { excerpt, plainText } from "@/lib/html";
+import { canonicalizeEthnicityNames } from "@/lib/ethnicity-colors";
 import type {
   WooCategory,
   WooProduct,
@@ -79,10 +80,10 @@ export const metadataForContent = (
 
 export const metadataForProduct = (product: WooProduct, pathname: string) =>
   createMetadata({
-    title: plainText(product.name),
-    description: excerpt(
+    title: canonicalizeEthnicityNames(plainText(product.name)),
+    description: canonicalizeEthnicityNames(excerpt(
       product.short_description || product.description,
-    ),
+    )),
     pathname,
     image: product.images[0]?.src,
   });
@@ -92,10 +93,10 @@ export const metadataForProductCategory = (
   pathname: string,
 ) =>
   createMetadata({
-    title: plainText(category.name),
+    title: canonicalizeEthnicityNames(plainText(category.name)),
     description:
-      excerpt(category.description) ||
-      `Conheça os produtos da categoria ${plainText(category.name)} na Medicina Sagrada.`,
+      canonicalizeEthnicityNames(excerpt(category.description)) ||
+      `Conheça os produtos da categoria ${canonicalizeEthnicityNames(plainText(category.name))} na Medicina Sagrada.`,
     pathname,
     image: category.image?.src,
   });
@@ -134,11 +135,11 @@ export const productSchema = (product: WooProduct) => ({
   "@context": "https://schema.org",
   "@type": "Product",
   "@id": `${absoluteUrl(`/product/${product.slug}`)}#product`,
-  name: plainText(product.name),
-  description: excerpt(product.description || product.short_description, 500),
+  name: canonicalizeEthnicityNames(plainText(product.name)),
+  description: canonicalizeEthnicityNames(excerpt(product.description || product.short_description, 500)),
   sku: product.sku || undefined,
   image: product.images.map((image) => image.src),
-  category: product.categories.map((category) => category.name).join(", "),
+  category: product.categories.map((category) => canonicalizeEthnicityNames(category.name)).join(", "),
   offers: {
     "@type": "Offer",
     url: absoluteUrl(`/product/${product.slug}`),

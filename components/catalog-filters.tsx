@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { catalogSearch, sortOptions, type CatalogQuery } from "@/lib/catalog-query";
 import type { WooCategory } from "@/lib/types";
 import { pathnameFromUrl } from "@/lib/url";
+import { canonicalizeEthnicityNames } from "@/lib/ethnicity-colors";
 
 export function CatalogFilters({ query, categories, basePath, categoryId }: { query: CatalogQuery; categories: WooCategory[]; basePath: string; categoryId?: number }) {
   const [open, setOpen] = useState(false);
@@ -33,7 +34,7 @@ export function CatalogFilters({ query, categories, basePath, categoryId }: { qu
       <div id="catalog-filter-fields">
         <h2>Refinar sua busca</h2>
         {query.q ? <input type="hidden" name="q" value={query.q} /> : null}
-        {categories.some(c => c.count > 0) ? <fieldset className="catalog-category-options"><legend>{categoryId ? "Subcategorias" : "Categorias"}</legend><p className="purchase-detail">Selecione uma ou mais opções.</p>{categories.filter(c => c.count > 0).map(c => <label className="catalog-checkbox" key={c.id}><input name="categoria" type="checkbox" value={c.id} defaultChecked={query.categories.includes(c.id)} /><span>{c.name} <small>({c.count})</small></span></label>)}</fieldset> : null}
+        {categories.some(c => c.count > 0) ? <fieldset className="catalog-category-options"><legend>{categoryId ? "Subcategorias" : "Categorias"}</legend><p className="purchase-detail">Selecione uma ou mais opções.</p>{categories.filter(c => c.count > 0).map(c => <label className="catalog-checkbox" key={c.id}><input name="categoria" type="checkbox" value={c.id} defaultChecked={query.categories.includes(c.id)} /><span>{canonicalizeEthnicityNames(c.name)} <small>({c.count})</small></span></label>)}</fieldset> : null}
         <fieldset><legend>Preço (R$)</legend><div className="catalog-price-fields">
           <label className="commerce-field">Mínimo<input name="min" type="number" min="0" max="999999.99" step="0.01" defaultValue={query.min === undefined ? "" : query.min / 100} placeholder="0" /></label>
           <label className="commerce-field">Máximo<input name="max" type="number" min="0" max="999999.99" step="0.01" defaultValue={query.max === undefined ? "" : query.max / 100} placeholder="Sem limite" /></label>
@@ -42,7 +43,7 @@ export function CatalogFilters({ query, categories, basePath, categoryId }: { qu
         <label className="catalog-checkbox"><input name="oferta" type="checkbox" value="1" defaultChecked={query.sale} />Em oferta</label>
         <noscript><button className="commerce-button" type="submit">Aplicar filtros</button></noscript>
         <Link className="commerce-text-button" href={`${basePath}${query.q ? `?q=${encodeURIComponent(query.q)}` : ""}`}>Limpar filtros</Link>
-        <nav className="catalog-categories" aria-label="Categorias da loja"><h3>Explore as categorias</h3>{categories.filter(c => c.count > 0 && (c.parent === (categoryId ?? 0))).map(c => <Link key={c.id} href={pathnameFromUrl(c.permalink)}>{c.name} <span>({c.count})</span></Link>)}<Link href="/busca/">Ver todos os produtos →</Link></nav>
+        <nav className="catalog-categories" aria-label="Categorias da loja"><h3>Explore as categorias</h3>{categories.filter(c => c.count > 0 && (c.parent === (categoryId ?? 0))).map(c => <Link key={c.id} href={pathnameFromUrl(c.permalink)}>{canonicalizeEthnicityNames(c.name)} <span>({c.count})</span></Link>)}<Link href="/busca/">Ver todos os produtos →</Link></nav>
       </div>
     </Form>
   </aside>;

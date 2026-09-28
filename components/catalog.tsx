@@ -4,6 +4,7 @@ import { CatalogFilters, CatalogSort } from "@/components/catalog-filters";
 import { ProductCard } from "@/components/product-card";
 import { catalogSearch, type CatalogQuery } from "@/lib/catalog-query";
 import { getAllProductCategories, getCatalog } from "@/lib/woocommerce";
+import { canonicalizeEthnicityNames } from "@/lib/ethnicity-colors";
 
 export async function Catalog({ query: inputQuery, basePath, categoryId, page = inputQuery.page }: { query: CatalogQuery; basePath: string; categoryId?: number; page?: number }) {
   const categories = await getAllProductCategories();
@@ -33,7 +34,7 @@ export async function Catalog({ query: inputQuery, basePath, categoryId, page = 
       {query.invalidPrice ? <p className="commerce-error" role="alert">Informe preços válidos, com o mínimo menor ou igual ao máximo. O filtro de preço não foi aplicado.</p> : null}
       <div className="catalog-active-filters" aria-label="Categorias selecionadas">{query.categories.map(id => {
         const next = catalogSearch({ ...query, categories: query.categories.filter(value => value !== id) });
-        const name = categories.find(category => category.id === id)?.name;
+        const name = canonicalizeEthnicityNames(categories.find(category => category.id === id)?.name ?? "Categoria");
         return <Link key={id} scroll={false} href={`${basePath}?${next}`} aria-label={`Remover categoria ${name}`}>{name} ×</Link>;
       })}</div>
       <div className="catalog-active-filters" aria-label="Filtros aplicados">{[["estoque", query.stock ? "Em estoque" : ""], ["oferta", query.sale ? "Em oferta" : ""], ["min", query.min !== undefined ? `A partir de R$ ${query.min / 100}` : ""], ["max", query.max !== undefined ? `Até R$ ${query.max / 100}` : ""]].map(([key, label]) => { const next = new URLSearchParams(params); next.delete(key); return label ? <Link key={key} href={`${basePath}?${next}`} aria-label={`Remover filtro ${label}`}>{label} ×</Link> : null; })}</div>

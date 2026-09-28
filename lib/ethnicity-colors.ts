@@ -20,7 +20,7 @@ export const ethnicityThemes: readonly EthnicityTheme[] = [
   { name: "Puyanawa", accent: "#ba9b80", foreground: "#000000", aliases: ["puyanawa", "rape-puyanawa"] },
   { name: "Shanenawa", accent: "#0568a7", foreground: "#ffffff", aliases: ["shanenawa", "rape-shanenawa"] },
   { name: "Shawãdawa", accent: "#ec2326", foreground: "#000000", aliases: ["shawadawa", "rape-shawadawa"] },
-  { name: "Yawanawa", accent: "#2f2f2a", foreground: "#ffffff", aliases: ["yawanawa", "rape-yawanawa"] },
+  { name: "Yawanawá", accent: "#2f2f2a", foreground: "#ffffff", aliases: ["yawanawa", "rape-yawanawa"] },
 ] as const;
 
 function normalize(value: string) {
@@ -42,4 +42,29 @@ export function getEthnicityTheme(categories: readonly ProductCategory[]) {
   return ethnicityThemes.find((theme) =>
     theme.aliases.some((alias) => categoryKeys.has(alias))
   );
+}
+
+const preserveCase = (source: string, canonical: string) => {
+  if (source === source.toLocaleUpperCase("pt-BR")) {
+    return canonical.toLocaleUpperCase("pt-BR");
+  }
+  if (source === source.toLocaleLowerCase("pt-BR")) {
+    return canonical.toLocaleLowerCase("pt-BR");
+  }
+  return canonical;
+};
+
+export function canonicalizeEthnicityNames(value: string) {
+  return ethnicityThemes.reduce((result, theme) => {
+    const unaccentedName = theme.name
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+    if (unaccentedName === theme.name) return result;
+
+    return result.replace(
+      new RegExp(`\\b${unaccentedName}\\b`, "giu"),
+      (match) => preserveCase(match, theme.name),
+    );
+  }, value);
 }

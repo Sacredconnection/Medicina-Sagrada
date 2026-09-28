@@ -1,6 +1,9 @@
 import sanitizeHtml from "sanitize-html";
 
-export const cleanHtml = (html: string) =>
+export const cleanHtml = (
+  html: string,
+  textFilter?: (text: string, tagName: string) => string,
+) =>
   sanitizeHtml(html, {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat([
       "figure",
@@ -57,6 +60,7 @@ export const cleanHtml = (html: string) =>
         attribs: { ...attribs, loading: "lazy" },
       }),
     },
+    ...(textFilter ? { textFilter } : {}),
   });
 
 const namedEntities: Record<string, string> = {

@@ -4,6 +4,7 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
 import { Catalog } from "@/components/catalog";
 import { parseCatalogQuery, catalogSearch, type SearchValues } from "@/lib/catalog-query";
+import { canonicalizeEthnicityNames, getEthnicityTheme } from "@/lib/ethnicity-colors";
 import { RichText } from "@/components/rich-text";
 import {
   breadcrumbSchema,
@@ -61,14 +62,18 @@ export async function generateMetadata({
     return { title: "Categoria não encontrada", robots: { index: false } };
   }
 
-  const metadata = metadataForProductCategory(category, parsed.pathname);
+  const categoryName = canonicalizeEthnicityNames(category.name);
+  const metadata = metadataForProductCategory(
+    { ...category, name: categoryName },
+    parsed.pathname,
+  );
   return {
     ...metadata,
     ...(catalogSearch(parseCatalogQuery(await searchParams)).size ? { robots: { index: false, follow: true } } : {}),
     title:
       parsed.page > 1
-        ? `${category.name} — Página ${parsed.page}`
-        : category.name,
+        ? `${categoryName} — Página ${parsed.page}`
+        : categoryName,
   };
 }
 
@@ -85,10 +90,14 @@ export default async function ProductCategoryPage({
   }
 
   const query = parseCatalogQuery(await searchParams);
+  const categoryName = canonicalizeEthnicityNames(category.name);
+  const ethnicityTheme = parsed.basePath.startsWith("/product-category/rape/")
+    ? getEthnicityTheme([{ name: category.name, slug: category.slug }])
+    : undefined;
 
   const breadcrumbs = [
     { name: "Início", pathname: "/" },
-    { name: category.name, pathname: parsed.basePath },
+    { name: categoryName, pathname: parsed.basePath },
   ];
 
   return (
@@ -96,13 +105,21 @@ export default async function ProductCategoryPage({
       <Breadcrumbs
         items={[
           { label: "Início", href: "/" },
-          { label: category.name },
+          { label: categoryName },
         ]}
       />
       <header className="archive-header">
         <p className="eyebrow">Categoria</p>
-        <h1>{category.name}</h1>
-        {parsed.page === 1 ? <RichText html={category.description} /> : null}
+        <h1 style={ethnicityTheme ? { color: ethnicityTheme.accent } : undefined}>
+          {categoryName}
+        </h1>
+        {parsed.page === 1 ? (
+          <RichText
+            html={category.description}
+            className="category-description"
+            textFilter={canonicalizeEthnicityNames}
+          />
+        ) : null}
       </header>
       <Catalog query={query} categoryId={category.id} page={parsed.page} basePath={parsed.basePath} />
       <JsonLd data={breadcrumbSchema(breadcrumbs)} />

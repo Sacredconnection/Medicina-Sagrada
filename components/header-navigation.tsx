@@ -36,7 +36,7 @@ function CategoryLinks({ items, isRape }: { items: NavigationItem[]; isRape: boo
     } as CSSProperties : undefined;
 
     return <li key={item.href}>
-      <Link href={item.href} className={theme ? "ethnicity-link" : undefined} style={style}>{item.label}</Link>
+      <Link href={item.href} className={theme ? "ethnicity-link" : undefined} style={style}>{theme?.name ?? item.label}</Link>
       {!!item.children?.length && <CategoryLinks items={item.children} isRape={isRape} />}
     </li>;
   })}</ul>;

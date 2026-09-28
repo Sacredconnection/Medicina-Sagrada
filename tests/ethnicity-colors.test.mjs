@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { ethnicityThemes, getEthnicityTheme } from "../lib/ethnicity-colors.ts";
+import { canonicalizeEthnicityNames, ethnicityThemes, getEthnicityTheme } from "../lib/ethnicity-colors.ts";
 
 const expectedColors = new Map([
   ["Apurinã", "#83bc43"],
@@ -12,7 +12,7 @@ const expectedColors = new Map([
   ["Puyanawa", "#ba9b80"],
   ["Shanenawa", "#0568a7"],
   ["Shawãdawa", "#ec2326"],
-  ["Yawanawa", "#2f2f2a"],
+  ["Yawanawá", "#2f2f2a"],
 ]);
 
 const expectedForegrounds = new Map([
@@ -25,7 +25,7 @@ const expectedForegrounds = new Map([
   ["Puyanawa", "#000000"],
   ["Shanenawa", "#ffffff"],
   ["Shawãdawa", "#000000"],
-  ["Yawanawa", "#ffffff"],
+  ["Yawanawá", "#ffffff"],
 ]);
 
 function luminance(hex) {
@@ -72,4 +72,10 @@ test("resolve a cor pela categoria estruturada do produto", () => {
 
 test("não infere etnia quando só existe a categoria genérica de rapé", () => {
   assert.equal(getEthnicityTheme([{ name: "Rapé", slug: "rape" }]), undefined);
+});
+
+test("corrige os diacríticos dos nomes de etnias sem alterar a capitalização", () => {
+  assert.equal(canonicalizeEthnicityNames("Rapé Yawanawa – Tsunu"), "Rapé Yawanawá – Tsunu");
+  assert.equal(canonicalizeEthnicityNames("APURINA, SHAWADAWA E YAWANAWA"), "APURINÃ, SHAWÃDAWA E YAWANAWÁ");
+  assert.equal(canonicalizeEthnicityNames("Apurinã e Shawãdawa"), "Apurinã e Shawãdawa");
 });

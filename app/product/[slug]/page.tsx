@@ -11,6 +11,7 @@ import { ProductCard } from "@/components/product-card";
 import { getReviews } from "@/lib/reviews";
 import { config } from "@/lib/config";
 import { plainText } from "@/lib/html";
+import { canonicalizeEthnicityNames, getEthnicityTheme } from "@/lib/ethnicity-colors";
 import {
   breadcrumbSchema,
   metadataForProduct,
@@ -47,6 +48,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product || !pathMatches(product.permalink, pathname)) notFound();
 
   const primaryCategory = product.categories[0];
+  const productName = canonicalizeEthnicityNames(plainText(product.name));
+  const ethnicityTheme = getEthnicityTheme(product.categories);
+  const primaryCategoryName = ethnicityTheme?.name ?? canonicalizeEthnicityNames(primaryCategory?.name ?? "Medicina Sagrada");
   const [category, variants, reviews, related] = await Promise.all([
     primaryCategory ? getProductCategoryBySlug(primaryCategory.slug).catch(() => null) : null,
     getProductVariations(product),
@@ -59,12 +63,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
     ...(primaryCategory
       ? [
           {
-            name: primaryCategory.name,
+            name: primaryCategoryName,
             pathname: categoryPath,
           },
         ]
       : []),
-    { name: plainText(product.name), pathname },
+    { name: productName, pathname },
   ];
 
   return (
@@ -76,20 +80,20 @@ export default async function ProductPage({ params }: ProductPageProps) {
         }))}
       />
       <div className="product-layout">
-        <ProductGallery images={product.images} name={plainText(product.name)} />
+        <ProductGallery images={product.images} name={productName} />
         <div className="product-summary">
           {primaryCategory ? (
             <Link
               className="eyebrow"
               href={categoryPath}
             >
-              {primaryCategory.name}
+              {primaryCategoryName}
             </Link>
           ) : null}
-          <h1>{plainText(product.name)}</h1>
+          <h1>{productName}</h1>
           <a className="product-review-link" href="#avaliacoes">{product.review_count ? `★ ${Number(product.average_rating).toLocaleString("pt-BR")} · ${product.review_count} avaliações` : "Seja o primeiro a avaliar"}</a>
           <ProductPurchase product={product} variants={variants} originalUrl={new URL(pathname, config.wordpressSiteUrl).toString()}>
-          <RichText html={product.short_description} />
+          <RichText html={product.short_description} textFilter={canonicalizeEthnicityNames} />
           <p className="availability">
             {product.is_in_stock ? "Em estoque" : "Consulte a disponibilidade"}
           </p>
@@ -99,7 +103,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       </div>
       <section className="product-description" aria-labelledby="descricao">
         <h2 id="descricao">Sobre este produto</h2>
-        <RichText html={product.description} />
+        <RichText html={product.description} textFilter={canonicalizeEthnicityNames} />
       </section>
       <ProductReviews productId={product.id} count={product.review_count} average={product.average_rating} initial={reviews ?? { data: [], totalPages: 0 }} initialError={!reviews} reviewUrl={`${new URL(pathname, config.wordpressSiteUrl)}#review_form`} />
       {related.some(item => item.id !== product.id) ? <section className="related-products"><h2>Na mesma categoria</h2><div className="product-grid">{related.filter(item => item.id !== product.id).slice(0, 4).map(item => <ProductCard key={item.id} product={item} headingLevel={3} />)}</div></section> : null}

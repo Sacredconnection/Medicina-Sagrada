@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion
 import type { CSSProperties } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { plainText } from "@/lib/html";
+import { canonicalizeEthnicityNames } from "@/lib/ethnicity-colors";
 import {
   ritualExperienceOptions,
   ritualIntentions,
@@ -117,7 +118,7 @@ function FinderProduct({
       >
         {image ? (
           <Image
-            alt={image.alt || plainText(product.name)}
+            alt={image.alt || canonicalizeEthnicityNames(plainText(product.name))}
             fill
             sizes="(max-width: 700px) 35vw, 11rem"
             src={image.thumbnail || image.src}
@@ -128,7 +129,7 @@ function FinderProduct({
       </Link>
       <div className="ritual-product-copy">
         <h3>
-          <Link href={productHref(product)}>{plainText(product.name)}</Link>
+          <Link href={productHref(product)}>{canonicalizeEthnicityNames(plainText(product.name))}</Link>
         </h3>
         <p className="ritual-product-kind">{kind}</p>
         <p>{detail}</p>
@@ -416,6 +417,7 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
                       style={cardStyle}
                       type="button"
                     >
+                      <span aria-hidden="true" className="matcher-card-frame" />
                       <span className="matcher-card-copy">
                         <span className="matcher-card-title">{option.label}</span>
                         <span className="matcher-card-description">
@@ -426,6 +428,12 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
                   );
                 })}
               </div>
+              <span
+                aria-hidden="true"
+                className="scroll-hint matcher-options-scroll-hint"
+              >
+                Deslize para ver mais
+              </span>
             </div>
           ) : null}
 
@@ -458,6 +466,12 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
                   </button>
                 ))}
               </div>
+              <span
+                aria-hidden="true"
+                className="scroll-hint matcher-options-scroll-hint"
+              >
+                Deslize para ver mais
+              </span>
               <button
                 className="matcher-back"
                 onClick={() => goToStep("intention")}
