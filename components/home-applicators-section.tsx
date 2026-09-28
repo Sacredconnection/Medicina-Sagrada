@@ -99,6 +99,9 @@ export function HomeApplicatorsSection() {
       <div className="container applicators-layout">
         <div className="applicators-panel">
           <div className="applicators-copy">
+            <span className="applicators-kicker">
+              Preparo, cuidado e conexão
+            </span>
             <h2 id="applicators-title">
               <span>Acessórios</span>
               <span>para sua prática</span>

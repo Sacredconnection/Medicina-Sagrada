@@ -441,6 +441,7 @@ strong, b { font-weight: var(--weight-bold); }
 .applicators-layout { display: grid; grid-template-columns: minmax(15rem, 0.72fr) minmax(28rem, 1.28fr); align-items: start; gap: clamp(3rem, 7vw, 7rem); }
 .applicators-panel { position: sticky; top: 7rem; display: flex; align-items: flex-start; flex-direction: column; padding-top: clamp(0.25rem, 1.5vw, 1.5rem); }
 .applicators-copy { display: flex; align-items: flex-start; flex-direction: column; }
+.applicators-kicker { margin-bottom: 0.85rem; color: var(--brand-orange); font-size: 0.75rem; font-weight: var(--weight-bold); line-height: 1.25; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
 .applicators-copy h2 { max-width: none; font-size: var(--type-section-title); font-weight: var(--weight-bold); letter-spacing: -0.035em; line-height: 1.02; }
 .applicators-copy h2 span { display: block; white-space: nowrap; }
 .applicators-copy p { max-width: 34rem; margin: 1.25rem 0 0; color: var(--muted); font-size: clamp(1rem, 1.2vw, 1.075rem); line-height: 1.6; text-wrap: pretty; }
@@ -911,6 +912,7 @@ strong, b { font-weight: var(--weight-bold); }
   .applicators-layout { grid-template-columns: minmax(0, 1fr); gap: 2.75rem; }
   .applicators-panel { position: static; display: contents; padding-top: 0; }
   .applicators-copy { width: min(100%, 34rem); align-items: center; justify-self: center; grid-row: 1; text-align: center; }
+  .applicators-kicker { margin-bottom: 0.8rem; font-size: 0.6875rem; }
   .applicators-copy h2 { max-width: 12ch; font-size: clamp(2.35rem, 10vw, 3rem); line-height: 1.02; }
   .applicators-copy p { width: min(35ch, calc(100% - 1rem)); margin-top: 1rem; }
   .applicators-cta { justify-self: center; grid-row: 3; margin-top: -0.75rem; }
