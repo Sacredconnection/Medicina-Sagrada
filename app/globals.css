@@ -445,13 +445,16 @@ strong, b { font-weight: var(--weight-bold); }
 .applicators-copy p { max-width: 34rem; margin: 1.25rem 0 0; color: var(--muted); font-size: clamp(1rem, 1.2vw, 1.075rem); line-height: 1.6; text-wrap: pretty; }
 .applicators-cta { margin-top: 2rem; }
 .applicators-mosaic { display: grid; width: min(100%, 38rem); min-width: 0; justify-self: end; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(0.85rem, 1.5vw, 1.25rem); }
-.applicator-card { position: relative; display: flex; min-width: 0; aspect-ratio: 1; overflow: hidden; align-items: flex-end; border-radius: var(--radius); isolation: isolate; background-color: var(--paper-deep); background-image: var(--applicator-image, none); background-position: center; background-size: cover; box-shadow: 0 0.8rem 2rem rgba(11, 38, 29, 0.1); }
+.applicator-card { position: relative; display: flex; min-width: 0; aspect-ratio: 1; overflow: hidden; align-items: flex-end; border: 1px solid rgba(255, 255, 255, 0.58); border-radius: var(--radius); isolation: isolate; background-color: var(--paper-deep); background-image: var(--applicator-image, none); background-position: center; background-size: cover; transition: border-color 220ms ease, transform 280ms cubic-bezier(0.16, 1, 0.3, 1); }
 .applicator-card-featured { width: 100%; aspect-ratio: 2 / 1; grid-column: 1 / -1; }
-.applicator-card::before { position: absolute; z-index: 0; inset: 0; background: linear-gradient(180deg, rgba(11, 38, 29, 0) 48%, rgba(11, 38, 29, 0.72) 100%); content: ""; pointer-events: none; }
-.applicator-card::after { position: absolute; z-index: 2; inset: 0; border: 1px solid rgba(18, 55, 42, 0.14); border-radius: inherit; content: ""; pointer-events: none; }
-.applicator-card-content { position: relative; z-index: 1; width: 100%; padding: clamp(1rem, 2.2vw, 1.75rem); }
-.applicator-card h3 { max-width: 14ch; color: var(--white); font-size: clamp(1.35rem, 2vw, 1.8rem); font-weight: var(--weight-bold); letter-spacing: -0.025em; line-height: 1.05; text-shadow: 0 0.125rem 0.7rem rgba(0, 0, 0, 0.4); }
-.applicator-card-featured h3 { font-size: clamp(1.8rem, 3vw, 2.6rem); }
+.applicator-card::before { position: absolute; z-index: 0; inset: 0; background: linear-gradient(180deg, rgba(7, 27, 20, 0) 34%, rgba(7, 27, 20, 0.26) 58%, rgba(7, 27, 20, 0.9) 100%); content: ""; pointer-events: none; }
+.applicator-card-content { position: relative; z-index: 1; display: flex; width: 100%; align-items: flex-start; flex-direction: column; padding: clamp(1rem, 2.2vw, 1.75rem); }
+.applicator-card h3 { max-width: 14ch; color: var(--white); font-size: clamp(1.1rem, 1.45vw, 1.35rem); font-weight: var(--weight-bold); letter-spacing: -0.02em; line-height: 1.08; text-shadow: 0 0.125rem 0.7rem rgba(0, 0, 0, 0.42); }
+.applicator-card-featured h3 { font-size: clamp(1.45rem, 2.1vw, 1.9rem); }
+.applicator-card p { max-width: 31ch; margin-top: 0.35rem; color: rgba(255, 255, 255, 0.82); font-size: clamp(0.75rem, 0.9vw, 0.875rem); line-height: 1.4; text-shadow: 0 0.125rem 0.55rem rgba(0, 0, 0, 0.5); text-wrap: pretty; }
+.applicator-card-cta { margin-top: 0.7rem; padding-bottom: 0.18rem; border-bottom: 1px solid rgba(255, 255, 255, 0.68); color: var(--white); font-size: var(--type-action-compact); font-weight: var(--weight-bold); letter-spacing: 0.06em; line-height: 1.2; text-transform: uppercase; transition: border-color 200ms ease, color 200ms ease; }
+.applicator-card:is(:hover, :focus-visible) { border-color: rgba(255, 255, 255, 0.92); transform: translateY(-0.2rem); }
+.applicator-card:is(:hover, :focus-visible) .applicator-card-cta { border-color: var(--cta-accent); color: #fff4f0; }
 
 .products-section { padding-block: clamp(4rem, 8vw, 7rem); background: var(--white); }
 .home-product-grid { gap: 1.25rem; }
@@ -912,8 +915,10 @@ strong, b { font-weight: var(--weight-bold); }
   .applicators-cta { justify-self: center; grid-row: 3; margin-top: -0.75rem; }
   .applicators-mosaic { width: min(100%, 34rem); justify-self: center; grid-row: 2; gap: 0.75rem; }
   .applicator-card-content { padding: clamp(0.85rem, 4vw, 1.2rem); }
-  .applicator-card h3 { font-size: clamp(1.05rem, 5vw, 1.4rem); }
-  .applicator-card-featured h3 { font-size: clamp(1.65rem, 8vw, 2.25rem); }
+  .applicator-card h3 { font-size: clamp(1rem, 4.5vw, 1.2rem); }
+  .applicator-card-featured h3 { font-size: clamp(1.35rem, 6vw, 1.65rem); }
+  .applicator-card p { max-width: 24ch; margin-top: 0.25rem; font-size: clamp(0.7rem, 2.9vw, 0.8rem); line-height: 1.32; }
+  .applicator-card-cta { margin-top: 0.55rem; font-size: 0.6875rem; }
   .post-list, .diagnostic-grid { grid-template-columns: 1fr; }
   .footer-main { gap: 2.5rem 1.5rem; }
   .footer-brand-block, .footer-contact { grid-column: 1 / -1; }

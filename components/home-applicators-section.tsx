@@ -8,18 +8,27 @@ const applicators = [
   {
     id: "tepis",
     name: "Tepis",
+    description: "Aplicadores para conduzir o rapé em outra pessoa.",
+    cta: "Ver tepis",
+    href: "/product-category/acessorios/",
     featured: true,
     image: "/assets/home/applicators/medicina-sagrada-aplicadores-tepis.webp",
   },
   {
     id: "kuripes",
     name: "Kuripes",
+    description: "Aplicadores pessoais para o uso individual do rapé.",
+    cta: "Ver kuripes",
+    href: "/product-category/acessorios/",
     featured: false,
     image: "/assets/home/applicators/medicina-sagrada-aplicadores-kuripes.webp",
   },
   {
     id: "reservatorios",
     name: "Reservatórios",
+    description: "Peças para guardar e transportar o rapé.",
+    cta: "Ver reservatórios",
+    href: "/product-category/acessorios/",
     featured: false,
     image: "/assets/home/applicators/medicina-sagrada-aplicadores-reservatorios.webp",
   },
@@ -106,9 +115,10 @@ export function HomeApplicatorsSection() {
 
         <div className="applicators-mosaic" aria-label="Tipos de aplicadores">
           {applicators.map((applicator) => (
-            <article
+            <Link
               className={`applicator-card${applicator.featured ? " applicator-card-featured" : ""}`}
               data-image-slot={applicator.id}
+              href={applicator.href}
               key={applicator.id}
               style={
                 {
@@ -118,8 +128,10 @@ export function HomeApplicatorsSection() {
             >
               <div className="applicator-card-content">
                 <h3>{applicator.name}</h3>
+                <p>{applicator.description}</p>
+                <span className="applicator-card-cta">{applicator.cta}</span>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>
