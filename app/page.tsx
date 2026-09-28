@@ -5,10 +5,12 @@ import { BenefitsStrip } from "@/components/benefits-strip";
 import { HomeApplicatorsSection } from "@/components/home-applicators-section";
 import { HomeKitsSection } from "@/components/home-kit-grid";
 import { HomeProductGrid } from "@/components/home-product-grid";
+import { HomeYoutubeSection } from "@/components/home-youtube-section";
 import { JsonLd } from "@/components/json-ld";
 import { LiveHero } from "@/components/live-hero";
 import { ProductMatcher } from "@/components/product-matcher";
 import { getAllProducts } from "@/lib/woocommerce";
+import { getYouTubeVideos } from "@/lib/youtube";
 import {
   demoProducts,
   getHomeKitBanners,
@@ -20,7 +22,10 @@ import { absoluteUrl } from "@/lib/url";
 export const revalidate = 900;
 
 export default async function Home() {
-  const apiProducts = await getAllProducts().catch(() => []);
+  const [apiProducts, youtubeVideos] = await Promise.all([
+    getAllProducts().catch(() => []),
+    getYouTubeVideos(),
+  ]);
   const products = apiProducts.length ? apiProducts : demoProducts;
   const rotatingKitBanners = getHomeKitBanners(apiProducts);
   const pageSchema = {
@@ -218,21 +223,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="community-section" aria-labelledby="community-title">
-        <div className="container community-inner">
-          <div>
-            <p className="eyebrow">Continue a conversa</p>
-            <h2 id="community-title">Aprenda, escute e se aproxime.</h2>
-            <p>
-              Conteúdos para aprofundar o conhecimento sobre as medicinas e as
-              histórias dos povos que as mantêm vivas.
-            </p>
-          </div>
-          <Link className="button button-outline" href="/atendimento/">
-            Fale com a gente
-          </Link>
-        </div>
-      </section>
+      <HomeYoutubeSection videos={youtubeVideos} />
 
       <JsonLd data={pageSchema} />
     </>

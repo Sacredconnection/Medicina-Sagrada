@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { MouseEvent, ReactNode } from "react";
 
 type ScrollToTopLinkProps = {
@@ -19,13 +20,11 @@ export function ScrollToTopLink({ children, className }: ScrollToTopLinkProps) {
       return;
     }
 
+    if (window.location.pathname !== "/") return;
+
     event.preventDefault();
 
-    window.history.replaceState(
-      window.history.state,
-      "",
-      `${window.location.pathname}${window.location.search}#top`,
-    );
+    window.history.replaceState(window.history.state, "", "/#top");
 
     window.scrollTo({
       top: 0,
@@ -37,13 +36,13 @@ export function ScrollToTopLink({ children, className }: ScrollToTopLinkProps) {
   };
 
   return (
-    <a
+    <Link
       className={className}
-      href="#top"
-      aria-label="Voltar ao topo da página"
+      href="/#top"
+      aria-label="Ir para a página inicial"
       onClick={handleClick}
     >
       {children}
-    </a>
+    </Link>
   );
 }
