@@ -35,11 +35,11 @@ export default async function Home() {
       id: "ancestralidade",
       desktopImage: homeAssets.hero.desktopImage,
       mobileImage: homeAssets.hero.mobileImage,
-      titlePrimary: "Conhecimento ancestral,",
-      titleSecondary: "vivo e compartilhado com respeito.",
+      titlePrimary: "Saberes da floresta,",
+      titleSecondary: "vivos e compartilhados com respeito.",
       description:
         "Medicinas indígenas autênticas: rapés, kuripes e tepis tradicionais, diretamente das comunidades da Amazônia.",
-      ctaLabel: "JORNADA",
+      ctaLabel: "CONHEÇA AS MEDICINAS",
       ctaHref: "/product-category/rape/",
     },
     {
@@ -49,7 +49,7 @@ export default async function Home() {
       fallbackDesktopImage: homeAssets.hero.desktopImage,
       fallbackMobileImage: homeAssets.hero.mobileImage,
       titlePrimary: "Kuripes\n& Tepis:",
-      titleSecondary: "Instrumentos Sagrados de Sopro.",
+      titleSecondary: "Instrumentos de sopro, feitos com respeito.",
       description:
         "Seja para a autoaplicação ou para conduzir o sopro em rituais, descubra nossos aplicadores confeccionados com intenção e respeito à medicina.",
       ctaLabel: "VER ACESSÓRIOS",
