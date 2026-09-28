@@ -13,6 +13,7 @@
   --muted: #68736b;
   --white: #ffffff;
   --header-white: #ffffff;
+  --brand-orange: #ef4928;
   --cta-accent: #ef492b;
   --cta-on-accent: #06140f;
   --font-primary: "proxima-nova", "Avenir Next", "Segoe UI", Arial, sans-serif;
@@ -983,7 +984,7 @@ strong, b { font-weight: var(--weight-bold); }
   .mobile-featured-kicker { color: inherit; font-size: .6rem; font-weight: var(--weight-bold); line-height: 1; letter-spacing: .075em; text-transform: uppercase; }
   .mobile-featured-name { display: -webkit-box; overflow: hidden; margin-top: .32rem; color: inherit; font-size: .9375rem; font-weight: var(--weight-bold); line-height: 1.15; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
   .mobile-featured-footer { display: flex; min-width: 0; margin-top: .55rem; align-items: center; justify-content: space-between; gap: .5rem; }
-  .mobile-featured-discount { flex: 0 0 auto; padding: .3rem .45rem .28rem; border-radius: .22rem; background: var(--cta-accent); box-shadow: 0 .15rem .4rem rgb(0 0 0 / 16%); color: var(--cta-on-accent); font-size: .58rem; font-weight: var(--weight-bold); line-height: 1; letter-spacing: .025em; text-transform: uppercase; }
+  .mobile-featured-discount { flex: 0 0 auto; padding: .3rem .45rem .28rem; border-radius: .22rem; background: var(--brand-orange); box-shadow: 0 .15rem .4rem rgb(0 0 0 / 16%); color: var(--white); font-size: .58rem; font-weight: var(--weight-bold); line-height: 1; letter-spacing: .025em; text-transform: uppercase; }
   .mobile-featured-discount strong { font-size: .7rem; font-weight: var(--weight-extrabold); }
   .mobile-featured-cta { border-bottom: 1px solid currentColor; font-size: .6875rem; font-weight: var(--weight-bold); line-height: 1.2; }
 }
@@ -1018,7 +1019,7 @@ strong, b { font-weight: var(--weight-bold); }
 .mega-product-image img { width: 100%; height: 100%; object-fit: cover; object-position: center bottom; transition: transform 260ms cubic-bezier(.22, 1, .36, 1); }
 .mega-product:hover .mega-product-image img, .mega-product:focus-visible .mega-product-image img { transform: scale(1.025); }
 .mega-product-details { display: grid; gap: .3rem; padding: 1.05rem 1.1rem; }
-.mega-product-discount { position: absolute; top: .75rem; left: .75rem; z-index: 1; padding: .45rem .65rem .4rem; border-radius: .25rem; background: var(--cta-accent); box-shadow: 0 .25rem .65rem rgb(0 0 0 / 18%); color: var(--cta-on-accent); font-size: .72rem; font-weight: var(--weight-extrabold); line-height: 1; letter-spacing: .055em; text-transform: uppercase; }
+.mega-product-discount { position: absolute; top: .75rem; left: .75rem; z-index: 1; padding: .45rem .65rem .4rem; border-radius: .25rem; background: var(--brand-orange); box-shadow: 0 .25rem .65rem rgb(0 0 0 / 18%); color: var(--white); font-size: .72rem; font-weight: var(--weight-extrabold); line-height: 1; letter-spacing: .055em; text-transform: uppercase; }
 .mega-product-name { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 1.08rem; line-height: 1.25; font-weight: var(--weight-semibold); }
 .mega-product-price { color: inherit; font-size: .82rem; font-weight: var(--weight-regular); }
 .mega-feature-cta { display: inline-flex; width: fit-content; margin-top: .55rem; padding-bottom: .2rem; border-bottom: 1px solid currentColor; font-size: .78rem; font-weight: var(--weight-bold); line-height: 1.4; }
