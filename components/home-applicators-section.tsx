@@ -100,7 +100,7 @@ export function HomeApplicatorsSection() {
         <div className="applicators-panel">
           <div className="applicators-copy">
             <span className="applicators-kicker">
-              Preparo, cuidado e conexão
+              Criado por artesãos da Amazônia
             </span>
             <h2 id="applicators-title">
               <span>Acessórios</span>

@@ -9,3 +9,6 @@
 
 Mantenha o assunto principal próximo ao centro. A imagem usa recorte responsivo
 com `cover` e aparece em proporções diferentes no desktop e no mobile.
+
+As três imagens quadradas dos pilares institucionais possuem contrato próprio em
+`pillars/README.md`.

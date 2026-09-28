@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { BenefitsStrip } from "@/components/benefits-strip";
@@ -128,25 +129,92 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="story-section container" aria-labelledby="story-title">
-        <div className="story-image" style={{ "--story-image": `url(${homeAssets.story.image})` } as CSSProperties}>
-          <span>Desde 2018</span>
-        </div>
-        <div className="story-copy">
-          <p className="eyebrow">A nossa forma de caminhar</p>
-          <h2 id="story-title">Conhecimento vivo, relações de respeito.</h2>
-          <p>
-            A Medicina Sagrada valoriza e promove conhecimentos ancestrais de
-            medicinas, arte e cultura das populações indígenas e tradicionais
-            do Brasil, gerando renda para suas comunidades.
-          </p>
-          <p>
-            Cada produto carrega uma história. Nosso compromisso é compartilhar
-            esses saberes com cuidado, reconhecendo o protagonismo de seus povos.
-          </p>
-          <Link className="text-link" href="/sobre-nos/">
-            Conheça a Medicina Sagrada
-          </Link>
+      <section className="story-section" aria-labelledby="story-title">
+        <div className="container story-layout">
+          <header className="story-heading">
+            <div className="story-title-block">
+              <Image
+                className="story-logo"
+                src="/assets/logo/medicina-sagrada-logo-01.svg"
+                alt=""
+                width={1200}
+                height={300}
+              />
+              <h2 id="story-title">
+                <span>Conhecimento vivo,</span>
+                <span>relações de respeito.</span>
+              </h2>
+            </div>
+            <p>
+              A nossa forma de caminhar começa pela escuta e pelo cuidado com os
+              saberes, as histórias e as comunidades que mantêm essas tradições vivas.
+            </p>
+          </header>
+
+          <div className="story-pillars">
+            <article className="story-pillar story-pillar-knowledge">
+              <div
+                className="story-pillar-image"
+                style={{
+                  "--story-pillar-image":
+                    'url("/assets/home/story/pillars/medicina-sagrada-conhecimentos-ancestrais.webp")',
+                } as CSSProperties}
+                role="img"
+                aria-label="Duas pessoas em um momento ritual ao lado do fogo"
+              />
+              <div className="story-pillar-copy">
+                <h3>Conhecimentos ancestrais</h3>
+                <p>
+                  A Medicina Sagrada valoriza e promove conhecimentos ancestrais
+                  de medicinas.
+                </p>
+              </div>
+            </article>
+
+            <article className="story-pillar story-pillar-culture">
+              <div
+                className="story-pillar-image"
+                style={{
+                  "--story-pillar-image":
+                    'url("/assets/home/story/pillars/medicina-sagrada-arte-cultura.webp")',
+                } as CSSProperties}
+                role="img"
+                aria-label="Peça artesanal com grafismos coloridos diante da floresta"
+              />
+              <div className="story-pillar-copy">
+                <h3>Arte e cultura</h3>
+                <p>
+                  Valorizamos a arte e a cultura das populações indígenas e
+                  tradicionais do Brasil.
+                </p>
+              </div>
+            </article>
+
+            <article className="story-pillar story-pillar-community">
+              <div
+                className="story-pillar-image"
+                style={{
+                  "--story-pillar-image":
+                    'url("/assets/home/story/pillars/medicina-sagrada-historias-protagonismo.webp")',
+                } as CSSProperties}
+                role="img"
+                aria-label="Medicinas em pó, sementes e penas sobre uma superfície trançada"
+              />
+              <div className="story-pillar-copy">
+                <h3>Histórias e protagonismo</h3>
+                <p>
+                  Cada produto carrega uma história. Compartilhamos esses saberes
+                  com cuidado, reconhecendo o protagonismo de seus povos.
+                </p>
+              </div>
+            </article>
+          </div>
+
+          <div className="story-cta-row">
+            <Link className="button button-solid story-cta" href="/sobre-nos/">
+              CONHEÇA A MEDICINA SAGRADA
+            </Link>
+          </div>
         </div>
       </section>
 
