@@ -4,6 +4,7 @@
 # next.js
 /.next/
 /.next-e2e/
+/.next-production-qa/
 /out/
 
 # production

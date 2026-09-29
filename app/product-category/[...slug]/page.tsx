@@ -94,6 +94,11 @@ export default async function ProductCategoryPage({
   const ethnicityTheme = parsed.basePath.startsWith("/product-category/rape/")
     ? getEthnicityTheme([{ name: category.name, slug: category.slug }])
     : undefined;
+  const archiveTypeLabel = ethnicityTheme
+    ? ethnicityTheme.name === "Caboclo"
+      ? "Povo"
+      : "Etnia"
+    : "Categoria";
 
   const breadcrumbs = [
     { name: "Início", pathname: "/" },
@@ -109,7 +114,7 @@ export default async function ProductCategoryPage({
         ]}
       />
       <header className="archive-header">
-        <p className="eyebrow">Categoria</p>
+        <p className="eyebrow">{archiveTypeLabel}</p>
         <h1 style={ethnicityTheme ? { color: ethnicityTheme.accent } : undefined}>
           {categoryName}
         </h1>
