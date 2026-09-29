@@ -13,9 +13,10 @@ import {
   breadcrumbSchema,
   metadataForProductCategory,
 } from "@/lib/seo";
-import { pathMatches } from "@/lib/url";
+import { pathMatches, pathnameFromUrl } from "@/lib/url";
 import {
   getProductCategoryBySlug,
+  getAllProductCategories,
 } from "@/lib/woocommerce";
 
 export const revalidate = 900;
@@ -109,18 +110,33 @@ export default async function ProductCategoryPage({
     ? getEthnicityBannerAsset(category.slug)
     : undefined;
 
+  const categories = await getAllProductCategories();
+  const ancestors = [];
+  const visited = new Set<number>([category.id]);
+  let parentId = category.parent;
+  while (parentId && !visited.has(parentId)) {
+    visited.add(parentId);
+    const parent = categories.find((item) => item.id === parentId);
+    if (!parent) break;
+    ancestors.unshift({
+      name: canonicalizeEthnicityNames(parent.name),
+      pathname: pathnameFromUrl(parent.permalink),
+    });
+    parentId = parent.parent;
+  }
   const breadcrumbs = [
     { name: "Início", pathname: "/" },
+    ...ancestors,
     { name: categoryName, pathname: parsed.basePath },
   ];
 
   const pageHeader = (
     <>
       <Breadcrumbs
-        items={[
-          { label: "Início", href: "/" },
-          { label: categoryName },
-        ]}
+        items={breadcrumbs.map((item, index) => ({
+          label: item.name,
+          href: index < breadcrumbs.length - 1 ? item.pathname : undefined,
+        }))}
       />
       <header className="archive-header">
         <p className="eyebrow">{archiveTypeLabel}</p>
