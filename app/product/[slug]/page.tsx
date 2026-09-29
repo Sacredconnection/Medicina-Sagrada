@@ -105,7 +105,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <h2 id="descricao">Sobre este produto</h2>
         <RichText html={product.description} textFilter={canonicalizeEthnicityNames} />
       </section>
-      <ProductReviews productId={product.id} count={product.review_count} average={product.average_rating} initial={reviews ?? { data: [], totalPages: 0 }} initialError={!reviews} reviewUrl={`${new URL(pathname, config.wordpressSiteUrl)}#review_form`} />
+      <ProductReviews productId={product.id} count={product.review_count} average={product.average_rating} initial={reviews ?? { data: [], totalPages: 0 }} initialError={!reviews} />
       {related.some(item => item.id !== product.id) ? <section className="related-products"><h2>Na mesma categoria</h2><div className="product-grid">{related.filter(item => item.id !== product.id).slice(0, 4).map(item => <ProductCard key={item.id} product={item} headingLevel={3} />)}</div></section> : null}
       <JsonLd data={[productSchema(product), breadcrumbSchema(breadcrumbs)]} />
     </article>

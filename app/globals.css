@@ -89,6 +89,14 @@
 .product-reviews h2, .related-products > h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); margin-bottom: 1.5rem; }
 .reviews-heading { display: flex; justify-content: space-between; align-items: start; gap: 2rem; margin-bottom: 2rem; }
 .review-invitation { max-width: 23rem; }
+.review-compose { max-width: 42rem; margin-bottom: 2rem; }
+.review-form { margin-top: 1.5rem; padding: clamp(1rem, 3vw, 2rem); border: 1px solid var(--line); border-radius: .5rem; background: var(--white); }
+.review-form h3 { margin-bottom: 1rem; font-size: 1.25rem; }
+.review-form fieldset { display: grid; min-width: 0; gap: 1rem; padding: 0; border: 0; }
+.review-form p { font-size: .875rem; line-height: 1.6; color: var(--muted); }
+.review-form textarea, .review-form select { width: 100%; min-height: 2.75rem; padding: .75rem; border: 1px solid var(--line); border-radius: .25rem; background: var(--white); color: var(--ink); font: inherit; }
+.review-form textarea { resize: vertical; }
+.review-form :is(input, textarea, select):focus-visible { outline: 2px solid var(--forest-650); outline-offset: 2px; }
 .review-invitation p { font-size: 0.8125rem; line-height: 1.5; color: var(--muted); }
 .review { padding: 1.5rem 0; border-top: 1px solid var(--line); max-width: 52rem; }
 .review header { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; font-size: 0.9375rem; }
