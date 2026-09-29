@@ -30,16 +30,16 @@ export async function getProductVariations(
   if (product.type !== "variable") return [];
   const variationReferences = (product.variations ?? []).slice(0, 60);
   if (!variationReferences.length) return [];
-  // Store API supports type=variation with include; one request for all weights.
-  if (options.timeoutMs) {
-    const variations = await wooFetch<WooProduct[]>("products", {
-      type: "variation", include: variationReferences.map(({ id }) => id).join(","), per_page: 100,
-    }, ["woocommerce", "products", `product:${product.slug}`], options.timeoutMs);
-    const ids = new Set(variationReferences.map(({ id }) => id));
-    return variations.filter((variation) => ids.has(variation.id) && variation.type === "variation");
-  }
+  // Use the same detail endpoint as the weight picker. A failed weight must
+  // not discard the other prices or bypass their cached WooCommerce responses.
   const results = await Promise.allSettled(variationReferences.map((variant) =>
-    wooFetch<WooProduct>(`products/${variant.id}`, {}, ["woocommerce", "products", `product:${product.slug}`], options.timeoutMs),
+    wooFetch<WooProduct>(`products/${variant.id}`, {}, ["woocommerce", "products", `product:${product.slug}`], options.timeoutMs)
+      .then((variation) => {
+        if (variation.id !== variant.id || variation.type !== "variation") {
+          throw new Error(`Variação inválida: ${variant.id}.`);
+        }
+        return variation;
+      }),
   ));
   const variations = results.flatMap((result) =>
     result.status === "fulfilled" ? [result.value] : [],

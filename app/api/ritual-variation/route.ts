@@ -7,7 +7,7 @@ export async function GET(request: Request) {
     return Response.json({ error: "Opção inválida." }, { status: 400 });
   }
   try {
-    const product = await wooFetch<WooProduct>(`products/${id}`, {}, ["woocommerce", "products"], 3500);
+    const product = await wooFetch<WooProduct>(`products/${id}`, {}, ["woocommerce", "products"], 15_000);
     if (product.id !== Number(id) || product.type !== "variation") {
       return Response.json({ error: "Opção não encontrada." }, { status: 404 });
     }

@@ -217,7 +217,7 @@ function FinderProduct({
                       setCheckingId(option.id);
                       try {
                         const response = await fetch(`/api/ritual-variation/?id=${option.id}`, {
-                          signal: AbortSignal.any([controller.signal, AbortSignal.timeout(4500)]),
+                          signal: AbortSignal.any([controller.signal, AbortSignal.timeout(20_000)]),
                         });
                         if (!response.ok) throw new Error("variation unavailable");
                         const resolved = await response.json() as WooProduct;
@@ -241,8 +241,8 @@ function FinderProduct({
           </fieldset>
         ) : null}
         <div className="ritual-product-footer">
-          <strong>
-            {selectedVariationId && !selectedVariation ? "Aguardando confirmação" : <>
+          <strong aria-live="polite" aria-atomic="true">
+            {selectedVariationId && !selectedVariation ? (checkingId ? "Consultando preço…" : "Preço indisponível") : <>
               {selectedVariation ? "" : product.type === "variable" ? "A partir de " : ""}
               {formatAmount(getAmount(displayedProduct), displayedProduct)}
             </>}
@@ -412,7 +412,7 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
       try {
         const query = new URLSearchParams({ intention, experience });
         const response = await fetch(`/api/ritual-recommendation/?${query}`, {
-          signal: AbortSignal.any([controller.signal, AbortSignal.timeout(4000)]),
+          signal: AbortSignal.any([controller.signal, AbortSignal.timeout(35_000)]),
         });
         const payload = (await response.json()) as RitualRecommendationResult & {
           error?: string;

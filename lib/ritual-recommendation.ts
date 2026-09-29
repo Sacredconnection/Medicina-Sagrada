@@ -33,7 +33,7 @@ export async function getAvailableRitualRecommendation(
   ]);
   const candidates = products.filter((product) => slugs.has(product.slug));
   const entries = await Promise.all(candidates.map(async (product) => {
-    const variations = await getProductVariations(product, { timeoutMs: 2500 }).catch(() => []);
+    const variations = await getProductVariations(product, { timeoutMs: 15_000 }).catch(() => []);
     return [product.slug, variations] as const;
   }));
   const variationsByProduct = Object.fromEntries(entries);
