@@ -8,6 +8,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCart } from "@/components/cart-provider";
 import { plainText } from "@/lib/html";
 import { canonicalizeEthnicityNames } from "@/lib/ethnicity-colors";
+import { chooseAvailableRitualProduct } from "@/lib/ritual-product-selection";
 import {
   ritualExperienceOptions,
   ritualIntentions,
@@ -115,9 +116,9 @@ function FinderProduct({
     );
   }
 
-  const image = product.images[0];
   const selectedVariation = variations.find(({ id }) => id === selectedVariationId);
   const displayedProduct = selectedVariation ?? product;
+  const image = displayedProduct.images[0] ?? product.images[0];
   const variationLabel = (variation: WooProduct) => {
     const attributes = product.variations?.find(({ id }) => id === variation.id)?.attributes;
     if (attributes?.length) return attributes.map(({ value }) => value).join(" / ");
@@ -219,10 +220,21 @@ export function ProductMatcher({
     return ritualsData[`${intention}:${experience}` as RitualKey];
   }, [experience, intention]);
 
-  const primaryProduct = useMemo(() => {
-    if (!recommendation) return undefined;
-    return products.find(({ slug }) => slug === recommendation.produtoPrincipal.slug);
-  }, [products, recommendation]);
+  const resolvedPrimary = useMemo(() => {
+    if (!recommendation || !intention) return null;
+
+    const candidates = [
+      recommendation.produtoPrincipal,
+      ...ritualExperienceOptions.map(
+        ({ id }) => ritualsData[`${intention}:${id}`].produtoPrincipal,
+      ),
+    ];
+
+    return chooseAvailableRitualProduct(candidates, products, variationsByProduct);
+  }, [intention, products, recommendation, variationsByProduct]);
+
+  const primaryProduct = resolvedPrimary?.product;
+  const primaryRecommendation = resolvedPrimary?.config;
 
   const applicator = useMemo(() => {
     if (!recommendation) return undefined;
@@ -231,12 +243,12 @@ export function ProductMatcher({
 
   const primaryVariations = useMemo(
     () =>
-      primaryProduct
-        ? [...(variationsByProduct[primaryProduct.slug] ?? [])].sort(
+      resolvedPrimary
+        ? [...resolvedPrimary.variations].sort(
             (first, second) => getAmount(first) - getAmount(second),
           )
         : [],
-    [primaryProduct, variationsByProduct],
+    [resolvedPrimary],
   );
 
   const selectedVariation = useMemo(
@@ -606,7 +618,9 @@ export function ProductMatcher({
 
               <div className="ritual-bundle">
                 <FinderProduct
-                  detail={`${recommendation.produtoPrincipal.perfilAromatico} ${recommendation.produtoPrincipal.dosagemSugerida}`}
+                  detail={primaryRecommendation
+                    ? `${primaryRecommendation.perfilAromatico} ${recommendation.produtoPrincipal.dosagemSugerida}`
+                    : "No momento, não encontramos um rapé disponível para esta intenção."}
                   kind="Medicina principal"
                   onVariationChange={setSelectedVariationId}
                   product={primaryProduct}
