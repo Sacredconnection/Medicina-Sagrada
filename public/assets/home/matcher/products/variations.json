@@ -23,5 +23,353 @@
     "src": "/assets/home/matcher/products/variation-12386.jpg",
     "original": "https://medicinasagrada.com.br/wp-content/uploads/2024/05/Kuripe-de-Madeira-Nobre-Ajustavel-Colmeia.jpg",
     "label": "Modelo: Colmeia"
+  },
+  "19632": {
+    "src": "/assets/home/matcher/products/variation-19632.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2019/01/MEMBROS_CABOCLO_Parica-10g-jpg.webp",
+    "label": "10g",
+    "product": "caboclo-parica"
+  },
+  "19584": {
+    "src": "/assets/home/matcher/products/variation-19584.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2019/01/MEMBROS_CABOCLO_Parica-20g-jpg.webp",
+    "label": "20g",
+    "product": "caboclo-parica"
+  },
+  "19585": {
+    "src": "/assets/home/matcher/products/variation-19585.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2019/01/MEMBROS_CABOCLO_Parica-50g-jpg.webp",
+    "label": "50g",
+    "product": "caboclo-parica"
+  },
+  "19654": {
+    "src": "/assets/home/matcher/products/variation-19654.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/09/MEMBROS_CABOCLO_RosaBranca-10g-jpg.webp",
+    "label": "10g",
+    "product": "caboclo-rosas-brancas"
+  },
+  "19640": {
+    "src": "/assets/home/matcher/products/variation-19640.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2019/03/MEMBROS_HUNIKUIN_Cacau-10g-jpg.webp",
+    "label": "10g",
+    "product": "huni-kuin-cacau"
+  },
+  "19548": {
+    "src": "/assets/home/matcher/products/variation-19548.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2019/03/MEMBROS_HUNIKUIN_Cacau-20g-jpg.webp",
+    "label": "20g",
+    "product": "huni-kuin-cacau"
+  },
+  "19547": {
+    "src": "/assets/home/matcher/products/variation-19547.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2019/03/MEMBROS_HUNIKUIN_Cacau-50g-jpg.webp",
+    "label": "50g",
+    "product": "huni-kuin-cacau"
+  },
+  "19719": {
+    "src": "/assets/home/matcher/products/variation-19719.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2024/05/MEMBROS_HUNIKUIN_Capemba-10g.jpg",
+    "label": "10g",
+    "product": "rape-huni-kuin-capemba"
+  },
+  "19720": {
+    "src": "/assets/home/matcher/products/variation-19720.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2024/05/MEMBROS_HUNIKUIN_Capemba-20g.jpg",
+    "label": "20g",
+    "product": "rape-huni-kuin-capemba"
+  },
+  "19721": {
+    "src": "/assets/home/matcher/products/variation-19721.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2024/05/MEMBROS_HUNIKUIN_Capemba-50g.jpg",
+    "label": "50g",
+    "product": "rape-huni-kuin-capemba"
+  },
+  "19707": {
+    "src": "/assets/home/matcher/products/variation-19707.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2023/09/MEMBROS_SHAWADAWA_Relax-10g.jpg",
+    "label": "10g",
+    "product": "rape-shawadawa-relax"
+  },
+  "19708": {
+    "src": "/assets/home/matcher/products/variation-19708.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2023/09/MEMBROS_SHAWADAWA_Relax-20g.jpg",
+    "label": "20g",
+    "product": "rape-shawadawa-relax"
+  },
+  "19709": {
+    "src": "/assets/home/matcher/products/variation-19709.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2023/09/MEMBROS_SHAWADAWA_Relax-50g.jpg",
+    "label": "50g",
+    "product": "rape-shawadawa-relax"
+  },
+  "19696": {
+    "src": "/assets/home/matcher/products/variation-19696.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2023/08/e4e422ad-aefa-4181-9bd6-f3f719ee0975.jpeg",
+    "label": "10g",
+    "product": "rape-xamanico-sem-tabaco-menta"
+  },
+  "19697": {
+    "src": "/assets/home/matcher/products/variation-19697.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2023/08/e4e422ad-aefa-4181-9bd6-f3f719ee0975.jpeg",
+    "label": "20g",
+    "product": "rape-xamanico-sem-tabaco-menta"
+  },
+  "19698": {
+    "src": "/assets/home/matcher/products/variation-19698.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2023/08/e4e422ad-aefa-4181-9bd6-f3f719ee0975.jpeg",
+    "label": "50g",
+    "product": "rape-xamanico-sem-tabaco-menta"
+  },
+  "19671": {
+    "src": "/assets/home/matcher/products/variation-19671.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2023/04/MEMBROS_NUKINI-LimpezaAstral-10.jpg",
+    "label": "10g",
+    "product": "rape-nukini-limpeza-astral"
+  },
+  "19672": {
+    "src": "/assets/home/matcher/products/variation-19672.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2023/04/MEMBROS_NUKINI-LimpezaAstral-20.jpg",
+    "label": "20g",
+    "product": "rape-nukini-limpeza-astral"
+  },
+  "19673": {
+    "src": "/assets/home/matcher/products/variation-19673.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2023/04/MEMBROS_NUKINI-LimpezaAstral-50.jpg",
+    "label": "50g",
+    "product": "rape-nukini-limpeza-astral"
+  },
+  "19668": {
+    "src": "/assets/home/matcher/products/variation-19668.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2023/03/MEMBROS_HUNIKUIN_Tradicao-10g-jpg.webp",
+    "label": "10g",
+    "product": "rape-huni-kuin-tradicao"
+  },
+  "19669": {
+    "src": "/assets/home/matcher/products/variation-19669.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2023/03/MEMBROS_HUNIKUIN_Tradicao-20g-jpg.webp",
+    "label": "20g",
+    "product": "rape-huni-kuin-tradicao"
+  },
+  "19670": {
+    "src": "/assets/home/matcher/products/variation-19670.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2023/03/MEMBROS_HUNIKUIN_Tradicao-50g-jpg.webp",
+    "label": "50g",
+    "product": "rape-huni-kuin-tradicao"
+  },
+  "19659": {
+    "src": "/assets/home/matcher/products/variation-19659.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/09/MEMBROS_KUNTANAWA_TetePawa-10g.jpg",
+    "label": "10g",
+    "product": "rape-kuntanawa-tete-pawa"
+  },
+  "19620": {
+    "src": "/assets/home/matcher/products/variation-19620.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/01/MEMBROS_KUNTANAWA_TetePawa-20g.jpg",
+    "label": "20g",
+    "product": "rape-kuntanawa-tete-pawa"
+  },
+  "19621": {
+    "src": "/assets/home/matcher/products/variation-19621.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/01/MEMBROS_KUNTANAWA_TetePawa-50g.jpg",
+    "label": "50g",
+    "product": "rape-kuntanawa-tete-pawa"
+  },
+  "19622": {
+    "src": "/assets/home/matcher/products/variation-19622.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/07/MEMBROS_XAMANICOS_Dourado-10g.jpg",
+    "label": "10g",
+    "product": "rape-xamanico-dourado"
+  },
+  "19595": {
+    "src": "/assets/home/matcher/products/variation-19595.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/01/MEMBROS_XAMANICOS_Dourado-20g.jpg",
+    "label": "20g",
+    "product": "rape-xamanico-dourado"
+  },
+  "19594": {
+    "src": "/assets/home/matcher/products/variation-19594.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/01/MEMBROS_XAMANICOS_Dourado-50g.jpg",
+    "label": "50g",
+    "product": "rape-xamanico-dourado"
+  },
+  "19624": {
+    "src": "/assets/home/matcher/products/variation-19624.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/07/MEMBROS_XAMANICOS_TsunuForca-10g.jpg",
+    "label": "10g",
+    "product": "rape-xamanico-tsunu-forca"
+  },
+  "19611": {
+    "src": "/assets/home/matcher/products/variation-19611.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/01/MEMBROS_XAMANICOS_TsunuForca-20g.jpg",
+    "label": "20g",
+    "product": "rape-xamanico-tsunu-forca"
+  },
+  "19610": {
+    "src": "/assets/home/matcher/products/variation-19610.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/01/MEMBROS_XAMANICOS_TsunuForca-50g.jpg",
+    "label": "50g",
+    "product": "rape-xamanico-tsunu-forca"
+  },
+  "19607": {
+    "src": "/assets/home/matcher/products/variation-19607.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/01/MEMBROS_XAMANICOS_TsunuExtra-20g.jpg",
+    "label": "20g",
+    "product": "rape-xamanico-tsunu-extra"
+  },
+  "19626": {
+    "src": "/assets/home/matcher/products/variation-19626.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/07/MEMBROS_XAMANICOS_TsunuExtra-10g.jpg",
+    "label": "10g",
+    "product": "rape-xamanico-tsunu-extra"
+  },
+  "19606": {
+    "src": "/assets/home/matcher/products/variation-19606.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/01/MEMBROS_XAMANICOS_TsunuExtra-50g.jpg",
+    "label": "50g",
+    "product": "rape-xamanico-tsunu-extra"
+  },
+  "19628": {
+    "src": "/assets/home/matcher/products/variation-19628.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/07/MEMBROS_XAMANICOS_Espiritual-10g.jpg",
+    "label": "10g",
+    "product": "rape-xamanico-espiritual"
+  },
+  "19603": {
+    "src": "/assets/home/matcher/products/variation-19603.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/01/MEMBROS_XAMANICOS_Espiritual-20g.jpg",
+    "label": "20g",
+    "product": "rape-xamanico-espiritual"
+  },
+  "19602": {
+    "src": "/assets/home/matcher/products/variation-19602.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/01/MEMBROS_XAMANICOS_Espiritual-50g.jpg",
+    "label": "50g",
+    "product": "rape-xamanico-espiritual"
+  },
+  "19629": {
+    "src": "/assets/home/matcher/products/variation-19629.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/07/MEMBROS_XAMANICOS_Parica-10g.jpg",
+    "label": "10g",
+    "product": "rape-xamanico-parica"
+  },
+  "19601": {
+    "src": "/assets/home/matcher/products/variation-19601.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/01/MEMBROS_XAMANICOS_Parica-20g.jpg",
+    "label": "20g",
+    "product": "rape-xamanico-parica"
+  },
+  "19600": {
+    "src": "/assets/home/matcher/products/variation-19600.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/01/MEMBROS_XAMANICOS_Parica-50g.jpg",
+    "label": "50g",
+    "product": "rape-xamanico-parica"
+  },
+  "19631": {
+    "src": "/assets/home/matcher/products/variation-19631.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/07/MEMBROS_XAMANICOS_HauxHaux-10g.jpg",
+    "label": "10g",
+    "product": "rape-xamanico-haux-haux"
+  },
+  "19597": {
+    "src": "/assets/home/matcher/products/variation-19597.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/01/MEMBROS_XAMANICOS_HauxHaux-20g.jpg",
+    "label": "20g",
+    "product": "rape-xamanico-haux-haux"
+  },
+  "19596": {
+    "src": "/assets/home/matcher/products/variation-19596.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/01/MEMBROS_XAMANICOS_HauxHaux-50g.jpg",
+    "label": "50g",
+    "product": "rape-xamanico-haux-haux"
+  },
+  "19658": {
+    "src": "/assets/home/matcher/products/variation-19658.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/09/MEMBROS_PUYANAWA_Pixuri-10g.jpg",
+    "label": "10g",
+    "product": "puyanawa-pixuri"
+  },
+  "19590": {
+    "src": "/assets/home/matcher/products/variation-19590.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2020/08/MEMBROS_PUYANAWA_Pixuri-20g.jpg",
+    "label": "20g",
+    "product": "puyanawa-pixuri"
+  },
+  "19591": {
+    "src": "/assets/home/matcher/products/variation-19591.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2020/08/MEMBROS_PUYANAWA_Pixuri-50g.jpg",
+    "label": "50g",
+    "product": "puyanawa-pixuri"
+  },
+  "19657": {
+    "src": "/assets/home/matcher/products/variation-19657.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/09/MEMBROS_SHAWADAWA_Rupusuti-10g.jpg",
+    "label": "10g",
+    "product": "shawadawa-rupusuti"
+  },
+  "19573": {
+    "src": "/assets/home/matcher/products/variation-19573.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2019/08/MEMBROS_SHAWADAWA_Rupusuti-20g.jpg",
+    "label": "20g",
+    "product": "shawadawa-rupusuti"
+  },
+  "19574": {
+    "src": "/assets/home/matcher/products/variation-19574.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2019/08/MEMBROS_SHAWADAWA_Rupusuti-50g.jpg",
+    "label": "50g",
+    "product": "shawadawa-rupusuti"
+  },
+  "19643": {
+    "src": "/assets/home/matcher/products/variation-19643.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/09/MEMBROS_YAWANAWA_Esperanza-10g.jpg",
+    "label": "10g",
+    "product": "yawanawa-esperanza"
+  },
+  "19553": {
+    "src": "/assets/home/matcher/products/variation-19553.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2019/03/MEMBROS_YAWANAWA_Esperanza-20g.jpg",
+    "label": "20g",
+    "product": "yawanawa-esperanza"
+  },
+  "19554": {
+    "src": "/assets/home/matcher/products/variation-19554.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2019/03/MEMBROS_YAWANAWA_Esperanza-50g.jpg",
+    "label": "50g",
+    "product": "yawanawa-esperanza"
+  },
+  "19641": {
+    "src": "/assets/home/matcher/products/variation-19641.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2022/09/MEMBROS_YAWANAWA_Mulateiro-10g.jpg",
+    "label": "10g",
+    "product": "yawanawa-mulateiro"
+  },
+  "19549": {
+    "src": "/assets/home/matcher/products/variation-19549.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2019/03/MEMBROS_YAWANAWA_Mulateiro-20g.jpg",
+    "label": "20g",
+    "product": "yawanawa-mulateiro"
+  },
+  "19550": {
+    "src": "/assets/home/matcher/products/variation-19550.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2019/03/MEMBROS_YAWANAWA_Mulateiro-50g.jpg",
+    "label": "50g",
+    "product": "yawanawa-mulateiro"
+  },
+  "19633": {
+    "src": "/assets/home/matcher/products/variation-19633.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2019/01/MEMBROS_HUNIKUIN_Murici-10g-jpg.webp",
+    "label": "10g",
+    "product": "huni-kuin-murici"
+  },
+  "19544": {
+    "src": "/assets/home/matcher/products/variation-19544.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2019/01/MEMBROS_HUNIKUIN_Murici-20g-jpg.webp",
+    "label": "20g",
+    "product": "huni-kuin-murici"
+  },
+  "19543": {
+    "src": "/assets/home/matcher/products/variation-19543.jpg",
+    "original": "https://medicinasagrada.com.br/wp-content/uploads/2019/01/MEMBROS_HUNIKUIN_Murici-50g-jpg.webp",
+    "label": "50g",
+    "product": "huni-kuin-murici"
   }
 }
