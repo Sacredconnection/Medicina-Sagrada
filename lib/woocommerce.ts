@@ -23,12 +23,33 @@ export async function getProductBySlug(slug: string) {
   return products[0] ?? null;
 }
 
-export async function getProductVariations(product: WooProduct) {
+export async function getProductVariations(
+  product: WooProduct,
+  options: { requireResponse?: boolean; timeoutMs?: number } = {},
+) {
   if (product.type !== "variable") return [];
-  const results = await Promise.allSettled((product.variations ?? []).slice(0, 60).map((variant) =>
-    wooFetch<WooProduct>(`products/${variant.id}`, {}, ["woocommerce", "products", `product:${product.slug}`]),
+  const variationReferences = (product.variations ?? []).slice(0, 60);
+  if (!variationReferences.length) return [];
+  // Store API supports type=variation with include; one request for all weights.
+  if (options.timeoutMs) {
+    const variations = await wooFetch<WooProduct[]>("products", {
+      type: "variation", include: variationReferences.map(({ id }) => id).join(","), per_page: 100,
+    }, ["woocommerce", "products", `product:${product.slug}`], options.timeoutMs);
+    const ids = new Set(variationReferences.map(({ id }) => id));
+    return variations.filter((variation) => ids.has(variation.id) && variation.type === "variation");
+  }
+  const results = await Promise.allSettled(variationReferences.map((variant) =>
+    wooFetch<WooProduct>(`products/${variant.id}`, {}, ["woocommerce", "products", `product:${product.slug}`], options.timeoutMs),
   ));
-  return results.flatMap((result) => result.status === "fulfilled" ? [result.value] : []);
+  const variations = results.flatMap((result) =>
+    result.status === "fulfilled" ? [result.value] : [],
+  );
+
+  if (options.requireResponse && variationReferences.length > 0 && variations.length === 0) {
+    throw new Error(`Não foi possível consultar as variações de ${product.slug}.`);
+  }
+
+  return variations;
 }
 
 export async function getProducts(

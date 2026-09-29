@@ -9,12 +9,16 @@ export type RitualExperienceId = "beginner" | "practitioner";
 
 export type RitualKey = `${RitualIntentionId}:${RitualExperienceId}`;
 
+export type RitualProductCandidate = {
+  slug: string;
+  perfil: string;
+};
+
 export type RitualRecommendation = {
   titulo: string;
   descricao: string;
   produtoPrincipal: {
-    slug: string;
-    perfilAromatico: string;
+    candidatos: readonly [RitualProductCandidate, ...RitualProductCandidate[]];
     dosagemSugerida: string;
   };
   aplicador: {
@@ -100,8 +104,16 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     descricao:
       "Uma combinação de perfil tradicional para criar pausa, escuta e contato com o presente.",
     produtoPrincipal: {
-      slug: "rape-huni-kuin-tradicao",
-      perfilAromatico: "Herbal, resinoso e suavemente amadeirado.",
+      candidatos: [
+        {
+          slug: "huni-kuin-murici",
+          perfil: "Murici e tabaco de corda, agradável e levemente adocicado.",
+        },
+        {
+          slug: "rape-huni-kuin-tradicao",
+          perfil: "Paricá, tabaco nativo e ervas tradicionais, com perfil terroso.",
+        },
+      ],
       dosagemSugerida: beginnerDose,
     },
     aplicador: beginnerApplicator,
@@ -112,8 +124,20 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     descricao:
       "Uma escolha de presença densa e estrutura para práticas já estabelecidas.",
     produtoPrincipal: {
-      slug: "rape-yawanawa-cacique",
-      perfilAromatico: "Tabaco e Tsunu, com presença seca e marcante.",
+      candidatos: [
+        {
+          slug: "rape-xamanico-parica",
+          perfil: "Paricá e tabaco Sabiá, forte, terroso e de aterramento profundo.",
+        },
+        {
+          slug: "shawadawa-rupusuti",
+          perfil: "Tsunu, Sabiá e Rupusuti, quente e voltado à presença no corpo.",
+        },
+        {
+          slug: "huni-kuin-cacau",
+          perfil: "Cacau, Mói e Sabiá, de caráter terroso e forte.",
+        },
+      ],
       dosagemSugerida: practitionerDose,
     },
     aplicador: practitionerApplicator,
@@ -124,8 +148,20 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     descricao:
       "Um perfil clássico para apoiar intenção, firmeza e movimento sem excesso.",
     produtoPrincipal: {
-      slug: "rape-xamanico-tsunu-forca",
-      perfilAromatico: "Tabaco e Tsunu, terroso e direto.",
+      candidatos: [
+        {
+          slug: "rape-xamanico-tsunu-forca",
+          perfil: "Tsunu e tabaco de força média, simples e direto.",
+        },
+        {
+          slug: "huni-kuin-murici",
+          perfil: "Murici e tabaco de corda, agradável e ligado à disposição cotidiana.",
+        },
+        {
+          slug: "yawanawa-esperanza",
+          perfil: "Tsunu e tabaco de corda, com perfil de firmeza e concentração.",
+        },
+      ],
       dosagemSugerida: beginnerDose,
     },
     aplicador: beginnerApplicator,
@@ -136,8 +172,20 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     descricao:
       "Uma combinação de caráter intenso para quem já cultiva uma prática consciente.",
     produtoPrincipal: {
-      slug: "rape-yawanawa-cacique",
-      perfilAromatico: "Tabaco e Tsunu, denso e persistente.",
+      candidatos: [
+        {
+          slug: "rape-xamanico-tsunu-extra",
+          perfil: "Tsunu e tabaco Sabiá, extra forte e de presença marcante.",
+        },
+        {
+          slug: "caboclo-parica",
+          perfil: "Paricá e tabaco de corda forte, profundo, vigoroso e aterrador.",
+        },
+        {
+          slug: "rape-xamanico-parica",
+          perfil: "Paricá e tabaco Sabiá, forte e voltado à firmeza.",
+        },
+      ],
       dosagemSugerida: practitionerDose,
     },
     aplicador: practitionerApplicator,
@@ -148,8 +196,20 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     descricao:
       "Uma escolha aromática para desacelerar o ritmo e preparar um momento de quietude.",
     produtoPrincipal: {
-      slug: "rape-shawadawa-relax",
-      perfilAromatico: "Tsunu e Catinga-de-mulata, herbal e delicado.",
+      candidatos: [
+        {
+          slug: "rape-shawadawa-relax",
+          perfil: "Tsunu e Catinga-de-mulata, herbal e tranquilizante.",
+        },
+        {
+          slug: "rape-nukini-gelsinho",
+          perfil: "Refrescante, harmonioso e indicado no catálogo para uso cotidiano.",
+        },
+        {
+          slug: "caboclo-rosas-brancas",
+          perfil: "Rosas-brancas e Tsunu, perfumado, calmante e acolhedor.",
+        },
+      ],
       dosagemSugerida: beginnerDose,
     },
     aplicador: beginnerApplicator,
@@ -158,10 +218,22 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
   "serenity:practitioner": {
     titulo: "Ritual de Silêncio & Clareza",
     descricao:
-      "Um perfil floral para práticas de recolhimento, organização e escuta interior.",
+      "Um perfil de calma e firmeza para práticas de recolhimento, organização e escuta interior.",
     produtoPrincipal: {
-      slug: "rape-kuntanawa-flor-de-samauma",
-      perfilAromatico: "Floral, perfumado e equilibrado.",
+      candidatos: [
+        {
+          slug: "rape-kuntanawa-tete-pawa",
+          perfil: "Kawa Xinã e Kumã, com calma, tranquilidade e firmeza.",
+        },
+        {
+          slug: "yawanawa-mulateiro",
+          perfil: "Mulateiro e tabaco de corda, voltado ao relaxamento e à concentração.",
+        },
+        {
+          slug: "rape-xamanico-dourado",
+          perfil: "Pixuri, eucalipto e caneleiro, fresco e ligado à quietude mental.",
+        },
+      ],
       dosagemSugerida: practitionerDose,
     },
     aplicador: practitionerApplicator,
@@ -172,8 +244,16 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     descricao:
       "Uma escolha floral e acolhedora para conduzir a prática com delicadeza.",
     produtoPrincipal: {
-      slug: "rape-caboclo-flor-de-jaci",
-      perfilAromatico: "Floral, suave e envolvente.",
+      candidatos: [
+        {
+          slug: "caboclo-rosas-brancas",
+          perfil: "Rosas-brancas e Tsunu, perfumado, calmante e acolhedor para o coração.",
+        },
+        {
+          slug: "huni-kuin-murici",
+          perfil: "Murici e tabaco de corda, agradável e associado ao equilíbrio com o ambiente.",
+        },
+      ],
       dosagemSugerida: beginnerDose,
     },
     aplicador: beginnerApplicator,
@@ -182,10 +262,22 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
   "heart:practitioner": {
     titulo: "Ritual de Coração & Harmonia",
     descricao:
-      "Uma combinação floral para práticas de presença, vínculo e harmonização.",
+      "Uma combinação de ervas ligada à compaixão, ao vínculo e à presença do coração.",
     produtoPrincipal: {
-      slug: "rape-kuntanawa-flor-de-samauma",
-      perfilAromatico: "Flores de Samaúma, perfumado e expressivo.",
+      candidatos: [
+        {
+          slug: "rape-xamanico-espiritual",
+          perfil: "Bobinsana e Cumaru Trevo, perfumado e ligado à compaixão.",
+        },
+        {
+          slug: "rape-xamanico-haux-haux",
+          perfil: "Veia de Pajé, cipó-cravo e Tsunu, intenso e associado ao coração.",
+        },
+        {
+          slug: "huni-kuin-cacau",
+          perfil: "Cacau, Mói e Sabiá, forte, terroso e associado ao coração.",
+        },
+      ],
       dosagemSugerida: practitionerDose,
     },
     aplicador: practitionerApplicator,
@@ -196,8 +288,20 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     descricao:
       "Uma escolha fresca para marcar transições e renovar a atenção com leveza.",
     produtoPrincipal: {
-      slug: "rape-nukini-fresh-eucalipto",
-      perfilAromatico: "Eucalipto, fresco e herbal.",
+      candidatos: [
+        {
+          slug: "rape-huni-kuin-capemba",
+          perfil: "Capemba e Sabiá, com perfil suave de limpeza e renovação.",
+        },
+        {
+          slug: "rape-nukini-rawni",
+          perfil: "Rawni, sutil e gentil, associado à limpeza espiritual.",
+        },
+        {
+          slug: "rape-xamanico-sem-tabaco-menta",
+          perfil: "Menta sem tabaco, fresca e voltada à renovação.",
+        },
+      ],
       dosagemSugerida: beginnerDose,
     },
     aplicador: beginnerApplicator,
@@ -208,8 +312,20 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     descricao:
       "Um perfil mentolado e marcante para uma prática de renovação já amadurecida.",
     produtoPrincipal: {
-      slug: "rape-nukini-limpeza-astral",
-      perfilAromatico: "Mentolado, herbal e intenso.",
+      candidatos: [
+        {
+          slug: "rape-nukini-limpeza-astral",
+          perfil: "Lourinho, Sanu e Sabiá, mentolado, equilibrado e marcante.",
+        },
+        {
+          slug: "puyanawa-pixuri",
+          perfil: "Pixuri, Murici e Mói, herbal e tradicionalmente ligado à limpeza.",
+        },
+        {
+          slug: "rape-xamanico-dourado",
+          perfil: "Pixuri, eucalipto e caneleiro, refrescante e de presença intensa.",
+        },
+      ],
       dosagemSugerida: practitionerDose,
     },
     aplicador: practitionerApplicator,

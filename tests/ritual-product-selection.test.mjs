@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { chooseAvailableRitualProduct } from "../lib/ritual-product-selection.ts";
+import { chooseAvailableRitualProduct, getRitualCatalogFallback } from "../lib/ritual-product-selection.ts";
+import { ritualsData } from "../lib/rituals-data.ts";
 
 const config = (slug) => ({
   slug,
-  perfilAromatico: `${slug} perfil`,
-  dosagemSugerida: `${slug} dose`,
+  perfil: `${slug} perfil`,
 });
 
 const product = (slug, options = {}) => ({
@@ -55,4 +55,71 @@ test("retorna vazio quando nenhum candidato pode ser comprado", () => {
   );
 
   assert.equal(result, null);
+});
+
+test("não introduz produto fora da lista curada da combinação", () => {
+  const result = chooseAvailableRitualProduct(
+    [config("alinhado-esgotado")],
+    [
+      product("alinhado-esgotado", { is_in_stock: false }),
+      product("disponivel-mas-nao-curado"),
+    ],
+    {
+      "alinhado-esgotado": [],
+      "disponivel-mas-nao-curado": [product("disponivel-mas-nao-curado-10g")],
+    },
+  );
+
+  assert.equal(result, null);
+});
+
+test("mantém uma curadoria principal específica para cada intenção e experiência", () => {
+  const expectedPrimary = {
+    "grounding:beginner": "huni-kuin-murici",
+    "grounding:practitioner": "rape-xamanico-parica",
+    "strength:beginner": "rape-xamanico-tsunu-forca",
+    "strength:practitioner": "rape-xamanico-tsunu-extra",
+    "serenity:beginner": "rape-shawadawa-relax",
+    "serenity:practitioner": "rape-kuntanawa-tete-pawa",
+    "heart:beginner": "caboclo-rosas-brancas",
+    "heart:practitioner": "rape-xamanico-espiritual",
+    "purification:beginner": "rape-huni-kuin-capemba",
+    "purification:practitioner": "rape-nukini-limpeza-astral",
+  };
+
+  for (const [key, slug] of Object.entries(expectedPrimary)) {
+    assert.equal(ritualsData[key].produtoPrincipal.candidatos[0].slug, slug);
+  }
+});
+
+test("não mistura automaticamente candidatos de iniciante e praticante", () => {
+  for (const intention of ["grounding", "strength", "serenity", "heart", "purification"]) {
+    const beginner = new Set(
+      ritualsData[`${intention}:beginner`].produtoPrincipal.candidatos.map(({ slug }) => slug),
+    );
+    const practitioner = ritualsData[
+      `${intention}:practitioner`
+    ].produtoPrincipal.candidatos.map(({ slug }) => slug);
+
+    assert.equal(practitioner.some((slug) => beginner.has(slug)), false);
+  }
+});
+
+
+test("preserva cartoes reais quando a consulta de variacoes falha", () => {
+  const result = getRitualCatalogFallback(
+    [config("principal")], "aplicador", [product("principal"), product("aplicador")],
+  );
+  assert.equal(result.primary.product.slug, "principal");
+  assert.deepEqual(result.primary.variations, []);
+  assert.equal(result.applicator.product.slug, "aplicador");
+});
+
+test("fallback ignora esgotados e mantem a curadoria da experiencia", () => {
+  const result = getRitualCatalogFallback(
+    [config("esgotado"), config("alternativa")], "aplicador",
+    [product("esgotado", { is_in_stock: false }), product("alternativa"), product("fora-da-curadoria")],
+  );
+  assert.equal(result.primary.product.slug, "alternativa");
+  assert.equal(result.applicator, null);
 });

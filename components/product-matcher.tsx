@@ -8,7 +8,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCart } from "@/components/cart-provider";
 import { plainText } from "@/lib/html";
 import { canonicalizeEthnicityNames } from "@/lib/ethnicity-colors";
-import { chooseAvailableRitualProduct } from "@/lib/ritual-product-selection";
+import type { RitualRecommendationResult } from "@/lib/ritual-recommendation";
 import {
   ritualExperienceOptions,
   ritualIntentions,
@@ -17,7 +17,10 @@ import {
   type RitualIntentionId,
   type RitualKey,
 } from "@/lib/rituals-data";
+import { getRitualCatalogFallback } from "@/lib/ritual-product-selection";
 import type { WooProduct } from "@/lib/types";
+import ritualImages from "@/public/assets/home/matcher/products/manifest.json";
+import ritualVariationImages from "@/public/assets/home/matcher/products/variations.json";
 
 type FinderStep = "intro" | "intention" | "experience" | "result";
 
@@ -89,14 +92,37 @@ const formatAmount = (amount: number, product: WooProduct) =>
     currency: product.prices.currency_code,
   }).format(amount);
 
+function FinderImage({ image, alt, localSrc, fallbackSrc }: { image: WooProduct["images"][number]; alt: string; localSrc?: string; fallbackSrc?: string }) {
+  const [source, setSource] = useState(0);
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    if (loaded || source >= 2) return;
+    const timer = setTimeout(() => setSource((current) => current + 1), 3500);
+    return () => clearTimeout(timer);
+  }, [loaded, source]);
+  return source < 2 ? (
+    <Image
+      alt={alt}
+      fill
+      sizes="(max-width: 700px) 35vw, 18rem"
+      src={source === 0 ? localSrc || image.thumbnail || image.src : fallbackSrc || image.src}
+      unoptimized={Boolean(localSrc) || source > 0}
+      onLoad={() => setLoaded(true)}
+      onError={() => { setLoaded(false); setSource((current) => current + 1); }}
+    />
+  ) : <span>Foto temporariamente indisponível</span>;
+}
+
 function FinderProduct({
   kind,
+  suggestedSlug,
   product,
   detail,
   variations = [],
   selectedVariationId,
   onVariationChange,
   selectionLabel = "Escolha uma opção",
+  onVariationResolved,
 }: {
   kind: string;
   product: WooProduct | undefined;
@@ -105,25 +131,39 @@ function FinderProduct({
   selectedVariationId?: number | null;
   onVariationChange?: (variationId: number) => void;
   selectionLabel?: string;
+  suggestedSlug?: string;
+  onVariationResolved?: (variation: WooProduct) => void;
 }) {
+  const [checkingId, setCheckingId] = useState<number | null>(null);
+  const [variationError, setVariationError] = useState("");
+  const variationRequest = useRef<AbortController | null>(null);
+  useEffect(() => () => variationRequest.current?.abort(), []);
   if (!product) {
     return (
       <article className="ritual-product ritual-product-unavailable">
-        <h3>Produto temporariamente indisponível</h3>
+        <h3>{suggestedSlug ? canonicalizeEthnicityNames(suggestedSlug.replace(/-/g, " ")) : "Produto temporariamente indisponível"}</h3>
         <p className="ritual-product-kind">{kind}</p>
         <p>{detail}</p>
+        {suggestedSlug ? (
+          <Link className="button" href={`/product/${suggestedSlug}/`}>Ver produto</Link>
+        ) : <Link href="/product-category/rape/">Ver opções no catálogo</Link>}
       </article>
     );
   }
 
   const selectedVariation = variations.find(({ id }) => id === selectedVariationId);
   const displayedProduct = selectedVariation ?? product;
-  const image = displayedProduct.images[0] ?? product.images[0];
-  const variationLabel = (variation: WooProduct) => {
-    const attributes = product.variations?.find(({ id }) => id === variation.id)?.attributes;
-    if (attributes?.length) return attributes.map(({ value }) => value).join(" / ");
-    return plainText(variation.variation ?? variation.name).replace(/^[^:]+:\s*/i, "");
-  };
+  const localVariationImage = selectedVariationId
+    ? (ritualVariationImages as Record<string, { src: string; original: string; label: string }>)[selectedVariationId]
+    : undefined;
+  const remoteImage = displayedProduct.images[0] ?? product.images[0];
+  const image = localVariationImage
+    ? { ...remoteImage, src: localVariationImage.original, thumbnail: localVariationImage.src, alt: `${plainText(product.name)} — ${localVariationImage.label}` }
+    : remoteImage;
+  const localImage = (ritualImages as Record<string, { src: string; original: string }>)[product.slug];
+  const options = product.variations?.length ? product.variations : variations.map((variation) => ({
+    id: variation.id, attributes: [{ name: "Opção", value: plainText(variation.variation ?? variation.name) }],
+  }));
 
   return (
     <article className="ritual-product">
@@ -134,11 +174,12 @@ function FinderProduct({
         tabIndex={-1}
       >
         {image ? (
-          <Image
+          <FinderImage
+            key={image.src}
+            localSrc={localVariationImage?.src ?? (localImage?.original === image.src ? localImage.src : undefined)}
+            fallbackSrc={localVariationImage?.src ?? (localImage?.original === image.src ? localImage.src : undefined)}
             alt={image.alt || canonicalizeEthnicityNames(plainText(product.name))}
-            fill
-            sizes="(max-width: 700px) 35vw, 11rem"
-            src={image.thumbnail || image.src}
+            image={image}
           />
         ) : (
           <span>Imagem indisponível</span>
@@ -150,35 +191,61 @@ function FinderProduct({
         </h3>
         <p className="ritual-product-kind">{kind}</p>
         <p>{detail}</p>
-        {variations.length && onVariationChange ? (
+        {options.length && onVariationChange ? (
           <fieldset className="ritual-weight-picker">
             <legend>{selectionLabel}</legend>
-            <div className="ritual-weight-options">
-              {variations.map((variation) => {
+            <div className="ritual-weight-options" role="radiogroup" aria-label={selectionLabel}>
+              {options.map((option) => {
+                const variation = variations.find(({ id }) => id === option.id);
+                const label = option.attributes.map(({ value }) => value).join(" / ");
                 const available =
-                  variation.is_in_stock !== false && variation.is_purchasable !== false;
+                  variation?.is_in_stock !== false && variation?.is_purchasable !== false;
                 return (
                   <button
-                    aria-checked={variation.id === selectedVariationId}
-                    aria-label={`${variationLabel(variation)}, ${formatAmount(getAmount(variation), variation)}${available ? "" : ", esgotado"}`}
+                    aria-checked={option.id === selectedVariationId}
+                    aria-label={`${label}${variation ? `, ${formatAmount(getAmount(variation), variation)}` : ""}${available ? "" : ", esgotado"}`}
                     className="ritual-weight-option"
                     disabled={!available}
-                    key={variation.id}
-                    onClick={() => onVariationChange(variation.id)}
+                    key={option.id}
+                    onClick={async () => {
+                      variationRequest.current?.abort();
+                      setVariationError("");
+                      onVariationChange(option.id);
+                      if (variation) { setCheckingId(null); return; }
+                      const controller = new AbortController();
+                      variationRequest.current = controller;
+                      setCheckingId(option.id);
+                      try {
+                        const response = await fetch(`/api/ritual-variation/?id=${option.id}`, {
+                          signal: AbortSignal.any([controller.signal, AbortSignal.timeout(4500)]),
+                        });
+                        if (!response.ok) throw new Error("variation unavailable");
+                        const resolved = await response.json() as WooProduct;
+                        if (!controller.signal.aborted) onVariationResolved?.(resolved);
+                      } catch {
+                        if (!controller.signal.aborted) setVariationError("Não conseguimos confirmar preço e estoque. Toque no peso ou modelo para tentar novamente.");
+                      } finally {
+                        if (!controller.signal.aborted) setCheckingId(null);
+                      }
+                    }}
                     role="radio"
                     type="button"
                   >
-                    {variationLabel(variation)}
+                    {label}
                   </button>
                 );
               })}
             </div>
+            {checkingId ? <p role="status">Confirmando preço e estoque…</p> : null}
+            {variationError ? <p role="alert">{variationError}</p> : null}
           </fieldset>
         ) : null}
         <div className="ritual-product-footer">
           <strong>
-            {selectedVariation ? "" : product.type === "variable" ? "A partir de " : ""}
-            {formatAmount(getAmount(displayedProduct), displayedProduct)}
+            {selectedVariationId && !selectedVariation ? "Aguardando confirmação" : <>
+              {selectedVariation ? "" : product.type === "variable" ? "A partir de " : ""}
+              {formatAmount(getAmount(displayedProduct), displayedProduct)}
+            </>}
           </strong>
           <Link href={productHref(product)}>Ver produto</Link>
         </div>
@@ -187,17 +254,11 @@ function FinderProduct({
   );
 }
 
-export function ProductMatcher({
-  products,
-  variationsByProduct,
-}: {
-  products: WooProduct[];
-  variationsByProduct: Record<string, WooProduct[]>;
-}) {
+export function ProductMatcher({ products }: { products: WooProduct[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const shouldReduceMotion = useReducedMotion();
-  const { busy: cartBusy, error: cartError, loading: cartLoading, mutate } = useCart();
+  const { busy: cartBusy, error: cartError, loading: cartLoading, mutate, refresh: refreshCart } = useCart();
   const imageVersions = useRef<Record<MatcherLiveImageKey, string>>({
     desktop: "",
     mobile: "",
@@ -213,6 +274,9 @@ export function ProductMatcher({
   const [experience, setExperience] = useState<RitualExperienceId | null>(null);
   const [selectedVariationId, setSelectedVariationId] = useState<number | null>(null);
   const [selectedApplicatorVariationId, setSelectedApplicatorVariationId] = useState<number | null>(null);
+  const [ritualResult, setRitualResult] = useState<RitualRecommendationResult | null>(null);
+  const [confirmedVariations, setConfirmedVariations] = useState<Record<number, WooProduct>>({});
+  const [resultState, setResultState] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const [liveImages, setLiveImages] = useState(MATCHER_INITIAL_IMAGES);
 
   const recommendation = useMemo(() => {
@@ -220,55 +284,40 @@ export function ProductMatcher({
     return ritualsData[`${intention}:${experience}` as RitualKey];
   }, [experience, intention]);
 
-  const resolvedPrimary = useMemo(() => {
-    if (!recommendation || !intention) return null;
-
-    const candidates = [
-      recommendation.produtoPrincipal,
-      ...ritualExperienceOptions.map(
-        ({ id }) => ritualsData[`${intention}:${id}`].produtoPrincipal,
+  const catalogFallback = useMemo(() => recommendation
+    ? getRitualCatalogFallback(recommendation.produtoPrincipal.candidatos, recommendation.aplicador.slug, products)
+    : null, [recommendation, products]);
+  const visibleResult = ritualResult ?? catalogFallback;
+  const primaryProduct = visibleResult?.primary?.product;
+  const primaryRecommendation = useMemo(
+    () =>
+      recommendation?.produtoPrincipal.candidatos.find(
+        ({ slug }) => slug === primaryProduct?.slug,
       ),
-    ];
-
-    return chooseAvailableRitualProduct(candidates, products, variationsByProduct);
-  }, [intention, products, recommendation, variationsByProduct]);
-
-  const primaryProduct = resolvedPrimary?.product;
-  const primaryRecommendation = resolvedPrimary?.config;
-
-  const applicator = useMemo(() => {
-    if (!recommendation) return undefined;
-    return products.find(({ slug }) => slug === recommendation.aplicador.slug);
-  }, [products, recommendation]);
-
-  const primaryVariations = useMemo(
-    () =>
-      resolvedPrimary
-        ? [...resolvedPrimary.variations].sort(
-            (first, second) => getAmount(first) - getAmount(second),
-          )
-        : [],
-    [resolvedPrimary],
+    [primaryProduct?.slug, recommendation],
   );
+  const applicator = visibleResult?.applicator?.product;
 
-  const selectedVariation = useMemo(
-    () => primaryVariations.find(({ id }) => id === selectedVariationId),
-    [primaryVariations, selectedVariationId],
+  const mergeVariations = (product: WooProduct | undefined, variations: WooProduct[]) =>
+    [...new Map([
+      ...variations,
+      ...(product?.variations ?? []).flatMap(({ id }) => confirmedVariations[id] ? [confirmedVariations[id]] : []),
+    ].map((variation) => [variation.id, variation])).values()];
+  const primaryVariations = primaryProduct
+    ? mergeVariations(primaryProduct, ritualResult?.primary?.variations ?? []).sort(
+        (first, second) => getAmount(first) - getAmount(second),
+      )
+    : [];
+  const selectedVariation = primaryVariations.find(
+    ({ id }) => id === selectedVariationId,
   );
-
-  const applicatorVariations = useMemo(
-    () =>
-      applicator
-        ? [...(variationsByProduct[applicator.slug] ?? [])].sort(
-            (first, second) => getAmount(first) - getAmount(second),
-          )
-        : [],
-    [applicator, variationsByProduct],
-  );
-
-  const selectedApplicatorVariation = useMemo(
-    () => applicatorVariations.find(({ id }) => id === selectedApplicatorVariationId),
-    [applicatorVariations, selectedApplicatorVariationId],
+  const applicatorVariations = applicator
+    ? mergeVariations(applicator, ritualResult?.applicator?.variations ?? []).sort(
+        (first, second) => getAmount(first) - getAmount(second),
+      )
+    : [];
+  const selectedApplicatorVariation = applicatorVariations.find(
+    ({ id }) => id === selectedApplicatorVariationId,
   );
 
   const goToStep = (nextStep: FinderStep) => {
@@ -281,6 +330,8 @@ export function ProductMatcher({
   const reset = () => {
     setIntention(null);
     setExperience(null);
+    setRitualResult(null);
+    setResultState("idle");
     setSelectedVariationId(null);
     setSelectedApplicatorVariationId(null);
     goToStep("intention");
@@ -309,13 +360,17 @@ export function ProductMatcher({
         )
       : null;
   const missingSelection =
-    primaryNeedsWeight && !selectedVariation && applicatorNeedsVariation && !selectedApplicatorVariation
+    primaryNeedsWeight && !selectedVariationId && applicatorNeedsVariation && !selectedApplicatorVariationId
       ? "Selecione o peso e o modelo"
-      : primaryNeedsWeight && !selectedVariation
+      : primaryNeedsWeight && !selectedVariationId
         ? "Selecione o peso do rapé"
-        : applicatorNeedsVariation && !selectedApplicatorVariation
+        : applicatorNeedsVariation && !selectedApplicatorVariationId
           ? "Selecione o modelo do aplicador"
           : null;
+  const awaitingPrice = Boolean(
+    (primaryNeedsWeight && selectedVariationId && !selectedVariation) ||
+    (applicatorNeedsVariation && selectedApplicatorVariationId && !selectedApplicatorVariation),
+  );
 
   const stageVariants = useMemo<Variants>(
     () => ({
@@ -345,6 +400,41 @@ export function ProductMatcher({
     }),
     [shouldReduceMotion],
   );
+
+  useEffect(() => {
+    if (step !== "result" || !intention || !experience) {
+      return;
+    }
+
+    const controller = new AbortController();
+
+    const loadRecommendation = async () => {
+      try {
+        const query = new URLSearchParams({ intention, experience });
+        const response = await fetch(`/api/ritual-recommendation/?${query}`, {
+          signal: AbortSignal.any([controller.signal, AbortSignal.timeout(4000)]),
+        });
+        const payload = (await response.json()) as RitualRecommendationResult & {
+          error?: string;
+        };
+
+        if (!response.ok) {
+          throw new Error(payload.error || "Não foi possível preparar a recomendação.");
+        }
+
+        setRitualResult(payload);
+        setResultState("ready");
+      } catch {
+        if (controller.signal.aborted) return;
+
+        setResultState("error");
+      }
+    };
+
+    void loadRecommendation();
+
+    return () => controller.abort();
+  }, [experience, intention, step]);
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "development") return;
@@ -574,6 +664,10 @@ export function ProductMatcher({
                     className="matcher-experience-card"
                     key={option.id}
                     onClick={() => {
+                      setRitualResult(null);
+                      setResultState("loading");
+                      setSelectedVariationId(null);
+                      setSelectedApplicatorVariationId(null);
                       setExperience(option.id);
                       goToStep("result");
                     }}
@@ -616,82 +710,103 @@ export function ProductMatcher({
                 <p>{recommendation.descricao}</p>
               </div>
 
-              <div className="ritual-bundle">
-                <FinderProduct
-                  detail={primaryRecommendation
-                    ? `${primaryRecommendation.perfilAromatico} ${recommendation.produtoPrincipal.dosagemSugerida}`
-                    : "No momento, não encontramos um rapé disponível para esta intenção."}
-                  kind="Medicina principal"
-                  onVariationChange={setSelectedVariationId}
-                  product={primaryProduct}
-                  selectionLabel="Escolha o peso"
-                  selectedVariationId={selectedVariationId}
-                  variations={primaryVariations}
-                />
-                <span aria-hidden="true" className="ritual-bundle-plus">+</span>
-                <FinderProduct
-                  detail={recommendation.aplicador.motivo}
-                  kind="Aplicador sugerido"
-                  onVariationChange={setSelectedApplicatorVariationId}
-                  product={applicator}
-                  selectedVariationId={selectedApplicatorVariationId}
-                  selectionLabel="Escolha o modelo"
-                  variations={applicatorVariations}
-                />
-              </div>
-
-              <div className="matcher-result-actions">
-                <div aria-live="polite" className="matcher-total">
-                  <span>Total estimado do ritual</span>
-                  <strong>
-                    {total ?? missingSelection ?? "Consulte os produtos"}
-                  </strong>
-                </div>
-                <div className="matcher-action-buttons">
-                  <button
-                    aria-describedby="ritual-cart-note"
-                    className="button matcher-bundle-button"
-                    disabled={cartBusy || cartLoading || !bundleCanBeAdded}
-                    onClick={async () => {
-                      if (!pricedPrimaryProduct || !pricedApplicator || !bundleCanBeAdded) return;
-                      if (await mutate({ action: "add", id: pricedPrimaryProduct.id, quantity: 1 })) {
-                        await mutate({ action: "add", id: pricedApplicator.id, quantity: 1 });
-                      }
-                    }}
-                    type="button"
-                  >
-                    {cartBusy ? "Adicionando à sacola…" : "Adicionar Ritual Completo ao Carrinho"}
-                  </button>
-                  {primaryProduct ? (
-                    <button
-                      className="button matcher-product-button"
-                      disabled={cartBusy || cartLoading || !primaryCanBeAdded}
-                      onClick={() => {
-                        if (pricedPrimaryProduct && primaryCanBeAdded) {
-                          void mutate({ action: "add", id: pricedPrimaryProduct.id, quantity: 1 });
-                        }
-                      }}
-                      type="button"
-                    >
-                      Comprar apenas o rapé
-                    </button>
+              <>
+                  {(resultState === "loading" || resultState === "idle") ? (
+                    <p className="matcher-cart-note" role="status">Atualizando pesos e disponibilidade…</p>
+                  ) : resultState === "error" || (primaryNeedsWeight && !primaryVariations.length) ? (
+                    <p className="matcher-cart-note" role="status">Selecione uma opção para confirmar preço e disponibilidade.</p>
                   ) : null}
-                </div>
-                <p className="matcher-cart-note" id="ritual-cart-note">
-                  {missingSelection
-                    ? `${missingSelection} para continuar.`
-                    : "O ritual completo adiciona o rapé escolhido e o aplicador à sacola."}
-                </p>
-                {cartError ? <p className="matcher-cart-error" role="alert">{cartError}</p> : null}
-                <button className="matcher-reset" onClick={reset} type="button">
-                  Refazer escolha
-                </button>
-              </div>
+                  <div className="ritual-bundle">
+                    <FinderProduct
+                      key={primaryProduct?.id ?? "primary"}
+                      onVariationResolved={(variation) => setConfirmedVariations((current) => ({ ...current, [variation.id]: variation }))}
+                      suggestedSlug={!ritualResult ? recommendation.produtoPrincipal.candidatos[0].slug : undefined}
+                      detail={primaryRecommendation
+                        ? `${primaryRecommendation.perfil} ${recommendation.produtoPrincipal.dosagemSugerida}`
+                        : !ritualResult ? recommendation.produtoPrincipal.candidatos[0].perfil
+                          : "No momento, não encontramos um rapé disponível para esta intenção."}
+                      kind="Medicina principal"
+                      onVariationChange={setSelectedVariationId}
+                      product={primaryProduct}
+                      selectionLabel="Escolha o peso"
+                      selectedVariationId={selectedVariationId}
+                      variations={primaryVariations}
+                    />
+                    <span aria-hidden="true" className="ritual-bundle-plus">+</span>
+                    <FinderProduct
+                      key={applicator?.id ?? "applicator"}
+                      onVariationResolved={(variation) => setConfirmedVariations((current) => ({ ...current, [variation.id]: variation }))}
+                      suggestedSlug={!ritualResult ? recommendation.aplicador.slug : undefined}
+                      detail={recommendation.aplicador.motivo}
+                      kind="Aplicador sugerido"
+                      onVariationChange={setSelectedApplicatorVariationId}
+                      product={applicator}
+                      selectedVariationId={selectedApplicatorVariationId}
+                      selectionLabel="Escolha o modelo"
+                      variations={applicatorVariations}
+                    />
+                  </div>
 
-              <p className="matcher-care-note">
-                Esta curadoria é informativa e não substitui a orientação do produtor
-                ou de um profissional de saúde. O rapé contém tabaco e nicotina.
-              </p>
+                  <div className="matcher-result-actions">
+                    <div aria-live="polite" className="matcher-total">
+                      <span>Total estimado do ritual</span>
+                      <strong>
+                        {total ?? (awaitingPrice ? "Preço ainda não confirmado" : missingSelection) ?? "Consulte os produtos"}
+                      </strong>
+                    </div>
+                    <div className="matcher-action-buttons">
+                      <button
+                        aria-describedby="ritual-cart-note"
+                        className="button matcher-bundle-button"
+                        disabled={cartBusy || cartLoading || !bundleCanBeAdded}
+                        onClick={async () => {
+                          if (!pricedPrimaryProduct || !pricedApplicator || !bundleCanBeAdded) return;
+                          if (await mutate({ action: "add", id: pricedPrimaryProduct.id, quantity: 1 })) {
+                            await mutate({ action: "add", id: pricedApplicator.id, quantity: 1 });
+                          }
+                        }}
+                        type="button"
+                      >
+                        {cartBusy ? "Adicionando à sacola…" : "Adicionar Ritual Completo ao Carrinho"}
+                      </button>
+                      {primaryProduct ? (
+                        <button
+                          className="button matcher-product-button"
+                          disabled={cartBusy || cartLoading || !primaryCanBeAdded}
+                          onClick={() => {
+                            if (pricedPrimaryProduct && primaryCanBeAdded) {
+                              void mutate({ action: "add", id: pricedPrimaryProduct.id, quantity: 1 });
+                            }
+                          }}
+                          type="button"
+                        >
+                          Comprar apenas o rapé
+                        </button>
+                      ) : null}
+                    </div>
+                    <p className="matcher-cart-note" id="ritual-cart-note">
+                      {awaitingPrice
+                        ? "Sua escolha foi mantida. Tente confirmar novamente no peso ou modelo selecionado."
+                        : missingSelection
+                        ? `${missingSelection} para continuar.`
+                        : "O ritual completo adiciona o rapé escolhido e o aplicador à sacola."}
+                    </p>
+                    {cartError ? <>
+                      <p className="matcher-cart-error" role="alert">{cartError}</p>
+                      <button className="matcher-reset" disabled={cartBusy || cartLoading} onClick={() => void refreshCart()} type="button">
+                        {cartLoading ? "Reconectando à sacola…" : "Tentar reconectar à sacola"}
+                      </button>
+                    </> : null}
+                    <button className="matcher-reset" onClick={reset} type="button">
+                      Refazer escolha
+                    </button>
+                  </div>
+
+                  <p className="matcher-care-note">
+                    Esta curadoria é informativa e não substitui a orientação do produtor
+                    ou de um profissional de saúde. O rapé contém tabaco e nicotina.
+                  </p>
+              </>
             </div>
           ) : null}
           </motion.div>

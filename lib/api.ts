@@ -28,10 +28,11 @@ async function apiFetch<T>(
   path: string,
   query: Record<string, QueryValue>,
   tags: string[],
+  timeoutMs = 15_000,
 ): Promise<{ data: T; total: number; totalPages: number }> {
   const response = await fetch(buildUrl(origin, path, query), {
     headers: { Accept: "application/json" },
-    signal: AbortSignal.timeout(15_000),
+    signal: AbortSignal.timeout(timeoutMs),
     next: { revalidate: config.contentRevalidate, tags },
   });
 
@@ -55,7 +56,8 @@ export const wooFetch = <T>(
   path: string,
   query: Record<string, QueryValue> = {},
   tags: string[] = ["woocommerce"],
-) => apiFetch<T>(config.wooStoreApiUrl, path, query, tags).then(result => result.data);
+  timeoutMs?: number,
+) => apiFetch<T>(config.wooStoreApiUrl, path, query, tags, timeoutMs).then(result => result.data);
 
 export const wooCollection = <T>(path: string, query: Record<string, QueryValue> = {}, tags: string[] = ["woocommerce"]) =>
   apiFetch<T[]>(config.wooStoreApiUrl, path, query, tags);

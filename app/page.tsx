@@ -10,8 +10,7 @@ import { HomeYoutubeSection } from "@/components/home-youtube-section";
 import { JsonLd } from "@/components/json-ld";
 import { LiveHero } from "@/components/live-hero";
 import { ProductMatcher } from "@/components/product-matcher";
-import { getAllProducts, getProductVariations } from "@/lib/woocommerce";
-import { ritualsData } from "@/lib/rituals-data";
+import { getAllProducts } from "@/lib/woocommerce";
 import { getYouTubeVideos } from "@/lib/youtube";
 import {
   demoProducts,
@@ -29,25 +28,6 @@ export default async function Home() {
     getYouTubeVideos(),
   ]);
   const products = apiProducts.length ? apiProducts : demoProducts;
-  const ritualProducts = Array.from(
-    new Set(
-      Object.values(ritualsData).flatMap((ritual) => [
-        ritual.produtoPrincipal.slug,
-        ritual.aplicador.slug,
-      ]),
-    ),
-  ).flatMap((slug) => {
-    const product = apiProducts.find((item) => item.slug === slug);
-    return product ? [product] : [];
-  });
-  const ritualProductVariations = Object.fromEntries(
-    await Promise.all(
-      ritualProducts.map(async (product) => [
-        product.slug,
-        await getProductVariations(product).catch(() => []),
-      ]),
-    ),
-  );
   const rotatingKitBanners = getHomeKitBanners(apiProducts);
   const pageSchema = {
     "@context": "https://schema.org",
@@ -122,7 +102,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <ProductMatcher products={products} variationsByProduct={ritualProductVariations} />
+      <ProductMatcher products={apiProducts} />
 
       <section className="products-section" aria-labelledby="mais-vendidos-title">
         <div className="container">
