@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Pagination } from "@/components/pagination";
 import { ApiError, wpCollection } from "@/lib/api";
 import { excerpt, plainText } from "@/lib/html";
@@ -33,9 +32,7 @@ export default async function BlogPage({ params }: Props) {
   if (page > 1 && !result.data.length) notFound();
 
   return (
-    <div className="container content-page">
-      <Breadcrumbs items={[{ label: "Início", href: "/" }, { label: "Blog" }]} />
-      <header className="archive-header"><p className="eyebrow">Histórias e conhecimentos</p><h1>Blog</h1><p>Cultura, tradições e saberes da floresta.</p></header>
+    <>
       <section className="post-list" aria-label="Artigos do blog">
         {result.data.map((post) => (
           <article key={post.id}>
@@ -48,6 +45,6 @@ export default async function BlogPage({ params }: Props) {
       </section>
       {!result.data.length && <p>Novos artigos serão publicados em breve.</p>}
       <Pagination page={page} hasNextPage={page < result.totalPages} basePath="/blog/" />
-    </div>
+    </>
   );
 }
