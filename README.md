@@ -16,6 +16,11 @@ Requer Node 22.18+; validado com Node 24. `npm run setup` cria `.env.local` sem
 sobrescrever configurações existentes. A porta é indicada no terminal.
 Abrir `/cart/` para a sacola e `/diagnostico-api/` para conferir conexões.
 
+Se a API não responder, executar `npm run check:connection`. O comando verifica
+DNS, TCP e endpoints públicos sem credenciais administrativas, salvando um
+relatório em `artifacts/connection-report.json`. Veja as soluções e os testes
+de rede em [Conexão com a hospedagem](docs/CONEXAO-HOSPEDAGEM.md).
+
 Veja [a configuração e a homologação do pagamento](docs/PAGAMENTOS.md).
 O complemento em `wordpress/medicina-sagrada-headless/` está pronto para instalar
 na homologação. A ativação no WordPress, ajuste do LiteSpeed e testes de cobranças

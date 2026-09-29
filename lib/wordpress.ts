@@ -1,9 +1,13 @@
 import { fetchAll, wpFetch } from "@/lib/api";
 import type { WordPressContent } from "@/lib/types";
 
+export const HIDDEN_DEMO_POST_IDS = [10184, 500, 492] as const;
+export const hiddenDemoPostIdsQuery = HIDDEN_DEMO_POST_IDS.join(",");
+
 const embeddedQuery = {
   _embed: 1,
   status: "publish",
+  exclude: hiddenDemoPostIdsQuery,
 };
 
 export async function getPageBySlug(slug: string) {
@@ -66,7 +70,7 @@ export const getAllPosts = () =>
   fetchAll((page) =>
     wpFetch<WordPressContent[]>(
       "wp/v2/posts",
-      { status: "publish", per_page: 100, page },
+      { status: "publish", exclude: hiddenDemoPostIdsQuery, per_page: 100, page },
       ["wordpress", "posts"],
     ),
   );
