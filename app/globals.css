@@ -693,6 +693,12 @@ strong, b { font-weight: var(--weight-bold); }
 .ancestral-photo:hover::after { opacity: 0.28; }
 .ancestral-photo:hover img { filter: brightness(1.04) saturate(1.08); transform: scale(1.045); }
 
+@media (min-width: 1001px) {
+  .ancestral-section { position: relative; overflow: hidden; isolation: isolate; background: #171918; }
+  .ancestral-card { position: static; padding-block: clamp(1.5rem, 3vw, 3rem); padding-inline: 0; border: 0; border-radius: 0; isolation: auto; box-shadow: none; }
+  .ancestral-watermark { z-index: 0; right: -7rem; bottom: -7rem; width: clamp(28rem, 35vw, 36rem); }
+}
+
 @media (max-width: 1000px) {
   .ancestral-layout { grid-template-columns: minmax(0, 1fr); }
   .ancestral-gallery { width: min(100%, 44rem); }
