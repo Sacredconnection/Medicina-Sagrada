@@ -12,6 +12,16 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   images: {
     formats: ["image/avif", "image/webp"],
+    qualities: [75, 90],
+    localPatterns: [
+      {
+        pathname: "/assets/**",
+        search: "",
+      },
+      {
+        pathname: "/assets/ethnicity-headers/**",
+      },
+    ],
     remotePatterns: [
       {
         protocol: wordpressOrigin.protocol.replace(":", "") as "http" | "https",
