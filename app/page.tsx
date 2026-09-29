@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { BenefitsStrip } from "@/components/benefits-strip";
 import { HomeApplicatorsSection } from "@/components/home-applicators-section";
+import { HomeConexaoAncestralSection } from "@/components/home-conexao-ancestral-section";
 import { HomeKitsSection } from "@/components/home-kit-grid";
 import { HomeProductGrid } from "@/components/home-product-grid";
 import { HomeYoutubeSection } from "@/components/home-youtube-section";
@@ -250,6 +251,8 @@ export default async function Home() {
       </section>
 
       <HomeYoutubeSection videos={youtubeVideos} />
+
+      <HomeConexaoAncestralSection />
 
       <JsonLd data={pageSchema} />
     </>

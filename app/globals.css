@@ -571,8 +571,8 @@ strong, b { font-weight: var(--weight-bold); }
 .matcher-result-heading { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr); align-items: end; gap: 3rem; }
 .matcher-result-heading > p { max-width: 42ch; margin: 0; color: var(--matcher-muted); }
 .matcher-result-heading h2 { max-width: 14ch; color: var(--forest-950); font-size: clamp(2.65rem, 5vw, 4.4rem); }
-.ritual-bundle { display: grid; margin-top: clamp(2.5rem, 5vw, 4rem); grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 1rem; }
-.ritual-bundle-plus { display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border-radius: 50%; background: var(--forest-950); color: var(--white); font-size: 1.25rem; }
+.ritual-bundle { display: grid; margin-top: clamp(2.5rem, 5vw, 4rem); grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: 1rem; }
+.ritual-bundle-plus { display: grid; width: 2.5rem; height: 2.5rem; place-items: center; align-self: center; border-radius: 50%; background: var(--forest-950); color: var(--white); font-size: 1.25rem; }
 .ritual-product { display: grid; min-height: 13rem; overflow: hidden; border-radius: 0.875rem; background: var(--white); box-shadow: 0 1.1rem 2.5rem rgba(11, 38, 29, 0.1); grid-template-columns: minmax(9rem, 0.42fr) minmax(0, 0.58fr); }
 .ritual-product-image { position: relative; min-height: 13rem; overflow: hidden; background: #ece9df; }
 .ritual-product-image img { object-fit: cover; transition: transform 300ms ease; }
@@ -660,6 +660,58 @@ strong, b { font-weight: var(--weight-bold); }
 .youtube-player-copy { padding: clamp(1.25rem, 2.5vw, 2rem); }
 .youtube-player-copy h3 { max-width: 42ch; color: var(--white); font-size: clamp(1.3rem, 2vw, 1.75rem); line-height: 1.15; text-wrap: balance; }
 .youtube-player-copy p { max-width: 70ch; margin: 0.65rem 0 0; color: rgba(255, 255, 255, 0.76); font-size: 0.9375rem; line-height: 1.55; }
+
+/* Conexão Ancestral partnership */
+.ancestral-section { scroll-margin-top: var(--sticky-offset); padding-block: var(--section-space-compact); background: var(--white); }
+.ancestral-card { position: relative; overflow: hidden; padding: clamp(1.5rem, 4vw, 4rem); border: 1px solid rgba(255, 255, 255, 0.28); border-radius: var(--radius); isolation: isolate; background: #171918; box-shadow: 0 1.5rem 3.75rem rgba(11, 38, 29, 0.16); color: var(--white); transition: border-color 300ms ease; }
+.ancestral-card:hover { border-color: rgba(255, 255, 255, 0.48); }
+.ancestral-watermark { position: absolute; z-index: -1; right: clamp(-11rem, -8vw, -6rem); bottom: clamp(-12rem, -10vw, -7rem); width: clamp(31rem, 52vw, 47rem); height: auto; opacity: 0.035; pointer-events: none; user-select: none; }
+.ancestral-layout { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 7fr) minmax(20rem, 5fr); align-items: center; gap: clamp(2.5rem, 5vw, 4rem); }
+.ancestral-copy { display: flex; min-width: 0; align-items: flex-start; flex-direction: column; gap: clamp(1.75rem, 3vw, 2.5rem); }
+.ancestral-logo { width: auto; height: clamp(4rem, 6vw, 5rem); object-fit: contain; }
+.ancestral-introduction { display: grid; gap: 1rem; }
+.ancestral-introduction h2 { max-width: 17ch; color: var(--white); font-size: clamp(2.35rem, 4.35vw, 3.8rem); font-weight: var(--weight-black); letter-spacing: -0.04em; line-height: 1.02; text-wrap: balance; }
+.ancestral-introduction h2 span { color: var(--leaf-400); }
+.ancestral-introduction > p { max-width: 62ch; margin: 0; color: rgba(255, 255, 255, 0.74); font-size: clamp(1rem, 1.35vw, 1.125rem); line-height: 1.6; text-wrap: pretty; }
+.ancestral-pillars { display: grid; width: 100%; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.12); grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.25rem, 2vw, 1.75rem); }
+.ancestral-pillar { display: flex; min-width: 0; align-items: flex-start; flex-direction: column; gap: 0.8rem; }
+.ancestral-pillar-icon { display: grid; width: 2.5rem; height: 2.5rem; flex: 0 0 auto; place-items: center; border-radius: 0.5rem; background: rgba(255, 255, 255, 0.06); color: var(--leaf-400); transition: background-color 220ms ease, color 220ms ease; }
+.ancestral-pillar:hover .ancestral-pillar-icon { background: rgba(155, 185, 120, 0.16); color: #bed69f; }
+.ancestral-pillar-icon svg { width: 1.2rem; height: 1.2rem; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+.ancestral-pillar h3 { color: var(--white); font-size: 1rem; font-weight: var(--weight-bold); letter-spacing: -0.012em; line-height: 1.2; }
+.ancestral-pillar p { margin-top: 0.35rem; color: rgba(255, 255, 255, 0.62); font-size: 0.8125rem; line-height: 1.5; text-wrap: pretty; }
+.ancestral-cta { min-height: 3.5rem; gap: 0.75rem; padding-inline: clamp(1.5rem, 3vw, 2.25rem); border-color: var(--forest-650); background: var(--forest-650); box-shadow: 0 0.75rem 1.75rem rgba(0, 0, 0, 0.2); color: var(--white); }
+.ancestral-cta::before { background: var(--forest-800); }
+.ancestral-cta:is(:hover, :focus-visible) { border-color: var(--leaf-400); color: var(--white); }
+.ancestral-gallery { display: flex; min-width: 0; flex-direction: column; gap: 1rem; }
+.ancestral-photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.ancestral-photo { position: relative; aspect-ratio: 4 / 3; overflow: hidden; margin: 0; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 0.5rem; background: var(--forest-900); box-shadow: 0 0.75rem 1.75rem rgba(0, 0, 0, 0.2); transition: border-color 300ms ease, box-shadow 300ms ease; }
+.ancestral-photo-featured { aspect-ratio: 16 / 10; }
+.ancestral-photo::after { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11, 38, 29, 0.02), rgba(11, 38, 29, 0.22)); content: ""; opacity: 0.78; pointer-events: none; transition: opacity 500ms ease; }
+.ancestral-photo img { object-fit: cover; transition: filter 500ms ease, transform 650ms cubic-bezier(0.16, 1, 0.3, 1); }
+.ancestral-photo:hover { border-color: rgba(155, 185, 120, 0.58); box-shadow: 0 1rem 2.25rem rgba(0, 0, 0, 0.26); }
+.ancestral-photo:hover::after { opacity: 0.28; }
+.ancestral-photo:hover img { filter: brightness(1.04) saturate(1.08); transform: scale(1.045); }
+
+@media (max-width: 1000px) {
+  .ancestral-layout { grid-template-columns: minmax(0, 1fr); }
+  .ancestral-gallery { width: min(100%, 44rem); }
+}
+
+@media (max-width: 600px) {
+  .ancestral-card { padding: 1.5rem; }
+  .ancestral-copy { gap: 1.75rem; }
+  .ancestral-introduction h2 { max-width: 15ch; font-size: clamp(2.15rem, 10.5vw, 3rem); }
+  .ancestral-pillars { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .ancestral-pillar { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 0.9rem; }
+  .ancestral-cta { width: 100%; padding-inline: 1.15rem; }
+  .ancestral-gallery, .ancestral-photo-grid { gap: 0.75rem; }
+  .ancestral-watermark { right: -13rem; bottom: -8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ancestral-card, .ancestral-pillar-icon, .ancestral-photo, .ancestral-photo::after, .ancestral-photo img { transition: none; }
+}
 
 /* Product cards and archives */
 .product-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.5rem 1.25rem; }
