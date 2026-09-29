@@ -88,10 +88,12 @@ export default async function DiagnosticPage() {
         <ul>
           <li>Carrinho com sessão: {commerce.cart ? "conectado" : "indisponível"}.</li>
           <li>Destino do checkout: {commerce.checkout ? "origem separada configurada" : "corrigir: checkout aponta para o próprio frontend"}.</li>
-          <li>Pagar.me: {commerce.pagarme ? commerce.paymentMethods.join(", ") : "não identificado"}.</li>
-          <li>Plugin complementar: {commerce.companionPlugin ? "ativo" : "instalação pendente no WordPress"}.</li>
-          <li>Revalidação do catálogo: {commerce.revalidation ? "configurada" : "configuração pendente"}.</li>
+          <li>Pagar.me: {commerce.pagarme === null ? "não foi possível verificar" : commerce.pagarme ? commerce.paymentMethods.join(", ") : "não identificado na resposta do carrinho"}.</li>
+          <li>Plugin complementar: {commerce.companionPlugin === null ? "não foi possível verificar; conferir o acesso ao endpoint e a instalação no WordPress" : commerce.companionPlugin ? "ativo" : "conclusão da sacola indisponível no plugin"}.</li>
+          <li>Revalidação do catálogo: {commerce.revalidation === null ? "segredo local configurado; configuração remota não verificada" : commerce.revalidation ? "configurada; entrega do webhook ainda precisa ser testada" : "configuração pendente"}.</li>
         </ul>
+        {!commerce.checks.store.ok && <p>Carrinho: {commerce.checks.store.message}</p>}
+        {!commerce.checks.bridge.ok && <p>Plugin: {commerce.checks.bridge.message}</p>}
         <p>A presença do gateway não confirma uma cobrança. A homologação de Pix, cartão, boleto e retorno de status deve ser concluída no ambiente de testes do Pagar.me.</p>
         <Link href="/api/commerce-status/">Ver diagnóstico de compras em JSON</Link>
       </section>

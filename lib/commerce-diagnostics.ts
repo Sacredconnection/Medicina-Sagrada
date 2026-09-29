@@ -1,28 +1,49 @@
-import { config } from "@/lib/config";
+﻿import { config } from "@/lib/config";
+import { diagnosticRequest } from "@/lib/diagnostic-request";
 import { randomUUID } from "node:crypto";
 
+type CartDiagnostic = { items: unknown[]; totals: object; payment_methods: string[] };
+type BridgeDiagnostic = { cart_completion: boolean; revalidation: boolean };
+
 export async function runCommerceDiagnostic() {
-  const [store, bridge] = await Promise.allSettled([
-    fetch(`${config.wooStoreApiUrl}/cart?_ms_cart=${randomUUID()}`, { cache: "no-store", signal: AbortSignal.timeout(10_000) }),
-    fetch(`${config.wordpressApiUrl}/ms-headless/v1/status`, { cache: "no-store", signal: AbortSignal.timeout(10_000) }),
+  const [store, bridge] = await Promise.all([
+    diagnosticRequest(
+      `${config.wooStoreApiUrl}/cart?_ms_cart=${randomUUID()}`,
+      "/wp-json/wc/store/v1/cart",
+      (data, response): data is CartDiagnostic => {
+        const cart = data as Partial<CartDiagnostic> | null;
+        return Boolean(cart && Array.isArray(cart.items) && cart.totals && typeof cart.totals === "object"
+          && Array.isArray(cart.payment_methods) && cart.payment_methods.every(method => typeof method === "string")
+          && response.headers.get("Cart-Token")
+          && !/hit/i.test(response.headers.get("x-litespeed-cache") ?? "")
+          && response.headers.get("cf-cache-status") !== "HIT"
+          && !(Number(response.headers.get("age") ?? 0) > 0));
+      },
+    ),
+    diagnosticRequest(
+      `${config.wordpressApiUrl}/ms-headless/v1/status`,
+      "/wp-json/ms-headless/v1/status",
+      (data): data is BridgeDiagnostic => {
+        const status = data as Partial<BridgeDiagnostic> | null;
+        return Boolean(status && typeof status.cart_completion === "boolean" && typeof status.revalidation === "boolean");
+      },
+    ),
   ]);
-  const storeResponse = store.status === "fulfilled" ? store.value : null;
-  const data = await storeResponse?.json().catch(() => null);
-  const bridgeResponse = bridge.status === "fulfilled" ? bridge.value : null;
-  const bridgeData = await bridgeResponse?.json().catch(() => null);
-  const methods: string[] = (data?.payment_methods ?? []).filter((value: unknown) => typeof value === "string" && value.startsWith("woo-pagarme-payments-"));
-  const cartReady = Boolean(storeResponse?.ok && storeResponse.headers.get("Cart-Token"));
+  const methods = (store.data?.payment_methods ?? []).filter(method => method.startsWith("woo-pagarme-payments-"));
   const separateCheckout = new URL(config.wooCheckoutUrl).origin !== new URL(config.siteUrl).origin;
-  const completionReady = Boolean(bridgeResponse?.ok && bridgeData?.cart_completion);
+  const localRevalidation = (process.env.REVALIDATION_SECRET?.length ?? 0) >= 32;
   return {
-    cart: cartReady,
+    checkedAt: new Date().toISOString(),
+    cart: store.check.ok,
     checkout: separateCheckout,
-    pagarme: methods.length > 0,
-    paymentMethods: methods.map((method) => method.replace("woo-pagarme-payments-", "")),
-    companionPlugin: completionReady,
-    revalidation: Boolean(bridgeData?.revalidation && process.env.REVALIDATION_SECRET),
-    // This is infrastructure readiness, never proof that a payment was tested.
-    infrastructureReady: cartReady && separateCheckout && methods.length > 0 && completionReady,
+    pagarme: store.check.ok ? methods.length > 0 : null,
+    paymentMethods: methods.map(method => method.replace("woo-pagarme-payments-", "")),
+    // null means the remote state could not be verified, not an absent plugin.
+    companionPlugin: bridge.data?.cart_completion ?? null,
+    revalidation: !localRevalidation ? false : bridge.data?.revalidation ?? null,
+    localRevalidation,
+    checks: { store: store.check, bridge: bridge.check },
+    infrastructureReady: store.check.ok && separateCheckout && methods.length > 0 && bridge.data?.cart_completion === true,
     paymentTest: "pending-manual-validation",
   };
 }

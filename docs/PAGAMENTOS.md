@@ -87,6 +87,36 @@ como fallback caso o envio falhe. Não há fila durável de reenvio nesse plugin
 
 ## Ambiente local
 
+### Conferência de conexão em 29/09/2026
+
+- O ambiente local foi preparado com `npm run setup`: URLs de WordPress,
+  Store API, checkout e conta configuradas, com segredo de revalidação gerado
+  em `.env.local` e excluído do Git. As credenciais administrativas continuam
+  opcionais para a vitrine e não foram fornecidas nesta cópia.
+- As consultas atuais à hospedagem de `medicinasagrada.com.br` expiraram sem
+  resposta HTTPS. Os resultados de integração descritos mais abaixo são registros
+  de validações anteriores, não confirmação de disponibilidade atual.
+- `/diagnostico-api/` e seus endpoints JSON distinguem falha de consulta de
+  recurso ausente/desabilitado. Nos campos comerciais, `null` significa estado
+  remoto não verificado. HTTP 200 sozinho não basta: o diagnóstico verifica o
+  formato da resposta, o token do carrinho e indicadores de cache indevido.
+- O pacote `artifacts/medicina-sagrada-headless.zip` foi gerado novamente a partir
+  do plugin local 1.0.1. Isso não instala nem ativa o complemento no WordPress.
+
+Pendências externas, nesta ordem:
+
+1. Conferir disponibilidade HTTPS e regras de firewall na hospedagem; repetir
+   `/diagnostico-api/` quando a API voltar a responder.
+2. Verificar se o complemento já está instalado/ativo antes de enviar o ZIP.
+   Confirmar as exclusões de cache listadas na seção de corte de domínio.
+3. Com um frontend HTTPS acessível pelo WordPress, configurar `MS_HEADLESS_URL`
+   e `MS_REVALIDATION_SECRET` na hospedagem. O segredo deve coincidir com
+   `REVALIDATION_SECRET` no ambiente correspondente do Next.js. Não publicar
+   esse valor nem usar `localhost` como destino do WordPress.
+4. Testar a entrega do webhook e homologar o fluxo de compra e os pagamentos
+   conforme o checklist abaixo. Segredo configurado e gateway identificado
+   não comprovam a entrega do webhook nem uma cobrança bem-sucedida.
+
 Node 22.18+ (Node 24 recomendado), `npm ci`, `npm run setup`, `npm run dev`.
 O setup não sobrescreve `.env.local`. Copiar as URLs reais de `.env.example`.
 `npm run check` valida lint, tipos e entradas da API; `npm run test:e2e` usa
