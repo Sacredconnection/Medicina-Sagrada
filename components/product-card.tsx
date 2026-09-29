@@ -70,7 +70,12 @@ export function ProductCard({ product, headingLevel = 2 }: ProductCardProps) {
               </span>
             ) : null}
           </div>
-          <Heading>{productName}</Heading>
+          <Heading
+            className={ethnicityTheme ? "product-card-ethnicity-title" : undefined}
+            style={ethnicityTheme ? { color: ethnicityTheme.accent } : undefined}
+          >
+            {productName}
+          </Heading>
           <p className="price">{formatPrice(product)}</p>
           <span className="product-cta">
             <span>{product.is_in_stock === false ? "Ver detalhes" : product.type === "variable" ? "Escolher opções" : "Ver produto"}</span>

@@ -24,6 +24,9 @@ Pagar.me ainda precisam ser concluídos antes de publicar para clientes.
 Validações: `npm run check`, `npm run test:e2e` (Chrome instalado) e `npm run build`.
 Os testes de navegador usam WooCommerce simulado e nunca enviam pagamentos reais.
 
+O padrão visual de distância entre seções está registrado em
+[`docs/ESPACAMENTO.md`](docs/ESPACAMENTO.md).
+
 Fundação do novo frontend da Medicina Sagrada, preparada para consumir o
 WordPress e o WooCommerce existentes sem alterar as URLs públicas que já
 acumulam autoridade orgânica.

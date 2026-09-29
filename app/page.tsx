@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 import { BenefitsStrip } from "@/components/benefits-strip";
 import { HomeApplicatorsSection } from "@/components/home-applicators-section";
 import { HomeConexaoAncestralSection } from "@/components/home-conexao-ancestral-section";
+import { HomeCraftsSection } from "@/components/home-crafts-section";
 import { HomeKitsSection } from "@/components/home-kit-grid";
 import { HomeProductGrid } from "@/components/home-product-grid";
 import { HomeYoutubeSection } from "@/components/home-youtube-section";
@@ -66,26 +67,10 @@ export default async function Home() {
 
   return (
     <>
+      <div className="home-page-flow">
       <LiveHero slides={heroSlides} />
 
       <BenefitsStrip />
-
-      <section className="products-section" aria-labelledby="mais-vendidos-title">
-        <div className="container">
-          <div className="section-heading section-heading-inline">
-            <div>
-              <p className="eyebrow">Recomendações da Medicina Sagrada</p>
-              <h2 id="mais-vendidos-title">Mais procurados</h2>
-            </div>
-          </div>
-          <HomeProductGrid products={products} />
-          <div className="products-section-action">
-            <Link className="button" href="/product-category/rape/">
-              Ver todos os produtos
-            </Link>
-          </div>
-        </div>
-      </section>
 
       <section className="category-rail-wrap" aria-labelledby="categorias-title">
         <div className="container">
@@ -119,11 +104,30 @@ export default async function Home() {
         </div>
       </section>
 
+      <section className="products-section" aria-labelledby="mais-vendidos-title">
+        <div className="container">
+          <div className="section-heading section-heading-inline">
+            <div>
+              <p className="eyebrow">Recomendações da Medicina Sagrada</p>
+              <h2 id="mais-vendidos-title">Mais procurados</h2>
+            </div>
+          </div>
+          <HomeProductGrid products={products} />
+          <div className="products-section-action">
+            <Link className="button" href="/product-category/rape/">
+              Ver todos os produtos
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <ProductMatcher products={apiProducts} />
+
+      <HomeApplicatorsSection />
 
       <HomeKitsSection banners={rotatingKitBanners} />
 
-      <HomeApplicatorsSection />
+      <HomeCraftsSection />
 
       <section className="incense-section" aria-labelledby="incensos-title">
         <div className="container incense-layout">
@@ -233,6 +237,7 @@ export default async function Home() {
       <HomeYoutubeSection videos={youtubeVideos} />
 
       <HomeConexaoAncestralSection />
+      </div>
 
       <JsonLd data={pageSchema} />
     </>
