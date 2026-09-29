@@ -90,6 +90,23 @@ export default async function Home() {
 
       <BenefitsStrip />
 
+      <section className="products-section" aria-labelledby="mais-vendidos-title">
+        <div className="container">
+          <div className="section-heading section-heading-inline">
+            <div>
+              <p className="eyebrow">Recomendações da Medicina Sagrada</p>
+              <h2 id="mais-vendidos-title">Mais procurados</h2>
+            </div>
+          </div>
+          <HomeProductGrid products={products} />
+          <div className="products-section-action">
+            <Link className="button" href="/product-category/rape/">
+              Ver todos os produtos
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="category-rail-wrap" aria-labelledby="categorias-title">
         <div className="container">
           <div className="section-heading category-rail-heading">
@@ -123,23 +140,6 @@ export default async function Home() {
       </section>
 
       <ProductMatcher products={products} variationsByProduct={ritualProductVariations} />
-
-      <section className="products-section" aria-labelledby="mais-vendidos-title">
-        <div className="container">
-          <div className="section-heading section-heading-inline">
-            <div>
-              <p className="eyebrow">Recomendações da Medicina Sagrada</p>
-              <h2 id="mais-vendidos-title">Mais procurados</h2>
-            </div>
-          </div>
-          <HomeProductGrid products={products} />
-          <div className="products-section-action">
-            <Link className="button" href="/product-category/rape/">
-              Ver todos os produtos
-            </Link>
-          </div>
-        </div>
-      </section>
 
       <HomeKitsSection banners={rotatingKitBanners} />
 
