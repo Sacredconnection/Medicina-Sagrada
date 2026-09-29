@@ -6,6 +6,7 @@ import { Catalog } from "@/components/catalog";
 import { parseCatalogQuery, catalogSearch, type SearchValues } from "@/lib/catalog-query";
 import { canonicalizeEthnicityNames, getEthnicityTheme } from "@/lib/ethnicity-colors";
 import { RichText } from "@/components/rich-text";
+import { getCategoryContent } from "@/lib/category-content";
 import {
   breadcrumbSchema,
   metadataForProductCategory,
@@ -90,6 +91,9 @@ export default async function ProductCategoryPage({
   }
 
   const query = parseCatalogQuery(await searchParams);
+  const additionalContent = parsed.page === 1
+    ? await getCategoryContent(parsed.basePath, category.id)
+    : "";
   const categoryName = canonicalizeEthnicityNames(category.name);
   const ethnicityTheme = parsed.basePath.startsWith("/product-category/rape/")
     ? getEthnicityTheme([{ name: category.name, slug: category.slug }])
@@ -127,6 +131,11 @@ export default async function ProductCategoryPage({
         ) : null}
       </header>
       <Catalog query={query} categoryId={category.id} page={parsed.page} basePath={parsed.basePath} />
+      {additionalContent ? (
+        <section className="category-editorial" aria-label={categoryName}>
+          <RichText html={additionalContent} />
+        </section>
+      ) : null}
       <JsonLd data={breadcrumbSchema(breadcrumbs)} />
     </div>
   );
