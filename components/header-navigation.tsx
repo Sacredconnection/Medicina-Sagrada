@@ -58,14 +58,27 @@ function MegaPanel({ item }: { item: NavigationItem }) {
     </div>
     <div className="mega-categories"><p className="mega-caption">{isRape ? "Explore os rapés" : "Categorias"}</p><CategoryLinks items={item.children ?? []} isRape={isRape} /></div>
     <div className="mega-feature" style={featureStyle}>
-      <p className={`mega-caption${isRape && item.feature ? " mega-feature-caption" : ""}`}>{isRape ? "Rapé do mês" : "Em destaque"}</p>
+      <p className={`mega-caption${isRape && item.feature ? " mega-feature-caption" : ""}`}>
+        {isRape && item.feature ? <>
+          <span className="mega-feature-caption-title">
+            <svg className="mega-feature-caption-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 3v3M17 3v3M4.5 9h15M6 5h12a2 2 0 0 1 2 2v11.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" />
+              <path d="m12 12 .75 1.52 1.68.24-1.22 1.19.29 1.68-1.5-.79-1.5.79.29-1.68-1.22-1.19 1.68-.24L12 12Z" />
+            </svg>
+            Rapé do mês
+          </span>
+          <span className="mega-feature-caption-discount">
+            <strong>10%</strong>
+            <span>de desconto</span>
+          </span>
+        </> : "Em destaque"}
+      </p>
       {item.feature ? <Link
         className="mega-product"
         href={item.feature.href}
       >
         <span className="mega-product-image">
           {item.feature.image && <Image src={item.feature.image} alt="" width={480} height={480} sizes="(min-width: 1001px) 22rem, 1px" />}
-          <span className="mega-product-discount">10% de desconto</span>
         </span>
         <span className="mega-product-details">
           <span className="mega-product-name">{item.feature.name}</span>

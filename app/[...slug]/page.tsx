@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AboutContactSection } from "@/components/about-contact-section";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
 import { RichText } from "@/components/rich-text";
-import { plainText } from "@/lib/html";
+import { articleShortcodeMediaIds, plainText, prepareArticleHtml } from "@/lib/html";
 import { breadcrumbSchema, metadataForContent } from "@/lib/seo";
 import type { WordPressContent } from "@/lib/types";
 import { ensureTrailingSlash, pathMatches } from "@/lib/url";
-import { getPageBySlug, getPostBySlug } from "@/lib/wordpress";
+import { getMediaByIds, getPageBySlug, getPostBySlug } from "@/lib/wordpress";
 
 export const revalidate = 900;
 
@@ -60,32 +62,72 @@ export default async function ContentPage({ params }: ContentPageProps) {
   if (!resolved) notFound();
   const { content, pathname } = resolved;
   const title = plainText(content.title.rendered);
+  const isPost = content.type === "post";
   const isAboutPage = pathname === "/sobre-nos/";
+  const shortcodeMedia = isPost
+    ? await getMediaByIds(articleShortcodeMediaIds(content.content.rendered))
+    : [];
+  const articleHtml = isPost
+    ? prepareArticleHtml(content.content.rendered, shortcodeMedia)
+    : content.content.rendered;
+  const featuredMedia = content._embedded?.["wp:featuredmedia"]?.[0];
+  const readingMinutes = Math.max(1, Math.ceil(plainText(articleHtml).split(/\s+/).filter(Boolean).length / 210));
   const breadcrumbs = [
     { name: "Início", pathname: "/" },
+    ...(isPost ? [{ name: "Blog", pathname: "/blog/" }] : []),
     { name: title, pathname },
+  ];
+  const breadcrumbItems = [
+    { label: "Início", href: "/" },
+    ...(isPost ? [{ label: "Blog", href: "/blog/" }] : []),
+    { label: title },
   ];
 
   return (
     <article
-      className={`container content-page editorial-page${isAboutPage ? " about-page" : ""}`}
+      className={`container content-page editorial-page${isPost ? " blog-post-page" : ""}${isAboutPage ? " about-page" : ""}`}
     >
-      <Breadcrumbs items={[{ label: "Início", href: "/" }, { label: title }]} />
-      <header className="article-header">
-        {content.type === "post" ? <p className="eyebrow">Conteúdo</p> : null}
-        <h1>{title}</h1>
-        {content.type === "post" ? (
-          <time dateTime={content.date}>
-            {new Intl.DateTimeFormat("pt-BR", {
-              dateStyle: "long",
-            }).format(new Date(content.date))}
-          </time>
+      <Breadcrumbs items={breadcrumbItems} />
+      <header className={`article-header${isPost ? " blog-article-header" : ""}`}>
+        {isPost ? (
+          <div className="blog-article-meta">
+            <time dateTime={content.date}>
+              {new Intl.DateTimeFormat("pt-BR", { dateStyle: "long" }).format(new Date(content.date))}
+            </time>
+            <span aria-hidden="true">•</span>
+            <span>{readingMinutes} min de leitura</span>
+          </div>
         ) : null}
+        <h1>{title}</h1>
       </header>
-      <RichText
-        className={isAboutPage ? "about-content" : ""}
-        html={content.content.rendered}
-      />
+      {isPost && featuredMedia?.source_url ? (
+        <figure className="blog-article-hero">
+          <Image
+            src={featuredMedia.source_url}
+            alt={featuredMedia.alt_text || title}
+            width={featuredMedia.media_details?.width ?? 1600}
+            height={featuredMedia.media_details?.height ?? 900}
+            sizes="(max-width: 768px) 100vw, 1152px"
+            priority
+          />
+        </figure>
+      ) : null}
+      {isPost ? (
+        <div className="blog-article-layout">
+          <aside className="blog-article-rail" aria-label="Navegação da matéria">
+            <Link href="/blog/">Todas as matérias</Link>
+          </aside>
+          <RichText className="article-content" html={articleHtml} />
+        </div>
+      ) : (
+        <RichText className={isAboutPage ? "about-content" : ""} html={articleHtml} />
+      )}
+      {isPost ? (
+        <footer className="blog-article-footer">
+          <p>Continue explorando histórias, saberes e tradições.</p>
+          <Link href="/blog/">Ver todas as matérias</Link>
+        </footer>
+      ) : null}
       {isAboutPage ? <AboutContactSection /> : null}
       <JsonLd
         data={[

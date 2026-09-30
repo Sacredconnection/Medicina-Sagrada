@@ -1,5 +1,5 @@
 import { fetchAll, wpFetch } from "@/lib/api";
-import type { WordPressContent } from "@/lib/types";
+import type { WordPressContent, WordPressMedia } from "@/lib/types";
 
 export const HIDDEN_DEMO_POST_IDS = [10184, 500, 492] as const;
 export const hiddenDemoPostIdsQuery = HIDDEN_DEMO_POST_IDS.join(",");
@@ -26,6 +26,15 @@ export async function getPostBySlug(slug: string) {
     ["wordpress", "posts", `post:${slug}`],
   );
   return posts[0] ?? null;
+}
+
+export async function getMediaByIds(ids: number[]) {
+  if (!ids.length) return [];
+  return wpFetch<WordPressMedia[]>(
+    "wp/v2/media",
+    { include: ids.join(","), per_page: Math.min(ids.length, 100) },
+    ["wordpress", "media", ...ids.map((id) => `media:${id}`)],
+  );
 }
 
 export async function getPostsByCategory(

@@ -4,8 +4,10 @@ export type RenderedText = {
 };
 
 export type WordPressMedia = {
+  id?: number;
   source_url?: string;
   alt_text?: string;
+  caption?: RenderedText;
   media_details?: {
     width?: number;
     height?: number;
