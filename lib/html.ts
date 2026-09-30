@@ -3,6 +3,7 @@ import sanitizeHtml from "sanitize-html";
 export const cleanHtml = (
   html: string,
   textFilter?: (text: string, tagName: string) => string,
+  { removeHeadings = false }: { removeHeadings?: boolean } = {},
 ) =>
   sanitizeHtml(html, {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat([
@@ -60,6 +61,9 @@ export const cleanHtml = (
         attribs: { ...attribs, loading: "lazy" },
       }),
     },
+    ...(removeHeadings
+      ? { exclusiveFilter: (frame) => /^h[1-6]$/.test(frame.tag) }
+      : {}),
     ...(textFilter ? { textFilter } : {}),
   });
 

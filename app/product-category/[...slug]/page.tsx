@@ -106,7 +106,9 @@ export default async function ProductCategoryPage({
       ? "Povo"
       : "Etnia"
     : "Categoria";
-  const bannerAsset = ethnicityTheme
+  const supportsHeaderBanner = Boolean(ethnicityTheme)
+    || parsed.basePath === "/product-category/rape/rape-xamanico/";
+  const bannerAsset = supportsHeaderBanner
     ? getEthnicityBannerAsset(category.slug)
     : undefined;
 
@@ -148,6 +150,7 @@ export default async function ProductCategoryPage({
             html={category.description}
             className="category-description"
             textFilter={canonicalizeEthnicityNames}
+            removeHeadings
           />
         ) : null}
       </header>
@@ -165,7 +168,7 @@ export default async function ProductCategoryPage({
     </>
   );
 
-  if (!ethnicityTheme) {
+  if (!ethnicityTheme && !bannerAsset) {
     return (
       <div className="container content-page">
         {pageHeader}
@@ -179,7 +182,9 @@ export default async function ProductCategoryPage({
     <div className="ethnicity-page content-page">
       <section className="ethnicity-intro">
         {bannerAsset ? (
-          <figure className="ethnicity-banner">
+          <figure
+            className={`ethnicity-banner${category.slug === "rape-xamanico" ? " ethnicity-banner-rape-xamanico" : ""}`}
+          >
             <Image
               alt=""
               aria-hidden="true"

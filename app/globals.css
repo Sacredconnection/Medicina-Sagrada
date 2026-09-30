@@ -798,6 +798,7 @@ strong, b { font-weight: var(--weight-bold); }
 .ethnicity-intro-inner > .breadcrumbs { margin-bottom: clamp(2.75rem, 5vw, 4.5rem); }
 .ethnicity-intro-inner > .archive-header { margin-bottom: 0; }
 .ethnicity-banner { position: absolute; z-index: 0; top: 0; right: 0; left: 0; width: 100%; margin: 0; line-height: 0; }
+.ethnicity-banner-rape-xamanico { clip-path: inset(0 0 0 12%); }
 .ethnicity-banner-image { display: block; width: 100%; height: auto; pointer-events: none; user-select: none; }
 .ethnicity-catalog-content { padding-top: var(--section-space-compact); }
 .sr-only,
@@ -821,7 +822,6 @@ strong, b { font-weight: var(--weight-bold); }
 .archive-header h1, .article-header h1 { font-size: clamp(2.5rem, 6vw, 4.8rem); }
 .product-summary h1 { font-size: clamp(2.25rem, 4vw, 4.25rem); letter-spacing: -0.03em; line-height: 0.98; }
 .archive-header .rich-text { margin-top: 1.5rem; }
-.archive-header .category-description :is(h1, h2, h3, h4, h5, h6) { font-size: clamp(1.35rem, 2.4vw, 2rem); line-height: 1.2; }
 .category-editorial { max-width: var(--reading-width); margin: var(--section-space-major) auto 0; }
 .category-editorial .rich-text { font-size: 1.0625rem; line-height: 1.7; }
 @media (max-width: 767px) {

@@ -1,6 +1,6 @@
-# Imagens das páginas de etnias do Rapé
+# Imagens de cabeçalho das páginas do Rapé
 
-Esta pasta recebe exclusivamente os banners panorâmicos exibidos atrás do texto de introdução nas páginas de etnias dentro de Rapé. Categorias gerais como Rapé, Sananga, Incensos e Acessórios não usam estes arquivos.
+Esta pasta recebe os banners panorâmicos exibidos atrás do texto de introdução nas páginas de etnias dentro de Rapé e na categoria Rapé Xamânico. Categorias gerais como Rapé, Sananga, Incensos e Acessórios não usam estes arquivos.
 
 ## Especificações
 
@@ -23,6 +23,7 @@ medicina-sagrada-etnia-katukina-banner.webp
 medicina-sagrada-etnia-kuntanawa-banner.webp
 medicina-sagrada-etnia-nukini-banner.webp
 medicina-sagrada-etnia-puyanawa-banner.webp
+medicina-sagrada-etnia-rape-xamanico-banner.webp
 medicina-sagrada-etnia-shanenawa-banner.webp
 medicina-sagrada-etnia-shawadawa-banner.webp
 medicina-sagrada-etnia-yawanawa-banner.webp
