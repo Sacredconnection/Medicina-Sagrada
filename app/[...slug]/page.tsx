@@ -98,7 +98,7 @@ export default async function ContentPage({ params }: ContentPageProps) {
             <span>{readingMinutes} min de leitura</span>
           </div>
         ) : null}
-        <h1>{title}</h1>
+        <h1 className={isPost && title.length > 72 ? "blog-article-title-long" : undefined}>{title}</h1>
       </header>
       {isPost && featuredMedia?.source_url ? (
         <figure className="blog-article-hero">
