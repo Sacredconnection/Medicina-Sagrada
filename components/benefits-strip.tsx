@@ -1,11 +1,4 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-
 type BenefitIconName = "delivery" | "partnership" | "secure" | "support";
-
-const AUTOPLAY_INTERVAL = 3600;
-const INTERACTION_PAUSE = 8000;
 
 const benefits: Array<{ icon: BenefitIconName; title: string; detail: string }> = [
   {
@@ -63,125 +56,9 @@ function BenefitIcon({ name }: { name: BenefitIconName }) {
 }
 
 export function BenefitsStrip() {
-  const railRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const rail = railRef.current;
-
-    if (!rail) return;
-
-    const mobileQuery = window.matchMedia("(max-width: 800px)");
-    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let isVisible = false;
-    let direction = 1;
-    let autoplayTimer: number | undefined;
-    let resumeTimer: number | undefined;
-
-    const stopAutoplay = () => {
-      if (autoplayTimer !== undefined) {
-        window.clearInterval(autoplayTimer);
-        autoplayTimer = undefined;
-      }
-    };
-
-    const getItems = () =>
-      Array.from(rail.querySelectorAll<HTMLElement>(".benefit-item"));
-
-    const getNearestIndex = (items: HTMLElement[]) => {
-      const paddingStart = Number.parseFloat(
-        window.getComputedStyle(rail).paddingInlineStart,
-      );
-      const currentPosition = rail.scrollLeft + paddingStart;
-
-      return items.reduce((nearestIndex, item, itemIndex) => {
-        const nearestDistance = Math.abs(
-          items[nearestIndex].offsetLeft - currentPosition,
-        );
-        const itemDistance = Math.abs(item.offsetLeft - currentPosition);
-
-        return itemDistance < nearestDistance ? itemIndex : nearestIndex;
-      }, 0);
-    };
-
-    const advance = () => {
-      const items = getItems();
-
-      if (items.length < 2) return;
-
-      const currentIndex = getNearestIndex(items);
-      let nextIndex = currentIndex + direction;
-
-      if (nextIndex >= items.length) {
-        direction = -1;
-        nextIndex = items.length - 2;
-      } else if (nextIndex < 0) {
-        direction = 1;
-        nextIndex = 1;
-      }
-
-      const paddingStart = Number.parseFloat(
-        window.getComputedStyle(rail).paddingInlineStart,
-      );
-
-      rail.scrollTo({
-        behavior: "smooth",
-        left: Math.max(0, items[nextIndex].offsetLeft - paddingStart),
-      });
-    };
-
-    const canAutoplay = () =>
-      mobileQuery.matches &&
-      !reducedMotionQuery.matches &&
-      isVisible &&
-      document.visibilityState === "visible";
-
-    const startAutoplay = () => {
-      stopAutoplay();
-
-      if (canAutoplay()) {
-        autoplayTimer = window.setInterval(advance, AUTOPLAY_INTERVAL);
-      }
-    };
-
-    const pauseAfterInteraction = () => {
-      stopAutoplay();
-
-      if (resumeTimer !== undefined) window.clearTimeout(resumeTimer);
-      resumeTimer = window.setTimeout(startAutoplay, INTERACTION_PAUSE);
-    };
-
-    const handleVisibilityChange = () => startAutoplay();
-    const handlePreferenceChange = () => startAutoplay();
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisible = entry.isIntersecting;
-        startAutoplay();
-      },
-      { threshold: 0.35 },
-    );
-
-    observer.observe(rail);
-    rail.addEventListener("pointerdown", pauseAfterInteraction, { passive: true });
-    rail.addEventListener("wheel", pauseAfterInteraction, { passive: true });
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    mobileQuery.addEventListener("change", handlePreferenceChange);
-    reducedMotionQuery.addEventListener("change", handlePreferenceChange);
-
-    return () => {
-      stopAutoplay();
-      if (resumeTimer !== undefined) window.clearTimeout(resumeTimer);
-      observer.disconnect();
-      rail.removeEventListener("pointerdown", pauseAfterInteraction);
-      rail.removeEventListener("wheel", pauseAfterInteraction);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      mobileQuery.removeEventListener("change", handlePreferenceChange);
-      reducedMotionQuery.removeEventListener("change", handlePreferenceChange);
-    };
-  }, []);
-
   return (
     <section className="benefits-strip" aria-label="Benefícios da loja">
-      <div className="container benefits-grid" ref={railRef}>
+      <div className="container benefits-grid benefits-grid-desktop">
         {benefits.map((benefit) => (
           <div className="benefit-item" key={benefit.title}>
             <BenefitIcon name={benefit.icon} />
@@ -191,6 +68,27 @@ export function BenefitsStrip() {
             </div>
           </div>
         ))}
+      </div>
+      <div className="benefits-marquee">
+        <div className="benefits-marquee-track">
+          {[false, true].map((isClone) => (
+            <div
+              className="benefits-marquee-group"
+              aria-hidden={isClone || undefined}
+              key={isClone ? "clone" : "primary"}
+            >
+              {benefits.map((benefit) => (
+                <div className="benefit-item" key={benefit.title}>
+                  <BenefitIcon name={benefit.icon} />
+                  <div className="benefit-copy">
+                    <strong>{benefit.title}</strong>
+                    <span>{benefit.detail}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

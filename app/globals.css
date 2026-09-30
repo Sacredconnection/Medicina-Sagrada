@@ -506,6 +506,7 @@ strong, b { font-weight: var(--weight-bold); }
 }
 .benefits-strip { border-block: 1px solid rgba(217, 214, 199, 0.7); background: var(--white); }
 .benefits-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.benefits-marquee { display: none; }
 .benefit-item { display: flex; min-width: 0; align-items: center; justify-content: center; gap: 0.85rem; padding: 1.55rem 1.25rem; border-right: 1px solid var(--line); }
 .benefit-item:last-child { border-right: 0; }
 .benefit-icon { width: 1.35rem; height: 1.35rem; flex: 0 0 auto; fill: none; stroke: var(--clay-500); stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.65; }
@@ -1054,10 +1055,12 @@ strong, b { font-weight: var(--weight-bold); }
   .crafts-layout { grid-template-columns: minmax(15rem, 0.8fr) minmax(25rem, 1.2fr); gap: clamp(2.5rem, 6vw, 4rem); }
   .incense-copy { max-width: 34rem; }
   .incense-copy h2 { max-width: 13ch; }
-  .benefits-grid { display: flex; width: 100%; margin-inline: 0; padding-inline: var(--page-gutter); overflow-x: auto; overscroll-behavior-inline: contain; scroll-padding-inline: var(--page-gutter); scroll-snap-type: x proximity; scrollbar-width: none; }
-  .benefits-grid::-webkit-scrollbar { display: none; }
+  .benefits-grid-desktop { display: none; }
+  .benefits-marquee { display: block; width: 100%; overflow: hidden; }
+  .benefits-marquee-track { display: flex; width: max-content; will-change: transform; animation: benefits-marquee-scroll 26s linear infinite; }
+  .benefits-marquee-group { display: flex; flex: 0 0 auto; }
   .benefit-item, .benefit-item:first-child { min-width: min(78vw, 17rem); flex: 0 0 min(78vw, 17rem); justify-content: flex-start; padding: 0.9rem 1rem; border-right: 1px solid var(--line); border-bottom: 0; scroll-snap-align: start; }
-  .benefit-item:last-child { border-right: 0; }
+  .benefit-item:last-child { border-right: 1px solid var(--line); }
   .matcher-intention-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .matcher-intention-card { aspect-ratio: 0.82; }
   .matcher-result-heading { grid-template-columns: 1fr; align-items: start; gap: 1.25rem; }
@@ -1082,6 +1085,17 @@ strong, b { font-weight: var(--weight-bold); }
   .youtube-scroll-hint { display: flex; margin: 0.75rem auto 0; color: var(--muted); }
   .youtube-player-dialog { width: calc(100% - 1rem); max-height: calc(100dvh - 1rem); }
   .youtube-player-close { top: 0.65rem; right: 0.65rem; }
+}
+
+@keyframes benefits-marquee-scroll {
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 800px) {
+  .benefits-marquee { overflow-x: auto; scrollbar-width: none; }
+  .benefits-marquee::-webkit-scrollbar { display: none; }
+  .benefits-marquee-track { animation: none; transform: none; will-change: auto; }
+  .benefits-marquee-group[aria-hidden="true"] { display: none; }
 }
 
 @media (max-width: 600px) {
