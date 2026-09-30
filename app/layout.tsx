@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { CartProvider } from "@/components/cart-provider";
+import { AdobeFontsStylesheet } from "@/components/adobe-fonts-stylesheet";
 import { JsonLd } from "@/components/json-ld";
 import { config } from "@/lib/config";
 import { organizationSchema, websiteSchema } from "@/lib/seo";
@@ -39,17 +40,11 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" data-scroll-behavior="smooth">
       <head>
-        <link rel="preconnect" href="https://use.typekit.net" />
+        <link rel="preconnect" href="https://use.typekit.net" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://p.typekit.net" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="stylesheet" href="https://use.typekit.net/vjh7vll.css" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400..700,1,0&icon_names=close,menu,person,search,shopping_bag"
-        />
       </head>
       <body id="top">
+        <AdobeFontsStylesheet />
         <a className="skip-link" href="#conteudo">
           Ir para o conteúdo
         </a>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { plainText } from "@/lib/html";
 import { canonicalizeEthnicityNames, getEthnicityTheme } from "@/lib/ethnicity-colors";
 import type { WooProduct } from "@/lib/types";
@@ -72,7 +73,7 @@ export function ProductCard({ product, headingLevel = 2 }: ProductCardProps) {
           </div>
           <Heading
             className={ethnicityTheme ? "product-card-ethnicity-title" : undefined}
-            style={ethnicityTheme ? { color: ethnicityTheme.accent } : undefined}
+            style={ethnicityTheme ? { "--ethnicity-accent": ethnicityTheme.accent } as CSSProperties : undefined}
           >
             {productName}
           </Heading>

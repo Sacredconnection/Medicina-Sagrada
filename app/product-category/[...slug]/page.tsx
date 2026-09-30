@@ -143,7 +143,7 @@ export default async function ProductCategoryPage({
       />
       <header className="archive-header">
         <p className="eyebrow">{archiveTypeLabel}</p>
-        <h1 style={ethnicityTheme ? { color: ethnicityTheme.accent } : undefined}>
+        <h1 className={ethnicityTheme ? "ethnicity-title" : undefined}>
           {categoryName}
         </h1>
         {parsed.page === 1 ? (
