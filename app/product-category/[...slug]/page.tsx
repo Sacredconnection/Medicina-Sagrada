@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
@@ -179,7 +180,10 @@ export default async function ProductCategoryPage({
   }
 
   return (
-    <div className="ethnicity-page content-page">
+    <div
+      className="ethnicity-page content-page"
+      style={{ "--ethnicity-accent": ethnicityTheme?.accent } as CSSProperties}
+    >
       <section className="ethnicity-intro">
         {bannerAsset ? (
           <figure
