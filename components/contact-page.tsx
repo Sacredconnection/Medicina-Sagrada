@@ -57,6 +57,21 @@ export function ContactPage() {
       </header>
 
       <div className="contact-layout">
+        <aside className="contact-hours" aria-labelledby="contact-hours-title">
+          <h2 id="contact-hours-title">Horários de atendimento</h2>
+          <dl>
+            <div>
+              <dt>Segunda a quinta</dt>
+              <dd>8h às 17h</dd>
+            </div>
+            <div>
+              <dt>Sexta-feira</dt>
+              <dd>8h às 14h30</dd>
+            </div>
+          </dl>
+          <p>Você pode deixar sua mensagem pelo canal que preferir.</p>
+        </aside>
+
         <section className="contact-channels" aria-labelledby="contact-channels-title">
           <div className="contact-section-heading">
             <h2 id="contact-channels-title">Escolha um canal</h2>
@@ -91,21 +106,6 @@ export function ContactPage() {
             ))}
           </div>
         </section>
-
-        <aside className="contact-hours" aria-labelledby="contact-hours-title">
-          <h2 id="contact-hours-title">Horários de atendimento</h2>
-          <dl>
-            <div>
-              <dt>Segunda a quinta</dt>
-              <dd>8h às 17h</dd>
-            </div>
-            <div>
-              <dt>Sexta-feira</dt>
-              <dd>8h às 14h30</dd>
-            </div>
-          </dl>
-          <p>Você pode deixar sua mensagem pelo canal que preferir.</p>
-        </aside>
       </div>
 
       <section className="contact-self-service" aria-labelledby="contact-self-service-title">

@@ -1016,7 +1016,7 @@ strong, b { font-weight: var(--weight-bold); }
 }
 .contact-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.55fr);
+  grid-template-columns: minmax(18rem, 0.55fr) minmax(0, 1.45fr);
   margin-top: clamp(3rem, 5.5vw, 5rem);
   align-items: stretch;
   gap: clamp(1.25rem, 2.5vw, 2rem);
