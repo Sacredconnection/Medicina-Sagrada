@@ -7,6 +7,7 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ContactPage } from "@/components/contact-page";
 import { JsonLd } from "@/components/json-ld";
 import { RichText } from "@/components/rich-text";
+import { WholesalePage } from "@/components/wholesale-page";
 import { articleShortcodeMediaIds, plainText, prepareArticleHtml } from "@/lib/html";
 import { breadcrumbSchema, metadataForContent } from "@/lib/seo";
 import type { WordPressContent } from "@/lib/types";
@@ -66,6 +67,7 @@ export default async function ContentPage({ params }: ContentPageProps) {
   const isPost = content.type === "post";
   const isAboutPage = pathname === "/sobre-nos/";
   const isContactPage = pathname === "/atendimento/";
+  const isWholesalePage = pathname === "/atacado/";
   const shortcodeMedia = isPost
     ? await getMediaByIds(articleShortcodeMediaIds(content.content.rendered))
     : [];
@@ -90,6 +92,21 @@ export default async function ContentPage({ params }: ContentPageProps) {
       <article className="container content-page editorial-page contact-page">
         <Breadcrumbs items={breadcrumbItems} />
         <ContactPage />
+        <JsonLd
+          data={[
+            articleSchema(content, pathname),
+            breadcrumbSchema(breadcrumbs),
+          ]}
+        />
+      </article>
+    );
+  }
+
+  if (isWholesalePage) {
+    return (
+      <article className="container content-page editorial-page wholesale-page">
+        <Breadcrumbs items={breadcrumbItems} />
+        <WholesalePage />
         <JsonLd
           data={[
             articleSchema(content, pathname),
