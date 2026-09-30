@@ -6,7 +6,9 @@ import { AboutContactSection } from "@/components/about-contact-section";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ContactPage } from "@/components/contact-page";
 import { JsonLd } from "@/components/json-ld";
+import { PrivacyPage } from "@/components/privacy-page";
 import { RichText } from "@/components/rich-text";
+import { ReturnsPage } from "@/components/returns-page";
 import { WholesalePage } from "@/components/wholesale-page";
 import { articleShortcodeMediaIds, plainText, prepareArticleHtml } from "@/lib/html";
 import { breadcrumbSchema, metadataForContent } from "@/lib/seo";
@@ -67,6 +69,8 @@ export default async function ContentPage({ params }: ContentPageProps) {
   const isPost = content.type === "post";
   const isAboutPage = pathname === "/sobre-nos/";
   const isContactPage = pathname === "/atendimento/";
+  const isPrivacyPage = pathname === "/politica-de-privacidade/";
+  const isReturnsPage = pathname === "/refund_returns/";
   const isWholesalePage = pathname === "/atacado/";
   const shortcodeMedia = isPost
     ? await getMediaByIds(articleShortcodeMediaIds(content.content.rendered))
@@ -107,6 +111,36 @@ export default async function ContentPage({ params }: ContentPageProps) {
       <article className="container content-page editorial-page wholesale-page">
         <Breadcrumbs items={breadcrumbItems} />
         <WholesalePage />
+        <JsonLd
+          data={[
+            articleSchema(content, pathname),
+            breadcrumbSchema(breadcrumbs),
+          ]}
+        />
+      </article>
+    );
+  }
+
+  if (isPrivacyPage) {
+    return (
+      <article className="container content-page editorial-page policy-page">
+        <Breadcrumbs items={breadcrumbItems} />
+        <PrivacyPage html={articleHtml} />
+        <JsonLd
+          data={[
+            articleSchema(content, pathname),
+            breadcrumbSchema(breadcrumbs),
+          ]}
+        />
+      </article>
+    );
+  }
+
+  if (isReturnsPage) {
+    return (
+      <article className="container content-page editorial-page policy-page returns-page">
+        <Breadcrumbs items={breadcrumbItems} />
+        <ReturnsPage />
         <JsonLd
           data={[
             articleSchema(content, pathname),
