@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { AboutContactSection } from "@/components/about-contact-section";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
 import { RichText } from "@/components/rich-text";
@@ -59,13 +60,16 @@ export default async function ContentPage({ params }: ContentPageProps) {
   if (!resolved) notFound();
   const { content, pathname } = resolved;
   const title = plainText(content.title.rendered);
+  const isAboutPage = pathname === "/sobre-nos/";
   const breadcrumbs = [
     { name: "Início", pathname: "/" },
     { name: title, pathname },
   ];
 
   return (
-    <article className="container content-page editorial-page">
+    <article
+      className={`container content-page editorial-page${isAboutPage ? " about-page" : ""}`}
+    >
       <Breadcrumbs items={[{ label: "Início", href: "/" }, { label: title }]} />
       <header className="article-header">
         {content.type === "post" ? <p className="eyebrow">Conteúdo</p> : null}
@@ -78,7 +82,11 @@ export default async function ContentPage({ params }: ContentPageProps) {
           </time>
         ) : null}
       </header>
-      <RichText html={content.content.rendered} />
+      <RichText
+        className={isAboutPage ? "about-content" : ""}
+        html={content.content.rendered}
+      />
+      {isAboutPage ? <AboutContactSection /> : null}
       <JsonLd
         data={[
           articleSchema(content, pathname),
