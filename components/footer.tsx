@@ -81,7 +81,10 @@ export function Footer() {
         <div className="footer-contact">
           <p className="footer-title">Fale com a gente</p>
           <div className="footer-contact-links">
-            <a href="mailto:contato@medicinasagrada.com.br">
+            <a
+              href="mailto:contato@medicinasagrada.com.br?subject=Contato%20pelo%20site%20-%20Medicina%20Sagrada&body=Ol%C3%A1%2C%0D%0A%0D%0AGostaria%20de%20falar%20com%20a%20Medicina%20Sagrada.%0D%0A%0D%0A"
+              aria-label="Escrever um e-mail para a Medicina Sagrada"
+            >
               <FooterIcon name="email" />
               <span>contato@medicinasagrada.com.br</span>
             </a>
