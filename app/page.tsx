@@ -114,7 +114,7 @@ export default async function Home() {
           </div>
           <HomeProductGrid products={products} />
           <div className="products-section-action">
-            <Link className="button" href="/product-category/rape/">
+            <Link className="button" href="/busca/">
               Ver todos os produtos
             </Link>
           </div>

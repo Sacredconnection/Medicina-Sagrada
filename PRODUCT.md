@@ -22,9 +22,9 @@ Success means helping the right visitors find trustworthy products, understand t
 
 ## Positioning
 
-The declared position is to offer original Indigenous medicines sourced directly from ten ethnic groups, with competitive prices and high quality, while making the social connection to the peoples of the forest explicit to the customer.
+Medicina Sagrada offers original and authentic rapés and traditional applicators (kuripes and tepis) originating from Indigenous peoples of the Amazon. Their origin and authenticity are confirmed product facts and may be stated directly in the interface.
 
-The number of ethnic groups, sourcing claims, quality claims, pricing claims, and their public proof remain to be documented before they are treated as verified evidence in the interface.
+The exact number of peoples or ethnic groups represented, product-by-product attribution, detailed sourcing relationships, quality and pricing comparisons, revenue or support model, and supporting public evidence remain to be documented separately.
 
 ## Operating Context
 
@@ -35,14 +35,15 @@ Visitors may arrive with an interest in spiritual practice, Indigenous knowledge
 - Preserve the existing Next.js frontend as the technical base.
 - Preserve public URL structures and the current WordPress/WooCommerce integration unless a later decision explicitly changes them.
 - Support editorial content from WordPress and public catalog data from WooCommerce.
-- The initial product scope includes rapé, sananga, Indigenous medicines, and Amazonian Indigenous crafts.
+- The initial product scope includes rapé, sananga, traditional applicators such as kuripes and tepis, Indigenous medicines, and Amazonian Indigenous crafts.
 - Legal, age, health-claim, shipping, geographic-sales, consent, and community-representation requirements are not yet fully specified and must be confirmed before launch.
-- Exact information about the ten ethnic groups, sourcing relationships, revenue/support model, and evidence of origin is still an open product decision.
+- Exact product-by-product attribution, detailed sourcing relationships, the number of peoples or ethnic groups represented, the revenue or support model, and supporting public evidence are still open documentation decisions.
 
 ## Brand Commitments
 
 - The product name is Medicina Sagrada.
 - The experience must communicate respect for Indigenous peoples, traditional knowledge, and the forest communities represented by the products.
+- The original and authentic origin of the rapés and traditional applicators from Indigenous peoples of the Amazon is a confirmed brand commitment.
 - Product origin and the relationship with the producing communities should be understandable to customers rather than hidden behind generic commerce language.
 
 ## Ethnicity Color System
@@ -79,7 +80,8 @@ Usage contract:
 - Existing frontend code in this project, including the home, catalog, product, editorial, diagnostic, and SEO routes.
 - Existing WordPress and WooCommerce integration code.
 - Existing Medicina Sagrada logo asset at `public/assets/logo/medicina-sagrada-logo-01.svg`.
-- The product and sourcing statements above are stakeholder-provided positioning, not independently verified evidence yet.
+- Stakeholder confirmation from Danilo Gravina Dalla Paula on 2026-09-30: the rapés and traditional applicators (kuripes and tepis) sold by Medicina Sagrada are original and authentic, and originate from Indigenous peoples of the Amazon.
+- Independent or product-by-product public documentation is not yet present in this repository; future content must not invent more specific attribution without an additional confirmed source.
 
 ## Product Principles
 

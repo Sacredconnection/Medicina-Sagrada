@@ -1,0 +1,4 @@
+interface:
+  display_name: "Avaliação por Heurísticas de Nielsen"
+  short_description: "Audita interfaces pelas 10 heurísticas de Nielsen"
+  default_prompt: "Use $heuristicas-nielsen para avaliar a usabilidade deste código de interface."
