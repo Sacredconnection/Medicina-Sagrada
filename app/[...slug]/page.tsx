@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AboutContactSection } from "@/components/about-contact-section";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { ContactPage } from "@/components/contact-page";
 import { JsonLd } from "@/components/json-ld";
 import { RichText } from "@/components/rich-text";
 import { articleShortcodeMediaIds, plainText, prepareArticleHtml } from "@/lib/html";
@@ -64,6 +65,7 @@ export default async function ContentPage({ params }: ContentPageProps) {
   const title = plainText(content.title.rendered);
   const isPost = content.type === "post";
   const isAboutPage = pathname === "/sobre-nos/";
+  const isContactPage = pathname === "/atendimento/";
   const shortcodeMedia = isPost
     ? await getMediaByIds(articleShortcodeMediaIds(content.content.rendered))
     : [];
@@ -82,6 +84,21 @@ export default async function ContentPage({ params }: ContentPageProps) {
     ...(isPost ? [{ label: "Blog", href: "/blog/" }] : []),
     { label: title },
   ];
+
+  if (isContactPage) {
+    return (
+      <article className="container content-page editorial-page contact-page">
+        <Breadcrumbs items={breadcrumbItems} />
+        <ContactPage />
+        <JsonLd
+          data={[
+            articleSchema(content, pathname),
+            breadcrumbSchema(breadcrumbs),
+          ]}
+        />
+      </article>
+    );
+  }
 
   return (
     <article
