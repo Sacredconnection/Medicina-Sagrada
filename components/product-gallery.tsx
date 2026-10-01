@@ -7,8 +7,23 @@ import type { WooImage } from "@/lib/types";
 export function ProductGallery({ images, name }: { images: WooImage[]; name: string }) {
   const [index, setIndex] = useState(0);
   const [hasThumbnailOverflow, setHasThumbnailOverflow] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const thumbnailsRef = useRef<HTMLDivElement>(null);
   const image = images[index];
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!isExpanded || !dialog) return;
+    const previousOverflow = document.body.style.overflow;
+    dialog.showModal();
+    document.body.style.overflow = "hidden";
+    return () => {
+      dialog.close();
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isExpanded]);
 
   useEffect(() => {
     const thumbnails = thumbnailsRef.current;
@@ -33,12 +48,12 @@ export function ProductGallery({ images, name }: { images: WooImage[]; name: str
     <div className="product-gallery">
       {image ? (
         <>
-          <a
-            aria-label={`Ampliar imagem ${index + 1} de ${name} (abre em nova aba)`}
+          <button
+            type="button"
+            aria-label={`Ampliar imagem ${index + 1} de ${name}`}
+            aria-haspopup="dialog"
             className="product-main-image"
-            href={image.src}
-            rel="noopener noreferrer"
-            target="_blank"
+            onClick={() => setIsExpanded(true)}
           >
             <Image
               priority
@@ -48,8 +63,50 @@ export function ProductGallery({ images, name }: { images: WooImage[]; name: str
               src={image.src}
               width={900}
             />
-            <span>Ampliar imagem ↗</span>
-          </a>
+            <span>Ampliar imagem</span>
+          </button>
+          <dialog
+            ref={dialogRef}
+            className="product-image-dialog"
+            aria-label={`Imagem ampliada de ${name}`}
+            onClose={() => setIsExpanded(false)}
+            onCancel={(event) => {
+              event.preventDefault();
+              setIsExpanded(false);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Tab") {
+                event.preventDefault();
+                closeButtonRef.current?.focus();
+              }
+            }}
+            onClick={(event) => {
+              if (event.target === event.currentTarget) setIsExpanded(false);
+            }}
+          >
+            <button
+              ref={closeButtonRef}
+              type="button"
+              className="product-image-dialog-close"
+              aria-label="Fechar imagem ampliada"
+              onClick={() => setIsExpanded(false)}
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8">
+                <path d="m6 6 12 12M18 6 6 18" />
+              </svg>
+              <span>Fechar</span>
+            </button>
+            {isExpanded ? (
+              <Image
+                className="product-expanded-image"
+                src={image.src}
+                alt={image.alt || name}
+                width={1600}
+                height={1600}
+                sizes="(max-width: 800px) 100vw, 1100px"
+              />
+            ) : null}
+          </dialog>
           {images.length > 1 ? (
             <>
               <div
