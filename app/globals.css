@@ -1015,31 +1015,56 @@ strong, b { font-weight: var(--weight-bold); }
 .product-description .rich-text h2 { max-width: 24ch; font-size: clamp(1.75rem, 2.4vw, 2.25rem); letter-spacing: -0.025em; line-height: 1.12; text-wrap: pretty; }
 .product-description .rich-text h3 { max-width: 30ch; font-size: clamp(1.35rem, 1.8vw, 1.625rem); letter-spacing: -0.02em; line-height: 1.2; text-wrap: pretty; }
 
-/* Keep purchase and delivery visible with a denser rhythm on product pages. */
-.product-page .product-summary h1 { font-size: clamp(2.25rem, 3.2vw, 3.5rem); line-height: 1.04; }
+/* Product composition: generous photography, then a clear purchase sequence. */
+.product-page .product-layout { gap: clamp(1.5rem, 4.5vw, 4rem); }
+.product-page .product-summary { position: static; min-width: 0; }
+.product-page .product-summary h1 { margin-block: 0.75rem 1.25rem; font-size: clamp(2rem, 3.2vw, 3rem); line-height: 1.08; }
+.product-page .product-main-image { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); }
+.product-page .product-main-image > span { top: 1rem; bottom: auto; display: flex; align-items: center; min-height: 2.75rem; border-radius: 0.375rem; }
+.product-page .product-summary > .product-intro { margin-top: 0; }
 .product-page .availability { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.25rem 1rem; }
 .product-page .availability .product-review-link { margin: 0; font-weight: var(--weight-medium); }
 @media (pointer: coarse) {
   .product-page .availability .product-review-link { display: inline-flex; align-items: center; min-height: 44px; }
 }
 .product-page .product-price { margin-top: 0.75rem; }
-.product-page .purchase-price { margin-block: 0.5rem; }
+.product-page .purchase-price { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem 1rem; margin-block: 1rem 0; padding-block: 0.875rem; border-block: 1px solid var(--line); }
+.product-page .purchase-price > .purchase-detail { flex-basis: 100%; }
+.product-page .purchase-stock { padding: 0.375rem 0.75rem; border-radius: 0.375rem; background: #edf3ef; color: var(--forest-800); font-size: var(--type-caption); font-weight: var(--weight-semibold); }
+.product-page .purchase-stock.is-unavailable { background: var(--paper-deep); color: var(--ink); }
 .product-page .purchase-price > .product-price { margin-block: 0; }
 .product-page .product-summary > .availability { margin-block: 0.5rem 0.75rem; }
 .product-page .product-summary > .rich-text:not(.product-price) { margin-top: 1rem; line-height: 1.55; }
 .product-page .product-summary > .rich-text:not(.product-price) > * + * { margin-top: 0.75rem; }
 .product-page .availability { margin-block: 1rem 0.75rem; }
-.product-page .purchase-panel { gap: 0.625rem; padding-block: 1rem; }
-.product-page .purchase-fields { display: grid; grid-template-columns: minmax(0, 1fr) 6rem; align-items: end; gap: 0.75rem; }
+.product-page .purchase-panel { gap: 0.75rem; padding-block: 1rem; border-top: 0; }
+.product-page .purchase-fields { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
 .product-page .purchase-fields > .commerce-field { min-width: 0; }
-.product-page .purchase-fields:not(:has(.purchase-option)) { grid-template-columns: 6rem; }
+.product-page .purchase-fields:not(:has(.purchase-option)) { grid-template-columns: minmax(0, 1fr); }
+.product-page .purchase-fields :is(input, select) { min-height: 3rem; border-radius: 0.5rem; }
+.product-page .purchase-quantity-row { display: flex; align-items: end; gap: 1rem; }
+.product-page .purchase-quantity { flex-basis: 7rem; min-width: 0; }
+.product-page .purchase-quantity input { text-align: center; font-weight: var(--weight-semibold); }
+.product-page .purchase-total { flex: 1; min-width: 0; display: grid; gap: 0.25rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; }
+.product-page .purchase-total > span { color: var(--muted); font-size: var(--type-label); }
+.product-page .purchase-total > strong { color: var(--forest-800); font-size: 1.5rem; line-height: 1.2; overflow-wrap: anywhere; }
+.product-page .purchase-panel > .commerce-button { min-height: 3.5rem; margin-top: 0.75rem; border-radius: 0.5rem; }
+.product-page .product-delivery { margin-top: 0.25rem; padding: 0 1rem; border: 1px solid var(--line); border-radius: var(--radius); background: #f6f8f6; }
+.product-page .product-delivery > summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 4rem; padding-block: 0.75rem; color: var(--forest-800); font-size: var(--type-ui); font-weight: var(--weight-semibold); cursor: pointer; list-style: none; }
+.product-page .product-delivery > summary::-webkit-details-marker { display: none; }
+.product-page .product-delivery > summary small { display: block; margin-top: 0.25rem; color: var(--muted); font-size: var(--type-label); font-weight: var(--weight-regular); }
+.product-page .product-delivery > summary svg { flex-shrink: 0; }
+.product-page .product-delivery[open] > summary svg { transform: rotate(180deg); }
+.product-page .product-delivery > summary:focus-visible { outline: 2px solid var(--forest-650); outline-offset: 3px; }
+.product-page .product-delivery .shipping-calculator h2 { display: none; }
 .product-page .purchase-actions { gap: 0.75rem; }
 .product-page .purchase-detail { line-height: 1.5; }
 .product-page .product-summary > .purchase-detail { margin-top: 0.5rem; }
 .product-page .shipping-calculator { padding-block: 1rem 0.5rem; }
 .product-page .shipping-calculator h2 { margin-bottom: 0.625rem; font-size: 1.125rem; }
 .product-page .shipping-calculator label { margin-bottom: 0.375rem; }
-.product-page .shipping-input-row input, .product-page .shipping-input-row button { min-height: 3rem; }
+.product-page .shipping-input-row { gap: 1rem; }
+.product-page .shipping-input-row input, .product-page .shipping-input-row button { min-height: 3.25rem; }
 .product-page .shipping-help { margin-top: 0.5rem; line-height: 1.5; }
 .product-page .shipping-destination { margin-block: 0.875rem 0.25rem; }
 .product-page .shipping-results li { padding-block: 0.625rem; line-height: 1.5; }

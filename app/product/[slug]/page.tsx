@@ -92,13 +92,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </Link>
           ) : null}
           <h1>{productName}</h1>
-          <ProductPurchase product={product} variants={variants} originalUrl={new URL(pathname, config.wordpressSiteUrl).toString()}>
           <ProductIntro html={product.short_description} />
           <p className="availability">
-            <span>{product.is_in_stock ? "Em estoque" : "Consulte a disponibilidade"}</span>
             <a className="product-review-link" href="#avaliacoes">{product.review_count ? `★ ${Number(product.average_rating).toLocaleString("pt-BR")} · ${product.review_count} avaliações` : "Seja o primeiro a avaliar"}</a>
           </p>
-          </ProductPurchase>
+          <ProductPurchase product={product} variants={variants} originalUrl={new URL(pathname, config.wordpressSiteUrl).toString()} />
           <p className="purchase-detail">Entrega calculada pelo CEP. <Link href="/refund_returns/">Trocas e devoluções</Link>.</p>
         </div>
       </div>
