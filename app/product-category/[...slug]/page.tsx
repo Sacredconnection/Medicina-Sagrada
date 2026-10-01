@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
 import { Catalog } from "@/components/catalog";
+import { OtherEthnicityProducts } from "@/components/other-ethnicity-products";
 import { parseCatalogQuery, catalogSearch, type SearchValues } from "@/lib/catalog-query";
 import { canonicalizeEthnicityNames, getEthnicityTheme } from "@/lib/ethnicity-colors";
 import { RichText } from "@/components/rich-text";
@@ -207,6 +208,9 @@ export default async function ProductCategoryPage({
       </section>
       <div className="container ethnicity-catalog-content">
         {catalogContent}
+        {ethnicityTheme && parsed.page === 1 ? (
+          <OtherEthnicityProducts category={category} categories={categories} />
+        ) : null}
       </div>
       <JsonLd data={breadcrumbSchema(breadcrumbs)} />
     </div>

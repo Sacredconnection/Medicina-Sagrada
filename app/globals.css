@@ -869,6 +869,31 @@ strong, b { font-weight: var(--weight-bold); }
   border-top: 1px solid rgba(20, 37, 29, 0.2);
 }
 .ethnicity-page .category-editorial { --category-editorial-accent: var(--ethnicity-accent, var(--forest-650)); }
+.other-ethnicity-products { margin-top: var(--section-space-standard); padding-top: var(--section-space-compact); border-top: 1px solid var(--line); }
+.other-ethnicity-products-heading { margin-bottom: var(--group-space-large); text-align: center; }
+.other-ethnicity-products-heading h2 { font-size: var(--type-section-title); font-weight: var(--weight-bold); line-height: 1.1; }
+.other-ethnicity-products-heading p { margin-top: .75rem; color: var(--muted); font-size: var(--type-body); line-height: 1.6; }
+.product-grid.other-ethnicity-products-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1100px) {
+  .product-grid.other-ethnicity-products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .product-grid.other-ethnicity-products-grid {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(82%, 20rem);
+    gap: 1rem;
+    overflow-x: auto;
+    padding: .25rem .25rem 1rem;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: .25rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--forest-650) transparent;
+  }
+  .other-ethnicity-products-grid .product-card { scroll-snap-align: start; }
+  .other-ethnicity-products-scroll-hint { display: flex; margin: .75rem auto 0; color: var(--muted); }
+}
 .category-editorial .rich-text {
   max-width: 68ch;
   margin-inline: auto;
