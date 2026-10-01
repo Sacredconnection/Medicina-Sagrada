@@ -40,9 +40,6 @@ export function LearnPeopleGrid({ entries }: { entries: Entry[] }) {
             </div>
             <Link className="learn-person-link" href={entry.href}>
               Explorar {entry.name}
-              <svg className="learn-arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
             </Link>
           </div>
         </article>

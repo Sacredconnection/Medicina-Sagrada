@@ -8,8 +8,7 @@ Coloque os arquivos WebP nas pastas abaixo, mantendo os nomes exatos. Os espaço
 | --- | --- | --- |
 | primeiros-passos-desktop.webp | 2752 × 1536 px | Fundo da seção dos três guias; não colocar texto na arte. |
 | primeiros-passos-mobile.webp | 1200 × 4000 px | Fundo vertical; área superior de 192 px na tela reservada antes dos cards. |
-| continue-aprendendo-desktop.webp | 1717 × 916 px | Imagem à direita, área livre à esquerda para título, texto e botão. |
-| continue-aprendendo-mobile.webp | 900 × 1200 px | Texto acima, imagem abaixo. |
+| continue-aprendendo-foto.webp | 1600 × 1200 px (4:3) | Foto à direita do texto no desktop e abaixo do botão no mobile. Sem texto na arte; mantenha o assunto principal próximo do centro. |
 
 Os tamanhos são os dos assets originais do Haux. A página usa recorte responsivo; o texto e os botões são HTML.
 

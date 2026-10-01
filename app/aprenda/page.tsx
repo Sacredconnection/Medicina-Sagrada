@@ -29,6 +29,16 @@ export default async function LearnPage() {
       <LearnPeopleGrid entries={entries} />
       <div className="learn-context-note"><p>Este é um ponto de partida, não um retrato completo de cada cultura. Os nomes, as histórias e as identidades devem respeitar como as próprias comunidades se apresentam.</p></div>
     </section>
-    <section className="learn-continue"><LearnImageSlot src="/assets/aprenda/banners/continue-aprendendo-desktop.webp" mobileSrc="/assets/aprenda/banners/continue-aprendendo-mobile.webp" className="learn-background" /><div className="learn-shell"><div className="learn-continue-copy"><p className="learn-label">Continue aprendendo</p><h2>Há histórias que{" "}<br />um guia não conta.</h2><p>Aprofunde seu olhar sobre as tradições, os objetos e os saberes da floresta no nosso blog.</p><Link className="learn-blog-button" href="/blog/">Visite o blog</Link></div></div></section>
+    <section className="learn-continue" aria-labelledby="learn-continue-title">
+      <div className="learn-shell learn-continue-grid">
+        <div className="learn-continue-copy">
+          <p className="learn-label">Continue aprendendo</p>
+          <h2 id="learn-continue-title">Há histórias que{" "}<br />um guia não conta.</h2>
+          <p>Aprofunde seu olhar sobre as tradições, os objetos e os saberes da floresta no nosso blog.</p>
+          <Link className="button learn-blog-button" href="/blog/">Visite o blog</Link>
+        </div>
+        <LearnImageSlot src="/assets/aprenda/banners/continue-aprendendo-foto.webp" className="learn-continue-photo" />
+      </div>
+    </section>
   </>;
 }
