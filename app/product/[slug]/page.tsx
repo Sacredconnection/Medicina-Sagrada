@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
@@ -7,6 +8,7 @@ import { RichText } from "@/components/rich-text";
 import { ProductPurchase } from "@/components/product-purchase";
 import { ProductIntro } from "@/components/product-intro";
 import { ProductGallery } from "@/components/product-gallery";
+import { ProductMatcher } from "@/components/product-matcher";
 import { ProductReviews } from "@/components/product-reviews";
 import { ProductCard } from "@/components/product-card";
 import { getReviews } from "@/lib/reviews";
@@ -19,13 +21,18 @@ import {
   productSchema,
 } from "@/lib/seo";
 import { pathMatches } from "@/lib/url";
-import { getProductBySlug, getProductVariations, getProductCategoryBySlug, getProducts } from "@/lib/woocommerce";
+import { getAllProducts, getProductBySlug, getProductVariations, getProductCategoryBySlug, getProducts } from "@/lib/woocommerce";
 
 export const revalidate = 900;
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
 };
+
+async function ProductJourney() {
+  const products = await getAllProducts().catch(() => []);
+  return <ProductMatcher products={products} introTitle={<>Está <strong>indeciso?</strong></>} />;
+}
 
 export async function generateMetadata({
   params,
@@ -73,6 +80,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   ];
 
   return (
+    <>
     <article className="container content-page product-page">
       <Breadcrumbs
         items={breadcrumbs.map((item, index) => ({
@@ -108,5 +116,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <ProductReviews productId={product.id} count={product.review_count} average={product.average_rating} initial={reviews ?? { data: [], totalPages: 0 }} initialError={!reviews} />
       <JsonLd data={[productSchema(product), breadcrumbSchema(breadcrumbs)]} />
     </article>
+    <Suspense fallback={null}><ProductJourney /></Suspense>
+    </>
   );
 }

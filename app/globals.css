@@ -575,6 +575,7 @@ strong, b { font-weight: var(--weight-bold); }
   background-size: cover;
 }
 .matcher-inner { width: min(calc(100% - (var(--page-gutter) * 2)), var(--max-width)); }
+.product-page + .matcher-section { margin-bottom: clamp(2rem, 4vw, 3rem); }
 .matcher-intro {
   display: grid;
   grid-template-columns: minmax(0, 1.18fr) minmax(20rem, 0.82fr);

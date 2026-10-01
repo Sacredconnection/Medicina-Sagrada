@@ -254,7 +254,7 @@ function FinderProduct({
   );
 }
 
-export function ProductMatcher({ products }: { products: WooProduct[] }) {
+export function ProductMatcher({ products, introTitle }: { products: WooProduct[]; introTitle?: React.ReactNode }) {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -570,7 +570,7 @@ export function ProductMatcher({ products }: { products: WooProduct[] }) {
           {step === "intro" ? (
             <div className="matcher-intro">
               <h2 id="matcher-title">
-                A Medicina ideal para sua <strong>intenção.</strong>
+                {introTitle ?? <>A Medicina ideal para sua <strong>intenção.</strong></>}
               </h2>
               <div className="matcher-intro-action">
                 <div aria-hidden="true" className="matcher-intro-intention-slots">
