@@ -1,0 +1,49 @@
+﻿{
+    "schemaVersion":  2,
+    "generatedAt":  "2026-10-01T13:06:27.4638830Z",
+    "title":  "Design System: Medicina Sagrada — Aprenda",
+    "extensions":  {
+                       "motion":  [
+                                      {
+                                          "name":  "guide-state",
+                                          "value":  "200ms ease",
+                                          "purpose":  "Borda e deslocamento dos cards de guia."
+                                      },
+                                      {
+                                          "name":  "people-state",
+                                          "value":  "220ms ease",
+                                          "purpose":  "Borda e deslocamento dos cards de povos."
+                                      },
+                                      {
+                                          "name":  "people-chevron",
+                                          "value":  "260ms ease",
+                                          "purpose":  "Giro do chevron; transições locais e deslocamento de hover são removidos em reduced motion."
+                                      }
+                                  ],
+                       "breakpoints":  [
+                                           {
+                                               "name":  "mobile-banner",
+                                               "value":  "639px"
+                                           },
+                                           {
+                                               "name":  "split-steps",
+                                               "value":  "640px"
+                                           },
+                                           {
+                                               "name":  "desktop-grid",
+                                               "value":  "1024px"
+                                           }
+                                       ]
+                   },
+    "components":  [
+                       {
+                           "name":  "Ação do blog",
+                           "kind":  "button",
+                           "refersTo":  "blog-action",
+                           "description":  "Ação magenta da seção de continuidade editorial.",
+                           "html":  "\u003ca class=\"ds-learn-blog\" href=\"/blog/\"\u003eVisite o blog\u003c/a\u003e",
+                           "css":  ".ds-learn-blog{display:inline-flex;min-height:3rem;padding:.75rem 1.5rem;align-items:center;justify-content:center;background:#cc0033;color:white;border:1px solid #cc0033;border-radius:.5rem;font-family:\"Aprenda Open Sans\",\"Segoe UI\",Arial,sans-serif;font-size:.6875rem;font-weight:700;letter-spacing:.12em;line-height:1.3;text-transform:uppercase;text-decoration:none}.ds-learn-blog:hover{background:var(--learn-ink,#141414);border-color:var(--learn-ink,#141414)}.ds-learn-blog:focus-visible{outline:2px solid var(--learn-forest,#01402f);outline-offset:3px}"
+                       }
+                   ]
+}
+

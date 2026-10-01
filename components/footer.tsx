@@ -72,6 +72,8 @@ export function Footer() {
           <p className="footer-title">Ajuda</p>
           <ul className="footer-nav-list">
             <li><Link href="/sobre-nos/">Sobre nós</Link></li>
+            <li><Link href="/aprenda/">Aprenda</Link></li>
+            <li><Link href="/blog/">Blog</Link></li>
             <li><Link href="/atendimento/">Atendimento</Link></li>
             <li><Link href="/atacado/">Atacado</Link></li>
             <li><Link href="/politica-de-privacidade/">Política de Privacidade</Link></li>

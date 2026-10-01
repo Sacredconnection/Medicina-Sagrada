@@ -26,6 +26,7 @@ const categoryFeatureImages: Record<string, string> = {
   Incensos: "/assets/home/categories/medicina-sagrada-categoria-incensos.webp",
   "Acessórios": "/assets/home/categories/medicina-sagrada-categoria-acessorios.webp",
   Artesanato: "/assets/home/categories/medicina-sagrada-categoria-artesanato.webp",
+  Aprenda: "/assets/home/story/pillars/medicina-sagrada-conhecimentos-ancestrais.webp",
 };
 
 function CategoryLinks({ items, isRape }: { items: NavigationItem[]; isRape: boolean }) {
@@ -44,6 +45,7 @@ function CategoryLinks({ items, isRape }: { items: NavigationItem[]; isRape: boo
 
 function MegaPanel({ item }: { item: NavigationItem }) {
   const isRape = item.href === "/product-category/rape/";
+  const isLearn = item.href === "/aprenda/";
   const categoryFeatureImage = categoryFeatureImages[item.label];
   const featureStyle = item.feature ? {
     "--mega-product-accent": item.feature.accent,
@@ -51,12 +53,12 @@ function MegaPanel({ item }: { item: NavigationItem }) {
   } as CSSProperties : undefined;
   return <div className="navigation-mega"><div className="container mega-inner">
     <div className="mega-intro">
-      <p className="mega-caption">Explore a loja</p>
+      <p className="mega-caption">{isLearn ? "Conhecimentos da floresta" : "Explore a loja"}</p>
       <h2>{item.label}</h2>
-      <p>{isRape ? "Conheça as diferentes origens e encontre seu rapé." : `Conheça nossa coleção de ${item.label.toLocaleLowerCase("pt-BR")} e explore as categorias.`}</p>
-      <Link className="mega-all" href={item.href}>Ver toda a coleção</Link>
+      <p>{isLearn ? "Guias, histórias e saberes para conhecer as tradições e escolher com consciência." : isRape ? "Conheça as diferentes origens e encontre seu rapé." : `Conheça nossa coleção de ${item.label.toLocaleLowerCase("pt-BR")} e explore as categorias.`}</p>
+      <Link className="mega-all" href={item.href}>{isLearn ? "Conheça os primeiros passos" : "Ver toda a coleção"}</Link>
     </div>
-    <div className="mega-categories"><p className="mega-caption">{isRape ? "Explore os rapés" : "Categorias"}</p><CategoryLinks items={item.children ?? []} isRape={isRape} /></div>
+    <div className="mega-categories"><p className="mega-caption">{isLearn ? "Conteúdos" : isRape ? "Explore os rapés" : "Categorias"}</p><CategoryLinks items={item.children ?? []} isRape={isRape} /></div>
     <div className="mega-feature" style={featureStyle}>
       <p className={`mega-caption${isRape && item.feature ? " mega-feature-caption" : ""}`}>
         {isRape && item.feature ? <>
@@ -90,7 +92,7 @@ function MegaPanel({ item }: { item: NavigationItem }) {
         </span>
         <span className="mega-collection-details">
           <span className="mega-collection-name">{item.label}</span>
-          <span className="mega-feature-cta">Conheça a coleção</span>
+          <span className="mega-feature-cta">{isLearn ? "Explore os guias" : "Conheça a coleção"}</span>
         </span>
       </Link>}
     </div>
@@ -146,7 +148,7 @@ function Branch({ item, mobile }: { item: NavigationItem; mobile: boolean }) {
     >
       <summary>{item.label}<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg></summary>
       {!mobile ? <MegaPanel item={item} /> : <ul className="navigation-submenu">
-        <li><Link className="navigation-view-all" href={item.href}>Ver tudo em {item.label}</Link></li>
+        <li><Link className="navigation-view-all" href={item.href}>{item.href === "/aprenda/" ? "Primeiros passos" : `Ver tudo em ${item.label}`}</Link></li>
         {item.children.map((child) => <li key={child.href}><Branch item={child} mobile={mobile} /></li>)}
       </ul>}
     </details>

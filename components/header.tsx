@@ -42,7 +42,7 @@ export async function Header() {
     const category = categories.find((category) => pathnameFromUrl(category.permalink) === item.href);
     return { ...item, children: category ? descendants(category.id) : [] };
   });
-  items.push({ label: "Blog", href: "/blog/" });
+  items.push({ label: "Aprenda", href: "/aprenda/", children: [{ label: "Blog", href: "/blog/" }] });
   const rapeCategory = categories.find((category) => category.slug === "rape");
   if (rapeCategory) {
     const products = await getProducts({ categoryId: rapeCategory.id, perPage: 12 }).catch(() => []);

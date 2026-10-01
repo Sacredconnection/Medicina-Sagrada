@@ -9,6 +9,7 @@ import {
   getAllProducts,
 } from "@/lib/woocommerce";
 import { absoluteUrl, pathnameFromUrl } from "@/lib/url";
+import { learnGuides } from "@/lib/learn-content";
 
 export const revalidate = 3600;
 
@@ -19,6 +20,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "daily",
       priority: 1,
     },
+    ...["/aprenda/", ...learnGuides.map((guide) => `/aprenda/${guide.slug}/`)].map((pathname) => ({
+      url: absoluteUrl(pathname),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
   ];
 
   try {
