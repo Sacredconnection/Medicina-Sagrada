@@ -20,11 +20,11 @@ export const learnGuides: LearnGuide[] = [
     imageFolder: "first-hape",
     sections: [
       { title: "Conheça a origem", body: "Observe o povo, o lugar e os ingredientes associados à preparação. Mesmo dentro de uma mesma tradição, as misturas podem ser diferentes. Leia a história e a descrição de cada produto antes de escolher.", image: "source-and-ingredients.webp", alt: "Preparação de rapé e ingredientes de origem vegetal" },
-      { title: "Um começo pode ser simples", body: "Não é preciso escolher muitas preparações de uma vez. Dedique tempo a entender os ingredientes e o contexto de cada uma. Uma descrição de maior intensidade não significa que um produto seja melhor para começar.", image: "/assets/home/matcher/products/rape-huni-kuin-tradicao.jpg", alt: "Rapé Huni Kuin Tradição da Medicina Sagrada" },
-      { title: "Respeite seus limites", body: "Leia os ingredientes: algumas preparações contêm tabaco e nicotina. Este guia apresenta contexto cultural e não substitui orientação profissional sobre saúde nem acompanhamento por uma pessoa experiente. Em caso de dúvida, procure orientação antes de decidir.", image: "respect-your-limits.webp", alt: "Ambiente tranquilo para uma escolha cuidadosa" },
+      { title: "Escolha com calma", body: "Não é preciso escolher muitas preparações de uma vez. Dedique tempo a entender os ingredientes e o contexto de cada uma. Uma descrição de maior intensidade não significa que um produto seja melhor para começar.", image: "/assets/home/matcher/products/rape-huni-kuin-tradicao.jpg", alt: "Rapé Huni Kuin Tradição da Medicina Sagrada" },
+      { title: "Respeite seus limites", body: "Leia os ingredientes: algumas preparações contêm tabaco e nicotina. Este guia apresenta contexto cultural e não substitui orientação profissional sobre saúde nem acompanhamento por uma pessoa experiente. Em caso de dúvida, procure orientação antes de decidir.", image: "respect-your-limits.webp", alt: "Lua entre as árvores da floresta" },
     ],
     checklist: ["Origem e ingredientes identificados", "Descrição individual lida com atenção", "Dúvidas esclarecidas antes de escolher", "Um aplicador pessoal bem cuidado"],
-    collection: "rape", collectionTitle: "Explore as preparações.", collectionCopy: "Compare ingredientes, origem e características. O melhor ponto de partida é uma escolha bem informada.",
+    collection: "rape", collectionTitle: "Cada preparação, uma origem.", collectionCopy: "Leve esse cuidado para a sua escolha. Conheça os rapés disponíveis e compare a origem, os ingredientes e a descrição de cada preparação, no seu tempo.",
   },
   {
     slug: "escolher-aplicador", label: "Escolhendo um aplicador", title: "Kuripe ou tepi? Entenda a diferença.",

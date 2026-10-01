@@ -128,3 +128,45 @@
   .learn-checklist ul { grid-template-columns: repeat(4,minmax(0,1fr)); }
 }
 @media (prefers-reduced-motion: reduce) { .learn-page *, .learn-page *::before { transition: none; } .learn-guide-card:hover,.learn-person-link:hover { transform: none; } }
+
+/* Primeiro rapé: leitura compacta, seguida pela exploração do catálogo. */
+.learn-first-guide { overflow: clip; }
+.learn-first-guide .learn-intro::before { width: auto; left: calc((100vw - 100%) / -2); right: calc((100vw - 100%) / -2); transform: none; }
+.learn-first-guide .learn-article-intro { padding-block: 2rem; }
+.learn-first-guide .learn-article-intro > .breadcrumbs { margin-bottom: 1.5rem; }
+.learn-first-guide .learn-intro-grid { gap: 1.5rem; }
+.learn-first-guide .learn-intro h1 { font-size: clamp(2.25rem, 4vw, 3.5rem); margin-top: .75rem; }
+.learn-first-guide .learn-article-introduction { line-height: 1.75 !important; }
+.learn-first-guide .learn-article-steps { padding-block: 2rem 2.5rem; }
+.learn-first-guide .learn-checklist { padding: 1.25rem; margin-bottom: 1.5rem; }
+.learn-first-guide .learn-checklist h2 { font-size: 1.25rem; margin: 0 0 1rem; letter-spacing: -.02em; }
+.learn-first-guide .learn-checklist li { padding-block: .75rem; }
+.learn-steps-grid { display: grid; gap: 1rem; }
+.learn-first-guide .learn-article-step { display: flex; flex-direction: column; min-width: 0; margin: 0; }
+.learn-first-guide .learn-article-image { aspect-ratio: 16 / 9; min-height: 0; }
+.learn-first-guide .learn-article-step:nth-child(2) .learn-article-image img { object-fit: contain; background: var(--white); }
+.learn-first-guide .learn-article-step:nth-child(3) .learn-article-image img { object-position: center 28%; }
+.learn-first-guide .learn-article-copy { padding: 1.5rem; justify-content: flex-start; }
+.learn-first-guide .learn-article-copy h2 { font-size: 1.5rem; line-height: 1.2; letter-spacing: -.025em; }
+.learn-first-guide .learn-article-copy > p:not(.learn-label) { margin-top: .75rem; font-size: .9375rem; line-height: 1.7; }
+.learn-first-guide .learn-recommendations { padding-block: 2.5rem; }
+.learn-first-guide .learn-recommendation-heading { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; margin-bottom: 2rem; align-items: center; }
+.learn-first-guide .learn-recommendation-heading h2 { margin: 0; font-size: clamp(2rem, 3vw, 2.75rem); }
+.learn-collection-intro > p { margin-top: 1rem; max-width: 48ch; color: var(--muted); }
+.learn-collection-intro > a { margin-top: 1.5rem; letter-spacing: .06em; }
+.learn-collection-photo { aspect-ratio: 4 / 3; border-radius: .75rem; }
+.learn-first-guide .product-image > span { display: revert; }
+.learn-first-guide .learn-collection-links-compact { display: none; }
+@media (min-width: 768px) {
+  .learn-first-guide .learn-recommendation-heading { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem; }
+  .learn-first-guide .learn-collection-photo { aspect-ratio: 16 / 10; }
+}
+@media (min-width: 1024px) {
+  .learn-first-guide .learn-intro-grid { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 3rem; }
+  .learn-first-guide .learn-article-introduction { border-top: 0; padding-top: 0; }
+  .learn-steps-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .learn-first-guide .learn-checklist { padding: 1.25rem 1.5rem; }
+  .learn-first-guide .learn-checklist li { padding-bottom: 0; }
+}
+
+.learn-first-guide .learn-recommendation-heading { margin-bottom: 0; }
