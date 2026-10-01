@@ -11,6 +11,7 @@ import { RichText } from "@/components/rich-text";
 import { ReturnsPage } from "@/components/returns-page";
 import { WholesalePage } from "@/components/wholesale-page";
 import { articleShortcodeMediaIds, plainText, prepareArticleHtml } from "@/lib/html";
+import { articleCtas, contextualizeArticleCta } from "@/lib/article-cta";
 import { breadcrumbSchema, metadataForContent } from "@/lib/seo";
 import type { WordPressContent } from "@/lib/types";
 import { ensureTrailingSlash, pathMatches } from "@/lib/url";
@@ -26,6 +27,12 @@ async function resolveContent(segments: string[]) {
   const slug = segments.at(-1);
   if (!slug) return null;
   const pathname = ensureTrailingSlash(`/${segments.join("/")}`);
+
+  // Published blog permalinks can share a slug with a legacy page (e.g. /rape/).
+  if (Object.hasOwn(articleCtas, slug)) {
+    const post = await getPostBySlug(slug);
+    if (post && pathMatches(post.link, pathname)) return { content: post, pathname };
+  }
 
   const page = await getPageBySlug(slug);
   if (page && pathMatches(page.link, pathname)) {
@@ -76,7 +83,7 @@ export default async function ContentPage({ params }: ContentPageProps) {
     ? await getMediaByIds(articleShortcodeMediaIds(content.content.rendered))
     : [];
   const articleHtml = isPost
-    ? prepareArticleHtml(content.content.rendered, shortcodeMedia)
+    ? contextualizeArticleCta(content, prepareArticleHtml(content.content.rendered, shortcodeMedia))
     : content.content.rendered;
   const featuredMedia = content._embedded?.["wp:featuredmedia"]?.[0];
   const readingMinutes = Math.max(1, Math.ceil(plainText(articleHtml).split(/\s+/).filter(Boolean).length / 210));

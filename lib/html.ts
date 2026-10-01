@@ -1,4 +1,6 @@
 import sanitizeHtml from "sanitize-html";
+import { parseDocument } from "htmlparser2";
+import { appendChild, findAll, getOuterHTML, removeElement, replaceElement, textContent } from "domutils";
 import type { WordPressMedia } from "@/lib/types";
 
 export const cleanHtml = (
@@ -10,6 +12,7 @@ export const cleanHtml = (
     allowedTags: sanitizeHtml.defaults.allowedTags.concat([
       "figure",
       "figcaption",
+      "img",
       "iframe",
       "picture",
       "source",
@@ -196,7 +199,54 @@ export function prepareArticleHtml(html: string, media: WordPressMedia[] = []) {
     .replace(/<h[56]\b([^>]*)>/gi, "<h3$1>")
     .replace(/<\/h[56]>/gi, "</h3>");
 
-  return prepared;
+  const document = parseDocument(cleanHtml(prepared));
+  // Strip only spacer breaks at paragraph edges, including breaks inside emphasis.
+  for (const paragraph of findAll((element) => element.name === "p", document.children)) {
+    const leaves: typeof paragraph.children = [];
+    const collect = (nodes: typeof paragraph.children) => {
+      for (const node of nodes) {
+        if ("children" in node && node.children.length) collect(node.children);
+        else if ("data" in node ? node.data.trim() : "name" in node && /^(br|img|iframe|video|audio)$/.test(node.name)) leaves.push(node);
+      }
+    };
+    collect(paragraph.children);
+    const isBreak = (node: (typeof leaves)[number] | undefined) => node && "name" in node && node.name === "br";
+    while (isBreak(leaves[0])) removeElement(leaves.shift()!);
+    while (isBreak(leaves.at(-1))) removeElement(leaves.pop()!);
+  }
+  // Legacy editors used blank paragraphs for spacing; let the article CSS own it.
+  findAll((element) => /^(p|h[2-4])$/.test(element.name) &&
+    !textContent(element).replace(/\s|\u00a0/g, "") &&
+    !findAll((child) => /^(img|iframe|video|audio|source|svg)$/.test(child.name), element.children).length,
+  document.children).forEach(removeElement);
+
+  // Some old button shortcodes were wrapped in a heading by the editor.
+  for (const heading of findAll((element) => /^h[2-4]$/.test(element.name), document.children)) {
+    const button = findAll((element) => /\barticle-inline-cta\b/.test(element.attribs.class ?? ""), heading.children)[0];
+    if (button && textContent(heading).trim() === textContent(button).trim()) {
+      removeElement(button);
+      replaceElement(heading, button);
+    }
+  }
+
+  const sourceHeadings = findAll((element) => /^h[2-4]$/.test(element.name) &&
+    /^(fontes|referências|referencias|bibliografia)\s*:?[\s]*$/i.test(textContent(element).trim()),
+  document.children);
+  for (const heading of sourceHeadings) {
+    const section = findAll((element) => element.name === "section", parseDocument('<section class="article-sources" aria-label="Fontes da matéria"></section>').children)[0];
+    let sibling = heading.next;
+    replaceElement(heading, section);
+    appendChild(section, heading);
+    while (sibling) {
+      if ("name" in sibling && (/^h[1-6]$/.test(sibling.name) ||
+        ("attribs" in sibling && /\barticle-(?:inline|shop)-cta\b/.test(sibling.attribs.class ?? "")))) break;
+      const next = sibling.next;
+      removeElement(sibling);
+      appendChild(section, sibling);
+      sibling = next;
+    }
+  }
+  return getOuterHTML(document, { encodeEntities: false });
 }
 
 export const excerpt = (html: string, maximumLength = 160) => {

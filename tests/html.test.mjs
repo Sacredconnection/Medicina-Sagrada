@@ -43,3 +43,25 @@ test("encontra ids de midia usados pelos shortcodes do WordPress", () => {
 test("preserva títulos nas demais superfícies de texto rico", () => {
   assert.equal(cleanHtml("<h2>Detalhes</h2><p>Texto.</p>"), "<h2>Detalhes</h2><p>Texto.</p>");
 });
+
+test("remove parágrafos de espaçamento e agrupa fontes sem perder links ou imagens", () => {
+  const html = prepareArticleHtml('<h2>Assunto</h2><p>&nbsp;<br></p><p>Texto.</p><h6><b><i>Fontes:</i></b></h6><p>&nbsp;</p><p><a href="https://example.org">Referência</a></p><p><img src="/imagem.webp" alt="Documento"></p><h2>Outro assunto</h2><p>Continuação.</p>');
+  assert.match(html, /class="article-sources"/);
+  assert.doesNotMatch(html, /<p>(?:&nbsp;|\s|<br>)*<\/p>/);
+  assert.match(html, /href="https:\/\/example.org"/);
+  assert.match(html, /src="\/imagem.webp"/);
+  assert.match(html, /<\/section><h2>Outro assunto<\/h2>/);
+  assert.match(html, /Continuação/);
+});
+
+test("corrige títulos vazios e botões antigos envolvidos em títulos", () => {
+  const html = prepareArticleHtml('<h3><span>&nbsp;</span></h3><h6>[button text="Explorar" link="/product-category/rape/"]</h6><p><i></i></p>');
+  assert.doesNotMatch(html, /<h[1-6]|<p><i>/);
+  assert.match(html, /article-inline-cta/);
+});
+
+test("retira quebras de espaçamento nas bordas e mantém quebras internas de informação", () => {
+  const html = prepareArticleHtml('<p><span><br></span><em>Primeiro texto.<br></em></p><p><em>Tabaco: Sabiá</em><br><em>Cinza: Caneleiro</em></p>');
+  assert.doesNotMatch(html, /<br><\/em>|<span><br>/);
+  assert.match(html, /Tabaco: Sabiá<\/em><br><em>Cinza: Caneleiro/);
+});
