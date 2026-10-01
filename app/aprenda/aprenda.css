@@ -45,7 +45,7 @@
 .learn-person { display: flex; flex-direction: column; min-width: 0; padding: .75rem; border: 1px solid var(--person-accent); border-radius: 1rem; background: var(--white); }
 .learn-person-visual { position: relative; isolation: isolate; }
 .learn-person-media { aspect-ratio: 16/10; border-radius: .75rem; }
-.learn-person-name { position: absolute; top: 0; left: 0; max-width: calc(100% - 1rem); padding: .7rem 1rem .8rem; border-radius: .75rem 0 .75rem 0; background: var(--person-accent); color: var(--person-foreground); font-size: 1.25rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.15; }
+.learn-person-name { position: absolute; top: 0; left: 0; max-width: calc(100% - 1rem); padding: .7rem 1rem .8rem; border-radius: .75rem 0 .75rem 0; background: var(--person-accent); color: var(--white); font-size: 1.25rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.15; }
 .learn-person-name::before { content: ""; position: absolute; top: 0; right: -.75rem; width: .75rem; height: .75rem; background: radial-gradient(circle at 100% 100%, transparent .75rem, var(--person-accent) calc(.75rem + .5px)); }
 .learn-person-name::after { content: ""; position: absolute; bottom: -.75rem; left: 0; width: .75rem; height: .75rem; background: radial-gradient(circle at 100% 100%, transparent .75rem, var(--person-accent) calc(.75rem + .5px)); }
 .learn-person-copy { display: flex; flex-direction: column; flex: 1; padding: 1.25rem .5rem .25rem; }
