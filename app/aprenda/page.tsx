@@ -25,7 +25,7 @@ export default async function LearnPage() {
         <div className="learn-guides-grid">{learnGuides.map((guide) => <Link href={`/aprenda/${guide.slug}/`} className="learn-guide-card" key={guide.slug}><p className="learn-label">{guide.label}</p><h3>{guide.title}</h3><p>{guide.summary}</p><span className="learn-card-action">Ler o guia</span></Link>)}</div>
       </div>
     </section>
-    <section className="learn-shell learn-people" aria-labelledby="learn-people-title"><div className="learn-intro-grid learn-people-heading"><div><p className="learn-label">Enciclopédia dos povos</p><h2 id="learn-people-title">Conheça os povos{" "}<br /><em>por trás de cada nome.</em></h2></div><div><p>Um nome pode apontar para um povo, um território ou uma tradição regional. Conheça um pouco desse contexto sem reduzir uma cultura a um efeito prometido.</p><p>Abra uma entrada para continuar a leitura.</p></div></div>
+    <section className="learn-shell learn-people" aria-labelledby="learn-people-title"><div className="learn-intro-grid learn-people-heading"><div><p className="learn-label">Enciclopédia dos povos</p><h2 id="learn-people-title">Conheça os povos{" "}<br /><em>por trás de cada nome.</em></h2></div><div><p>Um nome pode apontar para um povo, um território ou uma tradição regional. Conheça um pouco desse contexto sem reduzir uma cultura a um efeito prometido.</p><p>Explore cada povo e continue a leitura nos cards abaixo.</p></div></div>
       <LearnPeopleGrid entries={entries} />
       <div className="learn-context-note"><p>Este é um ponto de partida, não um retrato completo de cada cultura. Os nomes, as histórias e as identidades devem respeitar como as próprias comunidades se apresentam.</p></div>
     </section>
