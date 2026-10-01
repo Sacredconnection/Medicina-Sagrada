@@ -102,14 +102,37 @@
 .product-reviews h2, .related-products > h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); margin-bottom: 1.5rem; }
 .reviews-heading { display: flex; justify-content: space-between; align-items: start; gap: 2rem; margin-bottom: 2rem; }
 .review-invitation { max-width: 23rem; }
-.review-compose { max-width: 42rem; margin-bottom: 2rem; }
-.review-form { margin-top: 1.5rem; padding: clamp(1rem, 3vw, 2rem); border: 1px solid var(--line); border-radius: .5rem; background: var(--white); }
-.review-form h3 { margin-bottom: 1rem; font-size: 1.25rem; }
-.review-form fieldset { display: grid; min-width: 0; gap: 1rem; padding: 0; border: 0; }
+.review-compose { max-width: 48rem; margin-top: 2rem; }
+.review-form { padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); }
+.review-form h3 { margin: 0 0 .5rem; font-size: clamp(1.4rem, 2vw, 1.7rem); line-height: 1.2; }
+.review-form fieldset { min-width: 0; padding: 0; border: 0; }
+.review-form-fields { display: grid; gap: 1.5rem; }
+.review-form .review-form-intro { margin: 0 0 1.5rem; }
 .review-form p { font-size: var(--type-ui); line-height: 1.6; color: var(--muted); }
 .review-form textarea, .review-form select { width: 100%; min-height: 2.75rem; padding: .75rem; border: 1px solid var(--line); border-radius: .25rem; background: var(--white); color: var(--ink); font: inherit; }
 .review-form textarea { resize: vertical; }
 .review-form :is(input, textarea, select):focus-visible { outline: 2px solid var(--forest-650); outline-offset: 2px; }
+.review-rating legend { margin-bottom: .5rem; font-size: var(--type-ui); font-weight: var(--weight-semibold); }
+.review-rating-options { display: flex; width: fit-content; gap: .25rem; }
+.review-rating-option { position: relative; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; color: var(--muted); cursor: pointer; border-radius: .25rem; }
+.review-rating-option input { position: absolute; inset: 0; margin: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.review-rating-option svg { width: 1.75rem; height: 1.75rem; fill: none; stroke: currentColor; stroke-width: 1.5; pointer-events: none; }
+.review-rating-option[data-active=true] { color: var(--forest-800); }
+.review-rating-option[data-active=true] svg { fill: currentColor; }
+.review-rating-option:has(input:focus-visible) { outline: 2px solid var(--forest-650); outline-offset: 2px; }
+.review-rating-caption { display: block; margin-top: .35rem; color: var(--muted); font-size: var(--type-caption); }
+.review-form-fields:disabled .review-rating-option { opacity: .5; cursor: wait; }
+.review-account { display: grid; gap: .75rem; }
+.review-account > p { margin: 0; }
+.review-account-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.review-form-footer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(12rem, 1fr); align-items: center; gap: 1.5rem; }
+.review-form-footer p { margin: 0; }
+.review-form-footer .commerce-button { min-height: 3.5rem; }
+.review-form > .commerce-error { margin: 1rem 0 0; color: #9e3329; }
+@media (max-width: 600px) {
+  .review-account-fields, .review-form-footer { grid-template-columns: minmax(0, 1fr); }
+  .review-form-footer { gap: 1rem; }
+}
 .review-invitation p { font-size: var(--type-label); line-height: 1.5; color: var(--muted); }
 .review { padding: 1.5rem 0; border-top: 1px solid var(--line); max-width: 52rem; }
 .review header { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; font-size: var(--type-body-small); }
@@ -985,7 +1008,7 @@ strong, b { font-weight: var(--weight-bold); }
 .product-price p { margin: 0; }
 .availability { margin: 1.5rem 0 1rem; color: var(--forest-800); font-size: var(--type-body-small); font-weight: var(--weight-bold); letter-spacing: 0.01em; line-height: 1.35; }
 .commerce-note { padding: 1rem; border-left: 3px solid var(--leaf-400); background: var(--paper-deep); color: var(--muted); font-size: var(--type-body-small); line-height: 1.5; }
-.product-description { max-width: var(--reading-width); margin: var(--section-space-major) auto 0; }
+.product-description { max-width: var(--reading-width); margin: var(--section-space-major) 0 0; }
 .product-description > h2 { max-width: 18ch; margin-bottom: 2rem; font-size: var(--type-section-title); line-height: 1.02; }
 .product-description > .rich-text { font-size: 1.0625rem; line-height: 1.7; }
 .product-description > .rich-text > :first-child { margin-top: 0; }
