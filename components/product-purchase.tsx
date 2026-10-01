@@ -30,7 +30,8 @@ export function ProductPurchase({ product, variants, originalUrl, children }: { 
     setAdded(false);
     if (await mutate({ action: "add", id: selected.id, quantity })) setAdded(true);
   }}>
-    {variable ? <label className="commerce-field">Escolha uma opção
+    <div className="purchase-fields">
+    {variable ? <label className="commerce-field purchase-option">Escolha uma opção
       <select required value={selection} disabled={busy} onChange={(event) => { setSelection(event.target.value); setQuantity(variants.find((v) => String(v.id) === event.target.value)?.add_to_cart?.minimum ?? 1); setAdded(false); }}>
         <option value="">Selecione o peso ou modelo</option>
         {variants.map((variant) => <option key={variant.id} value={variant.id} disabled={variant.is_in_stock === false || variant.is_purchasable === false}>
@@ -39,12 +40,11 @@ export function ProductPurchase({ product, variants, originalUrl, children }: { 
         </option>)}
       </select>
     </label> : null}
-    <div className="purchase-actions">
       <label className="commerce-field purchase-quantity">Quantidade
         <input type="number" inputMode="numeric" min={minimum} max={maximum} step={step} required value={quantity} disabled={busy || !purchasable} onChange={(event) => { setQuantity(Number(event.target.value)); setAdded(false); }} />
       </label>
-      <button className="commerce-button" disabled={busy || loading || !selected || !purchasable} type="submit">{busy ? "Atualizando…" : selected && !purchasable ? "Produto indisponível" : "Adicionar à sacola"}</button>
     </div>
+    <button className="commerce-button" disabled={busy || loading || !selected || !purchasable} type="submit">{busy ? "Atualizando…" : selected && !purchasable ? "Produto indisponível" : "Adicionar à sacola"}</button>
     <p className="purchase-detail">Frete e condições de pagamento na finalização.</p>
     {selected && maximum < 9999 ? <p className="purchase-detail">Até {maximum} {maximum === 1 ? "unidade" : "unidades"} por compra.</p> : null}
     {error ? <p className="commerce-error" role="alert">{error}</p> : null}

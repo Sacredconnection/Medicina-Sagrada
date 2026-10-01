@@ -69,7 +69,10 @@ export function ProductGallery({ images, name }: { images: WooImage[]; name: str
             ref={dialogRef}
             className="product-image-dialog"
             aria-label={`Imagem ampliada de ${name}`}
-            onClose={() => setIsExpanded(false)}
+            onClose={() => {
+              // A queued close event can arrive after the viewer is opened again.
+              if (!dialogRef.current?.open) setIsExpanded(false);
+            }}
             onCancel={(event) => {
               event.preventDefault();
               setIsExpanded(false);

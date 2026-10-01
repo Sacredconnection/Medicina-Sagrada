@@ -956,13 +956,30 @@ strong, b { font-weight: var(--weight-bold); }
 .pagination a { color: var(--forest-650); font-weight: var(--weight-semibold); }
 .pagination [aria-current="page"] { font-weight: var(--weight-medium); font-variant-numeric: tabular-nums; }
 .pagination > :last-child { justify-self: end; }
-.product-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(19rem, 0.9fr); gap: clamp(2rem, 7vw, 7rem); align-items: start; }
+.product-layout { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(19rem, 0.95fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: start; }
 .product-gallery { overflow: hidden; border-radius: var(--radius); background: var(--white); }
 .product-gallery img { width: 100%; }
 .product-summary { position: sticky; top: var(--sticky-offset); }
 .product-summary > .rich-text:not(.product-price) { max-width: 58ch; margin-top: 1.5rem; color: var(--muted); font-size: var(--type-body); line-height: 1.6; }
 .product-summary > .rich-text:not(.product-price) p { margin-bottom: 0; }
 .product-summary > .rich-text:not(.product-price) :is(strong, b) { color: var(--ink); font-weight: var(--weight-semibold); }
+.product-summary > .product-intro { max-width: 58ch; margin-top: 0.5rem; color: var(--muted); font-size: var(--type-body); line-height: 1.5; }
+.product-intro-preview { margin: 0; }
+.product-intro:has(.product-intro-details[open]) > .product-intro-preview { display: none; }
+.product-intro-details > summary { display: flex; align-items: center; gap: 0.5rem; width: fit-content; min-height: 44px; color: var(--forest-650); font-size: var(--type-body-small); font-weight: var(--weight-semibold); cursor: pointer; list-style: none; }
+.product-intro-details > summary::-webkit-details-marker { display: none; }
+.product-intro-details > summary:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+.product-intro-details > summary:focus-visible { outline: 2px solid var(--forest-650); outline-offset: 3px; }
+.product-intro-less, .product-intro-details[open] .product-intro-more { display: none; }
+.product-intro-details[open] .product-intro-less { display: inline; }
+.product-intro-details[open] > summary svg { transform: rotate(180deg); }
+.product-intro-details > .rich-text { color: inherit; }
+.product-intro-details > .rich-text > :first-child, .product-summary > .product-intro > :first-child { margin-top: 0; }
+.product-intro-details > .rich-text > :last-child, .product-summary > .product-intro > :last-child { margin-bottom: 0; }
+.product-intro :is(strong, b) { color: var(--ink); font-weight: var(--weight-semibold); }
+.product-summary > .availability { margin-top: 1rem; margin-bottom: 0.75rem; }
+.product-summary > .purchase-panel { padding-block: 1rem; }
+.product-summary > .shipping-calculator { padding-block: 1rem; }
 .product-price { display: flex; align-items: baseline; gap: 0.65rem; margin-top: 1.15rem; color: var(--forest-650); font-size: 1.35rem; font-weight: var(--weight-bold); font-variant-numeric: tabular-nums; line-height: 1.15; }
 .product-price del { color: var(--muted); font-size: 0.82em; font-weight: var(--weight-medium); }
 .product-price p { margin: 0; }
@@ -974,6 +991,41 @@ strong, b { font-weight: var(--weight-bold); }
 .product-description > .rich-text > :first-child { margin-top: 0; }
 .product-description .rich-text h2 { max-width: 24ch; font-size: clamp(1.75rem, 2.4vw, 2.25rem); letter-spacing: -0.025em; line-height: 1.12; text-wrap: pretty; }
 .product-description .rich-text h3 { max-width: 30ch; font-size: clamp(1.35rem, 1.8vw, 1.625rem); letter-spacing: -0.02em; line-height: 1.2; text-wrap: pretty; }
+
+/* Keep purchase and delivery visible with a denser rhythm on product pages. */
+.product-page .product-summary h1 { font-size: clamp(2.25rem, 3.2vw, 3.5rem); line-height: 1.04; }
+.product-page .availability { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.25rem 1rem; }
+.product-page .availability .product-review-link { margin: 0; font-weight: var(--weight-medium); }
+@media (pointer: coarse) {
+  .product-page .availability .product-review-link { display: inline-flex; align-items: center; min-height: 44px; }
+}
+.product-page .product-price { margin-top: 0.75rem; }
+.product-page .purchase-price { margin-block: 0.5rem; }
+.product-page .purchase-price > .product-price { margin-block: 0; }
+.product-page .product-summary > .availability { margin-block: 0.5rem 0.75rem; }
+.product-page .product-summary > .rich-text:not(.product-price) { margin-top: 1rem; line-height: 1.55; }
+.product-page .product-summary > .rich-text:not(.product-price) > * + * { margin-top: 0.75rem; }
+.product-page .availability { margin-block: 1rem 0.75rem; }
+.product-page .purchase-panel { gap: 0.625rem; padding-block: 1rem; }
+.product-page .purchase-fields { display: grid; grid-template-columns: minmax(0, 1fr) 6rem; align-items: end; gap: 0.75rem; }
+.product-page .purchase-fields > .commerce-field { min-width: 0; }
+.product-page .purchase-fields:not(:has(.purchase-option)) { grid-template-columns: 6rem; }
+.product-page .purchase-actions { gap: 0.75rem; }
+.product-page .purchase-detail { line-height: 1.5; }
+.product-page .product-summary > .purchase-detail { margin-top: 0.5rem; }
+.product-page .shipping-calculator { padding-block: 1rem 0.5rem; }
+.product-page .shipping-calculator h2 { margin-bottom: 0.625rem; font-size: 1.125rem; }
+.product-page .shipping-calculator label { margin-bottom: 0.375rem; }
+.product-page .shipping-input-row input, .product-page .shipping-input-row button { min-height: 3rem; }
+.product-page .shipping-help { margin-top: 0.5rem; line-height: 1.5; }
+.product-page .shipping-destination { margin-block: 0.875rem 0.25rem; }
+.product-page .shipping-results li { padding-block: 0.625rem; line-height: 1.5; }
+.product-page .shipping-results li > div { gap: 0.25rem; }
+.product-page .product-description { margin-top: clamp(2rem, 3vw, 3rem); }
+.product-page .product-description > h2 { margin-bottom: 1.25rem; font-size: clamp(1.875rem, 2.6vw, 2.5rem); line-height: 1.12; }
+.product-page .product-description > .rich-text { line-height: 1.65; }
+.product-page .product-description > .rich-text > * + * { margin-top: 1rem; }
+.product-page :is(.product-reviews, .related-products) { margin-top: 2.5rem; padding-top: 1.5rem; }
 .editorial-page { max-width: calc(var(--reading-width) + 2rem); }
 .article-header { margin-bottom: var(--group-space-large); }
 .article-header time { display: block; margin-top: 1rem; color: var(--muted); }

@@ -5,6 +5,7 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
 import { RichText } from "@/components/rich-text";
 import { ProductPurchase } from "@/components/product-purchase";
+import { ProductIntro } from "@/components/product-intro";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductReviews } from "@/components/product-reviews";
 import { ProductCard } from "@/components/product-card";
@@ -91,11 +92,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </Link>
           ) : null}
           <h1>{productName}</h1>
-          <a className="product-review-link" href="#avaliacoes">{product.review_count ? `★ ${Number(product.average_rating).toLocaleString("pt-BR")} · ${product.review_count} avaliações` : "Seja o primeiro a avaliar"}</a>
           <ProductPurchase product={product} variants={variants} originalUrl={new URL(pathname, config.wordpressSiteUrl).toString()}>
-          <RichText html={product.short_description} textFilter={canonicalizeEthnicityNames} />
+          <ProductIntro html={product.short_description} />
           <p className="availability">
-            {product.is_in_stock ? "Em estoque" : "Consulte a disponibilidade"}
+            <span>{product.is_in_stock ? "Em estoque" : "Consulte a disponibilidade"}</span>
+            <a className="product-review-link" href="#avaliacoes">{product.review_count ? `★ ${Number(product.average_rating).toLocaleString("pt-BR")} · ${product.review_count} avaliações` : "Seja o primeiro a avaliar"}</a>
           </p>
           </ProductPurchase>
           <p className="purchase-detail">Entrega calculada pelo CEP. <Link href="/refund_returns/">Trocas e devoluções</Link>.</p>
