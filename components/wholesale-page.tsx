@@ -1,3 +1,9 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import { PartnerLogo } from "@/components/partner-logo";
+
+const partnerLogoAvailable = (src: string) => existsSync(join(process.cwd(), "public", src));
+
 const wholesaleChannels = [
   {
     label: "WhatsApp",
@@ -87,11 +93,13 @@ export function WholesalePage() {
             <h3>Partner stores</h3>
             <p>Customers in the USA and Europe can also consult our partner platforms.</p>
             <div className="wholesale-partner-links">
-              <a href="http://sacredconnection.co" target="_blank" rel="noopener noreferrer">
-                Sacred Connection · USA
+              <a href="http://sacredconnection.co" target="_blank" rel="noopener noreferrer" aria-label="Visit Sacred Connection · USA (opens in a new tab)">
+                <PartnerLogo src="/assets/partners/sacred-connection-logo.svg" name="Sacred Connection" initialAvailable={partnerLogoAvailable("/assets/partners/sacred-connection-logo.svg")} />
+                <span className="partner-region">USA</span>
               </a>
-              <a href="http://mayaherbs.com" target="_blank" rel="noopener noreferrer">
-                Maya Herbs · Europe
+              <a href="http://mayaherbs.com" target="_blank" rel="noopener noreferrer" aria-label="Visit Maya Herbs · Europe (opens in a new tab)">
+                <PartnerLogo src="/assets/partners/maya-herbs-logo.svg" name="Maya Herbs" initialAvailable={partnerLogoAvailable("/assets/partners/maya-herbs-logo.svg")} />
+                <span className="partner-region">Europe</span>
               </a>
             </div>
           </div>

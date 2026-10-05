@@ -33,9 +33,11 @@ export default async function LearnPage() {
     <section className="learn-continue" aria-labelledby="learn-continue-title">
       <div className="learn-shell learn-continue-grid">
         <div className="learn-continue-copy">
+          <div className="learn-continue-text">
           <p className="learn-label">Continue aprendendo</p>
           <h2 id="learn-continue-title">Há histórias que{" "}<br />um guia não conta.</h2>
           <p>Aprofunde seu olhar sobre as tradições, os objetos e os saberes da floresta no nosso blog.</p>
+          </div>
           <Link className="button learn-blog-button" href="/blog/">Visite o blog</Link>
         </div>
         <LearnImageSlot src="/assets/aprenda/banners/continue-aprendendo-foto.webp" className="learn-continue-photo" />
