@@ -56,10 +56,11 @@ export function ProductGallery({ images, name }: { images: WooImage[]; name: str
             onClick={() => setIsExpanded(true)}
           >
             <Image
-              priority
+              loading="eager"
+              fetchPriority="high"
               alt={image.alt || name}
               height={900}
-              sizes="(max-width: 800px) 100vw, 50vw"
+              sizes="(max-width: 600px) calc(100vw - 2rem), (max-width: 1344px) 50vw, 640px"
               src={image.src}
               width={900}
             />
@@ -106,7 +107,8 @@ export function ProductGallery({ images, name }: { images: WooImage[]; name: str
                 alt={image.alt || name}
                 width={1600}
                 height={1600}
-                sizes="(max-width: 800px) 100vw, 1100px"
+                loading="eager"
+                sizes="(max-width: 1120px) calc(100vw - 4rem), 1088px"
               />
             ) : null}
           </dialog>

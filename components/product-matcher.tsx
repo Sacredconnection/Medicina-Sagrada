@@ -6,7 +6,7 @@ import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion
 import type { CSSProperties } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useCart } from "@/components/cart-provider";
-import { plainText } from "@/lib/html";
+import { plainText } from "@/lib/plain-text";
 import { canonicalizeEthnicityNames } from "@/lib/ethnicity-colors";
 import type { RitualRecommendationResult } from "@/lib/ritual-recommendation";
 import {
@@ -19,6 +19,7 @@ import {
 } from "@/lib/rituals-data";
 import { getRitualCatalogFallback } from "@/lib/ritual-product-selection";
 import type { WooProduct } from "@/lib/types";
+import type { RitualCatalogProduct } from "@/lib/ritual-catalog";
 import ritualImages from "@/public/assets/home/matcher/products/manifest.json";
 import ritualVariationImages from "@/public/assets/home/matcher/products/variations.json";
 
@@ -79,14 +80,14 @@ function ProgressIcon({ icon }: { icon: (typeof progressSteps)[number]["icon"] }
   );
 }
 
-const productHref = (product: WooProduct) => `/product/${product.slug}/`;
+const productHref = (product: Pick<RitualCatalogProduct, "slug">) => `/product/${product.slug}/`;
 
-const getAmount = (product: WooProduct) => {
+const getAmount = (product: Pick<RitualCatalogProduct, "prices">) => {
   const rawAmount = product.prices.price_range?.min_amount ?? product.prices.price;
   return Number(rawAmount) / 10 ** product.prices.currency_minor_unit;
 };
 
-const formatAmount = (amount: number, product: WooProduct) =>
+const formatAmount = (amount: number, product: Pick<RitualCatalogProduct, "prices">) =>
   new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: product.prices.currency_code,
@@ -125,7 +126,7 @@ function FinderProduct({
   onVariationResolved,
 }: {
   kind: string;
-  product: WooProduct | undefined;
+  product: RitualCatalogProduct | undefined;
   detail: string;
   variations?: WooProduct[];
   selectedVariationId?: number | null;
@@ -254,7 +255,7 @@ function FinderProduct({
   );
 }
 
-export function ProductMatcher({ products, introTitle }: { products: WooProduct[]; introTitle?: React.ReactNode }) {
+export function ProductMatcher({ products, introTitle }: { products: RitualCatalogProduct[]; introTitle?: React.ReactNode }) {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -298,7 +299,7 @@ export function ProductMatcher({ products, introTitle }: { products: WooProduct[
   );
   const applicator = visibleResult?.applicator?.product;
 
-  const mergeVariations = (product: WooProduct | undefined, variations: WooProduct[]) =>
+  const mergeVariations = (product: RitualCatalogProduct | undefined, variations: WooProduct[]) =>
     [...new Map([
       ...variations,
       ...(product?.variations ?? []).flatMap(({ id }) => confirmedVariations[id] ? [confirmedVariations[id]] : []),

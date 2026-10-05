@@ -98,7 +98,10 @@ export default async function ProductCategoryPage({
 
   const query = parseCatalogQuery(await searchParams);
   const additionalContent = parsed.page === 1
-    ? await getCategoryContent(parsed.basePath, category.id)
+    ? await getCategoryContent(parsed.basePath, category.id).catch((error) => {
+        console.warn("Não foi possível carregar o conteúdo complementar da categoria.", error);
+        return "";
+      })
     : "";
   const categoryName = canonicalizeEthnicityNames(category.name);
   const ethnicityTheme = parsed.basePath.startsWith("/product-category/rape/")

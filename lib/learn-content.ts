@@ -69,5 +69,4 @@ export const learnPeople = [
   { name: "Yawanawá", slug: "yawanawa", title: "Língua, arte e memória no rio Gregório", choosingTitle: "Características de cada produto", choosingCopy: "Observe as plantas de cada opção Yawanawá: uma origem comum não torna as misturas equivalentes.", image: "yawanawa", summary: "Um povo de língua Pano, ligado ao território indígena do rio Gregório, no Acre.", body: "A transmissão da língua, das artes e dos conhecimentos cerimoniais faz parte do fortalecimento cultural Yawanawá. Ao explorar os produtos, compare as plantas e os ingredientes descritos: uma mesma origem não torna as preparações intercambiáveis." },
 ] as const;
 
-export const guideImage = (guide: LearnGuide, image: string) => image.startsWith("/") ? image : `/assets/learn/${guide.imageFolder}/${image}`;
 export const getLearnGuide = (slug: string) => learnGuides.find((guide) => guide.slug === slug);

@@ -15,7 +15,14 @@ const categories = [
   { id: 10, name: "Artesanato", slug: "artesanato", parent: 0, count: 14, description: "", image: null, permalink: "http://127.0.0.1:4010/product-category/artesanato/" },
   { id: 11, name: "Colares", slug: "colares", parent: 10, count: 12, description: "", image: null, permalink: "http://127.0.0.1:4010/product-category/artesanato/colares/" },
 ];
-products[0].images = [1, 2].map(id => ({ id, src: "/assets/logo/medicina-sagrada-logo-01.svg", alt: `Foto ${id}` }));
+if (process.env.RITUAL_CATALOG_FIXTURE === "1") {
+  products.push(
+    product(500, "Rapé de teste", "huni-kuin-murici", 3900, { type: "variable", variations: [{ id: 501, attributes: [{ name: "Peso", value: "10g" }] }] }),
+    product(501, "Rapé de teste", "huni-kuin-murici-10g", 4900, { type: "variation", variation: "10g" }),
+    product(600, "Aplicador de teste", "kuripe-bambu-senna", 5900),
+  );
+}
+products[0].images = [1, 2].map(id => ({ id, src: "/assets/home/applicators/medicina-sagrada-aplicadores-kuripes.webp", alt: `Foto ${id}` }));
 products[0].review_count = 7;
 products[0].average_rating = "4.4";
 products[0].categories = [categories[1]];
@@ -38,6 +45,10 @@ createServer(async (req, res) => {
   const url = new URL(req.url, "http://127.0.0.1:4010");
   const send = (data, status = 200, headers = {}) => { res.writeHead(status, { "Content-Type": "application/json", ...headers }); res.end(JSON.stringify(data)); };
   if (url.pathname === "/health") return send({ ok: true });
+  if (url.pathname === "/product-category/artesanato/colares/") {
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    return res.end('<div class="below-woocommerce-category"><h2>Origem dos colares de teste</h2><p>Conteúdo editorial da categoria preservado.</p></div>');
+  }
   if (url.pathname === "/wp-admin/admin-ajax.php") {
     if (req.headers.cookie || req.headers.authorization || req.headers["cart-token"]) return send({ error: "Sessão não pode ser compartilhada com a cotação." }, 500);
     const chunks = []; for await (const chunk of req) chunks.push(chunk);

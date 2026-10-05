@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useCart } from "@/components/cart-provider";
 import { formatMoney } from "@/lib/cart-types";
-import { plainText } from "@/lib/html";
+import { plainText } from "@/lib/plain-text";
 import { pathnameFromUrl } from "@/lib/url";
 
 export function CartPage() {

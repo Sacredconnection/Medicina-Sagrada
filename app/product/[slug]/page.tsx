@@ -9,6 +9,7 @@ import { ProductPurchase } from "@/components/product-purchase";
 import { ProductIntro } from "@/components/product-intro";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductMatcher } from "@/components/product-matcher";
+import { toRitualCatalog } from "@/lib/ritual-catalog";
 import { ProductReviews } from "@/components/product-reviews";
 import { ProductCard } from "@/components/product-card";
 import { getReviews } from "@/lib/reviews";
@@ -31,7 +32,7 @@ type ProductPageProps = {
 
 async function ProductJourney() {
   const products = await getAllProducts().catch(() => []);
-  return <ProductMatcher products={products} introTitle={<>Está <strong>indeciso?</strong></>} />;
+  return <ProductMatcher products={toRitualCatalog(products)} introTitle={<>Está <strong>indeciso?</strong></>} />;
 }
 
 export async function generateMetadata({

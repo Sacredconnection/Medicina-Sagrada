@@ -7,7 +7,9 @@ export type ResolvedRitualProduct = {
   variations: WooProduct[];
 };
 
-const isPurchasable = (product: WooProduct) =>
+type CatalogCandidate = Pick<WooProduct, "slug" | "is_in_stock" | "is_purchasable">;
+
+const isPurchasable = (product: CatalogCandidate) =>
   product.is_in_stock !== false && product.is_purchasable !== false;
 
 export function chooseAvailableRitualProduct(
@@ -35,10 +37,10 @@ export function chooseAvailableRitualProduct(
 
 // Catalog cards remain useful when live variation details are unavailable.
 // Purchase controls still require a confirmed variation for variable products.
-export function getRitualCatalogFallback(
+export function getRitualCatalogFallback<T extends CatalogCandidate>(
   candidates: readonly RitualProductCandidate[],
   applicatorSlug: string,
-  products: WooProduct[],
+  products: T[],
 ) {
   const primary = candidates
     .map(({ slug }) => products.find((product) => product.slug === slug))

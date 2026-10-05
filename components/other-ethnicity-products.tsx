@@ -21,15 +21,17 @@ export async function OtherEthnicityProducts({ category, categories }: {
   const otherIds = ethnicityCategories
     .filter(({ id }) => !excludedIds.includes(id))
     .map(({ id }) => id);
-  const candidates: WooProduct[] = [];
+  if (!otherIds.length) return null;
   let products: WooProduct[] = [];
 
   try {
     for (let page = 1; page <= 50; page += 1) {
       const batch = await getProducts({ categoryId: rapeCategory.id, perPage: 100, page });
-      candidates.push(...batch);
-      products = selectOtherEthnicityProducts(candidates, excludedIds, otherIds);
-      if (products.length === 4 || batch.length < 100) break;
+      // Greedy selection never revisits discarded candidates. Retain only the
+      // chosen cards between pages, preserving their original catalog order.
+      products = selectOtherEthnicityProducts([...products, ...batch], excludedIds, otherIds);
+      const representedIds = new Set(products.flatMap(product => product.categories.map(({ id }) => id)));
+      if (products.length === 4 || batch.length < 100 || otherIds.every(id => representedIds.has(id))) break;
     }
   } catch (error) {
     console.warn("Não foi possível carregar rapés de outros povos.", error);

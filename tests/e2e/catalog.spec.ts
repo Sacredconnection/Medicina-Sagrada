@@ -11,7 +11,10 @@ test("catálogo filtra, ordena e preserva a consulta na paginação", async ({ p
   await page.getByLabel("Mínimo", { exact: true }).fill("30");
   await page.getByLabel("Máximo", { exact: true }).fill("60");
   await page.getByLabel("Em oferta", { exact: true }).check();
-  await page.getByRole("button", { name: "Aplicar filtros" }).click();
+  await expect.poll(() => {
+    const params = new URL(page.url()).searchParams;
+    return [params.get("min"), params.get("max"), params.get("oferta")];
+  }).toEqual(["30", "60", "1"]);
   await expect(page.locator(".product-card")).toHaveCount(2);
   await expect(page.locator(".product-card h2").first()).toHaveText("Artesanato 5");
   await page.goto("/busca/?estoque=1&ordem=menor_preco");
@@ -68,9 +71,13 @@ test("falha ao carregar mais avaliações oferece nova tentativa sem duplicar", 
   await expect(page.locator(".review")).toHaveCount(7);
 });
 
-test("API de avaliações valida parâmetros e não permite enviar como administrador", async ({ request }) => {
+test("API de avaliações valida parâmetros e bloqueia envio sem origem ou credenciais", async ({ request }) => {
   expect((await request.get("/api/reviews/?product=-1")).status()).toBe(400);
-  expect((await request.post("/api/reviews/", { data: { product: 100, rating: 5 } })).status()).toBe(405);
+  expect((await request.post("/api/reviews/", { data: { productId: 100, rating: 5 } })).status()).toBe(403);
+  expect((await request.post("/api/reviews/", {
+    headers: { Origin: "http://127.0.0.1:3017" },
+    data: { productId: 100, rating: 5, comment: "Avaliação simulada sem credenciais." },
+  })).status()).toBe(400);
   const response = await request.get("/api/reviews/?product=100");
   expect(response.status()).toBe(200);
   expect(response.headers()["set-cookie"]).toBeUndefined();
@@ -84,7 +91,7 @@ test("categoria usa URL canônica, filtros no celular e estado vazio recuperáve
   await expect(page.getByRole("button", { name: "Aplicar filtros" })).not.toBeVisible();
   await page.getByRole("button", { name: "Filtros +" }).click();
   await page.getByLabel("Mínimo", { exact: true }).fill("999");
-  await page.getByRole("button", { name: "Aplicar filtros" }).click();
+  await expect.poll(() => new URL(page.url()).searchParams.get("min")).toBe("999");
   await expect(page.getByRole("heading", { name: "Nenhum produto encontrado" })).toBeVisible();
   await page.getByRole("link", { name: "Recomeçar a busca" }).click();
   await expect(page.locator(".product-card")).toHaveCount(12);
@@ -92,7 +99,7 @@ test("categoria usa URL canônica, filtros no celular e estado vazio recuperáve
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
-test("produto mostra galeria, avaliações reais da API e acesso ao envio autenticado", async ({ page }) => {
+test("produto mostra galeria, avaliações da API e formulário de envio autenticado", async ({ page }) => {
   await page.goto("/product/colar-de-sementes/");
   await expect(page.locator(".breadcrumbs").getByRole("link", { name: "Colares" })).toHaveAttribute("href", "/product-category/artesanato/colares/");
   await page.getByRole("button", { name: "Ver imagem 2 de Colar de sementes" }).click();
@@ -103,7 +110,12 @@ test("produto mostra galeria, avaliações reais da API e acesso ao envio autent
   await expect(page.locator(".review").first()).not.toContainText("alert(");
   await page.getByRole("button", { name: "Carregar mais avaliações" }).click();
   await expect(page.locator(".review")).toHaveCount(7);
-  await expect(page.getByRole("link", { name: "Escrever uma avaliação" })).toHaveAttribute("href", "http://127.0.0.1:4010/product/colar-de-sementes/#review_form");
+  const form = page.locator("#product-review-form");
+  await expect(form.getByRole("heading", { name: "Compartilhe sua experiência" })).toBeVisible();
+  await expect(form.getByRole("radio", { name: "5 estrelas", exact: true })).toBeAttached();
+  await expect(form.getByLabel("Sua avaliação", { exact: true })).toBeVisible();
+  await expect(form.getByLabel("E-mail ou usuário")).toBeVisible();
+  await expect(form.getByLabel("Senha da conta")).toHaveAttribute("type", "password");
 });
 
 test("variação muda preço e quantidade pode ser editada no side cart", async ({ page }) => {
