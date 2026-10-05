@@ -66,7 +66,7 @@
 .learn-person-link:hover { transform: translateY(-1px); }
 .learn-context-note { margin-top: 2rem; padding: 1.25rem 1.5rem; border: 1px solid var(--learn-line); border-radius: .75rem; background: color-mix(in srgb,var(--learn-sand) 15%,var(--white)); }
 .learn-context-note p { font-size: .875rem; line-height: 1.5rem; color: var(--muted); max-width: 48rem; }
-.learn-continue { padding-block: clamp(2.5rem,4vw,3.5rem); margin-bottom: 3rem; }
+.learn-continue { padding-block: clamp(2.5rem,4vw,3.5rem); margin-bottom: 3rem; border-block: 1px solid var(--learn-line); background: color-mix(in srgb,var(--learn-sand) 10%,var(--white)); }
 .learn-continue-grid { display: grid; gap: 2.5rem; align-items: center; }
 .learn-continue-copy { max-width: 38rem; text-align: left; }
 .learn-continue-photo { width: 100%; aspect-ratio: 4 / 3; border-radius: .75rem; background: var(--learn-sand); }
