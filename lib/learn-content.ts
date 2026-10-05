@@ -7,7 +7,7 @@ export type LearnGuide = {
   imageFolder: string;
   sections: { title: string; body: string; image: string; alt: string }[];
   checklist: string[];
-  collection: "rape" | "aplicadores" | "essenciais";
+  collection: "rape" | "aplicadores" | "incensos";
   collectionTitle: string;
   collectionCopy: string;
 };
@@ -50,7 +50,7 @@ export const learnGuides: LearnGuide[] = [
       { title: "Finalize com cuidado", body: "Guarde os objetos em segurança e siga as orientações de limpeza e conservação do seu aplicador. Reserve tempo para observar como você está. Se houver desconforto ou incerteza, interrompa a prática e procure orientação adequada.", image: "close-with-care.webp", alt: "Aplicador pessoal guardado com cuidado" },
     ],
     checklist: ["Contexto da prática compreendido", "Um espaço tranquilo e ventilado", "Objetos pessoais limpos e conservados", "Tempo para começar e finalizar sem pressa"],
-    collection: "essenciais", collectionTitle: "Conheça os essenciais.", collectionCopy: "Rapés e aplicadores para explorar com atenção. Cada peça pode ser escolhida separadamente, no seu tempo.",
+    collection: "incensos", collectionTitle: "Prepare o ambiente com intenção.", collectionCopy: "Incensos e resinas podem acompanhar a preparação do seu espaço. Conheça os aromas e ingredientes de cada opção e siga as orientações de uso, mantendo o ambiente ventilado.",
   },
 ];
 

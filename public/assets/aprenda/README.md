@@ -10,9 +10,9 @@ Coloque os arquivos WebP nas pastas abaixo, mantendo os nomes exatos. Os espaço
 | primeiros-passos-mobile.webp | 1200 × 4000 px | Fundo vertical; área superior de 192 px na tela reservada antes dos cards. |
 | continue-aprendendo-foto.webp | 1600 × 1200 px (4:3) | Foto à direita do texto no desktop e abaixo do botão no mobile. Sem texto na arte; mantenha o assunto principal próximo do centro. |
 | escolher-aplicador-foto.webp | 1600 × 1200 px (4:3) | Banner final do guia “Escolhendo um aplicador”. Substitua este arquivo pela foto desse guia. |
-| preparar-com-cuidado-foto.webp | 1600 × 1200 px (4:3) | Banner final do guia “Preparando com cuidado”. Substitua este arquivo pela foto desse guia. |
+| preparar-com-cuidado-foto.webp | 1600 × 1200 px (4:3) | Banner final do guia “Preparando com cuidado”: incensos e resinas. Foto atual da categoria Incensos, com 1200 × 1200 px e recorte responsivo. |
 
-O guia “Seu primeiro rapé” mantém `continue-aprendendo-foto.webp`. Os outros dois arquivos começam como cópias dessa foto e podem ser substituídos independentemente, mantendo os nomes. Ao trocar as fotos, atualize também a descrição `alt` do banner em `app/aprenda/[guia]/page.tsx` para corresponder a cada imagem.
+O guia “Seu primeiro rapé” mantém `continue-aprendendo-foto.webp`. As fotos dos outros dois guias podem ser substituídas independentemente, mantendo os nomes. Ao trocar as fotos, atualize também a descrição `collectionAlt` do banner em `app/aprenda/[guia]/page.tsx` para corresponder a cada imagem.
 
 Os tamanhos são os dos assets originais do Haux. A página usa recorte responsivo; o texto e os botões são HTML.
 
