@@ -1,6 +1,6 @@
 import sanitizeHtml from "sanitize-html";
 import { parseDocument } from "htmlparser2";
-import { appendChild, findAll, getOuterHTML, removeElement, replaceElement, textContent } from "domutils";
+import { appendChild, findAll, getOuterHTML, prepend, removeElement, replaceElement, textContent } from "domutils";
 import type { WordPressMedia } from "@/lib/types";
 
 export const cleanHtml = (
@@ -154,10 +154,20 @@ const escapedAttribute = (value: string) =>
 export function prepareArticleHtml(html: string, media: WordPressMedia[] = []) {
   const mediaById = new Map(media.flatMap((item) => item.id ? [[item.id, item] as const] : []));
   const layoutShortcodes = new Set(["section", "row", "col", "text_box"]);
+  const layoutStack: { name: string; visibility: string }[] = [];
 
   let prepared = html.replace(/\[(\/)?([a-z_][\w-]*)(?:\s[^\]]*)?\]/gi, (shortcode, closing: string | undefined, rawName: string) => {
     const name = rawName.toLowerCase();
-    if (layoutShortcodes.has(name) || (closing && name === "ux_banner")) return "";
+    if (layoutShortcodes.has(name)) {
+      if (closing) {
+        const index = layoutStack.findLastIndex((item) => item.name === name);
+        if (index >= 0) layoutStack.splice(index);
+      } else {
+        layoutStack.push({ name, visibility: shortcodeAttribute(shortcode, "visibility") });
+      }
+      return "";
+    }
+    if (closing && name === "ux_banner") return "";
 
     if (name === "ux_video" && !closing) {
       const embedUrl = youtubeEmbedUrl(shortcodeAttribute(shortcode, "url"));
@@ -174,7 +184,9 @@ export function prepareArticleHtml(html: string, media: WordPressMedia[] = []) {
       const height = item.media_details?.height ?? 675;
       const image = `<img src="${escapedAttribute(item.source_url)}" alt="${escapedAttribute(item.alt_text ?? "")}" width="${width}" height="${height}" loading="lazy" decoding="async">`;
       const href = localizeArticleUrl(shortcodeAttribute(shortcode, "link"));
-      return `<figure class="article-media">${href ? `<a href="${escapedAttribute(href)}">${image}</a>` : image}</figure>`;
+      const visibility = shortcodeAttribute(shortcode, "visibility") || layoutStack.findLast((item) => item.visibility)?.visibility;
+      const variant = visibility === "show-for-small" ? " article-media-mobile" : visibility === "hide-for-small" ? " article-media-desktop" : "";
+      return `<figure class="article-media${variant}">${href ? `<a href="${escapedAttribute(href)}">${image}</a>` : image}</figure>`;
     }
 
     if (name === "button" && !closing) {
@@ -200,6 +212,50 @@ export function prepareArticleHtml(html: string, media: WordPressMedia[] = []) {
     .replace(/<\/h[56]>/gi, "</h3>");
 
   const document = parseDocument(cleanHtml(prepared));
+  // Images pasted inside prose or headings are separate editorial media blocks.
+  for (const image of findAll((element) => element.name === "img", document.children)) {
+    let block = image.parent;
+    while (block && !("name" in block && /^(p|h[1-6]|figure)$/.test(block.name))) block = block.parent;
+    if (!block || !("name" in block) || block.name === "figure") continue;
+    const parent = image.parent;
+    const mediaNode = parent && "name" in parent && parent.name === "a" && !textContent(parent).trim()
+      ? parent : image;
+    const figure = parseDocument('<figure class="article-media"></figure>').children[0];
+    if (!("children" in figure)) continue;
+    removeElement(mediaNode);
+    appendChild(figure, mediaNode);
+    prepend(block, figure);
+  }
+  // Double editor breaks mark paragraph boundaries, while single breaks may carry data.
+  for (const paragraph of findAll((element) => element.name === "p", document.children)) {
+    const groups: (typeof paragraph.children)[] = [[]];
+    let pending: typeof paragraph.children = [];
+    let breaks = 0;
+    for (const node of [...paragraph.children]) {
+      if (("name" in node && node.name === "br") || ("data" in node && !node.data.trim())) {
+        pending.push(node);
+        if ("name" in node && node.name === "br") breaks++;
+        continue;
+      }
+      if (breaks >= 2 && groups.at(-1)!.length) groups.push([]);
+      else groups.at(-1)!.push(...pending);
+      groups.at(-1)!.push(node);
+      pending = [];
+      breaks = 0;
+    }
+    if (breaks < 2) groups.at(-1)!.push(...pending);
+    if (groups.length < 2) continue;
+    for (const nodes of groups) {
+      const nextParagraph = parseDocument("<p></p>").children[0];
+      if (!("children" in nextParagraph)) continue;
+      for (const node of nodes) {
+        removeElement(node);
+        appendChild(nextParagraph, node);
+      }
+      prepend(paragraph, nextParagraph);
+    }
+    removeElement(paragraph);
+  }
   // Strip only spacer breaks at paragraph edges, including breaks inside emphasis.
   for (const paragraph of findAll((element) => element.name === "p", document.children)) {
     const leaves: typeof paragraph.children = [];
@@ -244,6 +300,36 @@ export function prepareArticleHtml(html: string, media: WordPressMedia[] = []) {
       removeElement(sibling);
       appendChild(section, sibling);
       sibling = next;
+    }
+  }
+  // Pair consecutive editorial photos without combining responsive banner variants.
+  const isGalleryPhoto = (node: (typeof document.children)[number]) => {
+    if (!("attribs" in node) || node.name !== "figure" ||
+      /\barticle-media-(?:mobile|desktop)\b/.test(node.attribs.class ?? "")) return false;
+    const images = findAll((element) => element.name === "img", node.children);
+    if (images.length !== 1) return false;
+    const width = Number(images[0].attribs.width);
+    const height = Number(images[0].attribs.height);
+    return width > 0 && height > 0 && width / height <= 1.8;
+  };
+  for (const photo of findAll((element) => element.name === "figure", document.children)) {
+    if (!photo.parent || ("attribs" in photo.parent && photo.parent.attribs.class === "article-gallery") ||
+      !isGalleryPhoto(photo)) continue;
+    const photos = [photo];
+    let sibling = photo.next;
+    while (sibling) {
+      if ("data" in sibling && !sibling.data.trim()) { sibling = sibling.next; continue; }
+      if (!isGalleryPhoto(sibling) || !("attribs" in sibling)) break;
+      photos.push(sibling);
+      sibling = sibling.next;
+    }
+    if (photos.length < 2) continue;
+    const gallery = parseDocument('<div class="article-gallery"></div>').children[0];
+    if (!("children" in gallery)) continue;
+    prepend(photo, gallery);
+    for (const item of photos) {
+      removeElement(item);
+      appendChild(gallery, item);
     }
   }
   return getOuterHTML(document, { encodeEntities: false });

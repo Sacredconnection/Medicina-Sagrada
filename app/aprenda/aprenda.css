@@ -13,7 +13,15 @@
 .learn-intro-copy { padding-top: 1.75rem; }
 .learn-intro-copy > p { color: var(--muted); max-width: 42rem; line-height: 1.75; }
 .learn-intro-copy > p + p { font-size: .875rem; line-height: 1.5rem; color: var(--muted); margin-top: 1.25rem; max-width: 36rem; }
-.learn-intro-home::before { background: var(--forest-900); }
+.learn-intro-home { min-height: 37.5rem; display: flex; align-items: center; padding-block: 4rem; }
+.learn-intro-home > .learn-intro-grid { width: 100%; }
+.learn-intro-home::before { background-color: var(--forest-900); background-image: var(--learn-header-mobile, url("/assets/aprenda/banners/aprenda-cabecalho-mobile.webp")); background-position: center; background-size: cover; background-repeat: no-repeat; }
+@media (min-width: 640px) {
+  .learn-intro-home::before { background-image: var(--learn-header-desktop, url("/assets/aprenda/banners/aprenda-cabecalho-desktop.webp")); }
+}
+@media (min-width: 1024px) {
+  .learn-intro-home { min-height: 30rem; padding-block: 5rem; }
+}
 .learn-intro-home h1, .learn-intro-home .learn-label { color: var(--white); }
 .learn-intro-home h1 em { color: var(--brand-orange); }
 .learn-intro-home .learn-intro-copy > p { color: color-mix(in srgb, var(--white) 90%, transparent); }

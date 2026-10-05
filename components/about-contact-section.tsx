@@ -93,7 +93,11 @@ export function AboutContactSection() {
             </span>
             <span className="about-contact-copy">
               <span className="about-contact-label">{link.label}</span>
-              <strong>{link.value}</strong>
+              <strong>
+                {link.icon === "email" ? (
+                  <>{link.value.split("@")[0]}@<wbr />{link.value.split("@")[1]}</>
+                ) : link.value}
+              </strong>
             </span>
           </a>
         ))}

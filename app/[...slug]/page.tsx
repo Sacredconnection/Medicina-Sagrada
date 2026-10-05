@@ -10,7 +10,8 @@ import { PrivacyPage } from "@/components/privacy-page";
 import { RichText } from "@/components/rich-text";
 import { ReturnsPage } from "@/components/returns-page";
 import { WholesalePage } from "@/components/wholesale-page";
-import { articleShortcodeMediaIds, plainText, prepareArticleHtml } from "@/lib/html";
+import { articleShortcodeMediaIds, cleanHtml, plainText, prepareArticleHtml } from "@/lib/html";
+import { ArticleContent } from "@/components/article-content";
 import { articleCtas, contextualizeArticleCta } from "@/lib/article-cta";
 import { breadcrumbSchema, metadataForContent } from "@/lib/seo";
 import type { WordPressContent } from "@/lib/types";
@@ -192,7 +193,7 @@ export default async function ContentPage({ params }: ContentPageProps) {
           <aside className="blog-article-rail" aria-label="Navegação da matéria">
             <Link href="/blog/">Todas as matérias</Link>
           </aside>
-          <RichText className="article-content" html={articleHtml} />
+          <ArticleContent html={cleanHtml(articleHtml)} />
         </div>
       ) : (
         <RichText className={isAboutPage ? "about-content" : ""} html={articleHtml} />

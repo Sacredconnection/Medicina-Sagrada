@@ -6,6 +6,40 @@ import {
   prepareArticleHtml,
 } from "../lib/html.ts";
 
+test("preserva variantes responsivas dos banners e encerra o contexto da seção", () => {
+  const media = [{ id: 42, source_url: "/banner.png", media_details: { width: 740, height: 300 } }];
+  const html = prepareArticleHtml('[section visibility="hide-for-small"][ux_banner bg="42"][/ux_banner][/section][section visibility="show-for-small"][ux_banner bg="42"][/ux_banner][/section][ux_image id="42"]', media);
+  assert.match(html, /article-media article-media-desktop/);
+  assert.match(html, /article-media article-media-mobile/);
+  assert.match(html, /<figure class="article-media"><img/);
+});
+
+test("agrupa fotos consecutivas mantendo links e legendas, sem juntar banners ou atravessar texto", () => {
+  const photo = '<figure><a href="/foto/"><img src="/foto.jpg" width="280" height="280"></a><figcaption>Legenda</figcaption></figure>';
+  const banner = '<figure><img src="/banner.jpg" width="740" height="300"></figure>';
+  const html = prepareArticleHtml(`${banner}${photo}\n${photo}<p>Separação editorial.</p>${photo}`);
+  assert.equal((html.match(/class="article-gallery"/g) ?? []).length, 1);
+  assert.match(html, /<\/figure><div class="article-gallery">/);
+  assert.equal((html.match(/href="\/foto\/"/g) ?? []).length, 3);
+  assert.equal((html.match(/<figcaption>Legenda<\/figcaption>/g) ?? []).length, 3);
+  assert.match(html, /<\/div>\s*<p>Separação editorial\.<\/p><figure>/);
+});
+
+test("separa parágrafos marcados por dupla quebra e mantém links e quebras simples", () => {
+  const html = prepareArticleHtml('<p>Primeira ideia <a href="/blog/">com link</a>.<br>\n<br>Segunda ideia.<br>Dado complementar.</p>');
+  assert.match(html, /<\/p><p>Segunda ideia\.<br>Dado complementar\.<\/p>/);
+  assert.match(html, /href="\/blog\/"/);
+  assert.match(html, /Primeira ideia/);
+});
+
+test("separa imagens de títulos e parágrafos preservando o texto e o link da mídia", () => {
+  const html = prepareArticleHtml('<h3><span><img src="/cinzas.jpg">Tipos de Cinzas</span></h3><p><a href="/produto/"><img src="/produto.jpg"></a></p><p>Texto.</p>');
+  assert.match(html, /<figure class="article-media"><img src="\/cinzas.jpg"/);
+  assert.match(html, /<h3><span>Tipos de Cinzas<\/span><\/h3>/);
+  assert.match(html, /<figure class="article-media"><a href="\/produto\/">/);
+  assert.doesNotMatch(html, /<p><a/);
+});
+
 test("remove títulos da descrição sem remover o texto restante", () => {
   const html = cleanHtml(
     "<h2>RAPÉ HUNI KUIN:</h2><p>Texto introdutório.</p><div>Texto complementar.</div>",
