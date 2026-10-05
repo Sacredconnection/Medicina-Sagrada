@@ -10,6 +10,7 @@ import { parseCatalogQuery, catalogSearch, type SearchValues } from "@/lib/catal
 import { canonicalizeEthnicityNames, getEthnicityTheme } from "@/lib/ethnicity-colors";
 import { RichText } from "@/components/rich-text";
 import { getCategoryContent } from "@/lib/category-content";
+import { CategoryEditorial } from "@/components/category-editorial";
 import { getEthnicityBannerAsset } from "@/lib/ethnicity-banner-assets";
 import {
   breadcrumbSchema,
@@ -163,9 +164,7 @@ export default async function ProductCategoryPage({
     <>
       <Catalog query={query} categoryId={category.id} page={parsed.page} basePath={parsed.basePath} />
       {additionalContent ? (
-        <section className="category-editorial" aria-label={categoryName}>
-          <RichText html={additionalContent} />
-        </section>
+        <CategoryEditorial html={additionalContent} categoryName={categoryName} />
       ) : null}
     </>
   );
