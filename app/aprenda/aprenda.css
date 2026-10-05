@@ -169,3 +169,10 @@
 }
 
 .learn-guide-article .learn-recommendation-heading { margin-bottom: 0; }
+@media (max-width: 767px) {
+  .learn-photo-before-cta .learn-recommendation-heading { gap: 1rem; }
+  .learn-photo-before-cta .learn-collection-intro { display: contents; }
+  .learn-photo-before-cta .learn-collection-intro > p { margin-top: 0; }
+  .learn-photo-before-cta .learn-collection-photo { order: 1; margin-top: .5rem; }
+  .learn-photo-before-cta .learn-collection-intro > a { order: 2; justify-self: start; margin-top: .5rem; }
+}

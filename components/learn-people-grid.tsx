@@ -4,8 +4,11 @@ import type { CSSProperties, ReactNode } from "react";
 type Entry = {
   slug: string;
   name: string;
+  title: string;
   summary: string;
   body: string;
+  choosingTitle: string;
+  choosingCopy: string;
   href: string;
   accent: string;
   foreground: string;
@@ -32,11 +35,11 @@ export function LearnPeopleGrid({ entries }: { entries: Entry[] }) {
             </h3>
           </div>
           <div className="learn-person-copy">
-            <p className="learn-person-teaser">{entry.summary}</p>
+            <h4 className="learn-person-teaser">{entry.title}</h4>
             <p className="learn-person-body">{entry.body}</p>
             <div className="learn-person-choosing">
-              <p className="learn-label">Ao escolher</p>
-              <p>Observe os ingredientes e a origem descritos em cada preparação.</p>
+              <p className="learn-label">{entry.choosingTitle}</p>
+              <p>{entry.choosingCopy}</p>
             </div>
             <Link className="learn-person-link" href={entry.href}>
               Explorar {entry.name}

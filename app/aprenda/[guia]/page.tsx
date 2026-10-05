@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function LearnGuidePage({ params }: Props) {
   const guide = getLearnGuide((await params).guia);
   if (!guide) notFound();
-  const next = learnGuides[(learnGuides.indexOf(guide) + 1) % learnGuides.length];
+  const next = learnGuides[learnGuides.indexOf(guide) + 1];
   const collectionImage = guide.slug === "primeiro-rape"
     ? "/assets/aprenda/banners/continue-aprendendo-foto.webp"
     : `/assets/aprenda/banners/${guide.slug}-foto.webp`;
@@ -41,7 +41,7 @@ export default async function LearnGuidePage({ params }: Props) {
         <div className="learn-steps-grid">{guide.sections.map((section, index) => <section className="learn-article-step" key={section.title} aria-labelledby={`passo-${index + 1}`}><LearnImageSlot src={`/assets/aprenda/guias/${guide.slug}/passo-${String(index + 1).padStart(2, "0")}.webp`} alt={section.alt} className="learn-article-image" /><div className="learn-article-copy"><p className="learn-label">Passo {String(index + 1).padStart(2, "0")}</p><h2 id={`passo-${index + 1}`}>{section.title}</h2><p>{section.body}</p></div></section>)}</div>
       </div>
     </article>
-    <section className="learn-recommendations" aria-labelledby="learn-collection-title"><div className="learn-reading-shell"><div className="learn-recommendation-heading"><div className="learn-collection-intro"><h2 id="learn-collection-title">{guide.collectionTitle}</h2><p>{guide.collectionCopy}</p><Link className="button" href={collectionHref}>{collectionLabel}</Link></div><LearnImageSlot src={collectionImage} alt={collectionAlt} className="learn-collection-photo" /></div></div></section>
-    <nav className="learn-reading-shell learn-guide-navigation" aria-label="Continue nos guias"><Link className="text-link" href="/aprenda/">Todos os guias</Link><Link className="text-link" href={`/aprenda/${next.slug}/`}><span>Próximo: {next.label}</span></Link></nav>
+    <section className="learn-recommendations learn-photo-before-cta" aria-labelledby="learn-collection-title"><div className="learn-reading-shell"><div className="learn-recommendation-heading"><div className="learn-collection-intro"><h2 id="learn-collection-title">{guide.collectionTitle}</h2><p>{guide.collectionCopy}</p><Link className="button" href={collectionHref}>{collectionLabel}</Link></div><LearnImageSlot src={collectionImage} alt={collectionAlt} className="learn-collection-photo" /></div></div></section>
+    <nav className="learn-reading-shell learn-guide-navigation" aria-label="Continue aprendendo"><Link className="text-link" href="/aprenda/">Todos os guias</Link><Link className="text-link" href={next ? `/aprenda/${next.slug}/` : "/blog/"}><span>{next ? `Próximo: ${next.label}` : "Continue aprendendo no blog"}</span></Link></nav>
   </div>;
 }
