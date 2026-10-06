@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
+import { AnimatePresence, motion, useInView, useReducedMotion, type Variants } from "motion/react";
 import type { CSSProperties } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useCart } from "@/components/cart-provider";
@@ -26,6 +26,9 @@ import ritualVariationImages from "@/public/assets/home/matcher/products/variati
 type FinderStep = "intro" | "intention" | "experience" | "result";
 
 const finderStepOrder: FinderStep[] = ["intro", "intention", "experience", "result"];
+
+// Troque para false para desfazer apenas a entrada dos círculos.
+const INTRO_CIRCLES_ENTRANCE_ENABLED = true;
 
 const MATCHER_LIVE_IMAGE_PATHS = {
   desktop: "/assets/home/matcher/medicina-sagrada-ritual-finder-intro-background.webp",
@@ -259,6 +262,8 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const introInView = useInView(sectionRef, { once: true, amount: 0.25 });
+  const animateIntroCircles = INTRO_CIRCLES_ENTRANCE_ENABLED && !shouldReduceMotion && introInView;
   const { busy: cartBusy, error: cartError, loading: cartLoading, mutate, refresh: refreshCart } = useCart();
   const imageVersions = useRef<Record<MatcherLiveImageKey, string>>({
     desktop: "",
@@ -575,8 +580,15 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
               </h2>
               <div className="matcher-intro-action">
                 <div aria-hidden="true" className="matcher-intro-intention-slots">
-                  {ritualIntentions.map((option) => (
-                    <span
+                  {ritualIntentions.map((option, index) => (
+                    <motion.span
+                      initial={false}
+                      animate={animateIntroCircles
+                        ? { x: [-55, 0], opacity: [0, 1] }
+                        : { x: 0, opacity: 1 }}
+                      transition={animateIntroCircles
+                        ? { duration: 1.2, delay: index * 0.2, ease: [0.22, 1, 0.36, 1] }
+                        : { duration: 0 }}
                       className="matcher-intro-intention-slot"
                       data-intention={option.id}
                       key={option.id}
