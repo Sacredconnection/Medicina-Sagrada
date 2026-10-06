@@ -464,6 +464,7 @@ strong, b { font-weight: var(--weight-bold); }
 .home-page-flow { display: flow-root; background: var(--white); }
 .home-page-flow > section + section { margin-top: var(--home-section-gap); }
 .home-page-flow > .home-hero + .benefits-strip { margin-top: 0; }
+.home-page-flow > .ancestral-section:last-child { margin-bottom: var(--home-section-gap); }
 
 .category-rail-wrap { position: relative; z-index: 2; padding-block: var(--section-space-standard) calc(var(--section-space-standard) / 2); background: var(--white); }
 .category-rail-wrap > .container { padding: 0; }
@@ -502,6 +503,16 @@ strong, b { font-weight: var(--weight-bold); }
 .incense-cta { margin-top: 1.75rem; color: var(--white); }
 
 .applicators-section { --applicators-background-image: url("/assets/home/applicators/background/medicina-sagrada-acessorios-background-desktop.webp"); padding-block: var(--section-space-compact); background-color: var(--white); background-image: var(--applicators-background-image); background-attachment: scroll; background-position: center; background-repeat: no-repeat; background-size: cover; }
+.home-page-flow > .matcher-section + .applicators-section { position: relative; }
+.home-page-flow > .matcher-section + .applicators-section::before {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(calc(100% - (var(--page-gutter) * 2)), var(--max-width));
+  border-top: 1px solid var(--line);
+  transform: translateX(-50%);
+  content: "";
+}
 .applicators-layout { display: grid; grid-template-columns: minmax(15rem, 0.72fr) minmax(28rem, 1.28fr); align-items: start; gap: clamp(3rem, 7vw, 7rem); }
 .applicators-panel { position: sticky; top: var(--sticky-offset); display: flex; align-items: flex-start; flex-direction: column; padding-top: clamp(0.25rem, 1.5vw, 1.5rem); }
 .applicators-copy { display: flex; align-items: flex-start; flex-direction: column; }
