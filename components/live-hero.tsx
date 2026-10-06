@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
+import { ResponsiveSurfaceImage } from "@/components/responsive-surface-image";
 
 export type HeroSlide = {
   id: string;
@@ -167,15 +168,8 @@ export function LiveHero({ slides }: LiveHeroProps) {
             className={`home-hero-slide${isActive ? " is-active" : ""}`}
             inert={isActive ? undefined : true}
             key={slide.id}
-            style={
-              {
-                "--hero-slide-image-desktop": `url("${images.desktop}")`,
-                "--hero-slide-image-mobile": `url("${images.mobile}")`,
-                "--hero-slide-fallback-desktop": `url("${slide.fallbackDesktopImage ?? images.desktop}")`,
-                "--hero-slide-fallback-mobile": `url("${slide.fallbackMobileImage ?? images.mobile}")`,
-              } as CSSProperties
-            }
           >
+            <ResponsiveSurfaceImage key={`${images.desktop}:${images.mobile}`} src={images.desktop} mobileSrc={images.mobile} fallbackSrc={slide.fallbackDesktopImage} fallbackMobileSrc={slide.fallbackMobileImage} eager={isActive} />
             <div aria-hidden="true" className="hero-dust">
               {dustParticles.map((style, particleIndex) => (
                 <span className="hero-dust-particle" key={particleIndex} style={style} />

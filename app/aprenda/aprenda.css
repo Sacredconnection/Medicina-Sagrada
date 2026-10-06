@@ -7,7 +7,7 @@
 .learn-intro { position: relative; isolation: isolate; padding-block: clamp(2.5rem, 4vw, 3.5rem); }
 .learn-intro::before { content: ""; position: absolute; z-index: -1; inset-block: 0; left: 50%; width: 100vw; transform: translateX(-50%); background: color-mix(in srgb, var(--learn-sand) 10%, var(--white)); border-block: 1px solid var(--learn-line); }
 .learn-intro-grid { display: grid; gap: 2.5rem; }
-.learn-page .learn-label { font-size: .6875rem; line-height: 1.3; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--brand-orange); }
+.learn-page .learn-label { font-size: .6875rem; line-height: 1.3; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--brand-text); }
 .learn-intro h1 { font-size: clamp(2.5rem, 4.5vw, 4.5rem); letter-spacing: -.04em; line-height: 1.06; margin-top: 1.25rem; max-width: 22ch; }
 .learn-intro h1 em { font-style: normal; color: var(--learn-forest); }
 .learn-intro-copy { padding-top: 1.75rem; }
@@ -53,7 +53,7 @@
 .learn-person { display: flex; flex-direction: column; min-width: 0; padding: .75rem; border: 1px solid var(--person-accent); border-radius: 1rem; background: var(--white); }
 .learn-person-visual { position: relative; isolation: isolate; }
 .learn-person-media { aspect-ratio: 16/10; border-radius: .75rem; }
-.learn-person-name { position: absolute; top: 0; left: 0; max-width: calc(100% - 1rem); padding: .7rem 1rem .8rem; border-radius: .75rem 0 .75rem 0; background: var(--person-accent); color: var(--white); font-size: 1.25rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.15; }
+.learn-person-name { position: absolute; top: 0; left: 0; max-width: calc(100% - 1rem); padding: .7rem 1rem .8rem; border-radius: .75rem 0 .75rem 0; background: var(--person-accent); color: var(--person-foreground); font-size: 1.25rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.15; }
 .learn-person-name::before { content: ""; position: absolute; top: 0; right: -.75rem; width: .75rem; height: .75rem; background: radial-gradient(circle at 100% 100%, transparent .75rem, var(--person-accent) calc(.75rem + .5px)); }
 .learn-person-name::after { content: ""; position: absolute; bottom: -.75rem; left: 0; width: .75rem; height: .75rem; background: radial-gradient(circle at 100% 100%, transparent .75rem, var(--person-accent) calc(.75rem + .5px)); }
 .learn-person-copy { display: flex; flex-direction: column; flex: 1; padding: 1.25rem .5rem .25rem; }

@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
-import type { CSSProperties } from "react";
 import type { HomeKitBanner } from "@/lib/home-content";
+import { ResponsiveSurfaceImage } from "@/components/responsive-surface-image";
 
 const HOME_KIT_LIMIT = 3;
 const PREVIOUS_KITS_KEY = "medicina-sagrada:home-kits";
@@ -108,13 +108,8 @@ function HomeKitGrid({ banners }: { banners: readonly HomeKitBanner[] }) {
           className="kit-card-item"
           href={banner.href}
           key={banner.key}
-          style={
-            {
-              "--kit-image": `url("${banner.image}")`,
-              "--kit-fallback-image": `url("${banner.fallbackImage}")`,
-            } as CSSProperties
-          }
         >
+          <ResponsiveSurfaceImage src={banner.image} fallbackSrc={banner.fallbackImage} sizes="(max-width: 760px) 82vw, 340px" />
           <span className="kit-card-content">
             <strong className="kit-card-title">{banner.title}</strong>
           </span>
@@ -187,13 +182,8 @@ export function HomeKitsSection({ banners }: { banners: readonly HomeKitBanner[]
     <section
       className="kits-section"
       aria-labelledby="kits-title"
-      style={
-        {
-          "--kits-background-desktop": `url("${backgrounds.desktop}")`,
-          "--kits-background-mobile": `url("${backgrounds.mobile}")`,
-        } as CSSProperties
-      }
     >
+      <ResponsiveSurfaceImage key={`${backgrounds.desktop}:${backgrounds.mobile}`} src={backgrounds.desktop} mobileSrc={backgrounds.mobile} mobileBreakpoint={900} />
       <div className="container">
         <div className="kits-section-heading">
           <h2 id="kits-title">Kits para diferentes caminhos</h2>

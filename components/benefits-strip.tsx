@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
 type BenefitIconName = "delivery" | "partnership" | "secure" | "support";
 
 const benefits: Array<{ icon: BenefitIconName; title: string; detail: string }> = [
@@ -54,10 +58,20 @@ function BenefitIcon({ name }: { name: BenefitIconName }) {
     </svg>
   );
 }
-
 export function BenefitsStrip() {
+  const section = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const element = section.current;
+    if (!element) return;
+    const observer = new IntersectionObserver(([entry]) => { element.dataset.visible = String(entry.isIntersecting); });
+    observer.observe(element);
+    const onVisibility = () => { element.dataset.pageHidden = String(document.hidden); };
+    document.addEventListener("visibilitychange", onVisibility);
+    onVisibility();
+    return () => { observer.disconnect(); document.removeEventListener("visibilitychange", onVisibility); };
+  }, []);
   return (
-    <section className="benefits-strip" aria-label="Benefícios da loja">
+    <section ref={section} className="benefits-strip" aria-label="Benefícios da loja">
       <div className="container benefits-grid benefits-grid-desktop">
         {benefits.map((benefit) => (
           <div className="benefit-item" key={benefit.title}>

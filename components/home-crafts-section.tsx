@@ -1,14 +1,14 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import { ResponsiveSurfaceImage } from "@/components/responsive-surface-image";
 
 const craftAssets = [
   "medicina-sagrada-artesanato-destaque-01.webp",
   "medicina-sagrada-artesanato-destaque-02.webp",
 ] as const;
 
-function getCraftImageStyle(filename: (typeof craftAssets)[number]) {
+function getCraftImage(filename: (typeof craftAssets)[number]) {
   const absolutePath = join(
     process.cwd(),
     "public",
@@ -20,12 +20,12 @@ function getCraftImageStyle(filename: (typeof craftAssets)[number]) {
 
   if (!existsSync(absolutePath)) return undefined;
 
-  return {
-    "--craft-image": `url("/assets/home/crafts/${filename}")`,
-  } as CSSProperties;
+  return `/assets/home/crafts/${filename}`;
 }
 
 export function HomeCraftsSection() {
+  const primaryImage = getCraftImage(craftAssets[0]);
+  const secondaryImage = getCraftImage(craftAssets[1]);
   return (
     <section className="crafts-section" aria-labelledby="crafts-title">
       <div className="container crafts-layout">
@@ -46,12 +46,10 @@ export function HomeCraftsSection() {
         <div className="crafts-gallery" aria-hidden="true">
           <div
             className="crafts-image crafts-image-primary"
-            style={getCraftImageStyle(craftAssets[0])}
-          />
+          >{primaryImage && <ResponsiveSurfaceImage src={primaryImage} sizes="(max-width: 800px) 54vw, 400px" />}</div>
           <div
             className="crafts-image crafts-image-secondary"
-            style={getCraftImageStyle(craftAssets[1])}
-          />
+          >{secondaryImage && <ResponsiveSurfaceImage src={secondaryImage} sizes="(max-width: 800px) 42vw, 320px" />}</div>
         </div>
 
         <Link

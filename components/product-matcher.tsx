@@ -22,6 +22,7 @@ import type { WooProduct } from "@/lib/types";
 import type { RitualCatalogProduct } from "@/lib/ritual-catalog";
 import ritualImages from "@/public/assets/home/matcher/products/manifest.json";
 import ritualVariationImages from "@/public/assets/home/matcher/products/variations.json";
+import { ResponsiveSurfaceImage } from "@/components/responsive-surface-image";
 
 type FinderStep = "intro" | "intention" | "experience" | "result";
 
@@ -526,13 +527,8 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
       aria-labelledby="matcher-title"
       id="descubra-seu-rape"
       ref={sectionRef}
-      style={
-        {
-          "--matcher-section-image-desktop": `url("${liveImages.desktop}")`,
-          "--matcher-section-image-mobile": `url("${liveImages.mobile}")`,
-        } as CSSProperties
-      }
     >
+      {step === "intro" && <ResponsiveSurfaceImage key={`${liveImages.desktop}:${liveImages.mobile}`} src={liveImages.desktop} mobileSrc={liveImages.mobile} mobileBreakpoint={600} className="matcher-cover" />}
       <div className="container matcher-inner">
         {step !== "intro" ? (
           <>
