@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, type CSSProperties } from "react";
 import { getEthnicityTheme } from "@/lib/ethnicity-colors";
 
@@ -29,7 +30,17 @@ const categoryFeatureImages: Record<string, string> = {
   Aprenda: "/assets/home/story/pillars/medicina-sagrada-conhecimentos-ancestrais.webp",
 };
 
-function CategoryLinks({ items, isRape }: { items: NavigationItem[]; isRape: boolean }) {
+function isCurrentPage(pathname: string, href: string) {
+  return pathname.replace(/\/$/, "") === href.replace(/\/$/, "");
+}
+
+function isCurrentSection(pathname: string, item: NavigationItem): boolean {
+  return isCurrentPage(pathname, item.href)
+    || pathname.startsWith(`${item.href.replace(/\/$/, "")}/`)
+    || !!item.children?.some((child) => isCurrentSection(pathname, child));
+}
+
+function CategoryLinks({ items, isRape, pathname }: { items: NavigationItem[]; isRape: boolean; pathname: string }) {
   return <ul className="mega-category-list">{items.map((item) => {
     const theme = isRape ? getEthnicityTheme([{ name: item.label, slug: "" }]) : undefined;
     const style = theme ? {
@@ -37,13 +48,13 @@ function CategoryLinks({ items, isRape }: { items: NavigationItem[]; isRape: boo
     } as CSSProperties : undefined;
 
     return <li key={item.href}>
-      <Link href={item.href} className={theme ? "ethnicity-link" : undefined} style={style}>{theme?.name ?? item.label}</Link>
-      {!!item.children?.length && <CategoryLinks items={item.children} isRape={isRape} />}
+      <Link href={item.href} aria-current={isCurrentPage(pathname, item.href) ? "page" : undefined} className={theme ? "ethnicity-link" : undefined} style={style}>{theme?.name ?? item.label}</Link>
+      {!!item.children?.length && <CategoryLinks items={item.children} isRape={isRape} pathname={pathname} />}
     </li>;
   })}</ul>;
 }
 
-function MegaPanel({ item }: { item: NavigationItem }) {
+function MegaPanel({ item, pathname }: { item: NavigationItem; pathname: string }) {
   const isRape = item.href === "/product-category/rape/";
   const isLearn = item.href === "/aprenda/";
   const categoryFeatureImage = categoryFeatureImages[item.label];
@@ -56,9 +67,9 @@ function MegaPanel({ item }: { item: NavigationItem }) {
       <p className="mega-caption">{isLearn ? "Conhecimentos da floresta" : "Explore a loja"}</p>
       <h2>{item.label}</h2>
       <p>{isLearn ? "Guias, histórias e saberes para conhecer as tradições e escolher com consciência." : isRape ? "Conheça as diferentes origens e encontre seu rapé." : `Conheça nossa coleção de ${item.label.toLocaleLowerCase("pt-BR")} e explore as categorias.`}</p>
-      <Link className="mega-all" href={item.href}>{isLearn ? "Conheça os primeiros passos" : "Ver toda a coleção"}</Link>
+      <Link className="mega-all" href={item.href} aria-current={isCurrentPage(pathname, item.href) ? "page" : undefined}>{isLearn ? "Conheça os primeiros passos" : "Ver toda a coleção"}</Link>
     </div>
-    <div className="mega-categories"><p className="mega-caption">{isLearn ? "Conteúdos" : isRape ? "Explore os rapés" : "Categorias"}</p><CategoryLinks items={item.children ?? []} isRape={isRape} /></div>
+    <div className="mega-categories"><p className="mega-caption">{isLearn ? "Conteúdos" : isRape ? "Explore os rapés" : "Categorias"}</p><CategoryLinks items={item.children ?? []} isRape={isRape} pathname={pathname} /></div>
     <div className="mega-feature" style={featureStyle}>
       <p className={`mega-caption${isRape && item.feature ? " mega-feature-caption" : ""}`}>
         {isRape && item.feature ? <>
@@ -120,17 +131,17 @@ function MobileFeaturedProduct({ feature }: { feature: NavigationFeature }) {
   </Link>;
 }
 
-function Branch({ item, mobile }: { item: NavigationItem; mobile: boolean }) {
+function Branch({ item, mobile, pathname }: { item: NavigationItem; mobile: boolean; pathname: string }) {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const cancelClose = () => {
     if (closeTimer.current !== null) clearTimeout(closeTimer.current);
     closeTimer.current = null;
   };
   useEffect(() => () => { if (closeTimer.current !== null) clearTimeout(closeTimer.current); }, []);
-  if (!item.children?.length) return <Link href={item.href}>{item.label}</Link>;
+  if (!item.children?.length) return <Link href={item.href} aria-current={isCurrentPage(pathname, item.href) ? "page" : undefined}>{item.label}</Link>;
 
   return (
-    <details className="navigation-disclosure" name={mobile ? undefined : "desktop-navigation"}
+    <details className="navigation-disclosure" data-active={isCurrentSection(pathname, item) || undefined} name={mobile ? undefined : "desktop-navigation"}
       onMouseEnter={(event) => {
         cancelClose();
         if (!mobile && window.matchMedia("(hover: hover)").matches) event.currentTarget.open = true;
@@ -147,9 +158,9 @@ function Branch({ item, mobile }: { item: NavigationItem; mobile: boolean }) {
       onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) event.currentTarget.open = false; }}
     >
       <summary>{item.label}<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg></summary>
-      {!mobile ? <MegaPanel item={item} /> : <ul className="navigation-submenu">
-        <li><Link className="navigation-view-all" href={item.href}>{item.href === "/aprenda/" ? "Primeiros passos" : `Ver tudo em ${item.label}`}</Link></li>
-        {item.children.map((child) => <li key={child.href}><Branch item={child} mobile={mobile} /></li>)}
+      {!mobile ? <MegaPanel item={item} pathname={pathname} /> : <ul className="navigation-submenu">
+        <li><Link className="navigation-view-all" href={item.href} aria-current={isCurrentPage(pathname, item.href) ? "page" : undefined}>{item.href === "/aprenda/" ? "Primeiros passos" : `Ver tudo em ${item.label}`}</Link></li>
+        {item.children.map((child) => <li key={child.href}><Branch item={child} mobile={mobile} pathname={pathname} /></li>)}
       </ul>}
     </details>
   );
@@ -157,21 +168,58 @@ function Branch({ item, mobile }: { item: NavigationItem; mobile: boolean }) {
 
 export function HeaderNavigation({ items, mobile = false }: { items: NavigationItem[]; mobile?: boolean }) {
   const list = useRef<HTMLUListElement>(null);
+  const pathname = usePathname();
   useEffect(() => {
+    const menu = mobile ? list.current?.closest<HTMLDetailsElement>("details.mobile-menu") : null;
+    const closeMenu = (restoreFocus = false) => {
+      if (!menu?.open) return;
+      menu.open = false;
+      menu.querySelectorAll<HTMLDetailsElement>("details[open]").forEach((detail) => { detail.open = false; });
+      if (restoreFocus) menu.querySelector("summary")?.focus();
+    };
     const closeOutside = (event: PointerEvent) => {
+      if (menu && !menu.contains(event.target as Node)) {
+        closeMenu(menu.contains(document.activeElement));
+      }
       if (!list.current?.contains(event.target as Node)) {
         list.current?.querySelectorAll<HTMLDetailsElement>("details[open]").forEach((detail) => { detail.open = false; });
       }
     };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape" || !menu?.open) return;
+      if ((event.target as Element).closest("details.navigation-disclosure[open]")) return;
+      event.preventDefault();
+      closeMenu(true);
+    };
+    const closeOnLink = (event: MouseEvent) => {
+      if ((event.target as Element).closest("a")) closeMenu();
+    };
+    const closeOnFocusLeave = (event: FocusEvent) => {
+      if (event.relatedTarget && !menu?.contains(event.relatedTarget as Node)) closeMenu();
+    };
     document.addEventListener("pointerdown", closeOutside);
-    return () => document.removeEventListener("pointerdown", closeOutside);
-  }, []);
+    menu?.addEventListener("keydown", closeOnEscape);
+    menu?.addEventListener("click", closeOnLink);
+    menu?.addEventListener("focusout", closeOnFocusLeave);
+    return () => {
+      document.removeEventListener("pointerdown", closeOutside);
+      menu?.removeEventListener("keydown", closeOnEscape);
+      menu?.removeEventListener("click", closeOnLink);
+      menu?.removeEventListener("focusout", closeOnFocusLeave);
+    };
+  }, [mobile]);
+
+  useEffect(() => {
+    list.current?.querySelectorAll<HTMLDetailsElement>("details[open]").forEach((detail) => { detail.open = false; });
+    const menu = list.current?.closest<HTMLDetailsElement>("details.mobile-menu");
+    if (menu) menu.open = false;
+  }, [pathname]);
 
   return (
     <ul ref={list} className={mobile ? "mobile-nav-list" : "nav-list"}
       onKeyDown={(event) => {
         if (event.key !== "Escape") return;
-        const detail = (event.target as HTMLElement).closest("details.navigation-disclosure") as HTMLDetailsElement | null;
+        const detail = (event.target as HTMLElement).closest("details.navigation-disclosure[open]") as HTMLDetailsElement | null;
         if (detail) { event.preventDefault(); event.stopPropagation(); detail.open = false; detail.querySelector("summary")?.focus(); }
       }}
       onClick={(event) => {
@@ -183,7 +231,7 @@ export function HeaderNavigation({ items, mobile = false }: { items: NavigationI
     >
       {items.map((item) => <li key={item.href}>
         {mobile && item.feature ? <MobileFeaturedProduct feature={item.feature} /> : null}
-        <Branch item={item} mobile={mobile} />
+        <Branch item={item} mobile={mobile} pathname={pathname} />
       </li>)}
     </ul>
   );

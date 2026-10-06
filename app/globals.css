@@ -2373,6 +2373,13 @@ strong, b { font-weight: var(--weight-bold); }
 .navigation-disclosure > summary::-webkit-details-marker { display: none; }
 .navigation-disclosure > summary svg { width: .8rem; height: .8rem; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform 160ms ease; }
 .navigation-disclosure[open] > summary svg { transform: rotate(180deg); }
+:is(.nav-list, .mobile-nav-list) .navigation-disclosure[data-active] > summary,
+:is(.nav-list, .mobile-nav-list) a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-color: var(--brand-orange);
+  text-decoration-thickness: 2px;
+  text-underline-offset: .3em;
+}
 .nav-list > li > .navigation-disclosure > summary { min-height: 2.75rem; color: var(--forest-800); font-size: var(--type-label); font-weight: var(--weight-semibold); letter-spacing: .04em; text-transform: uppercase; }
 :is(.nav-list, .mobile-nav-list) .navigation-disclosure > summary:is(:hover, :focus-visible),
 :is(.nav-list, .mobile-nav-list) .navigation-disclosure[open] > summary { color: var(--cta-accent); }

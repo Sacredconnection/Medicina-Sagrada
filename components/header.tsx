@@ -71,6 +71,7 @@ export async function Header() {
             alt=""
             width={1200}
             height={300}
+            loading="eager"
           />
         </ScrollToTopLink>
         <details className="mobile-menu">
