@@ -2291,7 +2291,7 @@ strong, b { font-weight: var(--weight-bold); }
   .search-form .button { width: 100%; }
   .product-summary { position: static; }
   .crafts-layout { grid-template-columns: minmax(0, 1fr); gap: 2.75rem; }
-  .crafts-copy { width: min(100%, 34rem); max-width: none; }
+  .crafts-copy { width: min(100%, 34rem); max-width: none; margin-inline: auto; align-items: center; text-align: center; }
   .crafts-copy h2 { max-width: 12ch; }
   .crafts-copy p { width: min(38ch, 100%); }
   .crafts-gallery { width: min(100%, 34rem); justify-self: center; gap: 0.75rem; }
