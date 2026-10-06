@@ -423,6 +423,24 @@ strong, b { font-weight: var(--weight-bold); }
 .home-hero-slide { --hero-slide-image: var(--hero-slide-image-desktop); --hero-slide-fallback: var(--hero-slide-fallback-desktop); position: absolute; inset: 0; min-height: inherit; opacity: 0; pointer-events: none; background-color: var(--forest-950); background-image: linear-gradient(90deg, rgba(3, 13, 9, 0.76) 0%, rgba(3, 13, 9, 0.48) 34%, rgba(3, 13, 9, 0.12) 70%, rgba(3, 13, 9, 0.02) 100%), var(--hero-slide-image), var(--hero-slide-fallback); background-position: center; background-size: cover; transition: opacity 650ms cubic-bezier(0.16, 1, 0.3, 1); }
 .home-hero-slide::after { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(3, 13, 9, 0.18), transparent 32%); pointer-events: none; content: ""; }
 .home-hero-slide.is-active { z-index: 1; opacity: 1; pointer-events: auto; }
+.hero-dust { position: absolute; z-index: 1; inset: 0; overflow: hidden; pointer-events: none; }
+.hero-dust-particle { position: absolute; top: var(--dust-y); left: var(--dust-x); width: var(--dust-size); height: var(--dust-size); border-radius: 50%; background: radial-gradient(circle, rgba(255, 241, 209, 0.95) 0%, rgba(239, 214, 167, 0.55) 40%, rgba(239, 214, 167, 0) 75%); opacity: 0; animation: hero-dust-float var(--dust-duration) linear var(--dust-delay) infinite; }
+.home-hero-slide:not(.is-active) .hero-dust-particle,
+.home-hero[data-dust-paused="true"] .hero-dust-particle { animation-play-state: paused; }
+@keyframes hero-dust-float {
+  0% { transform: translate3d(0, 35px, 0); opacity: 0; }
+  20% { opacity: var(--dust-opacity); }
+  50% { transform: translate3d(calc(var(--dust-drift) * 0.55), -20px, 0); }
+  80% { opacity: var(--dust-opacity); }
+  100% { transform: translate3d(var(--dust-drift), -80px, 0); opacity: 0; }
+}
+@media (max-width: 767px) {
+  .hero-dust-particle:nth-child(even) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-dust { display: none; }
+  .hero-dust-particle { animation: none; }
+}
 .home-hero-inner { position: relative; z-index: 1; display: flex; min-height: inherit; align-items: center; justify-content: space-between; gap: 3rem; }
 .home-hero-copy { width: min(100%, 40rem); padding-block: 4.5rem; }
 .home-hero .eyebrow { color: #c2dba9; }

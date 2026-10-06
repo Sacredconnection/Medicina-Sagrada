@@ -27,6 +27,17 @@ type HeroImages = {
 };
 
 const AUTOPLAY_DELAY = 7000;
+// Ajuste aqui a quantidade de poeira; no mobile mostramos uma a cada duas.
+const DUST_PARTICLE_COUNT = 88;
+const dustParticles = Array.from({ length: DUST_PARTICLE_COUNT }, (_, index) => ({
+  "--dust-x": `${(index * 37 + 11) % 100}%`,
+  "--dust-y": `${(index * 61 + 7) % 100}%`,
+  "--dust-size": `${1.5 + ((index * 7) % 6) * 0.5}px`,
+  "--dust-opacity": 0.22 + ((index * 3) % 7) * 0.055,
+  "--dust-duration": `${18 + ((index * 7) % 17)}s`,
+  "--dust-delay": `${-((index * 13) % 35)}s`,
+  "--dust-drift": `${20 + ((index * 11) % 55)}px`,
+}) as CSSProperties);
 
 export function LiveHero({ slides }: LiveHeroProps) {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -137,6 +148,7 @@ export function LiveHero({ slides }: LiveHeroProps) {
       aria-label="Destaques da Medicina Sagrada"
       aria-roledescription="carrossel"
       className="home-hero"
+      data-dust-paused={isAutoplayStopped || undefined}
       onBlurCapture={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
       onMouseEnter={() => setIsPaused(true)}
@@ -164,6 +176,11 @@ export function LiveHero({ slides }: LiveHeroProps) {
               } as CSSProperties
             }
           >
+            <div aria-hidden="true" className="hero-dust">
+              {dustParticles.map((style, particleIndex) => (
+                <span className="hero-dust-particle" key={particleIndex} style={style} />
+              ))}
+            </div>
             <div className="container home-hero-inner">
               <div className="home-hero-copy">
                 <h1 className="hero-title">
