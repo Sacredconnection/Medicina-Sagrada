@@ -1,178 +1,56 @@
 # Medicina Sagrada — frontend headless
 
-## Ambiente integrado
+Vitrine e experiência editorial em Next.js integradas ao WordPress e ao WooCommerce existentes. O frontend apresenta catálogo, produtos, artigos, guias e sacola; conta, pedidos, frete definitivo e pagamento ficam no WooCommerce.
 
-Vitrine Next.js conectada ao catálogo real, com sacola persistente, seleção de
-variações, quantidades, cupons e transferência para o checkout WooCommerce com
-o Pagar.me já configurado. Os dados de cartão ficam no checkout existente.
+Documentação revisada em **06/10/2026**, com base no código desta cópia. Disponibilidade remota, instalação de plugins e homologação financeira dependem de verificação no ambiente correspondente.
 
-```bash
-npm ci
-npm run setup
-npm run dev
+## Começar no Windows
+
+Requer Node.js **22.18 ou superior**, npm e Google Chrome instalado para E2E. A stack é Next.js 16, React 19 e TypeScript 6. Versões resolvidas estão no `package-lock.json`; `package.json` define os intervalos permitidos.
+
+```powershell
+npm.cmd ci
+npm.cmd run setup
+npm.cmd run dev
 ```
 
-Requer Node 22.18+; validado com Node 24. `npm run setup` cria `.env.local` sem
-sobrescrever configurações existentes. A porta é indicada no terminal.
-Abrir `/cart/` para a sacola e `/diagnostico-api/` para conferir conexões.
+`setup` cria `.env.local`, gera segredo de revalidação e preserva qualquer arquivo existente. Confira a porta no terminal e mantenha `NEXT_PUBLIC_SITE_URL` coerente com a URL acessada.
 
-Se a API não responder, executar `npm run check:connection`. O comando verifica
-DNS, TCP e endpoints públicos sem credenciais administrativas, salvando um
-relatório em `artifacts/connection-report.json`. Veja as soluções e os testes
-de rede em [Conexão com a hospedagem](docs/CONEXAO-HOSPEDAGEM.md).
+Abra `/` para a home, `/busca/` para catálogo, `/aprenda/` para guias, `/cart/` para sacola e `/diagnostico-api/` para diagnóstico em desenvolvimento.
 
-Veja [a configuração e a homologação do pagamento](docs/PAGAMENTOS.md).
-O complemento em `wordpress/medicina-sagrada-headless/` está pronto para instalar
-na homologação. A ativação no WordPress, ajuste do LiteSpeed e testes de cobranças
-Pagar.me ainda precisam ser concluídos antes de publicar para clientes.
+## Documentação
 
-Validações: `npm run check`, `npm run test:e2e` (Chrome instalado) e `npm run build`.
-Os testes de navegador usam WooCommerce simulado e nunca enviam pagamentos reais.
+Comece pelo **[índice completo](docs/README.md)**.
 
-O padrão visual de distância entre seções está registrado em
-[`docs/ESPACAMENTO.md`](docs/ESPACAMENTO.md).
-
-Fundação do novo frontend da Medicina Sagrada, preparada para consumir o
-WordPress e o WooCommerce existentes sem alterar as URLs públicas que já
-acumulam autoridade orgânica.
-
-## Decisões de arquitetura
-
-- Next.js App Router, TypeScript e Server Components.
-- Renderização no servidor com ISR; o conteúdo principal e os metadados chegam
-  no HTML inicial, mesmo sem JavaScript no navegador.
-- WordPress REST API para páginas, posts e categorias editoriais.
-- WooCommerce Store API para catálogo, categorias e dados públicos de produto.
-- `trailingSlash: true` para manter a forma atual das URLs.
-- Metadados canônicos por página, Open Graph, Twitter Cards, `robots.txt`,
-  sitemap dinâmico e JSON-LD.
-- Webhook autenticado para revalidar conteúdo após uma publicação no WordPress.
-- Sanitização no servidor para o HTML editorial vindo do CMS.
-
-## Compatibilidade de URL
-
-| Conteúdo atual | Rota headless |
+| Assunto | Documento |
 | --- | --- |
-| Home | `/` |
-| Produto | `/product/{slug}/` |
-| Categoria de produto | `/product-category/{pai}/{slug}/` |
-| Paginação de produto | `/product-category/{slug}/page/{n}/` |
-| Página WordPress | `/{slug}/` ou `/{pai}/{slug}/` |
-| Post WordPress | `/{slug}/` |
-| Categoria de posts | `/category/{slug}/` |
+| Propósito, público e compromissos | [PRODUCT](PRODUCT.md) |
+| Cores, tipografia, composição e componentes | [DESIGN](DESIGN.md) |
+| Estrutura e fluxo de dados | [Arquitetura](docs/ARQUITETURA.md) |
+| Páginas, parâmetros e contratos HTTP | [Rotas e APIs](docs/ROTAS-E-APIS.md) |
+| Ambiente, variáveis e diagnóstico | [Configuração](docs/CONFIGURACAO.md) |
+| Textos, imagens e arquivos públicos | [Conteúdo e assets](docs/CONTEUDO-E-ASSETS.md) |
+| Alterações, testes e solução de problemas | [Manutenção](docs/MANUTENCAO.md) |
+| Homologação, SEO, publicação e rollback | [Publicação](docs/PUBLICACAO.md) |
+| Checkout, complemento WordPress e Pagar.me | [Pagamentos](docs/PAGAMENTOS.md) |
+| Cotação na página de produto | [Frete](docs/FRETE.md) |
+| Rede e hospedagem | [Conexão](docs/CONEXAO-HOSPEDAGEM.md) |
+| Ritmo das seções e áreas de toque | [Espaçamento](docs/ESPACAMENTO.md) |
 
-A rota curinga valida o `link` retornado pelo WordPress antes de renderizar.
-Assim, um slug igual em outra hierarquia não cria conteúdo duplicado.
+## Verificações
 
-## Desenvolvimento
-
-1. Copie `.env.example` para `.env.local`.
-2. Ajuste as origens do frontend e do WordPress.
-3. Instale as dependências com `npm install`.
-4. Rode `npm run dev`.
-
-As credenciais reais devem ficar apenas em `.env.local`, que não é versionado.
-O arquivo `.env.example` contém somente nomes e placeholders.
-
-Em `npm run dev`, para conferir a leitura do conteúdo, abra `/diagnostico-api/`. A página faz uma
-requisição server-side ao WordPress e à Store API, exibe uma amostra segura e
-tem `noindex`. A mesma verificação em JSON fica em `/api/diagnostico/`.
-Essas rotas de diagnóstico não ficam disponíveis em produção.
-
-Validações:
-
-```bash
-npm run lint
-npm run typecheck
-npm run build
+```powershell
+npm.cmd run check
+npm.cmd run test:e2e
+npm.cmd run build
 ```
 
-## Separação de domínio no corte
+`check` executa lint, tipos e unitários. E2E usa WooCommerce simulado, sem pagamento real; alguns cenários exigem fixture específica, descrita em [Manutenção](docs/MANUTENCAO.md).
 
-Hoje WordPress e frontend respondem em `https://medicinasagrada.com.br`. Antes
-de apontar esse domínio para o Next.js, o WordPress precisa continuar acessível
-em outra origem, por exemplo `https://cms.medicinasagrada.com.br`.
+Para problemas externos, `npm.cmd run check:connection` gera `artifacts/connection-report.json`. `npm.cmd run check:woocommerce` consulta APIs administrativas somente quando há credenciais configuradas no servidor.
 
-No corte:
+## Situação e continuidade
 
-```dotenv
-NEXT_PUBLIC_SITE_URL=https://medicinasagrada.com.br
-WORDPRESS_SITE_URL=https://cms.medicinasagrada.com.br
-WORDPRESS_API_URL=https://cms.medicinasagrada.com.br/wp-json
-WOOCOMMERCE_STORE_API_URL=https://cms.medicinasagrada.com.br/wp-json/wc/store/v1
-```
+Estão implementados catálogo com filtros e ordenação, variações, sacola com cupons e painel lateral, transferência de sessão ao checkout, frete estimado, avaliações, Ritual Finder, Aprenda, blog, metadados e revalidação autenticada. Isso não confirma disponibilidade remota nem cobrança homologada. Veja [Publicação](docs/PUBLICACAO.md).
 
-As URLs canônicas e do sitemap continuarão no domínio público. URLs de imagens
-podem permanecer na origem do CMS, desde que ela seja pública e esteja
-configurada em `next.config.ts`.
-
-## Revalidação pelo WordPress
-
-Envie `POST /api/revalidate/` com:
-
-```http
-Authorization: Bearer SEU_REVALIDATION_SECRET
-Content-Type: application/json
-```
-
-E um dos corpos:
-
-```json
-{ "type": "product", "slug": "yawanawa-tsunu" }
-```
-
-```json
-{ "path": "/sobre-nos/" }
-```
-
-O endpoint revalida a rota, o sitemap e as tags de cache. O plugin do WordPress
-que disparará esse webhook deve ser adicionado na etapa de integração.
-
-## Checklist obrigatório antes da troca de DNS
-
-- Exportar todas as URLs dos sitemaps atuais e compará-las com o sitemap
-  headless.
-- Rastrear o ambiente de homologação e corrigir toda resposta diferente de
-  `200`, além de canonicals divergentes.
-- Preservar slugs; para qualquer URL alterada, criar um redirecionamento `301`
-  individual, nunca uma regra genérica para a home.
-- Migrar os títulos e descrições personalizados do Rank Math. O endpoint
-  público atual não expõe `rankmath/v1/getHead`; será necessário expor esses
-  campos via REST ou por um pequeno plugin próprio antes do corte.
-- Validar `Product`, `BreadcrumbList`, `Organization`, `WebSite` e `Article` no
-  Rich Results Test.
-- Confirmar que previews e homologação continuam com `noindex`; somente o
-  domínio canônico de produção é liberado no `robots.txt`.
-- Conservar Search Console, Google Analytics, Merchant Center e pixels, sem
-  duplicar tags.
-- Manter o WordPress antigo disponível para rollback durante a estabilização.
-- Medir Core Web Vitals em templates de home, categoria, produto e artigo.
-- Depois do corte, enviar o sitemap e acompanhar indexação, 404, soft 404,
-  canonicals e queda de impressões diariamente.
-
-## Pontos que ainda exigem homologação
-
-A estrutura lê conteúdo real e entrega páginas indexáveis. A sacola, variações
-e transferência para checkout estão implementadas; conta e histórico usam o
-WooCommerce. A aprovação/recusa e os retornos de Pix, cartão e boleto ainda
-dependem de homologação no Pagar.me. O complemento WordPress deve ser instalado
-para concluir a sincronização da sacola e a revalidação do catálogo.
-
-Filtros avançados, compra conjunta no curador de rituais, menus administráveis,
-campos SEO Rank Math e componentes específicos de shortcodes/Elementor permanecem
-como etapas próprias. A migração do domínio depende também do checklist SEO acima.
-
-## Troca de materiais visuais da home
-
-A composição visual da nova home está separada do conteúdo estrutural. Os
-materiais provisórios ficam centralizados em `lib/home-content.ts`:
-
-- `homeAssets.hero`: banners desktop e mobile do hero;
-- `homeAssets.categories`: imagens dos cards de categorias;
-- `homeAssets.kits`: imagens locais dos kits;
-- `demoProducts`: fallback visual usado quando a Store API não responde.
-
-Para trocar esses materiais, substitua as URLs correspondentes nesse arquivo.
-O hero possui imagens específicas para desktop e mobile; as categorias usam
-imagens quadradas. Outras imagens da home são referenciadas nos respectivos
-componentes e estilos.
+Preserve slugs, URLs públicas, identidade, textos aprovados e contratos dos assets. Leia `AGENTS.md`, `PRODUCT.md` e os documentos da superfície antes de alterar. Para código Next.js, consulte o guia pertinente em `node_modules/next/dist/docs/`, conforme `AGENTS.md`.

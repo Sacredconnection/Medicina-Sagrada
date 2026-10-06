@@ -1,0 +1,537 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-06T13:44:23.875685+00:00",
+  "title": "Design System: Medicina Sagrada",
+  "extensions": {
+    "colorMeta": {
+      "forest-950": {
+        "displayName": "forest-950",
+        "role": "primary",
+        "tonalRamp": [
+          "oklch(15.00% 0.03744 168.51)",
+          "oklch(26.43% 0.03744 168.51)",
+          "oklch(37.86% 0.03744 168.51)",
+          "oklch(49.29% 0.03744 168.51)",
+          "oklch(60.71% 0.03744 168.51)",
+          "oklch(72.14% 0.03744 168.51)",
+          "oklch(83.57% 0.03744 168.51)",
+          "oklch(95.00% 0.03744 168.51)"
+        ]
+      },
+      "forest-900": {
+        "displayName": "forest-900",
+        "role": "primary",
+        "tonalRamp": [
+          "oklch(15.00% 0.04873 167.08)",
+          "oklch(26.43% 0.04873 167.08)",
+          "oklch(37.86% 0.04873 167.08)",
+          "oklch(49.29% 0.04873 167.08)",
+          "oklch(60.71% 0.04873 167.08)",
+          "oklch(72.14% 0.04873 167.08)",
+          "oklch(83.57% 0.04873 167.08)",
+          "oklch(95.00% 0.04873 167.08)"
+        ]
+      },
+      "forest-800": {
+        "displayName": "forest-800",
+        "role": "primary",
+        "tonalRamp": [
+          "oklch(15.00% 0.06527 164.23)",
+          "oklch(26.43% 0.06527 164.23)",
+          "oklch(37.86% 0.06527 164.23)",
+          "oklch(49.29% 0.06527 164.23)",
+          "oklch(60.71% 0.06527 164.23)",
+          "oklch(72.14% 0.06527 164.23)",
+          "oklch(83.57% 0.06527 164.23)",
+          "oklch(95.00% 0.06527 164.23)"
+        ]
+      },
+      "forest-650": {
+        "displayName": "forest-650",
+        "role": "primary",
+        "tonalRamp": [
+          "oklch(15.00% 0.07341 157.82)",
+          "oklch(26.43% 0.07341 157.82)",
+          "oklch(37.86% 0.07341 157.82)",
+          "oklch(49.29% 0.07341 157.82)",
+          "oklch(60.71% 0.07341 157.82)",
+          "oklch(72.14% 0.07341 157.82)",
+          "oklch(83.57% 0.07341 157.82)",
+          "oklch(95.00% 0.07341 157.82)"
+        ]
+      },
+      "leaf-400": {
+        "displayName": "leaf-400",
+        "role": "secondary",
+        "tonalRamp": [
+          "oklch(15.00% 0.09446 128.63)",
+          "oklch(26.43% 0.09446 128.63)",
+          "oklch(37.86% 0.09446 128.63)",
+          "oklch(49.29% 0.09446 128.63)",
+          "oklch(60.71% 0.09446 128.63)",
+          "oklch(72.14% 0.09446 128.63)",
+          "oklch(83.57% 0.09446 128.63)",
+          "oklch(95.00% 0.09446 128.63)"
+        ]
+      },
+      "clay-500": {
+        "displayName": "clay-500",
+        "role": "secondary",
+        "tonalRamp": [
+          "oklch(15.00% 0.11797 41.71)",
+          "oklch(26.43% 0.11797 41.71)",
+          "oklch(37.86% 0.11797 41.71)",
+          "oklch(49.29% 0.11797 41.71)",
+          "oklch(60.71% 0.11797 41.71)",
+          "oklch(72.14% 0.11797 41.71)",
+          "oklch(83.57% 0.11797 41.71)",
+          "oklch(95.00% 0.11797 41.71)"
+        ]
+      },
+      "sun-400": {
+        "displayName": "sun-400",
+        "role": "secondary",
+        "tonalRamp": [
+          "oklch(15.00% 0.11005 71.63)",
+          "oklch(26.43% 0.11005 71.63)",
+          "oklch(37.86% 0.11005 71.63)",
+          "oklch(49.29% 0.11005 71.63)",
+          "oklch(60.71% 0.11005 71.63)",
+          "oklch(72.14% 0.11005 71.63)",
+          "oklch(83.57% 0.11005 71.63)",
+          "oklch(95.00% 0.11005 71.63)"
+        ]
+      },
+      "paper": {
+        "displayName": "paper",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15.00% 0.00000 89.88)",
+          "oklch(26.43% 0.00000 89.88)",
+          "oklch(37.86% 0.00000 89.88)",
+          "oklch(49.29% 0.00000 89.88)",
+          "oklch(60.71% 0.00000 89.88)",
+          "oklch(72.14% 0.00000 89.88)",
+          "oklch(83.57% 0.00000 89.88)",
+          "oklch(95.00% 0.00000 89.88)"
+        ]
+      },
+      "paper-deep": {
+        "displayName": "paper-deep",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15.00% 0.01915 93.67)",
+          "oklch(26.43% 0.01915 93.67)",
+          "oklch(37.86% 0.01915 93.67)",
+          "oklch(49.29% 0.01915 93.67)",
+          "oklch(60.71% 0.01915 93.67)",
+          "oklch(72.14% 0.01915 93.67)",
+          "oklch(83.57% 0.01915 93.67)",
+          "oklch(95.00% 0.01915 93.67)"
+        ]
+      },
+      "line": {
+        "displayName": "line",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15.00% 0.02051 97.56)",
+          "oklch(26.43% 0.02051 97.56)",
+          "oklch(37.86% 0.02051 97.56)",
+          "oklch(49.29% 0.02051 97.56)",
+          "oklch(60.71% 0.02051 97.56)",
+          "oklch(72.14% 0.02051 97.56)",
+          "oklch(83.57% 0.02051 97.56)",
+          "oklch(95.00% 0.02051 97.56)"
+        ]
+      },
+      "ink": {
+        "displayName": "ink",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15.00% 0.02760 163.15)",
+          "oklch(26.43% 0.02760 163.15)",
+          "oklch(37.86% 0.02760 163.15)",
+          "oklch(49.29% 0.02760 163.15)",
+          "oklch(60.71% 0.02760 163.15)",
+          "oklch(72.14% 0.02760 163.15)",
+          "oklch(83.57% 0.02760 163.15)",
+          "oklch(95.00% 0.02760 163.15)"
+        ]
+      },
+      "muted": {
+        "displayName": "muted",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15.00% 0.01805 154.16)",
+          "oklch(26.43% 0.01805 154.16)",
+          "oklch(37.86% 0.01805 154.16)",
+          "oklch(49.29% 0.01805 154.16)",
+          "oklch(60.71% 0.01805 154.16)",
+          "oklch(72.14% 0.01805 154.16)",
+          "oklch(83.57% 0.01805 154.16)",
+          "oklch(95.00% 0.01805 154.16)"
+        ]
+      },
+      "white": {
+        "displayName": "white",
+        "role": "neutral",
+        "tonalRamp": [
+          "oklch(15.00% 0.00000 89.88)",
+          "oklch(26.43% 0.00000 89.88)",
+          "oklch(37.86% 0.00000 89.88)",
+          "oklch(49.29% 0.00000 89.88)",
+          "oklch(60.71% 0.00000 89.88)",
+          "oklch(72.14% 0.00000 89.88)",
+          "oklch(83.57% 0.00000 89.88)",
+          "oklch(95.00% 0.00000 89.88)"
+        ]
+      },
+      "brand-orange": {
+        "displayName": "brand-orange",
+        "role": "secondary",
+        "tonalRamp": [
+          "oklch(15.00% 0.20777 33.08)",
+          "oklch(26.43% 0.20777 33.08)",
+          "oklch(37.86% 0.20777 33.08)",
+          "oklch(49.29% 0.20777 33.08)",
+          "oklch(60.71% 0.20777 33.08)",
+          "oklch(72.14% 0.20777 33.08)",
+          "oklch(83.57% 0.20777 33.08)",
+          "oklch(95.00% 0.20777 33.08)"
+        ]
+      },
+      "cta-accent": {
+        "displayName": "cta-accent",
+        "role": "secondary",
+        "tonalRamp": [
+          "oklch(15.00% 0.20731 32.52)",
+          "oklch(26.43% 0.20731 32.52)",
+          "oklch(37.86% 0.20731 32.52)",
+          "oklch(49.29% 0.20731 32.52)",
+          "oklch(60.71% 0.20731 32.52)",
+          "oklch(72.14% 0.20731 32.52)",
+          "oklch(83.57% 0.20731 32.52)",
+          "oklch(95.00% 0.20731 32.52)"
+        ]
+      },
+      "cta-on-accent": {
+        "displayName": "cta-on-accent",
+        "role": "secondary",
+        "tonalRamp": [
+          "oklch(15.00% 0.02300 169.25)",
+          "oklch(26.43% 0.02300 169.25)",
+          "oklch(37.86% 0.02300 169.25)",
+          "oklch(49.29% 0.02300 169.25)",
+          "oklch(60.71% 0.02300 169.25)",
+          "oklch(72.14% 0.02300 169.25)",
+          "oklch(83.57% 0.02300 169.25)",
+          "oklch(95.00% 0.02300 169.25)"
+        ]
+      },
+      "brand-text": {
+        "displayName": "brand-text",
+        "role": "secondary",
+        "tonalRamp": [
+          "oklch(15.00% 0.17880 32.51)",
+          "oklch(26.43% 0.17880 32.51)",
+          "oklch(37.86% 0.17880 32.51)",
+          "oklch(49.29% 0.17880 32.51)",
+          "oklch(60.71% 0.17880 32.51)",
+          "oklch(72.14% 0.17880 32.51)",
+          "oklch(83.57% 0.17880 32.51)",
+          "oklch(95.00% 0.17880 32.51)"
+        ]
+      },
+      "apurina": {
+        "displayName": "apurina",
+        "role": "contextual",
+        "tonalRamp": [
+          "oklch(15.00% 0.16285 130.97)",
+          "oklch(26.43% 0.16285 130.97)",
+          "oklch(37.86% 0.16285 130.97)",
+          "oklch(49.29% 0.16285 130.97)",
+          "oklch(60.71% 0.16285 130.97)",
+          "oklch(72.14% 0.16285 130.97)",
+          "oklch(83.57% 0.16285 130.97)",
+          "oklch(95.00% 0.16285 130.97)"
+        ]
+      },
+      "caboclo": {
+        "displayName": "caboclo",
+        "role": "contextual",
+        "tonalRamp": [
+          "oklch(15.00% 0.06763 57.13)",
+          "oklch(26.43% 0.06763 57.13)",
+          "oklch(37.86% 0.06763 57.13)",
+          "oklch(49.29% 0.06763 57.13)",
+          "oklch(60.71% 0.06763 57.13)",
+          "oklch(72.14% 0.06763 57.13)",
+          "oklch(83.57% 0.06763 57.13)",
+          "oklch(95.00% 0.06763 57.13)"
+        ]
+      },
+      "huni-kuin": {
+        "displayName": "huni-kuin",
+        "role": "contextual",
+        "tonalRamp": [
+          "oklch(15.00% 0.07677 86.57)",
+          "oklch(26.43% 0.07677 86.57)",
+          "oklch(37.86% 0.07677 86.57)",
+          "oklch(49.29% 0.07677 86.57)",
+          "oklch(60.71% 0.07677 86.57)",
+          "oklch(72.14% 0.07677 86.57)",
+          "oklch(83.57% 0.07677 86.57)",
+          "oklch(95.00% 0.07677 86.57)"
+        ]
+      },
+      "katukina": {
+        "displayName": "katukina",
+        "role": "contextual",
+        "tonalRamp": [
+          "oklch(15.00% 0.16801 133.66)",
+          "oklch(26.43% 0.16801 133.66)",
+          "oklch(37.86% 0.16801 133.66)",
+          "oklch(49.29% 0.16801 133.66)",
+          "oklch(60.71% 0.16801 133.66)",
+          "oklch(72.14% 0.16801 133.66)",
+          "oklch(83.57% 0.16801 133.66)",
+          "oklch(95.00% 0.16801 133.66)"
+        ]
+      },
+      "kuntanawa": {
+        "displayName": "kuntanawa",
+        "role": "contextual",
+        "tonalRamp": [
+          "oklch(15.00% 0.00126 197.12)",
+          "oklch(26.43% 0.00126 197.12)",
+          "oklch(37.86% 0.00126 197.12)",
+          "oklch(49.29% 0.00126 197.12)",
+          "oklch(60.71% 0.00126 197.12)",
+          "oklch(72.14% 0.00126 197.12)",
+          "oklch(83.57% 0.00126 197.12)",
+          "oklch(95.00% 0.00126 197.12)"
+        ]
+      },
+      "nukini": {
+        "displayName": "nukini",
+        "role": "contextual",
+        "tonalRamp": [
+          "oklch(15.00% 0.12994 72.57)",
+          "oklch(26.43% 0.12994 72.57)",
+          "oklch(37.86% 0.12994 72.57)",
+          "oklch(49.29% 0.12994 72.57)",
+          "oklch(60.71% 0.12994 72.57)",
+          "oklch(72.14% 0.12994 72.57)",
+          "oklch(83.57% 0.12994 72.57)",
+          "oklch(95.00% 0.12994 72.57)"
+        ]
+      },
+      "puyanawa": {
+        "displayName": "puyanawa",
+        "role": "contextual",
+        "tonalRamp": [
+          "oklch(15.00% 0.05279 62.87)",
+          "oklch(26.43% 0.05279 62.87)",
+          "oklch(37.86% 0.05279 62.87)",
+          "oklch(49.29% 0.05279 62.87)",
+          "oklch(60.71% 0.05279 62.87)",
+          "oklch(72.14% 0.05279 62.87)",
+          "oklch(83.57% 0.05279 62.87)",
+          "oklch(95.00% 0.05279 62.87)"
+        ]
+      },
+      "shanenawa": {
+        "displayName": "shanenawa",
+        "role": "contextual",
+        "tonalRamp": [
+          "oklch(15.00% 0.12721 246.05)",
+          "oklch(26.43% 0.12721 246.05)",
+          "oklch(37.86% 0.12721 246.05)",
+          "oklch(49.29% 0.12721 246.05)",
+          "oklch(60.71% 0.12721 246.05)",
+          "oklch(72.14% 0.12721 246.05)",
+          "oklch(83.57% 0.12721 246.05)",
+          "oklch(95.00% 0.12721 246.05)"
+        ]
+      },
+      "shawadawa": {
+        "displayName": "shawadawa",
+        "role": "contextual",
+        "tonalRamp": [
+          "oklch(15.00% 0.23061 27.25)",
+          "oklch(26.43% 0.23061 27.25)",
+          "oklch(37.86% 0.23061 27.25)",
+          "oklch(49.29% 0.23061 27.25)",
+          "oklch(60.71% 0.23061 27.25)",
+          "oklch(72.14% 0.23061 27.25)",
+          "oklch(83.57% 0.23061 27.25)",
+          "oklch(95.00% 0.23061 27.25)"
+        ]
+      },
+      "yawanawa": {
+        "displayName": "yawanawa",
+        "role": "contextual",
+        "tonalRamp": [
+          "oklch(15.00% 0.00877 106.91)",
+          "oklch(26.43% 0.00877 106.91)",
+          "oklch(37.86% 0.00877 106.91)",
+          "oklch(49.29% 0.00877 106.91)",
+          "oklch(60.71% 0.00877 106.91)",
+          "oklch(72.14% 0.00877 106.91)",
+          "oklch(83.57% 0.00877 106.91)",
+          "oklch(95.00% 0.00877 106.91)"
+        ]
+      }
+    },
+    "shadows": [
+      {
+        "name": "surface",
+        "value": "0 1.25rem 3rem rgba(11, 38, 29, 0.09)",
+        "purpose": "Token --shadow."
+      },
+      {
+        "name": "product-hover",
+        "value": "0 0.85rem 1.8rem rgba(11, 38, 29, 0.1)",
+        "purpose": "Produto com hover disponível."
+      }
+    ],
+    "motion": [
+      {
+        "name": "editorial-action",
+        "value": "200ms ease-in-out",
+        "purpose": "Texto, contorno e escala."
+      },
+      {
+        "name": "card",
+        "value": "320ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Transform e sombra de produto."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "aprenda-two-columns",
+        "value": "640px"
+      },
+      {
+        "name": "aprenda-three-columns",
+        "value": "1024px"
+      },
+      {
+        "name": "bag-stacked-max",
+        "value": "950px"
+      },
+      {
+        "name": "catalog-two-columns-max",
+        "value": "900px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Ação editorial",
+      "kind": "button",
+      "refersTo": "editorial-button",
+      "description": "Contorno com preenchimento por pseudo-elemento; amostra da variante clara.",
+      "html": "<button class=\"ds-editorial\">Explorar a coleção</button>",
+      "css": ".ds-editorial{position:relative;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;isolation:isolate;padding:.75rem 1.35rem;border:1px solid var(--cta-accent,#ef492b);border-radius:999px;background:transparent;color:var(--forest-950,#0b261d);font-size:.8125rem;font-weight:700;letter-spacing:.06em;line-height:1.15;text-transform:uppercase;cursor:pointer;transition:transform 200ms ease-in-out,color 200ms ease-in-out;font-family:var(--font-primary,\"proxima-nova\",\"Segoe UI\",Arial,sans-serif);}.ds-editorial::before{content:\"\";position:absolute;inset:0;z-index:-1;background:var(--cta-accent,#ef492b);transform:translate(-100%,0) rotate(10deg);transition:transform 200ms ease-out}.ds-editorial:is(:hover,:focus-visible){border-color:transparent;color:var(--cta-on-accent,#06140f);transform:scale(1.05)}.ds-editorial:is(:hover,:focus-visible)::before{transform:translate(0,0)}.ds-editorial:focus-visible{outline:.2rem solid var(--cta-accent,#ef492b);outline-offset:.25rem;}@media(prefers-reduced-motion:reduce){.ds-editorial,.ds-editorial::before{transition:none;transform:none}}"
+    },
+    {
+      "name": "Compra",
+      "kind": "button",
+      "refersTo": "commerce-button",
+      "description": "Controle sólido compartilhado de compra.",
+      "html": "<button class=\"ds-commerce\">Adicionar é sacola</button>",
+      "css": ".ds-commerce{display:inline-flex;align-items:center;justify-content:center;min-height:3rem;padding:.85rem 1.3rem;border:1px solid var(--forest-800,#174b37);border-radius:.25rem;background:var(--forest-800,#174b37);color:white;font-size:1rem;font-weight:600;line-height:1.35;cursor:pointer;font-family:var(--font-primary,\"proxima-nova\",\"Segoe UI\",Arial,sans-serif);}.ds-commerce:hover:not(:disabled){background:var(--forest-950,#0b261d)}.ds-commerce:disabled{opacity:.5;cursor:not-allowed}.ds-commerce:focus-visible{outline:.2rem solid var(--cta-accent,#ef492b);outline-offset:.25rem;}"
+    },
+    {
+      "name": "Campo comercial",
+      "kind": "input",
+      "refersTo": "commerce-input",
+      "description": "Label e campo com borda; texto demonstrativo.",
+      "html": "<label class=\"ds-field\">CEP<input placeholder=\"00000-000\" inputmode=\"numeric\"></label>",
+      "css": ".ds-field{display:grid;gap:.4rem;color:var(--ink,#14251d);font-size:.875rem;font-weight:600;font-family:var(--font-primary,\"proxima-nova\",\"Segoe UI\",Arial,sans-serif);}.ds-field input{width:100%;min-height:3rem;padding:.7rem;border:1px solid var(--line,#d9d6c7);border-radius:.2rem;background:white;color:var(--ink,#14251d);font:inherit;font-weight:400}.ds-field input:focus-visible{outline:.2rem solid var(--cta-accent,#ef492b);outline-offset:.25rem;}"
+    },
+    {
+      "name": "Filtro ativo",
+      "kind": "chip",
+      "refersTo": "",
+      "description": "Link removível de filtro, sem conexão com catálogo.",
+      "html": "<a class=\"ds-chip\" href=\"#\">Em estoque é</a>",
+      "css": ".ds-chip{display:inline-block;padding:.4rem .65rem;border:1px solid var(--line,#d9d6c7);color:var(--forest-800,#174b37);font-size:.8125rem;text-decoration:none;font-family:var(--font-primary,\"proxima-nova\",\"Segoe UI\",Arial,sans-serif);}.ds-chip:focus-visible{outline:.2rem solid var(--cta-accent,#ef492b);outline-offset:.25rem;}"
+    },
+    {
+      "name": "Navegação desktop",
+      "kind": "nav",
+      "refersTo": "",
+      "description": "Links do shell compartilhado; sem mega menu funcional.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Navegação demonstrativa\"><a href=\"#\">Rapé</a><a href=\"#\">Sananga</a><a href=\"#\">Aprenda</a></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;justify-content:center;gap:clamp(.8rem,1.7vw,1.6rem);font-family:var(--font-primary,\"proxima-nova\",\"Segoe UI\",Arial,sans-serif);}.ds-nav a{display:inline-flex;padding-block:.45rem;color:var(--forest-800,#174b37);font-size:.8125rem;font-weight:600;letter-spacing:.04em;line-height:1.2;text-transform:uppercase;text-decoration:none;transition:color 180ms ease}.ds-nav a:is(:hover,:focus-visible){color:var(--brand-text,#c1371e)}.ds-nav a:focus-visible{outline:.2rem solid var(--cta-accent,#ef492b);outline-offset:.25rem;}"
+    },
+    {
+      "name": "Card de produto",
+      "kind": "card",
+      "refersTo": "product-card",
+      "description": "Amostra estrutural; mídia vazia e texto ilustrativo, sem preço/estoque real.",
+      "html": "<a class=\"ds-card\" href=\"#\"><div class=\"ds-media\"></div><div class=\"ds-body\"><span class=\"ds-category\">Coleção</span><h3>Nome do produto</h3><span class=\"ds-product-action\">Conhecer produto</span></div></a>",
+      "css": ".ds-card{display:flex;max-width:19rem;overflow:hidden;flex-direction:column;border:1px solid white;border-radius:.75rem;background:white;text-decoration:none;transition:border-color 240ms ease,box-shadow 320ms cubic-bezier(.16,1,.3,1),transform 320ms cubic-bezier(.16,1,.3,1);font-family:var(--font-primary,\"proxima-nova\",\"Segoe UI\",Arial,sans-serif);}.ds-media{aspect-ratio:1;background:#f4f2ec}.ds-body{display:flex;min-height:12.25rem;padding:1.1rem;flex-direction:column}.ds-category{color:var(--brand-text,#c1371e);font-size:.75rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase}.ds-body h3{color:var(--ink,#14251d);font-size:1.05rem;font-weight:600;letter-spacing:-.015em;line-height:1.28}.ds-product-action{display:flex;min-height:2.75rem;margin-top:auto;padding:.7rem .9rem;align-items:center;justify-content:center;border:1px solid var(--forest-900,#12372a);border-radius:.45rem;background:var(--forest-950,#0b261d);color:white;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}@media(hover:hover){.ds-card:hover{border-color:var(--forest-650,#3b6f52);box-shadow:0 .85rem 1.8rem rgba(11,38,29,.1);transform:translateY(-.18rem)}.ds-card:hover .ds-product-action{border-color:var(--cta-accent,#ef492b);background:var(--cta-accent,#ef492b);color:var(--cta-on-accent,#06140f)}}.ds-card:focus-visible{outline:.2rem solid var(--cta-accent,#ef492b);outline-offset:.25rem;border-color:var(--forest-650,#3b6f52);box-shadow:0 1.25rem 2.75rem rgba(11,38,29,.14);transform:translateY(-.2rem)}.ds-card:focus-visible .ds-product-action{background:var(--cta-accent,#ef492b);color:var(--cta-on-accent,#06140f)}.ds-card:active{transform:translateY(-.05rem)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Floresta, origem e clareza",
+    "overview": "Este nome é uma síntese documental provisória, não uma nova direção aprovada.\nA vitrine combina fotografias, superfícies verdes profundas e áreas brancas de\nleitura. A descoberta é editorial; escolhas comerciais usam controles diretos,\npreços legíveis e feedback explícito. Proxima Nova unifica as superfícies.",
+    "keyCharacteristics": [
+      "Fotografia como contexto de origem e descoberta.",
+      "Verdes estruturais com acentos quentes em ações editoriais.",
+      "Leitura clara e controles comerciais previsíveis.",
+      "Acentos de etnias ligados ao conteúdo correspondente.",
+      "**Botão editorial:** contorno laranja, preenchimento por pseudo-elemento,",
+      "**Compra:** verde sólido, altura mínima 3rem, peso 600 e raio commerce;",
+      "**Produto:** card inteiro clicável, imagem quadrada, categoria, nome, preço",
+      "**Campos:** label visível, borda line, branco, altura mínima 3rem e foco",
+      "**Filtros:** parâmetros na URL, opções de categoria/estoque/oferta/preço,",
+      "**Navegação:** Header branco, marca existente, categorias com menus e",
+      "**Sacola:** página completa e drawer em dialog, overlay e ações de",
+      "**Ritual Finder:** sequência de intenção/experiência, resultado e seleção",
+      "**Aprenda:** cards de guia com CTA verde, povos estáticos com acento por",
+      "Do reutilizar tokens, fonte e componentes da superfície existente.",
+      "Do conferir CTA em repouso, hover, foco e mobile antes de alterar sua cor.",
+      "Do usar acento de etnia somente com identificação explícita e foreground canônico.",
+      "Do respeitar nomes de assets e separar textos HTML de imagens de fundo.",
+      "Do provar recortes e comportamento nas larguras relevantes.",
+      "Don't tornar todos os CTAs laranja por uma regra genérica.",
+      "Don't inventar origem, efeitos ou simbolismo cultural para sustentar o visual.",
+      "Don't transformar divergência documental ou captura de loading em regra visual.",
+      "Don't estender uma composição local de Aprenda ao resto da loja automaticamente."
+    ],
+    "rules": [
+      {
+        "name": "Contextual Accent",
+        "body": "A cor de etnia acompanha somente o povo explicitamente identificado; não inferir origem de descrição livre.",
+        "section": "colors"
+      },
+      {
+        "name": "Action Context",
+        "body": "Preserve o CTA de cada componente. Compra usa verde; produto usa verde profundo em repouso e laranja em hover/foco; ações editoriais têm contorno e preenchimento animado. Não há regra global que torne todo botão laranja no mobile. brand-orange e cta-accent são distintos.",
+        "section": "colors"
+      },
+      {
+        "name": "Shared Voice",
+        "body": "Reutilize Proxima Nova e papéis existentes antes de criar uma família ou escala adicional.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "Do reutilizar tokens, fonte e componentes da superfície existente.",
+      "Do conferir CTA em repouso, hover, foco e mobile antes de alterar sua cor.",
+      "Do usar acento de etnia somente com identificação explícita e foreground canônico.",
+      "Do respeitar nomes de assets e separar textos HTML de imagens de fundo.",
+      "Do provar recortes e comportamento nas larguras relevantes."
+    ],
+    "donts": [
+      "Don't tornar todos os CTAs laranja por uma regra genérica.",
+      "Don't inventar origem, efeitos ou simbolismo cultural para sustentar o visual.",
+      "Don't transformar divergência documental ou captura de loading em regra visual.",
+      "Don't estender uma composição local de Aprenda ao resto da loja automaticamente."
+    ]
+  }
+}
