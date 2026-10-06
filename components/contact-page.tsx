@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { config } from "@/lib/config";
 
-type ContactIconName = "email" | "whatsapp";
+type ContactIconName = "email" | "whatsapp" | "clock";
 
 function ContactIcon({ name }: { name: ContactIconName }) {
   return (
@@ -10,6 +10,11 @@ function ContactIcon({ name }: { name: ContactIconName }) {
         <>
           <rect x="3" y="5" width="18" height="14" rx="2" />
           <path d="m4 7 8 6 8-6" />
+        </>
+      ) : name === "clock" ? (
+        <>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v5l3 2" />
         </>
       ) : (
         <>
@@ -62,11 +67,11 @@ export function ContactPage() {
           <dl>
             <div>
               <dt>Segunda a quinta</dt>
-              <dd>8h às 17h</dd>
+              <dd><ContactIcon name="clock" /><span>8h às 17h</span></dd>
             </div>
             <div>
               <dt>Sexta-feira</dt>
-              <dd>8h às 14h30</dd>
+              <dd><ContactIcon name="clock" /><span>8h às 14h30</span></dd>
             </div>
           </dl>
           <p>Você pode deixar sua mensagem pelo canal que preferir.</p>
