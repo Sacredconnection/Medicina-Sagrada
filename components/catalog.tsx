@@ -21,6 +21,8 @@ export async function Catalog({ query: inputQuery, basePath, categoryId, page = 
   const result = await getCatalog(query, categoryId, page);
   if (categoryId && page > 1 && !result.data.length) notFound();
   const params = catalogSearch(query);
+  const hasActiveFilters = query.categories.length > 0 || query.stock || query.sale
+    || query.min !== undefined || query.max !== undefined;
   const href = (target: number) => {
     const next = new URLSearchParams(params);
     if (!categoryId && target > 1) next.set("pagina", String(target));
@@ -32,12 +34,14 @@ export async function Catalog({ query: inputQuery, basePath, categoryId, page = 
     <div className="catalog-results">
       <div className="catalog-toolbar"><p>{result.total} {result.total === 1 ? "produto encontrado" : "produtos encontrados"}{result.data.length ? ` · ${((page - 1) * 12) + 1}–${((page - 1) * 12) + result.data.length}` : ""}</p><CatalogSort key={params.toString()} value={query.sort} /></div>
       {query.invalidPrice ? <p className="commerce-error" role="alert">Informe preços válidos, com o mínimo menor ou igual ao máximo. O filtro de preço não foi aplicado.</p> : null}
-      <div className="catalog-active-filters" aria-label="Categorias selecionadas">{query.categories.map(id => {
+      {hasActiveFilters ? <div className="catalog-active-filters" aria-label="Filtros aplicados" role="group">
+      {query.categories.map(id => {
         const next = catalogSearch({ ...query, categories: query.categories.filter(value => value !== id) });
         const name = canonicalizeEthnicityNames(categories.find(category => category.id === id)?.name ?? "Categoria");
         return <Link key={id} scroll={false} href={`${basePath}?${next}`} aria-label={`Remover categoria ${name}`}>{name} ×</Link>;
-      })}</div>
-      <div className="catalog-active-filters" aria-label="Filtros aplicados">{[["estoque", query.stock ? "Em estoque" : ""], ["oferta", query.sale ? "Em oferta" : ""], ["min", query.min !== undefined ? `A partir de R$ ${query.min / 100}` : ""], ["max", query.max !== undefined ? `Até R$ ${query.max / 100}` : ""]].map(([key, label]) => { const next = new URLSearchParams(params); next.delete(key); return label ? <Link key={key} href={`${basePath}?${next}`} aria-label={`Remover filtro ${label}`}>{label} ×</Link> : null; })}</div>
+      })}
+      {[["estoque", query.stock ? "Em estoque" : ""], ["oferta", query.sale ? "Em oferta" : ""], ["min", query.min !== undefined ? `A partir de R$ ${query.min / 100}` : ""], ["max", query.max !== undefined ? `Até R$ ${query.max / 100}` : ""]].map(([key, label]) => { const next = new URLSearchParams(params); next.delete(key); return label ? <Link key={key} href={`${basePath}?${next}`} aria-label={`Remover filtro ${label}`}>{label} ×</Link> : null; })}
+      </div> : null}
       {result.data.length ? <section className="product-grid" aria-label="Produtos encontrados">{result.data.map(product => <ProductCard key={product.id} product={product} />)}</section> : <div className="catalog-empty"><h2>Nenhum produto encontrado</h2><p>Tente outra busca ou remova alguns filtros.</p><Link href={basePath} className="commerce-text-button">Recomeçar a busca</Link></div>}
       {page > 1 || page < result.totalPages ? <nav className="pagination" aria-label="Paginação de produtos">{page > 1 ? <Link href={href(page - 1)}>Página anterior</Link> : <span />}<span aria-current="page">Página {page}{result.totalPages ? ` de ${result.totalPages}` : ""}</span>{page < result.totalPages ? <Link href={href(page + 1)}>Próxima página</Link> : <span />}</nav> : null}
     </div>

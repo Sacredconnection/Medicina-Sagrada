@@ -79,8 +79,8 @@
 .catalog-sort select { padding: 0.7rem; border: 1px solid var(--line); border-radius: 0.25rem; background: white; font: inherit; color: var(--ink); max-width: 100%; }
 .catalog-results { min-width: 0; }
 .catalog-results .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.catalog-active-filters { display: flex; gap: 0.6rem; flex-wrap: wrap; }
-.catalog-active-filters a { display: block; padding: 0.4rem 0.65rem; margin-bottom: 1.5rem; border: 1px solid var(--line); color: var(--forest-800); font-size: var(--type-label); }
+.catalog-active-filters { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: var(--group-space-medium); }
+.catalog-active-filters a { display: block; padding: 0.4rem 0.65rem; border: 1px solid var(--line); color: var(--forest-800); font-size: var(--type-label); }
 .catalog-empty { padding: 3rem 0; }
 .catalog-empty h2 { font-size: 1.5rem; }
 .product-image .product-badge { position: absolute; top: 0.75rem; left: 0.75rem; z-index: 1; padding: 0.35rem 0.6rem; background: var(--forest-800); color: white; font-size: var(--type-caption); }
@@ -218,7 +218,7 @@
 .bag-item-info > p { margin: 0.35rem 0; color: var(--muted); font-size: var(--type-ui); }
 .bag-item-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1rem; }
 .bag-quantity { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 0.2rem; }
-.bag-quantity button { width: 2.5rem; height: 2.5rem; border: 0; background: none; color: var(--forest-800); font-size: 1.1rem; cursor: pointer; }
+.bag-quantity button { width: 2.75rem; height: 2.75rem; border: 0; background: none; color: var(--forest-800); font-size: 1.1rem; cursor: pointer; }
 .bag-quantity button:disabled { opacity: 0.3; cursor: not-allowed; }
 .bag-quantity span { min-width: 2rem; text-align: center; font-variant-numeric: tabular-nums; }
 .bag-item-price { white-space: nowrap; font-size: var(--type-body); font-variant-numeric: tabular-nums; }
@@ -2030,6 +2030,9 @@ strong, b { font-weight: var(--weight-bold); }
 .site-footer a { font-size: var(--type-body-small); line-height: 1.4; transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease; }
 .site-footer a:hover { color: var(--cta-accent); }
 .footer-nav a { display: inline-flex; min-height: 2.15rem; align-items: center; }
+@media (max-width: 800px) {
+  .footer-nav a { min-width: 2.75rem; min-height: 2.75rem; }
+}
 .footer-contact { min-width: 0; }
 .footer-contact-links { display: grid; gap: 0.5rem; }
 .footer-contact-links a { display: grid; min-height: 2.75rem; grid-template-columns: 2.1rem minmax(0, 1fr); align-items: center; gap: 0.75rem; overflow-wrap: anywhere; }
