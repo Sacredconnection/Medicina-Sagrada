@@ -52,8 +52,7 @@ export function PrivacyPage({ html }: { html: string }) {
   return (
     <PolicyLayout
       title="Política de Privacidade"
-      intro="Consulte os termos, responsabilidades e condições aplicáveis ao uso do site Medicina Sagrada."
-      note="Navegue pelas seções ou leia o documento completo na sequência."
+      intro="Termos e políticas do site Medicina Sagrada"
       sections={legalSections}
     >
       <RichText className="policy-content" html={prepareLegalHtml(html)} />

@@ -57,6 +57,9 @@ function CategoryLinks({ items, isRape, pathname }: { items: NavigationItem[]; i
 function MegaPanel({ item, pathname }: { item: NavigationItem; pathname: string }) {
   const isRape = item.href === "/product-category/rape/";
   const isLearn = item.href === "/aprenda/";
+  const contentLinks = isLearn
+    ? [{ label: "Primeiros Passos", href: item.href }, ...(item.children ?? [])]
+    : item.children ?? [];
   const categoryFeatureImage = categoryFeatureImages[item.label];
   const featureStyle = item.feature ? {
     "--mega-product-accent": item.feature.accent,
@@ -69,7 +72,7 @@ function MegaPanel({ item, pathname }: { item: NavigationItem; pathname: string 
       <p>{isLearn ? "Guias, histórias e saberes para conhecer as tradições e escolher com consciência." : isRape ? "Conheça as diferentes origens e encontre seu rapé." : `Conheça nossa coleção de ${item.label.toLocaleLowerCase("pt-BR")} e explore as categorias.`}</p>
       <Link className="mega-all" href={item.href} aria-current={isCurrentPage(pathname, item.href) ? "page" : undefined}>{isLearn ? "Conheça os primeiros passos" : "Ver toda a coleção"}</Link>
     </div>
-    <div className="mega-categories"><p className="mega-caption">{isLearn ? "Conteúdos" : isRape ? "Explore os rapés" : "Categorias"}</p><CategoryLinks items={item.children ?? []} isRape={isRape} pathname={pathname} /></div>
+    <div className={`mega-categories${isLearn ? " mega-categories-learn" : ""}`}><p className="mega-caption">{isLearn ? "Conteúdos" : isRape ? "Explore os rapés" : "Categorias"}</p><CategoryLinks items={contentLinks} isRape={isRape} pathname={pathname} /></div>
     <div className="mega-feature" style={featureStyle}>
       <p className={`mega-caption${isRape && item.feature ? " mega-feature-caption" : ""}`}>
         {isRape && item.feature ? <>

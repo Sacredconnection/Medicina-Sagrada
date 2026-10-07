@@ -2422,6 +2422,7 @@ strong, b { font-weight: var(--weight-bold); }
 .nav-list .mega-all { display: inline-flex; margin-top: .6rem; padding-block: .6rem; border-bottom: 1px solid var(--forest-800); font-size: var(--type-ui); font-weight: 700; }
 .mega-categories { padding-inline: clamp(1rem, 2vw, 2rem); border-inline: 1px solid var(--line); }
 .mega-category-list { margin: 0; padding: 0; list-style: none; columns: 2; column-gap: 1.5rem; }
+.mega-categories-learn > .mega-category-list { columns: 1; }
 .mega-category-list > li { break-inside: avoid; }
 .nav-list .mega-category-list a { display: flex; min-height: 2.5rem; align-items: center; padding-block: .45rem; font-size: var(--type-body-small); line-height: 1.35; font-weight: 500; }
 .mega-category-list .mega-category-list { columns: 1; padding-left: .75rem; border-left: 1px solid var(--line); margin-bottom: .5rem; }

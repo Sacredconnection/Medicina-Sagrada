@@ -8,7 +8,7 @@ export type PolicySection = {
 type PolicyLayoutProps = {
   title: string;
   intro: string;
-  note: string;
+  note?: string;
   sections: readonly PolicySection[];
   children: ReactNode;
 };
@@ -38,7 +38,7 @@ export function PolicyLayout({ title, intro, note, sections, children }: PolicyL
         <h1>{title}</h1>
         <div className="policy-hero-copy">
           <p>{intro}</p>
-          <p className="policy-hero-note">{note}</p>
+          {note ? <p className="policy-hero-note">{note}</p> : null}
         </div>
       </header>
 
