@@ -4,6 +4,22 @@ const wordpressOrigin = new URL(
   process.env.WORDPRESS_SITE_URL ?? "https://medicinasagrada.com.br",
 );
 
+const allowedPlayers = "https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com https://player.vimeo.com";
+
+// Observe tighter resource rules before enforcing them on legacy CMS content.
+// Inline Next.js hydration needs nonces or hashes before script-src can be strict.
+const reportOnlyCsp = [
+  "default-src 'self'",
+  `script-src 'self'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}`,
+  "style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net",
+  "font-src 'self' data: https://use.typekit.net https://p.typekit.net",
+  `img-src 'self' data: blob: ${wordpressOrigin.origin} https://i.ytimg.com https://img.youtube.com`,
+  `connect-src 'self'${process.env.NODE_ENV === "development" ? " ws: wss:" : ""}`,
+  `frame-src ${allowedPlayers}`,
+  "object-src 'none'",
+  "base-uri 'self'",
+].join("; ");
+
 const nextConfig: NextConfig = {
   distDir: process.env.NEXT_DIST_DIR ?? ".next",
   compress: true,
@@ -50,7 +66,11 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: "frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'",
+            value: `frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src ${allowedPlayers}`,
+          },
+          {
+            key: "Content-Security-Policy-Report-Only",
+            value: reportOnlyCsp,
           },
           {
             key: "X-Frame-Options",

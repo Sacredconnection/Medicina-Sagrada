@@ -48,7 +48,7 @@ export default function RootLayout({
         <a className="skip-link" href="#conteudo">
           Ir para o conteúdo
         </a>
-        <CartProvider>
+        <CartProvider checkoutUrl={config.wooCheckoutUrl}>
           <Header />
           <main id="conteudo">{children}</main>
           <Footer />

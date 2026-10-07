@@ -93,11 +93,11 @@ export function WholesalePage() {
             <h3>Partner stores</h3>
             <p>Customers in the USA and Europe can also consult our partner platforms.</p>
             <div className="wholesale-partner-links">
-              <a href="http://sacredconnection.co" target="_blank" rel="noopener noreferrer" aria-label="Visit Sacred Connection · USA (opens in a new tab)">
+              <a href="https://sacredconnection.co" target="_blank" rel="noopener noreferrer" aria-label="Visit Sacred Connection · USA (opens in a new tab)">
                 <PartnerLogo src="/assets/partners/sacred-connection-logo.svg" name="Sacred Connection" initialAvailable={partnerLogoAvailable("/assets/partners/sacred-connection-logo.svg")} />
                 <span className="partner-region">USA</span>
               </a>
-              <a href="http://mayaherbs.com" target="_blank" rel="noopener noreferrer" aria-label="Visit Maya Herbs · Europe (opens in a new tab)">
+              <a href="https://mayaherbs.com" target="_blank" rel="noopener noreferrer" aria-label="Visit Maya Herbs · Europe (opens in a new tab)">
                 <PartnerLogo src="/assets/partners/maya-herbs-logo.svg" name="Maya Herbs" initialAvailable={partnerLogoAvailable("/assets/partners/maya-herbs-logo.svg")} />
                 <span className="partner-region">Europe</span>
               </a>

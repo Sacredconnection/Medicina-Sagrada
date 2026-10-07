@@ -6,6 +6,20 @@ import {
   prepareArticleHtml,
 } from "../lib/html.ts";
 
+test("removes executable CMS content and protects external new-tab links", () => {
+  const html = cleanHtml('<script>alert(1)</script><img src="/photo.jpg" onerror="alert(1)"><a href="javascript:alert(1)">Unsafe</a><a href="//external.example" target="_blank" rel="opener">External</a>');
+  assert.doesNotMatch(html, /<script|onerror|javascript:|rel="opener"/);
+  assert.match(html, /href="\/\/external.example" target="_blank" rel="noopener noreferrer"/);
+});
+
+test("only approved video hosts retain their source and CMS cannot widen player permissions", () => {
+  const html = cleanHtml('<iframe src="https://evil.example/embed" allow="camera; microphone"></iframe><iframe src="https://www.youtube.com/embed/test" allow="camera; microphone; geolocation" referrerpolicy="unsafe-url"></iframe>');
+  assert.doesNotMatch(html, /evil\.example|camera|microphone|geolocation|unsafe-url/);
+  assert.match(html, /src="https:\/\/www.youtube.com\/embed\/test"/);
+  assert.match(html, /picture-in-picture; fullscreen/);
+  assert.match(html, /referrerpolicy="strict-origin-when-cross-origin"/);
+});
+
 test("preserva variantes responsivas dos banners e encerra o contexto da seção", () => {
   const media = [{ id: 42, source_url: "/banner.png", media_details: { width: 740, height: 300 } }];
   const html = prepareArticleHtml('[section visibility="hide-for-small"][ux_banner bg="42"][/ux_banner][/section][section visibility="show-for-small"][ux_banner bg="42"][/ux_banner][/section][ux_image id="42"]', media);

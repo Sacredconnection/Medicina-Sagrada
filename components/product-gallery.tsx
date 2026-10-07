@@ -64,7 +64,11 @@ export function ProductGallery({ images, name }: { images: WooImage[]; name: str
               src={image.src}
               width={900}
             />
-            <span>Ampliar imagem</span>
+            <span className="product-image-expand-hint" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" />
+              </svg>
+            </span>
           </button>
           <dialog
             ref={dialogRef}

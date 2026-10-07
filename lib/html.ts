@@ -52,7 +52,7 @@ export const cleanHtml = (
     ],
     transformTags: {
       a: (_tagName, attribs) => {
-        const external = /^https?:\/\//.test(attribs.href ?? "");
+        const external = /^(?:https?:)?\/\//i.test(attribs.href ?? "") || attribs.target === "_blank";
         return {
           tagName: "a",
           attribs: external
@@ -62,7 +62,12 @@ export const cleanHtml = (
       },
       iframe: (_tagName, attribs) => ({
         tagName: "iframe",
-        attribs: { ...attribs, loading: "lazy" },
+        attribs: {
+          ...attribs,
+          loading: "lazy",
+          allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen",
+          referrerpolicy: "strict-origin-when-cross-origin",
+        },
       }),
     },
     ...(removeHeadings

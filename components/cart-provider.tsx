@@ -4,6 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState } f
 import type { WooCart } from "@/lib/cart-types";
 import type { CartAction } from "@/lib/cart-validation";
 import { CartDrawer } from "@/components/cart-drawer";
+import { safeCheckoutDestination } from "@/lib/checkout-destination";
 
 type CartContextValue = {
   cart: WooCart | null;
@@ -18,7 +19,7 @@ type CartContextValue = {
 
 const CartContext = createContext<CartContextValue | null>(null);
 
-export function CartProvider({ children }: { children: React.ReactNode }) {
+export function CartProvider({ children, checkoutUrl }: { children: React.ReactNode; checkoutUrl: string }) {
   const [cart, setCart] = useState<WooCart | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const cartTrigger = useRef<HTMLElement | null>(null);
@@ -91,10 +92,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       const response = await fetch("/api/checkout/", { method: "POST" });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
-      window.location.assign(data.url);
+      window.location.assign(safeCheckoutDestination(data.url, checkoutUrl, {
+        allowLocalHttp: process.env.NODE_ENV === "development",
+      }));
     } catch (failure) { setError(failure instanceof Error ? failure.message : "Não foi possível abrir o pagamento."); }
     finally { operation.current = false; setBusy(false); }
-  }, []);
+  }, [checkoutUrl]);
 
   return <CartContext.Provider value={{ cart, busy, loading, error, refresh, mutate, checkout, openCart: () => { cartTrigger.current = document.activeElement instanceof HTMLElement ? document.activeElement : null; setDrawerOpen(true); } }}>{children}{drawerOpen ? <CartDrawer open={drawerOpen} trigger={cartTrigger} onClose={() => setDrawerOpen(false)} /> : null}</CartContext.Provider>;
 }
