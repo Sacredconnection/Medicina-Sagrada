@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { config } from "@/lib/config";
 
 type ContactIconName = "email" | "whatsapp" | "clock";
@@ -79,8 +80,18 @@ export function ContactPage() {
 
         <section className="contact-channels" aria-labelledby="contact-channels-title">
           <div className="contact-section-heading">
-            <h2 id="contact-channels-title">Escolha um canal</h2>
-            <p>WhatsApp para conversar pelo celular ou e-mail para escrever com mais detalhes.</p>
+            <div>
+              <h2 id="contact-channels-title">Escolha um canal</h2>
+              <p>WhatsApp para conversar pelo celular ou e-mail para escrever com mais detalhes.</p>
+            </div>
+            <Image
+              className="contact-conversation-symbol"
+              src="/assets/contato/simbolo-contato.svg?v=20261007"
+              alt=""
+              width={128}
+              height={128}
+              unoptimized
+            />
           </div>
 
           <div className="contact-channel-list">

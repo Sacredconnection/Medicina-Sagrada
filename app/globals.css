@@ -1215,6 +1215,23 @@ strong, b { font-weight: var(--weight-bold); }
   color: var(--white);
 }
 .contact-section-heading { max-width: 42rem; }
+.contact-conversation-symbol { display: none; }
+@media (min-width: 1024px) {
+  .contact-channels .contact-section-heading {
+    display: grid;
+    max-width: none;
+    grid-template-columns: minmax(0, 1fr) clamp(7rem, 9vw, 8rem);
+    align-items: start;
+    gap: 2rem;
+  }
+  .contact-conversation-symbol {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    pointer-events: none;
+  }
+}
 .contact-section-heading h2 {
   max-width: 13ch;
   font-size: clamp(2rem, 3.5vw, 3.2rem);
