@@ -65,7 +65,7 @@
 .catalog-price-fields input { min-width: 0; }
 .catalog-checkbox { display: flex; gap: 0.65rem; align-items: center; margin: 1rem 0; font-size: var(--type-body-small); }
 .catalog-checkbox input { accent-color: var(--forest-800); width: 1.1rem; height: 1.1rem; }
-.catalog-category-options { max-height: 22rem; overflow-y: auto; scrollbar-width: thin; }
+.catalog-category-options { max-height: 22rem; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: thin; }
 .catalog-checkbox input { flex-shrink: 0; }
 .catalog-checkbox small { color: var(--muted); }
 .catalog-filter-fields .commerce-button { width: 100%; margin-top: 0.5rem; }
