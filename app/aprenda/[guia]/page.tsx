@@ -49,6 +49,6 @@ export default async function LearnGuidePage({ params }: Props) {
       </div>
     </article>
     <section className="learn-recommendations learn-photo-before-cta" aria-labelledby="learn-collection-title"><div className="learn-reading-shell"><div className="learn-recommendation-heading"><div className="learn-collection-intro"><h2 id="learn-collection-title">{guide.collectionTitle}</h2><p>{guide.collectionCopy}</p><Link className="button" href={collectionHref}>{collectionLabel}</Link></div><LearnImageSlot src={collectionImage} alt={collectionAlt} className="learn-collection-photo" /></div></div></section>
-    <nav className="learn-reading-shell learn-guide-navigation" aria-label="Continue aprendendo"><Link className="text-link" href="/aprenda/">Todos os guias</Link><Link className="text-link" href={next ? `/aprenda/${next.slug}/` : "/blog/"}><span>{next ? `Próximo: ${next.label}` : "Continue aprendendo no blog"}</span></Link></nav>
+    <nav className="learn-reading-shell learn-guide-navigation" aria-label="Navegação do guia"><Link className="text-link" href="/aprenda/">Todos os guias</Link><Link className="text-link" href={next ? `/aprenda/${next.slug}/` : "/busca/"}><span>{next ? `Próximo: ${next.label}` : "Comprar produtos"}</span></Link></nav>
   </div>;
 }
