@@ -35,6 +35,31 @@ test("sacola persiste, edita quantidades, trata cupons e transfere valores ao ch
   await expect(page.locator("pre")).toContainText('"quantity":1');
 });
 
+test("foto acompanha a variação, permite miniaturas e restaura a imagem geral", async ({ page }) => {
+  await page.goto("/product/pulseira-artesanal/");
+  const photo = page.locator(".product-main-image > img");
+  await expect(photo).toHaveAttribute("alt", "Pulseira geral");
+  await expect(page.locator(".product-thumbnails button")).toHaveCount(2);
+  await page.getByRole("button", { name: "Ver imagem 2 de Pulseira artesanal" }).click();
+  await expect(photo).toHaveAttribute("alt", "Pulseira tamanho P");
+  await expect(page.getByLabel("Escolha uma opção")).toHaveValue("");
+  await page.getByLabel("Escolha uma opção").selectOption("201");
+  await expect(photo).toHaveAttribute("alt", "Pulseira tamanho P");
+  await expect(photo).toHaveAttribute("src", /rape-huni-kuin-tradicao/);
+  await page.locator(".product-main-image").click();
+  await expect(page.locator(".product-expanded-image")).toHaveAttribute("alt", "Pulseira tamanho P");
+  await page.getByRole("button", { name: "Fechar imagem ampliada" }).click();
+  await page.getByRole("button", { name: "Ver imagem 1 de Pulseira artesanal" }).click();
+  await expect(photo).toHaveAttribute("alt", "Pulseira geral");
+  await page.getByLabel("Escolha uma opção").selectOption("");
+  await expect(photo).toHaveAttribute("alt", "Pulseira geral");
+  await expect(page.locator(".product-thumbnails button")).toHaveCount(2);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.getByLabel("Escolha uma opção").selectOption("201");
+  await expect(photo).toHaveAttribute("alt", "Pulseira tamanho P");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
 test("variações, remoção e sacola vazia", async ({ page }) => {
   await page.goto("/product/pulseira-artesanal/");
   await expect(page.getByRole("button", { name: "Adicionar à sacola" })).toBeDisabled();

@@ -8,6 +8,7 @@ import { RichText } from "@/components/rich-text";
 import { ProductPurchase } from "@/components/product-purchase";
 import { ProductIntro } from "@/components/product-intro";
 import { ProductGallery } from "@/components/product-gallery";
+import { ProductVariationProvider } from "@/components/product-variation-provider";
 import { ProductMatcher } from "@/components/product-matcher";
 import { toRitualCatalog } from "@/lib/ritual-catalog";
 import { ProductReviews } from "@/components/product-reviews";
@@ -67,6 +68,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
     primaryCategory ? getProducts({ categoryId: primaryCategory.id, perPage: 5 }).catch(() => []) : [],
   ]);
   const categoryPath = category ? new URL(category.permalink).pathname : "/busca/";
+  const galleryImages = [...product.images];
+  for (const variant of variants) {
+    for (const image of variant.images ?? []) {
+      if (image.src && !galleryImages.some((existing) => existing.src === image.src)) galleryImages.push(image);
+    }
+  }
   const breadcrumbs = [
     { name: "Início", pathname: "/" },
     ...(primaryCategory
@@ -89,8 +96,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
           href: index === breadcrumbs.length - 1 ? undefined : item.pathname,
         }))}
       />
-      <div className="product-layout">
-        <ProductGallery images={product.images} name={productName} />
+      <ProductVariationProvider key={product.id}><div className="product-layout">
+        <ProductGallery images={galleryImages} name={productName} />
         <div className="product-summary">
           {primaryCategory ? (
             <Link
@@ -108,7 +115,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <ProductPurchase product={product} variants={variants} originalUrl={new URL(pathname, config.wordpressSiteUrl).toString()} />
           <p className="purchase-detail">Entrega calculada pelo CEP. <Link href="/refund_returns/">Trocas e devoluções</Link>.</p>
         </div>
-      </div>
+      </div></ProductVariationProvider>
       <section className="product-description" aria-labelledby="descricao">
         <h2 id="descricao">Sobre este produto</h2>
         <RichText html={product.description} textFilter={canonicalizeEthnicityNames} />

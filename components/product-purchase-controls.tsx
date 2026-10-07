@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { ShippingCalculator } from "@/components/shipping-calculator";
 import { useCart } from "@/components/cart-provider";
+import { useProductVariation } from "@/components/product-variation-provider";
 import { formatMoney } from "@/lib/cart-types";
 import type { WooProduct } from "@/lib/types";
 
@@ -12,6 +13,7 @@ export type ProductPurchaseProps = { product: WooProduct; variants: WooProduct[]
 // Prices are sanitized by the ProductPurchase server component before hydration.
 export function ProductPurchaseControls({ product, variants, originalUrl }: ProductPurchaseProps) {
   const { mutate, busy, loading, error } = useCart();
+  const { setVariation } = useProductVariation();
   const [selection, setSelection] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
@@ -36,7 +38,13 @@ export function ProductPurchaseControls({ product, variants, originalUrl }: Prod
   }}>
     <div className="purchase-fields">
     {variable ? <label className="commerce-field purchase-option">Escolha uma opção
-      <select required value={selection} disabled={busy} onChange={(event) => { setSelection(event.target.value); setQuantity(variants.find((v) => String(v.id) === event.target.value)?.add_to_cart?.minimum ?? 1); setAdded(false); }}>
+      <select required value={selection} disabled={busy} onChange={(event) => {
+        const variant = variants.find((v) => String(v.id) === event.target.value);
+        setSelection(event.target.value);
+        setVariation(variant ? { id: variant.id, image: variant.images?.[0] } : null);
+        setQuantity(variant?.add_to_cart?.minimum ?? 1);
+        setAdded(false);
+      }}>
         <option value="">Selecione o peso ou modelo</option>
         {variants.map((variant) => <option key={variant.id} value={variant.id} disabled={variant.is_in_stock === false || variant.is_purchasable === false}>
           {variant.variation || product.variations?.find((entry) => entry.id === variant.id)?.attributes.map((attr) => attr.value).join(" / ") || variant.name}

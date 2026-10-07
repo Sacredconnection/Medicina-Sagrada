@@ -3,9 +3,16 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { WooImage } from "@/lib/types";
+import { useProductVariation } from "@/components/product-variation-provider";
 
 export function ProductGallery({ images, name }: { images: WooImage[]; name: string }) {
-  const [index, setIndex] = useState(0);
+  const { variation } = useProductVariation();
+  const initialIndex = Math.max(0, images.findIndex((image) => image.src === variation?.image?.src));
+  return <ProductGalleryImages key={variation?.id ?? "default"} images={images} name={name} initialIndex={initialIndex} />;
+}
+
+function ProductGalleryImages({ images, name, initialIndex }: { images: WooImage[]; name: string; initialIndex: number }) {
+  const [index, setIndex] = useState(initialIndex);
   const [hasThumbnailOverflow, setHasThumbnailOverflow] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);

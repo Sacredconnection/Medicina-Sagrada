@@ -27,6 +27,8 @@ products[0].review_count = 7;
 products[0].average_rating = "4.4";
 products[0].categories = [categories[1]];
 products[1].categories = [categories[0]];
+products[1].images = [{ id: 10, src: "/assets/home/applicators/medicina-sagrada-aplicadores-kuripes.webp", alt: "Pulseira geral" }];
+products[2].images = [{ id: 11, src: "/assets/home/matcher/products/rape-huni-kuin-tradicao.jpg", alt: "Pulseira tamanho P" }];
 for (let i = 0; i < 12; i++) products.push(product(300 + i, `Artesanato ${i + 1}`, `artesanato-${i + 1}`, 1000 + i * 1000, { categories: [categories[1]], on_sale: i % 2 === 0, is_in_stock: i !== 0 }));
 const keyFor = (id) => createHash("md5").update(String(id)).digest("hex");
 function snapshot(session) {
