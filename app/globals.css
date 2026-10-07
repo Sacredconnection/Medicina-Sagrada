@@ -690,8 +690,6 @@ strong, b { font-weight: var(--weight-bold); }
 .matcher-result-status .loading-mark { width: 1.5rem; }
 .matcher-result-status strong { font-size: 1.25rem; }
 .matcher-result-status p { max-width: 46ch; margin: 0; color: var(--matcher-muted); }
-.matcher-result-status-actions { display: flex; margin-top: 0.75rem; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-.matcher-result-status-actions .matcher-back { margin: 0; }
 .ritual-bundle { display: grid; margin-top: clamp(2.5rem, 5vw, 4rem); grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: 1rem; }
 .ritual-bundle-plus { display: grid; width: 2.5rem; height: 2.5rem; place-items: center; align-self: center; border-radius: 50%; background: var(--forest-950); color: var(--white); font-size: 1.25rem; }
 .ritual-product { display: grid; min-height: 13rem; overflow: hidden; border-radius: 0.875rem; background: var(--white); box-shadow: 0 1.1rem 2.5rem rgba(11, 38, 29, 0.1); grid-template-columns: minmax(9rem, 0.42fr) minmax(0, 0.58fr); }

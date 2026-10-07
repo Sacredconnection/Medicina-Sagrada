@@ -4,8 +4,7 @@ export type LearnGuide = {
   title: string;
   summary: string;
   introduction: string;
-  imageFolder: string;
-  sections: { title: string; body: string; image: string; alt: string }[];
+  sections: { title: string; body: string; alt: string }[];
   checklist: string[];
   collection: "rape" | "aplicadores" | "incensos";
   collectionTitle: string;
@@ -17,11 +16,10 @@ export const learnGuides: LearnGuide[] = [
     slug: "primeiro-rape", label: "Seu primeiro rapé", title: "Comece pela origem, escolha com consciência.",
     summary: "Entenda o que muda entre as preparações e o que observar antes de escolher.",
     introduction: "Rapé não é uma preparação única. Cada mistura tem seus ingredientes, características e uma relação com os povos que a preparam. Conhecer essa origem é o primeiro passo para uma escolha cuidadosa.",
-    imageFolder: "first-hape",
     sections: [
-      { title: "Conheça a origem", body: "Observe o povo, o lugar e os ingredientes associados à preparação. Mesmo dentro de uma mesma tradição, as misturas podem ser diferentes. Leia a história e a descrição de cada produto antes de escolher.", image: "source-and-ingredients.webp", alt: "Preparação de rapé e ingredientes de origem vegetal" },
-      { title: "Escolha com calma", body: "Não é preciso escolher muitas preparações de uma vez. Dedique tempo a entender os ingredientes e o contexto de cada uma. Uma descrição de maior intensidade não significa que um produto seja melhor para começar.", image: "/assets/home/matcher/products/rape-huni-kuin-tradicao.jpg", alt: "Rapé Huni Kuin Tradição da Medicina Sagrada" },
-      { title: "Respeite seus limites", body: "Leia os ingredientes: algumas preparações contêm tabaco e nicotina. Este guia apresenta contexto cultural e não substitui orientação profissional sobre saúde nem acompanhamento por uma pessoa experiente. Em caso de dúvida, procure orientação antes de decidir.", image: "respect-your-limits.webp", alt: "Lua entre as árvores da floresta" },
+      { title: "Conheça a origem", body: "Observe o povo, o lugar e os ingredientes associados à preparação. Mesmo dentro de uma mesma tradição, as misturas podem ser diferentes. Leia a história e a descrição de cada produto antes de escolher.", alt: "Preparação de rapé e ingredientes de origem vegetal" },
+      { title: "Escolha com calma", body: "Não é preciso escolher muitas preparações de uma vez. Dedique tempo a entender os ingredientes e o contexto de cada uma. Uma descrição de maior intensidade não significa que um produto seja melhor para começar.", alt: "Rapé Huni Kuin Tradição da Medicina Sagrada" },
+      { title: "Respeite seus limites", body: "Leia os ingredientes: algumas preparações contêm tabaco e nicotina. Este guia apresenta contexto cultural e não substitui orientação profissional sobre saúde nem acompanhamento por uma pessoa experiente. Em caso de dúvida, procure orientação antes de decidir.", alt: "Lua entre as árvores da floresta" },
     ],
     checklist: ["Origem e ingredientes identificados", "Descrição individual lida com atenção", "Dúvidas esclarecidas antes de escolher", "Um aplicador pessoal bem cuidado"],
     collection: "rape", collectionTitle: "Cada preparação, uma origem.", collectionCopy: "Leve esse cuidado para a sua escolha. Conheça os rapés disponíveis e compare a origem, os ingredientes e a descrição de cada preparação, no seu tempo.",
@@ -30,11 +28,10 @@ export const learnGuides: LearnGuide[] = [
     slug: "escolher-aplicador", label: "Escolhendo um aplicador", title: "Kuripe ou tepi? Entenda a diferença.",
     summary: "Conheça as duas formas tradicionais de aplicador e os cuidados com cada peça.",
     introduction: "A escolha de um aplicador envolve mais do que sua aparência. A forma, o uso e os cuidados com a peça também importam. Kuripes e tepis foram feitos para situações diferentes.",
-    imageFolder: "choose-applicator",
     sections: [
-      { title: "Kuripe: uma peça de uso pessoal", body: "O kuripe é um aplicador compacto, geralmente em formato de V, tradicionalmente utilizado para autoaplicação. Observe o ângulo, o acabamento e as dimensões da peça. Diferentes materiais e formas fazem parte da diversidade desse artesanato.", image: "kuripe-personal-use.webp", alt: "Kuripe de madeira em um ambiente de floresta" },
-      { title: "Tepi: uma prática compartilhada", body: "O tepi é um aplicador mais longo, utilizado por uma pessoa em outra. Essa prática envolve consentimento, confiança, experiência e comunicação cuidadosa. Ele tem uma função própria e não é simplesmente um kuripe maior.", image: "tepi-assisted-use.webp", alt: "Aplicador tepi de madeira com acabamento artesanal" },
-      { title: "Cuide da sua peça", body: "Confira se as aberturas estão livres e se o acabamento é adequado. Siga as orientações de conservação do material, mantenha a peça seca e guarde-a em um local protegido. Trate o aplicador como um item pessoal e evite compartilhá-lo.", image: "applicator-fit-and-care.webp", alt: "Detalhe do acabamento de um aplicador artesanal" },
+      { title: "Kuripe: uma peça de uso pessoal", body: "O kuripe é um aplicador compacto, geralmente em formato de V, tradicionalmente utilizado para autoaplicação. Observe o ângulo, o acabamento e as dimensões da peça. Diferentes materiais e formas fazem parte da diversidade desse artesanato.", alt: "Kuripe de madeira em um ambiente de floresta" },
+      { title: "Tepi: uma prática compartilhada", body: "O tepi é um aplicador mais longo, utilizado por uma pessoa em outra. Essa prática envolve consentimento, confiança, experiência e comunicação cuidadosa. Ele tem uma função própria e não é simplesmente um kuripe maior.", alt: "Aplicador tepi de madeira com acabamento artesanal" },
+      { title: "Cuide da sua peça", body: "Confira se as aberturas estão livres e se o acabamento é adequado. Siga as orientações de conservação do material, mantenha a peça seca e guarde-a em um local protegido. Trate o aplicador como um item pessoal e evite compartilhá-lo.", alt: "Detalhe do acabamento de um aplicador artesanal" },
     ],
     checklist: ["Função do aplicador compreendida", "Forma e dimensões conferidas", "Acabamento e aberturas observados", "Orientações de conservação consultadas"],
     collection: "aplicadores", collectionTitle: "Conheça os aplicadores.", collectionCopy: "Peças tradicionais com diferentes materiais, formas e acabamentos. Leia as características de cada uma.",
@@ -43,11 +40,10 @@ export const learnGuides: LearnGuide[] = [
     slug: "preparar-com-cuidado", label: "Preparando com cuidado", title: "Um momento de atenção pode ser simples.",
     summary: "Prepare um espaço tranquilo e reúna apenas o que você conhece e faz sentido para você.",
     introduction: "Você não precisa de uma composição elaborada ou de muitos objetos. Atenção, privacidade e cuidado podem orientar um começo mais consciente. Conheça o contexto da prática e respeite o conhecimento de quem a transmite.",
-    imageFolder: "prepare-ritual",
     sections: [
-      { title: "Abra espaço para a atenção", body: "Escolha um ambiente tranquilo, ventilado e sem pressa. Reduza as distrações e reserve tempo para compreender a prática. A preparação do espaço começa pelo cuidado com você e com as pessoas ao redor.", image: "make-room-for-attention.webp", alt: "Espaço tranquilo e ventilado preparado com cuidado" },
-      { title: "Reconheça sua intenção", body: "Uma intenção simples, como gratidão ou reflexão, pode ajudar a dar atenção ao momento. Ela não precisa prometer um resultado. Respeitar a origem de uma tradição também significa reconhecer que nem todo conhecimento pode ser resumido em um guia.", image: "/assets/home/matcher/silencio-mental-paz.webp", alt: "A lua vista entre as árvores da floresta" },
-      { title: "Finalize com cuidado", body: "Guarde os objetos em segurança e siga as orientações de limpeza e conservação do seu aplicador. Reserve tempo para observar como você está. Se houver desconforto ou incerteza, interrompa a prática e procure orientação adequada.", image: "close-with-care.webp", alt: "Aplicador pessoal guardado com cuidado" },
+      { title: "Abra espaço para a atenção", body: "Escolha um ambiente tranquilo, ventilado e sem pressa. Reduza as distrações e reserve tempo para compreender a prática. A preparação do espaço começa pelo cuidado com você e com as pessoas ao redor.", alt: "Espaço tranquilo e ventilado preparado com cuidado" },
+      { title: "Reconheça sua intenção", body: "Uma intenção simples, como gratidão ou reflexão, pode ajudar a dar atenção ao momento. Ela não precisa prometer um resultado. Respeitar a origem de uma tradição também significa reconhecer que nem todo conhecimento pode ser resumido em um guia.", alt: "A lua vista entre as árvores da floresta" },
+      { title: "Finalize com cuidado", body: "Guarde os objetos em segurança e siga as orientações de limpeza e conservação do seu aplicador. Reserve tempo para observar como você está. Se houver desconforto ou incerteza, interrompa a prática e procure orientação adequada.", alt: "Aplicador pessoal guardado com cuidado" },
     ],
     checklist: ["Contexto da prática compreendido", "Um espaço tranquilo e ventilado", "Objetos pessoais limpos e conservados", "Tempo para começar e finalizar sem pressa"],
     collection: "incensos", collectionTitle: "Prepare o ambiente com intenção.", collectionCopy: "Incensos e resinas podem acompanhar a preparação do seu espaço. Conheça os aromas e ingredientes de cada opção e siga as orientações de uso, mantendo o ambiente ventilado.",

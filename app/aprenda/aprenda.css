@@ -102,11 +102,7 @@
 .learn-recommendations .product-card { font-family: inherit; }
 .learn-recommendations .product-card h3 { font-family: inherit; font-size: 1.125rem; line-height: 1.4; letter-spacing: -.02em; }
 .learn-collection-links { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
-.learn-nav-link { display: inline-flex; align-items: center; justify-content: space-between; gap: .75rem; min-height: 3.5rem; padding: .75rem 1.25rem; border: 1px solid var(--learn-line); border-radius: .5rem; background: color-mix(in srgb,var(--learn-sand) 10%,var(--white)); color: var(--learn-ink); font-size: .75rem; font-weight: 700; letter-spacing: .12em; line-height: 1.5; text-transform: uppercase; }
-.learn-nav-link:hover { border-color: var(--learn-forest); background: color-mix(in srgb,var(--learn-sand) 20%,var(--white)); }
 .learn-guide-navigation { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1.5rem; padding-block: 1rem; }
-.learn-nav-next { background: var(--learn-forest); color: var(--white); }
-.learn-nav-next:hover { background: var(--learn-ink); }
 .learn-page :is(a,button):focus-visible { outline: 2px solid var(--learn-forest); outline-offset: 3px; }
 @media (max-width: 639px) { .learn-first-steps .learn-background img { object-position: top center; } }
 @media (min-width: 640px) {
@@ -165,7 +161,6 @@
 .learn-guide-navigation .text-link { min-height: 2.75rem; max-width: 100%; font-size: var(--type-action-compact); }
 .learn-collection-photo { aspect-ratio: 4 / 3; border-radius: .75rem; }
 .learn-guide-article .product-image > span { display: revert; }
-.learn-guide-article .learn-collection-links-compact { display: none; }
 @media (min-width: 768px) {
   .learn-guide-article .learn-recommendation-heading { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem; }
   .learn-guide-article .learn-collection-photo { aspect-ratio: 16 / 10; }
