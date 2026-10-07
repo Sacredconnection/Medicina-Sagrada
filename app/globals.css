@@ -174,6 +174,32 @@
 .cart-drawer-subtotal { display: flex; justify-content: space-between; gap: 1rem; }
 .cart-drawer-cart-link { text-align: center; padding: 0.6rem; border: 1px solid var(--forest-800); border-radius: 0.25rem; color: var(--forest-800); font-weight: 600; }
 .cart-drawer :focus-visible { outline: 2px solid var(--forest-650); outline-offset: 3px; }
+@media (max-width: 600px) {
+  .cart-drawer { inset: auto 0 0; width: 100%; height: auto; max-height: calc(100dvh - 1rem); overflow: hidden; border-radius: var(--radius) var(--radius) 0 0; }
+  .cart-drawer[open] { animation-name: cart-rise-in; }
+  .cart-drawer-heading { flex-shrink: 0; padding: 1rem; }
+  .cart-drawer-heading h2 { font-size: 1.5rem; line-height: 1.2; }
+  .cart-drawer-close { flex-shrink: 0; }
+  .cart-drawer-items { flex: 0 1 auto; padding: 0 1rem; scrollbar-width: thin; scrollbar-color: var(--forest-650) var(--white); }
+  .cart-drawer-items > p { margin-block: 1.5rem; }
+  .cart-drawer-item { grid-template-columns: 4.5rem minmax(0, 1fr); gap: 0.75rem 1rem; padding: 1rem 0; }
+  .cart-drawer-item:last-child { border-bottom: 0; }
+  .cart-drawer-item-details { display: contents; }
+  .cart-drawer-item-info { align-self: center; min-width: 0; }
+  .cart-drawer-item .cart-drawer-quantity-label { display: none; }
+  .cart-drawer-item-actions { grid-column: 1 / -1; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 0 1rem; }
+  .cart-drawer-item .bag-quantity { grid-row: 1 / 3; margin: 0; }
+  .cart-drawer-item-price { justify-self: end; font-size: 1.125rem; font-variant-numeric: tabular-nums; }
+  .cart-drawer-item-break { display: none; }
+  .cart-drawer-item-actions > .commerce-text-button { grid-column: 2; justify-self: end; min-height: 2.75rem; padding: 0.5rem 0; }
+  .cart-drawer-footer { flex-shrink: 0; gap: 0.5rem; padding: 1rem 1rem max(0.75rem, env(safe-area-inset-bottom)); }
+  .cart-drawer-subtotal { align-items: baseline; font-weight: var(--weight-semibold); }
+  .cart-drawer-subtotal strong { font-size: 1.25rem; font-variant-numeric: tabular-nums; }
+  .cart-drawer-footer .commerce-button { margin-top: 0.25rem; min-height: 3.25rem; }
+  .cart-drawer-cart-link { display: grid; place-items: center; min-height: 2.75rem; }
+  .cart-drawer-footer > .commerce-text-button { min-height: 2.75rem; }
+}
+@keyframes cart-rise-in { from { transform: translateY(100%); } to { transform: translateY(0); } }
 @keyframes cart-slide-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
 @media (prefers-reduced-motion: reduce) { .cart-drawer[open] { animation: none; } }
 .cart-link { position: relative; }

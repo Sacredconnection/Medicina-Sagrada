@@ -43,14 +43,16 @@ export function CartDrawer({ open, onClose, trigger }: { open: boolean; onClose:
       {cart?.items.length === 0 ? <p>Sua sacola está vazia. Continue explorando a loja.</p> : null}
       {cart?.items.map(item => <article className="cart-drawer-item" key={item.key}>
         {item.images[0] ? <Image src={item.images[0].thumbnail || item.images[0].src} alt="" width={88} height={88} /> : <span />}
-        <div><h3><Link href={pathnameFromUrl(item.permalink)} onClick={onClose}>{plainText(item.name)}</Link></h3>
+        <div className="cart-drawer-item-details"><div className="cart-drawer-item-info"><h3><Link href={pathnameFromUrl(item.permalink)} onClick={onClose}>{plainText(item.name)}</Link></h3>
           {item.variation.length ? <p>{item.variation.map(option => `${plainText(option.attribute)}: ${plainText(option.value)}`).join(" · ")}</p> : null}
-          <p>Quantidade: {item.quantity}</p>
+          <p className="cart-drawer-quantity-label">Quantidade: {item.quantity}</p></div>
+          <div className="cart-drawer-item-actions">
           <div className="bag-quantity" aria-label={`Quantidade de ${plainText(item.name)}`}>
             <button type="button" disabled={busy || loading || !item.quantity_limits.editable || item.quantity - item.quantity_limits.multiple_of < item.quantity_limits.minimum} aria-label={`Diminuir quantidade de ${plainText(item.name)}`} onClick={() => void mutate({ action: "update", key: item.key, quantity: item.quantity - item.quantity_limits.multiple_of })}>−</button><span aria-live="polite">{item.quantity}</span>
             <button type="button" disabled={busy || loading || !item.quantity_limits.editable || item.quantity + item.quantity_limits.multiple_of > item.quantity_limits.maximum} aria-label={`Aumentar quantidade de ${plainText(item.name)}`} onClick={() => void mutate({ action: "update", key: item.key, quantity: item.quantity + item.quantity_limits.multiple_of })}>+</button>
-          </div><strong>{money(item.totals.line_total)}</strong><br />
+          </div><strong className="cart-drawer-item-price">{money(item.totals.line_total)}</strong><br className="cart-drawer-item-break" />
           <button type="button" className="commerce-text-button" disabled={busy || loading} aria-label={`Remover ${plainText(item.name)}`} onClick={() => void mutate({ action: "remove", key: item.key })}>Remover</button>
+          </div>
         </div>
       </article>)}
     </div>
