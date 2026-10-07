@@ -21,8 +21,20 @@ import {
   homeCategories,
 } from "@/lib/home-content";
 import { absoluteUrl } from "@/lib/url";
+import { config } from "@/lib/config";
+import { createMetadata } from "@/lib/seo";
 
 export const revalidate = 900;
+
+export const metadata = {
+  ...createMetadata({
+    title: "Medicina Sagrada",
+    description: "Medicinas, arte e cultura dos povos indígenas e tradicionais do Brasil.",
+    pathname: "/",
+    image: new URL(homeAssets.hero.desktopImage, config.siteUrl).toString(),
+  }),
+  title: { absolute: "Medicina Sagrada" },
+};
 
 export default async function Home() {
   const [apiProducts, youtubeVideos] = await Promise.all([

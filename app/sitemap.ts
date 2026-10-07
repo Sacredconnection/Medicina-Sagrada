@@ -10,6 +10,7 @@ import {
 } from "@/lib/woocommerce";
 import { absoluteUrl, pathnameFromUrl } from "@/lib/url";
 import { learnGuides } from "@/lib/learn-content";
+import { finalizeSitemap } from "@/lib/sitemap-policy";
 
 export const revalidate = 3600;
 
@@ -37,7 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         getAllPostCategories(),
       ]);
 
-    return [
+    return finalizeSitemap([
       ...home,
       ...pages
         .filter((page) => pathnameFromUrl(page.link) !== "/")
@@ -72,9 +73,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           changeFrequency: "monthly" as const,
           priority: 0.6,
         })),
-    ];
+    ]);
   } catch (error) {
     console.error("Não foi possível gerar o sitemap completo.", error);
-    return home;
+    // Do not replace a complete cached sitemap with a successful partial XML.
+    // On a cold request this fails explicitly; revalidation can retain old data.
+    throw error;
   }
 }

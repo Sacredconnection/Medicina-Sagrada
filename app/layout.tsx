@@ -4,12 +4,13 @@ import { Header } from "@/components/header";
 import { CartProvider } from "@/components/cart-provider";
 import { AdobeFontsStylesheet } from "@/components/adobe-fonts-stylesheet";
 import { JsonLd } from "@/components/json-ld";
-import { config } from "@/lib/config";
+import { config, isProductionSite } from "@/lib/config";
 import { organizationSchema, websiteSchema } from "@/lib/seo";
 import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(config.siteUrl),
+  ...(!isProductionSite ? { robots: { index: false, follow: false } } : {}),
   title: {
     default: "Medicina Sagrada",
     template: "%s | Medicina Sagrada",

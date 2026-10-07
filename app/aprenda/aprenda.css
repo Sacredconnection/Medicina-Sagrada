@@ -15,10 +15,8 @@
 .learn-intro-copy > p + p { font-size: .875rem; line-height: 1.5rem; color: var(--muted); margin-top: 1.25rem; max-width: 36rem; }
 .learn-intro-home { min-height: 33.75rem; display: flex; align-items: center; padding-block: 3.5rem; }
 .learn-intro-home > .learn-intro-grid { width: 100%; }
-.learn-intro-home::before { background-color: var(--forest-900); background-image: var(--learn-header-mobile, url("/assets/aprenda/banners/aprenda-cabecalho-mobile.webp")); background-position: center; background-size: cover; background-repeat: no-repeat; }
-@media (min-width: 640px) {
-  .learn-intro-home::before { background-image: var(--learn-header-desktop, url("/assets/aprenda/banners/aprenda-cabecalho-desktop.webp")); }
-}
+.learn-intro-home::before { background-color: var(--forest-900); }
+.learn-header-image { position: absolute; z-index: -1; inset-block: 0; left: 50%; width: 100vw; transform: translateX(-50%); overflow: hidden; }
 @media (min-width: 1024px) {
   .learn-intro-home { min-height: 26.25rem; padding-block: 4rem; }
 }

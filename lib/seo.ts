@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { config } from "@/lib/config";
+import { config, isProductionSite } from "@/lib/config";
 import { excerpt, plainText } from "@/lib/html";
 import { canonicalizeEthnicityNames } from "@/lib/ethnicity-colors";
 import type {
@@ -8,6 +8,7 @@ import type {
   WordPressContent,
 } from "@/lib/types";
 import { absoluteUrl } from "@/lib/url";
+import { isDemoContentPath } from "@/lib/sitemap-policy";
 
 type MetadataInput = {
   title: string;
@@ -33,8 +34,8 @@ export function createMetadata({
     title,
     description,
     alternates: { canonical },
-    robots: noIndex
-      ? { index: false, follow: true }
+    robots: noIndex || !isProductionSite
+      ? { index: false, follow: isProductionSite }
       : {
           index: true,
           follow: true,
@@ -76,6 +77,7 @@ export const metadataForContent = (
     pathname,
     image: content._embedded?.["wp:featuredmedia"]?.[0]?.source_url,
     type: content.type === "post" ? "article" : "website",
+    noIndex: content.type === "page" && isDemoContentPath(pathname),
   });
 
 export const metadataForProduct = (product: WooProduct, pathname: string) =>
@@ -108,12 +110,31 @@ const productPrice = (product: WooProduct) => {
   );
 };
 
+export function editorialSchema({ pathname, headline, description, image, datePublished, dateModified, type = "Article" }: {
+  pathname: string; headline: string; description?: string; image?: string;
+  datePublished?: string; dateModified?: string; type?: "Article" | "WebPage";
+}) {
+  const url = absoluteUrl(pathname);
+  return {
+    "@context": "https://schema.org",
+    "@type": type,
+    "@id": `${url}#${type === "Article" ? "article" : "webpage"}`,
+    url, headline, description,
+    image: image ? new URL(image, config.siteUrl).toString() : undefined,
+    datePublished, dateModified,
+    inLanguage: "pt-BR",
+    publisher: { "@id": `${config.siteUrl}/#organization` },
+    isPartOf: { "@id": `${config.siteUrl}/#website` },
+  };
+}
+
 export const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "@id": `${config.siteUrl}/#organization`,
   name: config.siteName,
   url: config.siteUrl,
+  logo: new URL("/assets/logo/medicina-sagrada-logo-01.svg", config.siteUrl).toString(),
   email: "contato@medicinasagrada.com.br",
   sameAs: [
     "https://www.instagram.com/medicinasagradabr/",

@@ -13,7 +13,7 @@ import { WholesalePage } from "@/components/wholesale-page";
 import { articleShortcodeMediaIds, cleanHtml, plainText, prepareArticleHtml } from "@/lib/html";
 import { ArticleContent } from "@/components/article-content";
 import { articleCtas, contextualizeArticleCta } from "@/lib/article-cta";
-import { breadcrumbSchema, metadataForContent } from "@/lib/seo";
+import { breadcrumbSchema, editorialSchema, metadataForContent } from "@/lib/seo";
 import type { WordPressContent } from "@/lib/types";
 import { ensureTrailingSlash, pathMatches } from "@/lib/url";
 import { getMediaByIds, getPageBySlug, getPostBySlug } from "@/lib/wordpress";
@@ -58,15 +58,13 @@ export async function generateMetadata({
   return metadataForContent(resolved.content, resolved.pathname);
 }
 
-const articleSchema = (content: WordPressContent, pathname: string) => ({
-  "@context": "https://schema.org",
-  "@type": content.type === "post" ? "Article" : "WebPage",
-  "@id": `${pathname}#${content.type === "post" ? "article" : "webpage"}`,
-  url: pathname,
+const articleSchema = (content: WordPressContent, pathname: string) => editorialSchema({
+  type: content.type === "post" ? "Article" : "WebPage",
+  pathname,
   headline: plainText(content.title.rendered),
   datePublished: content.date,
   dateModified: content.modified,
-  inLanguage: "pt-BR",
+  image: content._embedded?.["wp:featuredmedia"]?.[0]?.source_url,
 });
 
 export default async function ContentPage({ params }: ContentPageProps) {

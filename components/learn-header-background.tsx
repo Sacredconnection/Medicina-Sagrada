@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ResponsiveSurfaceImage } from "@/components/responsive-surface-image";
 
 const backgrounds = [
   { variable: "--learn-header-desktop", path: "/assets/aprenda/banners/aprenda-cabecalho-desktop.webp" },
@@ -8,7 +9,8 @@ const backgrounds = [
 ] as const;
 
 export function LearnHeaderBackground() {
-  const marker = useRef<HTMLSpanElement>(null);
+  const marker = useRef<HTMLDivElement>(null);
+  const [images, setImages] = useState({ desktop: backgrounds[0].path as string, mobile: backgrounds[1].path as string });
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "development") return;
@@ -33,7 +35,7 @@ export function LearnHeaderBackground() {
           await image.decode();
           if (!active) return;
           versions.set(path, version);
-          header.style.setProperty(variable, `url("${url}")`);
+          setImages((current) => ({ ...current, [variable === "--learn-header-desktop" ? "desktop" : "mobile"]: url }));
         } catch {
           // Keep the last valid background while an export is being written.
         }
@@ -44,5 +46,7 @@ export function LearnHeaderBackground() {
     return () => { active = false; clearTimeout(timer); };
   }, []);
 
-  return <span hidden ref={marker} />;
+  return <div className="learn-header-image" aria-hidden="true" ref={marker}>
+    <ResponsiveSurfaceImage src={images.desktop} mobileSrc={images.mobile} mobileBreakpoint={639} eager />
+  </div>;
 }

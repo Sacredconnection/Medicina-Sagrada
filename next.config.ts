@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { isProductionSite } from "./lib/config";
 
 const wordpressOrigin = new URL(
   process.env.WORDPRESS_SITE_URL ?? "https://medicinasagrada.com.br",
@@ -52,6 +53,7 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*)",
         headers: [
+          ...(!isProductionSite ? [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] : []),
           {
             key: "Referrer-Policy",
             value: "strict-origin-when-cross-origin",

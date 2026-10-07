@@ -48,4 +48,5 @@ export const config = {
 
 export const isProductionSite =
   process.env.NODE_ENV === "production" &&
+  (!process.env.VERCEL_ENV || process.env.VERCEL_ENV === "production") &&
   config.siteUrl === "https://medicinasagrada.com.br";
