@@ -16,7 +16,10 @@ export default async function LearnPage() {
   const entries = learnPeople.map((person) => {
     const theme = ethnicityThemes.find((item) => item.name === person.name)!;
     const category = categories.find((item) => theme.aliases.includes(item.slug));
-    return { ...person, accent: theme.accent, foreground: theme.foreground, href: category ? pathnameFromUrl(category.permalink) : "/product-category/rape/", media: <LearnImageSlot src={`/assets/aprenda/povos/${person.slug}.webp`} className="learn-person-media" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" alt={`Imagem de contexto de ${person.name}`} /> };
+    const media = person.slug === "shanenawa"
+      ? <div className="learn-image-slot learn-person-media" style={{ backgroundColor: "#e5e5e5" }} aria-hidden="true" />
+      : <LearnImageSlot src={`/assets/aprenda/povos/${person.slug}.webp`} className="learn-person-media" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" alt={`Imagem de contexto de ${person.name}`} />;
+    return { ...person, accent: theme.accent, foreground: theme.foreground, href: category ? pathnameFromUrl(category.permalink) : "/product-category/rape/", media };
   });
   return <>
     <header className="learn-intro learn-intro-home"><LearnHeaderBackground /><div className="learn-shell learn-intro-grid"><div><p className="learn-label">Primeira vez? · Comece aqui</p><h1>Comece pelo{" "}<br /><em>conhecimento.</em></h1></div><div className="learn-intro-copy"><p>Você não precisa conhecer todas as tradições nem escolher tudo de uma vez. Entenda a preparação, o aplicador e o contexto antes de dar seus primeiros passos.</p><p>Explore os guias no seu tempo. Conhecer também é uma<br />forma de respeito.</p></div></div></header>
