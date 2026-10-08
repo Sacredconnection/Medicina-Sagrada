@@ -865,7 +865,7 @@ strong, b { font-weight: var(--weight-bold); }
 .newsletter-feedback.commerce-error { color: var(--brand-text); }
 
 @media (max-width: 900px) {
-  .newsletter-section { --newsletter-background-image: url("/assets/home/newsletter/background/medicina-sagrada-newsletter-background-mobile.webp"); }
+  .newsletter-section { background-image: none; }
   .newsletter-layout { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
   .newsletter-form { width: min(100%, 40rem); }
 }

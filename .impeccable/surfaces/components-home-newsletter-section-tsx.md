@@ -15,7 +15,7 @@ Integração Mailchimp/WordPress pertence ao parceiro de Danilo; serviço não c
 
 THESIS: convite claro à newsletter, sem prometer percentuais de desconto.
 
-OWN-WORLD: fundo branco sob arte transparente responsiva, Proxima Nova, títulos verdes e controles existentes.
+OWN-WORLD: fundo branco, com arte transparente somente acima de 900px; mobile sem imagem ou espaço reservado. Proxima Nova, títulos verdes e controles existentes.
 
 STORY: entenda o conteúdo, informe o e-mail e autorize o recebimento.
 

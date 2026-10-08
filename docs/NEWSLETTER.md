@@ -8,9 +8,9 @@ O título destaca as palavras “saberes” e “ofertas” com `--forest-650` (
 
 ## Imagens de fundo
 
-Fundos preparados em `public/assets/home/newsletter/background/`, conforme o [contrato de exportação](../public/assets/home/newsletter/background/README.md). Desktop: `medicina-sagrada-newsletter-background-desktop.webp`, 1920 × 600 px, até 400 KB. Mobile: `medicina-sagrada-newsletter-background-mobile.webp`, 1080 × 1800 px, até 300 KB. Ambos WebP sRGB com canal alpha. Os arquivos ainda devem ser fornecidos por Danilo; dimensões e pesos são referências de produção.
+Fundo exclusivo do desktop em `public/assets/home/newsletter/background/`, conforme o [contrato de exportação](../public/assets/home/newsletter/background/README.md): `medicina-sagrada-newsletter-background-desktop.webp`, 1920 × 600 px, WebP sRGB com canal alpha, até 400 KB. Dimensões e peso são referências de produção. A preparação da imagem mobile foi removida a pedido de Danilo.
 
-O CSS já aplica a imagem à seção inteira, centralizada e com `cover`, acima do branco existente. Usa mobile até 900px e desktop acima disso. As bordas podem ser recortadas; preserve a metade esquerda para leitura e formulário no desktop e a coluna central no mobile. Sem o arquivo da versão correspondente, permanece o branco. Não é necessário alterar código ao inserir os arquivos canônicos.
+Acima de 900px, o CSS aplica a imagem desktop à seção inteira, centralizada e com `cover`; preserve a metade esquerda para leitura e formulário. Até 900px, a newsletter usa somente fundo branco, texto e formulário, sem imagem ou área reservada abaixo do conteúdo. Não é necessário alterar código ao substituir o arquivo desktop canônico.
 
 ## Integração a cargo do parceiro
 

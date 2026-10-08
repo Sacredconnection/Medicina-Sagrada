@@ -14,7 +14,7 @@ não aumentar o deploy.
 - `home/applicators/`: imagens e fundos da seção de aplicadores.
 - `home/kits/`: imagens e fundos da seção de kits.
 - `home/story/pillars/`: imagens dos pilares institucionais.
-- `home/newsletter/background/`: fundos transparentes desktop e mobile da newsletter.
+- `home/newsletter/background/`: fundo transparente da newsletter, exibido somente no desktop.
 
 ## Padrão de nomes
 

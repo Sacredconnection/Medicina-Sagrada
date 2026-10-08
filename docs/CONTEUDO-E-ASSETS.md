@@ -38,7 +38,7 @@ HTML passa por `lib/html.ts`, com sanitização e preparação de artigos e míd
 | Artesanato | [Imagens](../public/assets/home/crafts/README.md) |
 | História | [Pilares](../public/assets/home/story/pillars/README.md) |
 | Conexão ancestral | [Imagens](../public/assets/home/conexao-ancestral/README.md) |
-| Newsletter | [Fundos transparentes](../public/assets/home/newsletter/background/README.md) |
+| Newsletter | [Fundo transparente desktop](../public/assets/home/newsletter/background/README.md) |
 | Etnias | [Cabeçalhos](../public/assets/ethnicity-headers/README.md) |
 | Aprenda | [Contrato completo](../public/assets/aprenda/README.md) |
 | Parceiros | [Marcas](../public/assets/partners/README.md) |
