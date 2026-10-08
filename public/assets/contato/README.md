@@ -1,10 +1,14 @@
-# Símbolo do card de contato
+# Logotipo da página de atendimento
 
-Coloque aqui seu arquivo com o nome `simbolo-contato.svg`.
+O logotipo aparece acima da linha e do texto de atendimento, no bloco à direita
+de “Fale com a gente.”. No celular, esse bloco fica abaixo da introdução.
 
 - SVG com fundo transparente e `viewBox` ajustado ao desenho, sem grandes margens internas.
-- Área disponível: 112 a 128 px, quadrada. O desenho mantém sua proporção.
-- Visível apenas em telas a partir de 1024 px, no canto superior direito do card “Escolha um canal”.
-- Use cores que contrastem com o fundo verde `#0b261d`; as cores originais do SVG serão preservadas.
+- Área disponível: 192 a 224 px, quadrada. O desenho mantém sua proporção.
+- `simbolo-contato.svg`: original para fundo escuro, preservado.
+- `simbolo-contato-fundo-claro.svg`: versão usada na página, com “Sagrada” em
+  verde `#19401f` para manter a leitura sobre o fundo branco. O restante do
+  desenho mantém as cores e os traçados originais.
 
-Depois de adicionar ou substituir o arquivo, atualize a página. Não é necessário editar o componente.
+Para substituir o logotipo exibido, atualize `simbolo-contato-fundo-claro.svg` e
+recarregue a página. Não é necessário editar o componente.

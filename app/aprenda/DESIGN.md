@@ -108,7 +108,7 @@ A escala registrada cobre labels e ações pequenas, navegação, apoio, corpo, 
 
 ## Layout
 
-O shell principal limita-se a (1440px), o de leitura a (1100px). Ambos descontam (32px) da largura da janela; em desktop, a partir de (1024px), descontam (64px). O índice tem introdução, três guias, glossário com dez entradas e continuidade para o blog. Banners são fundos de seção com largura total e texto HTML.
+O shell principal e os shells dos guias usam o mesmo limite do header, `--max-width` (80rem / 1280px), e as mesmas margens responsivas de `--page-gutter`. O índice tem introdução, três guias, glossário com dez entradas e continuidade para o blog. Banners são fundos de seção com largura total e texto HTML dentro do shell.
 
 A partir de (1024px), guias e linhas do glossário usam três colunas. A introdução do índice tem coluna de texto lateral (420px); nos artigos, (300px). Cards dos povos unem uma faixa de mídia (7rem) ao texto, e o painel aberto ocupa a linha inteira abaixo. Em telas menores, o painel segue imediatamente o card selecionado. Uma entrada fica aberta por vez.
 

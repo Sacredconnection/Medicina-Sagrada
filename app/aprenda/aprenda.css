@@ -2,10 +2,9 @@
 .learn-page :is(h1,h2,h3,p,ul) { margin: 0; }
 .learn-page :is(h1,h2,h3) { font-family: inherit; font-weight: 700; text-wrap: balance; }
 .learn-page p { font-size: 1rem; line-height: 1.75; }
-.learn-shell { width: min(1440px, calc(100% - 32px)); margin-inline: auto; }
-.learn-reading-shell { width: min(1100px, calc(100% - 32px)); margin-inline: auto; }
+.learn-shell, .learn-reading-shell { width: min(calc(100% - (var(--page-gutter) * 2)), var(--max-width)); margin-inline: auto; }
 .learn-intro { position: relative; isolation: isolate; padding-block: clamp(2.5rem, 4vw, 3.5rem); }
-.learn-intro::before { content: ""; position: absolute; z-index: -1; inset-block: 0; left: 50%; width: 100vw; transform: translateX(-50%); background: color-mix(in srgb, var(--learn-sand) 10%, var(--white)); border-block: 1px solid var(--learn-line); }
+.learn-intro::before { content: ""; position: absolute; z-index: -1; inset: 0; background: color-mix(in srgb, var(--learn-sand) 10%, var(--white)); border-block: 1px solid var(--learn-line); }
 .learn-intro-grid { display: grid; gap: 2.5rem; }
 .learn-page .learn-label { font-size: .6875rem; line-height: 1.3; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--brand-text); }
 .learn-intro h1 { font-size: clamp(2.5rem, 4.5vw, 4.5rem); letter-spacing: -.04em; line-height: 1.06; margin-top: 1.25rem; max-width: 22ch; }
@@ -14,9 +13,8 @@
 .learn-intro-copy > p { color: var(--muted); max-width: 42rem; line-height: 1.75; }
 .learn-intro-copy > p + p { font-size: .875rem; line-height: 1.5rem; color: var(--muted); margin-top: 1.25rem; max-width: 36rem; }
 .learn-intro-home { min-height: 33.75rem; display: flex; align-items: center; padding-block: 3.5rem; }
-.learn-intro-home > .learn-intro-grid { width: 100%; }
 .learn-intro-home::before { background-color: var(--forest-900); }
-.learn-header-image { position: absolute; z-index: -1; inset-block: 0; left: 50%; width: 100vw; transform: translateX(-50%); overflow: hidden; }
+.learn-header-image { position: absolute; z-index: -1; inset: 0; overflow: hidden; }
 @media (min-width: 1024px) {
   .learn-intro-home { min-height: 26.25rem; padding-block: 4rem; }
 }
@@ -117,8 +115,6 @@
 }
 @media (min-width: 1024px) {
   .learn-continue-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2.5rem, 5vw, 5rem); }
-  .learn-shell { width: min(1440px, calc(100% - 64px)); }
-  .learn-reading-shell { width: min(1100px, calc(100% - 64px)); }
   .learn-intro { padding-block: 3.5rem; }
   .learn-intro-grid { grid-template-columns: minmax(0,1fr) 420px; align-items: end; gap: 5rem; }
   .learn-first-steps,.learn-people,.learn-recommendations { padding-block: 4rem; }

@@ -535,7 +535,7 @@ strong, b { font-weight: var(--weight-bold); }
 .incense-cta { margin-top: 1.75rem; color: var(--white); }
 
 .applicators-section { --applicators-background-image: url("/assets/home/applicators/background/medicina-sagrada-acessorios-background-desktop.webp"); padding-block: var(--section-space-compact); background-color: var(--white); background-image: var(--applicators-background-image); background-attachment: scroll; background-position: center; background-repeat: no-repeat; background-size: cover; }
-.applicators-layout { display: grid; grid-template-columns: minmax(15rem, 0.72fr) minmax(28rem, 1.28fr); align-items: start; gap: clamp(3rem, 7vw, 7rem); }
+.applicators-layout { display: grid; grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr); align-items: start; gap: clamp(3rem, 7vw, 7rem); }
 .applicators-panel { position: sticky; top: var(--sticky-offset); display: flex; align-items: flex-start; flex-direction: column; padding-top: clamp(0.25rem, 1.5vw, 1.5rem); }
 .applicators-copy { display: flex; align-items: flex-start; flex-direction: column; }
 .applicators-kicker { margin-bottom: 0.85rem; color: var(--brand-text); font-size: var(--type-caption); font-weight: var(--weight-bold); line-height: 1.25; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
@@ -577,7 +577,7 @@ strong, b { font-weight: var(--weight-bold); }
 .kit-card-item:hover, .kit-card-item:focus-visible { box-shadow: 0 0.9rem 1.75rem rgba(11, 38, 29, 0.12), 0 1.75rem 3.5rem rgba(11, 38, 29, 0.1); transform: translateY(-0.3rem); }
 
 .crafts-section { overflow: hidden; padding-block: var(--section-space-major); background: var(--white); color: var(--forest-950); }
-.crafts-layout { display: grid; grid-template-columns: minmax(17rem, 0.78fr) minmax(30rem, 1.22fr); align-items: center; gap: clamp(3.5rem, 8vw, 8rem); }
+.crafts-layout { display: grid; grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr); align-items: center; gap: clamp(3.5rem, 8vw, 8rem); }
 .crafts-copy { display: flex; max-width: 32rem; align-items: flex-start; flex-direction: column; }
 .crafts-copy h2 { max-width: 13ch; font-size: var(--type-section-title); font-weight: var(--weight-bold); letter-spacing: -0.035em; line-height: 1.02; text-wrap: balance; }
 .crafts-copy p { max-width: 32rem; margin: 1.25rem 0 0; color: var(--muted); font-size: clamp(1rem, 1.2vw, 1.075rem); line-height: 1.6; text-wrap: pretty; }
@@ -1262,6 +1262,20 @@ strong, b { font-weight: var(--weight-bold); }
   line-height: 1.65;
   text-wrap: pretty;
 }
+.contact-hero-aside {
+  display: grid;
+  max-width: 28ch;
+  gap: 1.5rem;
+}
+.contact-conversation-symbol {
+  display: block;
+  width: clamp(12rem, 18vw, 14rem);
+  max-width: 100%;
+  height: auto;
+  justify-self: center;
+  object-fit: contain;
+  pointer-events: none;
+}
 .contact-hero-note {
   max-width: 28ch;
   margin: 0;
@@ -1286,23 +1300,6 @@ strong, b { font-weight: var(--weight-bold); }
   color: var(--white);
 }
 .contact-section-heading { max-width: 42rem; }
-.contact-conversation-symbol { display: none; }
-@media (min-width: 1024px) {
-  .contact-channels .contact-section-heading {
-    display: grid;
-    max-width: none;
-    grid-template-columns: minmax(0, 1fr) clamp(7rem, 9vw, 8rem);
-    align-items: start;
-    gap: 2rem;
-  }
-  .contact-conversation-symbol {
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    pointer-events: none;
-  }
-}
 .contact-section-heading h2 {
   max-width: 13ch;
   font-size: clamp(2rem, 3.5vw, 3.2rem);
@@ -1414,7 +1411,7 @@ strong, b { font-weight: var(--weight-bold); }
   .contact-hero { grid-template-columns: minmax(0, 1fr); padding-bottom: 2.5rem; gap: 2rem; }
   .contact-hero h1 { max-width: 8ch; font-size: clamp(3.35rem, 15vw, 4.75rem); }
   .contact-hero-copy > p { font-size: var(--type-body); }
-  .contact-hero-note { max-width: 38ch; }
+  .contact-hero-aside, .contact-hero-note { max-width: 38ch; }
   .contact-layout { grid-template-columns: minmax(0, 1fr); margin-top: 3rem; }
   .contact-self-service { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
 }
@@ -2218,7 +2215,8 @@ strong, b { font-weight: var(--weight-bold); }
   .category-tile-detail { min-height: 4.5em; max-width: 18ch; margin-top: 0.55rem; margin-inline: auto; font-size: var(--type-label); line-height: 1.5; }
   .category-tile-cta { width: 8.5rem; min-height: 2.5rem; margin-top: 0.75rem; }
   .section-heading-inline { align-items: flex-start; flex-direction: column; gap: 1rem; }
-  .crafts-layout { grid-template-columns: minmax(15rem, 0.8fr) minmax(25rem, 1.2fr); gap: clamp(2.5rem, 6vw, 4rem); }
+  .crafts-layout { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(2.5rem, 6vw, 4rem); }
+  .applicators-kicker, .applicators-copy h2 span { white-space: normal; }
   .incense-copy { max-width: 34rem; }
   .incense-copy h2 { max-width: 13ch; }
   .benefits-grid-desktop { display: none; }

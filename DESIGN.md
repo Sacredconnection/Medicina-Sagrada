@@ -202,7 +202,8 @@ Grade geral de produtos tem quatro colunas em desktop, com overrides por
 superfície. Sacola usa conteúdo e resumo de 23rem antes de empilhar.
 Breakpoints são por componente, não uma escala Tailwind.
 
-Aprenda tem shells de 1440px e leitura de 1100px. Cards dos povos passam de
+Aprenda e seus guias usam o mesmo container de 80rem do header,
+com as margens responsivas page-gutter. Cards dos povos passam de
 uma para duas colunas em 640px e três em 1024px. Guias internos compactos têm
 três passos lado a lado a partir de 1024px e empilhados no mobile. O documento
 local antigo tem divergências registradas em [Conteúdo e assets](docs/CONTEUDO-E-ASSETS.md).

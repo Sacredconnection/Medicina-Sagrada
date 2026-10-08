@@ -57,9 +57,19 @@ export function ContactPage() {
             Se a dúvida for sobre uma compra, tenha o número do pedido em mãos.
           </p>
         </div>
-        <p className="contact-hero-note">
-          Atendimento de segunda a sexta, em horários informados abaixo.
-        </p>
+        <div className="contact-hero-aside">
+          <Image
+            className="contact-conversation-symbol"
+            src="/assets/contato/simbolo-contato-fundo-claro.svg"
+            alt=""
+            width={128}
+            height={128}
+            unoptimized
+          />
+          <p className="contact-hero-note">
+            Atendimento de segunda a sexta, em horários informados abaixo.
+          </p>
+        </div>
       </header>
 
       <div className="contact-layout">
@@ -84,14 +94,6 @@ export function ContactPage() {
               <h2 id="contact-channels-title">Escolha um canal</h2>
               <p>WhatsApp para conversar pelo celular ou e-mail para escrever com mais detalhes.</p>
             </div>
-            <Image
-              className="contact-conversation-symbol"
-              src="/assets/contato/simbolo-contato.svg?v=20261007"
-              alt=""
-              width={128}
-              height={128}
-              unoptimized
-            />
           </div>
 
           <div className="contact-channel-list">
