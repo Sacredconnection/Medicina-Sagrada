@@ -1,5 +1,5 @@
 import { parseDocument } from "htmlparser2";
-import { findAll, getOuterHTML, removeElement, replaceElement, textContent } from "domutils";
+import { findAll, getOuterHTML, removeElement, textContent } from "domutils";
 import type { WordPressContent } from "./types";
 
 type ArticleCta = { title: string; description: string; label: string; href: string };
@@ -88,11 +88,10 @@ export function contextualizeArticleCta(content: Pick<WordPressContent, "slug" |
   const document = parseDocument(html);
   const previous = findAll((element) => {
     const classes = (element.attribs.class ?? "").split(/\s+/);
-    return classes.includes("article-inline-cta") || (classes.includes("wp-block-buttons") &&
+    return classes.includes("article-inline-cta") || classes.includes("article-shop-cta") || (classes.includes("wp-block-buttons") &&
       findAll((child) => child.name === "a" && /^(?:https?:\/\/(?:www\.)?medicinasagrada\.com\.br)?\/(?:product-category|product|shop)\//.test(child.attribs.href ?? ""), element.children).length > 0);
   }, document.children);
   if (!previous.length) return `${html}\n${block}`;
-  replaceElement(previous[0], parseDocument(block).children[0]);
-  previous.slice(1).forEach(removeElement);
-  return getOuterHTML(document, { encodeEntities: false });
+  previous.forEach(removeElement);
+  return `${getOuterHTML(document, { encodeEntities: false }).trimEnd()}\n${block}`;
 }

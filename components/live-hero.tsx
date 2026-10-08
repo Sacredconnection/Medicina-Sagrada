@@ -29,7 +29,7 @@ type HeroImages = {
 
 const AUTOPLAY_DELAY = 7000;
 // Ajuste aqui a quantidade de poeira; no mobile mostramos uma a cada duas.
-const DUST_PARTICLE_COUNT = 132;
+const DUST_PARTICLE_COUNT = 156;
 const dustParticles = Array.from({ length: DUST_PARTICLE_COUNT }, (_, index) => ({
   "--dust-x": `${(index * 37 + 11) % 100}%`,
   "--dust-y": `${(index * 61 + 7) % 100}%`,

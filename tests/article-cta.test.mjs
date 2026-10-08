@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { parseDocument } from "htmlparser2";
 import { articleCtas, contextualizeArticleCta, getArticleCta } from "../lib/article-cta.ts";
 import { cleanHtml, prepareArticleHtml } from "../lib/html.ts";
 
@@ -17,14 +18,26 @@ test("as 12 matérias têm convites próprios e categorias locais", () => {
   }
 });
 
-test("substitui botões antigos no lugar e evita CTAs repetidos", () => {
+test("move o convite para depois do conteúdo e das fontes sem repetir CTAs", () => {
   const content = post("conheca-os-kenes-os-grafismos-sagrados-indigenas");
   const html = prepareArticleHtml('<p>Introdução.</p>[button text="COMPRE AGORA" link="https://medicinasagrada.com.br/product-category/artesanato/micangas/"]<h3>Fontes</h3><p>Referência preservada.</p>[ux_featured_products title="Conheça também"]');
   const result = contextualizeArticleCta(content, html);
   assert.equal((result.match(/class="article-shop-cta"/g) ?? []).length, 1);
   assert.doesNotMatch(result, /COMPRE AGORA|article-inline-cta/);
-  assert.ok(result.indexOf("article-shop-cta") < result.indexOf("<h3>Fontes"));
+  assert.ok(result.indexOf("article-shop-cta") > result.indexOf("Referência preservada"));
+  assert.equal(parseDocument(result).children.filter((node) => node.type === "tag").at(-1).attribs.class, "article-shop-cta");
   assert.match(result, /Referência preservada/);
+});
+
+test("mantém um único convite no final ao receber um card já existente", () => {
+  const content = post("rape");
+  const html = '<p>Introdução.</p><section class="article-shop-cta"><p>Convite antigo</p></section><figure><img src="/foto.webp" alt="Foto editorial"></figure><p>Final da matéria.</p>';
+  const result = contextualizeArticleCta(content, html);
+  assert.equal((result.match(/class="article-shop-cta"/g) ?? []).length, 1);
+  assert.doesNotMatch(result, /Convite antigo/);
+  assert.match(result, /Foto editorial/);
+  assert.ok(result.indexOf("article-shop-cta") > result.indexOf("Final da matéria"));
+  assert.equal(contextualizeArticleCta(content, result), result);
 });
 
 test("novas matérias priorizam o assunto do título sobre menções no texto", () => {
