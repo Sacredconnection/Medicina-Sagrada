@@ -106,18 +106,19 @@ export function HomeNewsletterSection({
               disabled={busy}
               required
             />
-            <button className="button newsletter-submit" type="submit" disabled={busy}>
-              {busy ? "Cadastrando…" : "Quero receber"}
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M4 12h15m-6-6 6 6-6 6" />
-              </svg>
-            </button>
           </div>
 
           <label className="newsletter-consent">
             <input name="consent" type="checkbox" disabled={busy} required />
             <span>Quero receber novidades e promoções da Medicina Sagrada por e-mail.</span>
           </label>
+
+          <button className="button newsletter-submit" type="submit" disabled={busy}>
+            {busy ? "Cadastrando…" : "Quero receber"}
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 12h15m-6-6 6 6-6 6" />
+            </svg>
+          </button>
 
           <p className="newsletter-privacy">
             Você pode cancelar o recebimento a qualquer momento. Consulte nossa{" "}
