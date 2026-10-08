@@ -17,6 +17,7 @@ Revisão: **06/10/2026**. Esta documentação descreve a implementação local. 
 | Investigar checkout e gateway | [Pagamentos](PAGAMENTOS.md) |
 | Investigar frete | [Frete](FRETE.md) |
 | Investigar rede | [Conexão](CONEXAO-HOSPEDAGEM.md) |
+| Conectar o cadastro de newsletter | [Newsletter](NEWSLETTER.md) |
 
 ## Fontes de autoridade
 

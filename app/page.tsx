@@ -6,6 +6,7 @@ import { HomeApplicatorsSection } from "@/components/home-applicators-section";
 import { HomeConexaoAncestralSection } from "@/components/home-conexao-ancestral-section";
 import { HomeCraftsSection } from "@/components/home-crafts-section";
 import { HomeKitsSection } from "@/components/home-kit-grid";
+import { HomeNewsletterSection } from "@/components/home-newsletter-section";
 import { HomeProductGrid } from "@/components/home-product-grid";
 import { HomeYoutubeSection } from "@/components/home-youtube-section";
 import { JsonLd } from "@/components/json-ld";
@@ -250,6 +251,8 @@ export default async function Home() {
       <HomeYoutubeSection videos={youtubeVideos} />
 
       <HomeConexaoAncestralSection />
+
+      <HomeNewsletterSection />
       </div>
 
       <JsonLd data={pageSchema} />
