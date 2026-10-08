@@ -30,9 +30,10 @@ type HeroImages = {
 const AUTOPLAY_DELAY = 7000;
 // Ajuste aqui a quantidade de poeira; no mobile mostramos uma a cada duas.
 const DUST_PARTICLE_COUNT = 156;
+// Posições determinísticas espalhadas pelo banner, sem repetir os pontos de origem.
 const dustParticles = Array.from({ length: DUST_PARTICLE_COUNT }, (_, index) => ({
-  "--dust-x": `${(index * 37 + 11) % 100}%`,
-  "--dust-y": `${(index * 61 + 7) % 100}%`,
+  "--dust-x": `${((((index + 1) * 0.7548776662466927) % 1) * 100).toFixed(3)}%`,
+  "--dust-y": `${((((index + 1) * 0.5698402909980532) % 1) * 100).toFixed(3)}%`,
   "--dust-size": `${1.5 + ((index * 7) % 6) * 0.5}px`,
   "--dust-opacity": 0.22 + ((index * 3) % 7) * 0.055,
   "--dust-duration": `${18 + ((index * 7) % 17)}s`,
