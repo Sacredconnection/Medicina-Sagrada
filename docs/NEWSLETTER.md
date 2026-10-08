@@ -1,6 +1,6 @@
 # Newsletter da home
 
-Adicionada em 08/10/2026: última seção da home, abaixo de Conexão Ancestral e antes do footer, com fundo branco. Usa os tokens e a tipografia de DESIGN.md. Desktop apresenta duas colunas; até 900px, conteúdo e formulário ficam empilhados; até 600px, campo e botão também empilham.
+Adicionada em 08/10/2026: última seção da home, abaixo de Conexão Ancestral e antes do footer, com fundo branco. Usa os tokens e a tipografia de DESIGN.md. Desktop concentra título, texto e formulário empilhados na coluna esquerda, deixando a metade direita livre de conteúdo para imagens. Até 900px, a coluna ocupa a largura disponível; até 600px, campo e botão também empilham.
 
 Frontend: `components/home-newsletter-section.tsx`, montado em `app/page.tsx`; estilos locais em `app/globals.css`. Inclui validação nativa de e-mail, consentimento obrigatório, proteção contra envio duplo e estados de envio, erro, confirmação e confirmação pendente por e-mail.
 
@@ -10,7 +10,7 @@ O título destaca as palavras “saberes” e “ofertas” com `--forest-650` (
 
 Fundos preparados em `public/assets/home/newsletter/background/`, conforme o [contrato de exportação](../public/assets/home/newsletter/background/README.md). Desktop: `medicina-sagrada-newsletter-background-desktop.webp`, 1920 × 600 px, até 400 KB. Mobile: `medicina-sagrada-newsletter-background-mobile.webp`, 1080 × 1800 px, até 300 KB. Ambos WebP sRGB com canal alpha. Os arquivos ainda devem ser fornecidos por Danilo; dimensões e pesos são referências de produção.
 
-O CSS já aplica a imagem à seção inteira, centralizada e com `cover`, acima do branco existente. Usa mobile até 900px e desktop acima disso. As bordas podem ser recortadas; preserve o centro para leitura e formulário. Sem o arquivo da versão correspondente, permanece o branco. Não é necessário alterar código ao inserir os arquivos canônicos.
+O CSS já aplica a imagem à seção inteira, centralizada e com `cover`, acima do branco existente. Usa mobile até 900px e desktop acima disso. As bordas podem ser recortadas; preserve a metade esquerda para leitura e formulário no desktop e a coluna central no mobile. Sem o arquivo da versão correspondente, permanece o branco. Não é necessário alterar código ao inserir os arquivos canônicos.
 
 ## Integração a cargo do parceiro
 

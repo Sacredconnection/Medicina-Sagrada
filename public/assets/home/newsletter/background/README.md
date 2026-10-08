@@ -15,7 +15,7 @@ Formato: **WebP sRGB com transparência (canal alpha)**. Exporte sem achatar sob
 
 - A imagem fica no fundo de toda a seção, atrás do título, texto e formulário, sem receber eventos ou bloquear controles.
 - Não inclua títulos, textos, botão ou campos dentro da arte: esses elementos já existem em HTML.
-- Desktop: composição horizontal, com ornamentos nas bordas; preserve uma área central ampla, transparente ou de baixo contraste, para título à esquerda e formulário à direita.
+- Desktop: título, texto e formulário ficam empilhados na metade esquerda. Preserve essa área transparente ou de baixo contraste; a metade direita fica livre de conteúdo e pode receber a imagem principal.
 - Mobile: composição vertical, com detalhes nas bordas, topo e base; mantenha a coluna central leve ou transparente para a leitura e o formulário empilhados.
 - O CSS usa `background-size: cover` e centraliza a imagem, preservando a proporção. As bordas podem ser recortadas conforme largura e altura da seção, inclusive quando uma mensagem do formulário aumenta a altura.
 - Mantenha elementos visuais importantes dentro dos **70% centrais** da arte. Nas telas intermediárias, o recorte poderá ser maior; evite informação essencial no fundo.

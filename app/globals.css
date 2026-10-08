@@ -841,7 +841,8 @@ strong, b { font-weight: var(--weight-bold); }
 
 /* Home newsletter */
 .newsletter-section { --newsletter-background-image: url("/assets/home/newsletter/background/medicina-sagrada-newsletter-background-desktop.webp"); padding-block: var(--section-space-standard); background-color: var(--white); background-image: var(--newsletter-background-image); background-position: center; background-repeat: no-repeat; background-size: cover; background-attachment: scroll; }
-.newsletter-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(2.5rem, 5vw, 5rem); }
+.newsletter-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 2rem clamp(2.5rem, 5vw, 5rem); }
+.newsletter-layout > * { grid-column: 1; }
 .newsletter-copy h2 { max-width: 20ch; color: var(--forest-950); font-size: var(--type-section-title); font-weight: var(--weight-bold); letter-spacing: -0.03em; line-height: 1.04; text-wrap: balance; }
 .newsletter-copy h2 span { color: var(--forest-650); }
 .newsletter-copy > p { max-width: 52ch; margin: 1.25rem 0 0; color: var(--muted); font-size: var(--type-body); line-height: 1.6; text-wrap: pretty; }
