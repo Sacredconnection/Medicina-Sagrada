@@ -11,6 +11,7 @@ import {
 import { absoluteUrl, pathnameFromUrl } from "@/lib/url";
 import { learnGuides } from "@/lib/learn-content";
 import { finalizeSitemap } from "@/lib/sitemap-policy";
+import { intentions } from "@/lib/intencoes";
 
 export const revalidate = 3600;
 
@@ -27,6 +28,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     })),
   ];
+  const intentionPages: MetadataRoute.Sitemap = [
+    { url: absoluteUrl("/intencoes/"), changeFrequency: "monthly", priority: 0.7 },
+    ...intentions.map(({ slug }) => ({
+      url: absoluteUrl(`/intencoes/${slug}/`),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
+  ];
 
   try {
     const [pages, posts, products, productCategories, postCategories] =
@@ -40,6 +49,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     return finalizeSitemap([
       ...home,
+      ...intentionPages,
       ...pages
         .filter((page) => pathnameFromUrl(page.link) !== "/")
         .map((page) => ({
