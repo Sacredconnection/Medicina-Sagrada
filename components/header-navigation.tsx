@@ -70,7 +70,7 @@ function MegaPanel({ item, pathname }: { item: NavigationItem; pathname: string 
       <p className="mega-caption">{isLearn ? "Conhecimentos da floresta" : "Explore a loja"}</p>
       <h2>{item.label}</h2>
       <p>{isLearn ? "Guias, histórias e saberes para conhecer as tradições e escolher com consciência." : isRape ? "Conheça as diferentes origens e encontre seu rapé." : `Conheça nossa coleção de ${item.label.toLocaleLowerCase("pt-BR")} e explore as categorias.`}</p>
-      <Link className="mega-all" href={item.href} aria-current={isCurrentPage(pathname, item.href) ? "page" : undefined}>{isLearn ? "Conheça os primeiros passos" : "Ver toda a coleção"}</Link>
+      <Link className="mega-all mega-all-featured" href={item.href} aria-current={isCurrentPage(pathname, item.href) ? "page" : undefined}>{isLearn ? "Conheça os primeiros passos" : "Ver toda a coleção"}</Link>
     </div>
     <div className={`mega-categories${isLearn ? " mega-categories-learn" : ""}`}><p className="mega-caption">{isLearn ? "Conteúdos" : isRape ? "Explore os rapés" : "Categorias"}</p><CategoryLinks items={contentLinks} isRape={isRape} pathname={pathname} /></div>
     <div className="mega-feature" style={featureStyle}>
