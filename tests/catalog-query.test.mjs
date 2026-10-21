@@ -17,3 +17,15 @@ test("categorias são cumulativas, únicas e preservadas na URL", () => {
   assert.deepEqual(catalogSearch(query).getAll("categoria"), ["10", "11"]);
   assert.equal(query.stock && query.sale, true);
 });
+
+test("intenções válidas são preservadas no filtro e valores desconhecidos são descartados", () => {
+  const query = parseCatalogQuery({ intencao_principal: "limpeza-e-refrescancia", intencao_secundaria: "foco-e-clareza" });
+  assert.equal(query.primaryIntention, "limpeza-e-refrescancia");
+  assert.equal(query.secondaryIntention, "foco-e-clareza");
+  const search = catalogSearch(query);
+  assert.equal(search.get("intencao_principal"), "limpeza-e-refrescancia");
+  assert.equal(search.get("intencao_secundaria"), "foco-e-clareza");
+  const invalid = parseCatalogQuery({ intencao_principal: "unknown", intencao_secundaria: "__proto__" });
+  assert.equal(invalid.primaryIntention, "");
+  assert.equal(invalid.secondaryIntention, "");
+});

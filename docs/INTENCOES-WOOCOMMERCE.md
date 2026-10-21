@@ -4,6 +4,8 @@
 
 - `/intencoes/` apresenta os sete temas editoriais e suas páginas individuais.
 - Cada página busca produtos na Store API e os relaciona por intenção principal ou secundária.
+- Os cards e fichas de produto mostram as classificações cadastradas e levam às páginas do tema.
+- O catálogo e a busca podem filtrar por intenção principal e secundária; quando os dois filtros estão preenchidos, o produto precisa corresponder a ambos.
 - O site revalida o catálogo a cada 15 minutos. Falha de leitura mostra aviso e ação de nova tentativa; uma resposta vazia mostra estado vazio.
 - Os textos descrevem linguagem editorial e não prometem resultados nem indicam segurança.
 

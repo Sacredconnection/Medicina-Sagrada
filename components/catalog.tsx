@@ -5,6 +5,7 @@ import { ProductCard } from "@/components/product-card";
 import { catalogSearch, type CatalogQuery } from "@/lib/catalog-query";
 import { getAllProductCategories, getCatalog } from "@/lib/woocommerce";
 import { canonicalizeEthnicityNames } from "@/lib/ethnicity-colors";
+import { getIntention } from "@/lib/intencoes";
 
 export async function Catalog({ query: inputQuery, basePath, categoryId, page = inputQuery.page }: { query: CatalogQuery; basePath: string; categoryId?: number; page?: number }) {
   const categories = await getAllProductCategories();
@@ -32,6 +33,10 @@ export async function Catalog({ query: inputQuery, basePath, categoryId, page = 
   return <div className="catalog-layout">
     <CatalogFilters key={basePath} query={query} basePath={basePath} categories={allowed} categoryId={categoryId} />
     <div className="catalog-results">
+      {query.primaryIntention || query.secondaryIntention ? <div className="catalog-active-filters" aria-label="Filtros de intenção aplicados" role="group">
+        {query.primaryIntention ? <Link scroll={false} href={`${basePath}?${catalogSearch({ ...query, primaryIntention: "" })}`}>Principal: {getIntention(query.primaryIntention)?.name} ×</Link> : null}
+        {query.secondaryIntention ? <Link scroll={false} href={`${basePath}?${catalogSearch({ ...query, secondaryIntention: "" })}`}>Secundária: {getIntention(query.secondaryIntention)?.name} ×</Link> : null}
+      </div> : null}
       <div className="catalog-toolbar"><p>{result.total} {result.total === 1 ? "produto encontrado" : "produtos encontrados"}{result.data.length ? ` · ${((page - 1) * 12) + 1}–${((page - 1) * 12) + result.data.length}` : ""}</p><CatalogSort key={params.toString()} value={query.sort} /></div>
       {query.invalidPrice ? <p className="commerce-error" role="alert">Informe preços válidos, com o mínimo menor ou igual ao máximo. O filtro de preço não foi aplicado.</p> : null}
       {hasActiveFilters ? <div className="catalog-active-filters" aria-label="Filtros aplicados" role="group">
