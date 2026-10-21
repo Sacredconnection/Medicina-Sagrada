@@ -7,41 +7,41 @@ const assetBase = "/assets/home/conexao-ancestral";
 
 const pillars = [
   {
-    icon: "shield",
-    title: "Autodeterminação",
+    icon: "leaf",
+    title: "Saberes ancestrais",
     description:
-      "Fortalecimento das lideranças indígenas e da gestão autônoma de seus territórios.",
+      "Fortalecimento da cultura e dos conhecimentos dos povos originários.",
   },
   {
-    icon: "leaf",
-    title: "Preservação cultural",
+    icon: "shield",
+    title: "Autonomia e proteção",
     description:
-      "Proteção dos cantos tradicionais, das medicinas da floresta e das linhagens sagradas.",
+      "Apoio aos direitos territoriais, à autogestão e ao protagonismo indígena.",
   },
   {
     icon: "water",
-    title: "Projetos de impacto",
+    title: "Sustentabilidade viva",
     description:
-      "Ações concretas de acesso à água potável, sustentabilidade e infraestrutura básica.",
+      "Iniciativas comunitárias que unem cuidado ambiental, infraestrutura e autonomia.",
   },
 ] as const;
 
 const gallery = [
   {
-    src: `${assetBase}/conexao-ancestral-collage-1.webp`,
-    alt: "Comunidade reunida em meio à floresta amazônica",
+    src: `${assetBase}/conexao-ancestral-collage-1.webp?v=20261021-1`,
+    alt: "Criança indígena carregando um recipiente enquanto outras pessoas caminham pela floresta",
   },
   {
-    src: `${assetBase}/conexao-ancestral-collage-2.webp`,
-    alt: "Expressão da cultura indígena amazônica",
+    src: `${assetBase}/conexao-ancestral-collage-2.webp?v=20261021-1`,
+    alt: "Famílias indígenas transportando alimentos de barco pelo rio",
   },
   {
-    src: `${assetBase}/conexao-ancestral-collage-3.webp`,
-    alt: "Vista aérea de uma comunidade cercada pela floresta",
+    src: `${assetBase}/conexao-ancestral-collage-3.webp?v=20261021-1`,
+    alt: "Duas meninas com camisetas da Conexão Ancestral",
   },
   {
-    src: `${assetBase}/conexao-ancestral-collage-4.webp`,
-    alt: "Morador atravessando um curso de água na floresta",
+    src: `${assetBase}/conexao-ancestral-collage-4.webp?v=20261021-1`,
+    alt: "Quatro crianças indígenas reunidas em uma clareira na floresta",
   },
 ] as const;
 
@@ -127,12 +127,11 @@ export function HomeConexaoAncestralSection() {
 
               <div className="ancestral-introduction">
                 <h2 id="conexao-ancestral-title">
-                  Pontes de apoio para a <span>Floresta Amazônica</span>
+                  Uma história de <span>resiliência e conexão</span>
                 </h2>
                 <p>
-                  A Conexão Ancestral atua como uma ponte vital entre a sabedoria da
-                  floresta e o mundo moderno. Apoiamos a autodeterminação indígena no
-                  Acre, protegendo conhecimentos ancestrais e territórios tradicionais.
+                  A Conexão Ancestral caminha ao lado dos povos indígenas para fortalecer
+                  sua autonomia cultural, social, ambiental e econômica.
                 </p>
               </div>
 
@@ -169,10 +168,10 @@ export function HomeConexaoAncestralSection() {
             >
               <motion.figure className="ancestral-photo ancestral-photo-featured" variants={photoVariants}>
                 <Image
-                  alt="Família indígena reunida na floresta amazônica"
+                  alt="Grupo indígena reunido em uma comunidade na floresta amazônica"
                   fill
                   sizes="(min-width: 1000px) 34vw, (min-width: 600px) 80vw, 100vw"
-                  src={`${assetBase}/conexao-ancestral-collage-5.webp`}
+                  src={`${assetBase}/conexao-ancestral-collage-5.webp?v=20261021-1`}
                 />
               </motion.figure>
 

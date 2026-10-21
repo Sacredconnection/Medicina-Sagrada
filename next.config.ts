@@ -36,6 +36,10 @@ const nextConfig: NextConfig = {
         search: "",
       },
       {
+        pathname: "/assets/home/conexao-ancestral/conexao-ancestral-collage-*.webp",
+        search: "?v=20261021-1",
+      },
+      {
         pathname: "/assets/ethnicity-headers/**",
       },
     ],
