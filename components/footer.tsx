@@ -60,6 +60,7 @@ export function Footer() {
         <nav className="footer-nav" aria-label="Produtos">
           <p className="footer-title">Explore</p>
           <ul className="footer-nav-list">
+            <li><Link href="/intencoes/">Intenções</Link></li>
             <li><Link href="/product-category/rape/">Rapé</Link></li>
             <li><Link href="/product-category/medicinais/sananga-medicinais/">Sananga</Link></li>
             <li><Link href="/product-category/incensos/">Incensos</Link></li>

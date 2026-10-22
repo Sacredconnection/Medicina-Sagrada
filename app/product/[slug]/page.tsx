@@ -61,6 +61,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const productName = canonicalizeEthnicityNames(plainText(product.name));
   const ethnicityTheme = getEthnicityTheme(product.categories);
   const primaryCategoryName = ethnicityTheme?.name ?? canonicalizeEthnicityNames(primaryCategory?.name ?? "Medicina Sagrada");
+  const primaryIntention = product.attributes?.find((attribute) => attribute.taxonomy === "pa_intencao-principal")?.terms[0];
+  const secondaryIntentions = product.attributes?.find((attribute) => attribute.taxonomy === "pa_intencoes-secundarias")?.terms ?? [];
   const [category, variants, reviews, related] = await Promise.all([
     primaryCategory ? getProductCategoryBySlug(primaryCategory.slug).catch(() => null) : null,
     getProductVariations(product),
@@ -114,6 +116,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </p>
           <ProductPurchase product={product} variants={variants} originalUrl={new URL(pathname, config.wordpressSiteUrl).toString()} />
           <p className="purchase-detail">Entrega calculada pelo CEP. <Link href="/refund_returns/">Trocas e devoluções</Link>.</p>
+          {primaryIntention || secondaryIntentions.length ? <section className="product-intention-panel" aria-label="Classificação editorial">
+            <p className="eyebrow">Intenções editoriais</p>
+            {primaryIntention ? <p><strong>Principal</strong><Link href={`/intencoes/${primaryIntention.slug}/`}>{primaryIntention.name}</Link></p> : null}
+            {secondaryIntentions.length ? <p><strong>Secundárias</strong><span>{secondaryIntentions.map((term, index) => <span key={term.slug}>{index ? ", " : ""}<Link href={`/intencoes/${term.slug}/`}>{term.name}</Link></span>)}</span></p> : null}
+            <small>Classificação editorial baseada em descrições consultadas.</small>
+          </section> : null}
         </div>
       </div></ProductVariationProvider>
       <section className="product-description" aria-labelledby="descricao">

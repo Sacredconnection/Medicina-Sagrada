@@ -28,6 +28,7 @@ function load(failingSource) {
     if (name === "@/lib/wordpress" || name === "@/lib/woocommerce") return loaders;
     if (name === "@/lib/sitemap-policy") return { finalizeSitemap };
     if (name === "@/lib/learn-content") return { learnGuides: [{ slug: "primeiro-rape" }] };
+    if (name === "@/lib/intencoes") return { intentions: [{ slug: "foco-e-clareza" }] };
     if (name === "@/lib/url") return {
       absoluteUrl: (path) => new URL(path, "https://medicinasagrada.com.br").toString(),
       pathnameFromUrl: (url) => new URL(url).pathname,
@@ -43,7 +44,7 @@ test("real sitemap route combines all sources without duplicates or operational/
   const paths = result.map(item => new URL(item.url).pathname);
   assert.equal(paths.filter(path => path === "/rape/").length, 1);
   assert.ok(!paths.includes("/cart/") && !paths.includes("/sample-page/"));
-  for (const path of ["/", "/blog/", "/aprenda/primeiro-rape/", "/product/kit-fogo/", "/product-category/rape/", "/category/cultura/"]) assert.ok(paths.includes(path));
+  for (const path of ["/", "/blog/", "/aprenda/primeiro-rape/", "/intencoes/", "/intencoes/foco-e-clareza/", "/product/kit-fogo/", "/product-category/rape/", "/category/cultura/"]) assert.ok(paths.includes(path));
 });
 
 test("any source failure rejects instead of publishing a successful truncated sitemap", async () => {

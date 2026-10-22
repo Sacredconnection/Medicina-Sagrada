@@ -88,6 +88,13 @@ export type WooProduct = {
   is_in_stock?: boolean;
   variation?: string;
   variations?: Array<{ id: number; attributes: Array<{ name: string; value: string }> }>;
+  attributes?: Array<{
+    id: number;
+    name: string;
+    taxonomy: string | null;
+    has_variations: boolean;
+    terms: Array<{ id: number; name: string; slug: string }>;
+  }>;
   add_to_cart?: {
     text: string;
     description: string;

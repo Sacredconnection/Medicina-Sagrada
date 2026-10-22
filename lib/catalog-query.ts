@@ -1,4 +1,9 @@
 export type SearchValues = Record<string, string | string[] | undefined>;
+const intentionSlugs = new Set([
+  "aterramento-e-presenca", "foco-e-clareza", "calma-e-introspeccao",
+  "energia-e-renovacao", "limpeza-e-refrescancia", "oracao-e-cerimonia",
+  "coracao-e-conexao",
+]);
 export const sortOptions = {
   destaque: { label: "Destaques", orderby: "menu_order", order: "asc" },
   recentes: { label: "Mais recentes", orderby: "date", order: "desc" },
@@ -25,6 +30,8 @@ export function parseCatalogQuery(values: SearchValues) {
     stock: first(values.estoque) === "1",
     sale: first(values.oferta) === "1",
     categories,
+    primaryIntention: intentionSlugs.has(first(values.intencao_principal)) ? first(values.intencao_principal) : "",
+    secondaryIntention: intentionSlugs.has(first(values.intencao_secundaria)) ? first(values.intencao_secundaria) : "",
     page: Number.isSafeInteger(page) && page > 0 && page <= 1000 ? page : 1,
     invalidPrice,
   };
@@ -39,5 +46,7 @@ export function catalogSearch(query: CatalogQuery) {
   if (query.stock) params.set("estoque", "1");
   if (query.sale) params.set("oferta", "1");
   for (const category of query.categories) params.append("categoria", String(category));
+  if (query.primaryIntention) params.set("intencao_principal", query.primaryIntention);
+  if (query.secondaryIntention) params.set("intencao_secundaria", query.secondaryIntention);
   return params;
 }

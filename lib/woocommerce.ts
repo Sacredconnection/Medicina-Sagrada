@@ -4,6 +4,14 @@ import type { WooCategory, WooProduct } from "@/lib/types";
 
 export function getCatalog(query: CatalogQuery, categoryId?: number, page = query.page) {
   const sort = sortOptions[query.sort];
+  const intentionFilters = [
+    ...(query.primaryIntention ? [{ attribute: "pa_intencao-principal", slug: query.primaryIntention }] : []),
+    ...(query.secondaryIntention ? [{ attribute: "pa_intencoes-secundarias", slug: query.secondaryIntention }] : []),
+  ];
+  const attributeQuery = Object.fromEntries(intentionFilters.flatMap((filter, index) => [
+    [`attributes[${index}][attribute]`, filter.attribute],
+    [`attributes[${index}][slug]`, filter.slug],
+  ]));
   return wooCollection<WooProduct>("products", {
     per_page: 12, page, search: query.q || undefined,
     category: query.categories.length ? query.categories.join(",") : categoryId, category_operator: "in", orderby: sort.orderby, order: sort.order,
@@ -11,6 +19,8 @@ export function getCatalog(query: CatalogQuery, categoryId?: number, page = quer
     "stock_status[0]": query.stock ? "instock" : undefined,
     on_sale: query.sale ? true : undefined,
     catalog_visibility: query.q ? "search" : "catalog",
+    ...attributeQuery,
+    attribute_relation: intentionFilters.length > 1 ? "and" : undefined,
   }, ["woocommerce", "products"]);
 }
 

@@ -26,6 +26,12 @@ pnpm-debug.log*
 /playwright-report/
 /test-results/
 /artifacts/
+/outputs/
+
+# local source archives and import execution logs
+/900x900.rar
+/Fotos-MS-900x900.rar
+/scripts/image-mapping-curl.log
 
 # operating systems and editors
 .DS_Store
