@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import type { KeyboardEvent } from "react";
 import type { WooImage } from "@/lib/types";
 import { useProductVariation } from "@/components/product-variation-provider";
 
@@ -16,9 +17,49 @@ function ProductGalleryImages({ images, name, initialIndex }: { images: WooImage
   const [hasThumbnailOverflow, setHasThumbnailOverflow] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const thumbnailsRef = useRef<HTMLDivElement>(null);
+  const thumbnailButtonRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const image = images[index];
+
+  const selectImage = (nextIndex: number) => {
+    const imageCount = images.length;
+    if (imageCount < 1) return;
+    setIndex((nextIndex + imageCount) % imageCount);
+  };
+
+  const handleImageKeys = (event: KeyboardEvent<HTMLElement>) => {
+    if (images.length < 2) return;
+
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      selectImage(index - 1);
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      selectImage(index + 1);
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      selectImage(0);
+    } else if (event.key === "End") {
+      event.preventDefault();
+      selectImage(images.length - 1);
+    }
+  };
+
+  const handleThumbnailKeys = (event: KeyboardEvent<HTMLButtonElement>, imageIndex: number) => {
+    let nextIndex: number | null = null;
+
+    if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = imageIndex - 1;
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = imageIndex + 1;
+    if (event.key === "Home") nextIndex = 0;
+    if (event.key === "End") nextIndex = images.length - 1;
+    if (nextIndex === null) return;
+
+    event.preventDefault();
+    const normalizedIndex = (nextIndex + images.length) % images.length;
+    selectImage(normalizedIndex);
+    thumbnailButtonRefs.current[normalizedIndex]?.focus();
+    thumbnailButtonRefs.current[normalizedIndex]?.scrollIntoView({ block: "nearest", inline: "nearest" });
+  };
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -57,10 +98,11 @@ function ProductGalleryImages({ images, name, initialIndex }: { images: WooImage
         <>
           <button
             type="button"
-            aria-label={`Ampliar imagem ${index + 1} de ${name}`}
+            aria-label={`Imagem ${index + 1} de ${images.length} de ${name}. Use as setas para trocar ou pressione Enter para ampliar.`}
             aria-haspopup="dialog"
             className="product-main-image"
             onClick={() => setIsExpanded(true)}
+            onKeyDown={handleImageKeys}
           >
             <Image
               loading="eager"
@@ -80,7 +122,7 @@ function ProductGalleryImages({ images, name, initialIndex }: { images: WooImage
           <dialog
             ref={dialogRef}
             className="product-image-dialog"
-            aria-label={`Imagem ampliada de ${name}`}
+            aria-label={`Imagem ampliada de ${name}. Use as setas para trocar de foto.`}
             onClose={() => {
               // A queued close event can arrive after the viewer is opened again.
               if (!dialogRef.current?.open) setIsExpanded(false);
@@ -89,18 +131,12 @@ function ProductGalleryImages({ images, name, initialIndex }: { images: WooImage
               event.preventDefault();
               setIsExpanded(false);
             }}
-            onKeyDown={(event) => {
-              if (event.key === "Tab") {
-                event.preventDefault();
-                closeButtonRef.current?.focus();
-              }
-            }}
+            onKeyDown={handleImageKeys}
             onClick={(event) => {
               if (event.target === event.currentTarget) setIsExpanded(false);
             }}
           >
             <button
-              ref={closeButtonRef}
               type="button"
               className="product-image-dialog-close"
               aria-label="Fechar imagem ampliada"
@@ -111,6 +147,30 @@ function ProductGalleryImages({ images, name, initialIndex }: { images: WooImage
               </svg>
               <span>Fechar</span>
             </button>
+            {images.length > 1 ? (
+              <>
+                <button
+                  type="button"
+                  className="product-image-dialog-nav product-image-dialog-prev"
+                  aria-label="Ver foto anterior"
+                  onClick={() => selectImage(index - 1)}
+                >
+                  <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m15 18-6-6 6-6" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  className="product-image-dialog-nav product-image-dialog-next"
+                  aria-label="Ver próxima foto"
+                  onClick={() => selectImage(index + 1)}
+                >
+                  <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </button>
+              </>
+            ) : null}
             {isExpanded ? (
               <Image
                 className="product-expanded-image"
@@ -127,7 +187,7 @@ function ProductGalleryImages({ images, name, initialIndex }: { images: WooImage
             <>
               <div
                 ref={thumbnailsRef}
-                aria-label="Fotos do produto"
+                aria-label="Fotos do produto. Use as setas para mudar de foto."
                 className="product-thumbnails"
                 role="group"
               >
@@ -137,6 +197,9 @@ function ProductGalleryImages({ images, name, initialIndex }: { images: WooImage
                     aria-pressed={imageIndex === index}
                     key={`${item.id}-${imageIndex}`}
                     onClick={() => setIndex(imageIndex)}
+                    onKeyDown={(event) => handleThumbnailKeys(event, imageIndex)}
+                    ref={(element) => { thumbnailButtonRefs.current[imageIndex] = element; }}
+                    tabIndex={imageIndex === index ? 0 : -1}
                   >
                     <Image
                       alt=""
@@ -147,6 +210,9 @@ function ProductGalleryImages({ images, name, initialIndex }: { images: WooImage
                   </button>
                 ))}
               </div>
+              <span className="sr-only" aria-live="polite">
+                Foto {index + 1} de {images.length}
+              </span>
               <span
                 aria-hidden="true"
                 className={`scroll-hint product-thumbnails-scroll-hint${hasThumbnailOverflow ? " is-visible" : ""}`}

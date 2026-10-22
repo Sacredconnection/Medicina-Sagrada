@@ -92,6 +92,11 @@
 .product-image-dialog-close { position: absolute; top: 0.75rem; right: 0.75rem; display: inline-flex; min-height: 2.75rem; padding: 0.5rem 0.75rem; align-items: center; gap: 0.4rem; border: 0; border-radius: 0.25rem; background: var(--paper-deep); color: var(--forest-950); font: inherit; font-size: var(--type-ui); font-weight: var(--weight-semibold); cursor: pointer; }
 .product-image-dialog-close:hover { background: var(--forest-800); color: var(--white); }
 .product-image-dialog-close:focus-visible { outline: 0.2rem solid var(--forest-650); outline-offset: 0.15rem; }
+.product-image-dialog-nav { position: absolute; top: 50%; z-index: 1; display: grid; width: 2.75rem; height: 2.75rem; padding: 0; place-items: center; border: 0; border-radius: 50%; background: var(--paper-deep); color: var(--forest-950); cursor: pointer; transform: translateY(-50%); }
+.product-image-dialog-prev { left: 1rem; }
+.product-image-dialog-next { right: 1rem; }
+.product-image-dialog-nav:hover { background: var(--forest-800); color: var(--white); }
+.product-image-dialog-nav:focus-visible { outline: 0.2rem solid var(--forest-650); outline-offset: 0.15rem; }
 .product-image-dialog .product-expanded-image { display: block; width: 100%; height: 100%; object-fit: contain; }
 .product-main-image > img { width: 100%; aspect-ratio: 1; object-fit: contain; border-radius: var(--radius); transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
@@ -104,6 +109,7 @@
 .product-thumbnails { display: flex; gap: 0.75rem; margin-top: 1rem; overflow-x: auto; padding: 0.2rem; }
 .product-thumbnails button { flex: 0 0 4.5rem; border: 1px solid var(--line); background: white; padding: 0.25rem; border-radius: 0.25rem; cursor: pointer; }
 .product-thumbnails button[aria-pressed=true] { outline: 2px solid var(--forest-800); }
+.product-thumbnails button:focus-visible { outline: 0.2rem solid var(--forest-650); outline-offset: 0.15rem; }
 .product-thumbnails img { width: 100%; aspect-ratio: 1; object-fit: contain; }
 .product-review-link { display: inline-block; margin: 0.75rem 0; color: var(--forest-800); text-underline-offset: 0.2rem; text-decoration: underline; font-size: var(--type-ui); }
 .purchase-price { margin: 1rem 0; }
@@ -624,9 +630,11 @@ strong, b { font-weight: var(--weight-bold); }
 .product-page + .matcher-section { margin-bottom: clamp(2rem, 4vw, 3rem); }
 .matcher-intro {
   display: grid;
-  grid-template-columns: minmax(0, 1.18fr) minmax(20rem, 0.82fr);
+  width: min(100%, 72rem);
+  margin-inline: auto;
+  grid-template-columns: minmax(0, 1fr) minmax(24rem, 1fr);
   align-items: end;
-  gap: clamp(4rem, 8vw, 8rem);
+  gap: clamp(3rem, 6vw, 6rem);
   color: var(--white);
 }
 .matcher-intro h2 { max-width: 10ch; font-size: clamp(3.65rem, 5.6vw, 5.6rem); font-weight: var(--weight-semibold); letter-spacing: -0.04em; line-height: 0.9; text-wrap: balance; }
@@ -966,8 +974,13 @@ strong, b { font-weight: var(--weight-bold); }
 .category-editorial-index ol { margin: 0; padding: 0; list-style: none; }
 .category-editorial-index ol { max-height: calc(100dvh - var(--sticky-offset) - 5rem); overflow-y: auto; padding-right: .5rem; scrollbar-width: thin; }
 .category-editorial-index li + li { border-top: 1px solid var(--line); }
-.category-editorial-index a { display: block; min-height: 2.75rem; padding: .75rem 0; color: var(--forest-800); font-size: var(--type-body-small); font-weight: var(--weight-medium); line-height: 1.35; overflow-wrap: anywhere; }
+.category-editorial-index a { display: block; min-height: 2.75rem; margin-inline: -.75rem -.25rem; padding: .75rem .5rem .75rem .75rem; border-radius: 0 .3rem .3rem 0; color: var(--forest-800); font-size: var(--type-body-small); font-weight: var(--weight-medium); line-height: 1.35; overflow-wrap: anywhere; transition: background-color 180ms ease, box-shadow 180ms ease, color 180ms ease; }
 .category-editorial-index a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: .2em; }
+.category-editorial-index a[aria-current="location"] { background: color-mix(in srgb, var(--category-editorial-accent) 12%, transparent); box-shadow: inset .2rem 0 0 var(--category-editorial-accent); color: var(--ink); font-weight: var(--weight-bold); }
+.category-editorial-index a[aria-current="location"]:hover { text-decoration: none; }
+@media (prefers-reduced-motion: reduce) {
+  .category-editorial-index a { transition: none; }
+}
 .category-editorial .rich-text h2 { scroll-margin-top: calc(var(--sticky-offset) + 1rem); }
 @media (max-width: 1100px) {
   .category-editorial-with-index { display: block; }
