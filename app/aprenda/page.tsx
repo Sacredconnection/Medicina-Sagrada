@@ -16,9 +16,7 @@ export default async function LearnPage() {
   const entries = learnPeople.map((person) => {
     const theme = ethnicityThemes.find((item) => item.name === person.name)!;
     const category = categories.find((item) => theme.aliases.includes(item.slug));
-    const media = person.slug === "shanenawa"
-      ? <div className="learn-image-slot learn-person-media" style={{ backgroundColor: "#e5e5e5" }} aria-hidden="true" />
-      : <LearnImageSlot src={`/assets/aprenda/povos/${person.slug}.webp`} className="learn-person-media" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" alt={`Imagem de contexto de ${person.name}`} />;
+    const media = <LearnImageSlot src={`/assets/aprenda/povos/${person.slug}.webp`} className="learn-person-media" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" alt={`Imagem de contexto de ${person.name}`} />;
     return { ...person, accent: theme.accent, foreground: theme.foreground, href: category ? pathnameFromUrl(category.permalink) : "/product-category/rape/", media };
   });
   return <>

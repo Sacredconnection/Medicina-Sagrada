@@ -18,7 +18,7 @@ Os tamanhos são os dos assets originais do Haux. A página usa recorte responsi
 
 ## Povos (`povos/`)
 
-Formato de referência: **512 × 768 px** (2:3). A imagem ocupa uma faixa de 112 px à esquerda de cada entrada. Nomes:
+Formato canônico atual: **960 × 600 px** (16:10), WebP sRGB. A imagem ocupa a área superior do card, com recorte responsivo em `cover`. Nomes:
 
 - apurina.webp
 - caboclo.webp
