@@ -44,7 +44,13 @@ Faixa inválida é marcada e não enviada à API. Fonte: `lib/catalog-query.ts`.
 
 ## Regras HTTP comuns
 
-Mutações de sacola, checkout, frete e avaliação exigem Origin compatível com a origem acessada ou configurada; rejeitam `Sec-Fetch-Site: cross-site`. JSON compartilhado usa `Content-Type: application/json` e limite de 8192 bytes. Clientes de servidor devem enviar Origin explicitamente; ausência resulta em 403. Operações privadas retornam no-store e mensagens públicas em português. Não registrar token ou credencial.
+Mutações de sacola, checkout e frete exigem Origin compatível com a origem
+acessada ou configurada e rejeitam `Sec-Fetch-Site: cross-site`. JSON
+compartilhado usa `Content-Type: application/json` e limite de 8192 bytes.
+Clientes de servidor devem enviar Origin explicitamente; ausência resulta em
+403. O POST de avaliações é a exceção atual: responde `401` sem ler o corpo.
+Operações privadas retornam no-store e mensagens públicas em português. Não
+registrar token ou credencial.
 
 | Método / rota | Entrada | Resultado / observações |
 | --- | --- | --- |
@@ -53,7 +59,7 @@ Mutações de sacola, checkout, frete e avaliação exigem Origin compatível co
 | POST `/api/checkout/` | Cookie; sem corpo obrigatório | `{ url }`; vazia 400, divergência 409, gateway/origem inválida 503 |
 | POST `/api/shipping/` | `{ productId, quantity, postcode }` | `{ quotes }`; entrada 400/422, origem 403, falhas conforme adaptador |
 | GET `/api/reviews/?product={id}&page={n}` | ID positivo; página 1–1000 | Coleção de avaliações; parâmetros 400, indisponível 503 |
-| POST `/api/reviews/` | `{ productId, rating, comment, username, password }` | 201 com message; 400/401/403/429/502/503 conforme falha |
+| POST `/api/reviews/` | Sem contrato de envio ativo | Retorna 401 e `loginUrl: /account/`; autenticação pendente do backend |
 | GET `/api/ritual-recommendation/` | intention e experience válidos | Recomendação; valores inválidos 400, consulta 503 |
 | GET `/api/ritual-variation/?id={id}` | ID positivo de 1–10 dígitos | WooProduct tipo variation; 400/404/503 |
 | POST `/api/revalidate/` | Bearer + JSON abaixo | `{ revalidated, path, timestamp }`; segredo 401, corpo inválido 400 |
@@ -87,7 +93,13 @@ Contratos completos: `lib/types.ts`, `cart-types.ts`, `reviews.ts` e handlers. N
 
 CEP aceita oito números ou `00000-000`, rejeita dígitos todos iguais; quantidade 1–9999. productId pode identificar variação. Cotação não modifica a sacola do comprador nem determina frete final. Cada quote contém name, price, deliveryTime e observations. Veja [Frete](FRETE.md).
 
-Avaliações: rating 1–5, comment não vazio até 3000 caracteres, username até 254 e password até 256. Honeypot website preenchido é rejeitado. Até cinco tentativas em cinco minutos por hash de usuário, por instância. Login usa credenciais do cliente; WordPress pode impor moderação e restrições de compra/login. Não armazenar/logar senha. Fonte: `review-submission.ts`.
+Avaliações: `GET /api/reviews/` aceita produto e página conforme a tabela. O
+formulário visual ainda reúne nota, comentário, usuário e senha, mas o envio está
+fechado: `POST /api/reviews/` ignora o corpo, retorna `401` e direciona para a
+conta WooCommerce. Não existe adaptador ativo de publicação nesta cópia. O
+backend precisa definir a autenticação antes de reativar o envio, e o formulário
+deve ser alinhado ao contrato final. Não armazenar ou registrar senha de cliente
+no Next.
 
 ## Revalidação
 

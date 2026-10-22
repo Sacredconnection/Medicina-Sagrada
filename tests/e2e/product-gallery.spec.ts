@@ -21,7 +21,7 @@ for (const width of [390, 768, 1920]) {
     await page.reload();
     await page.getByRole("button", { name: "Ver imagem 2 de Colar de sementes" }).click();
     await expect(page.getByRole("button", { name: "Ver imagem 2 de Colar de sementes" })).toHaveAttribute("aria-pressed", "true");
-    await page.getByRole("button", { name: "Ampliar imagem 2 de Colar de sementes" }).click();
+    await page.getByRole("button", { name: "Imagem 2 de 2 de Colar de sementes. Use as setas para trocar ou pressione Enter para ampliar." }).click();
     const dialog = page.getByRole("dialog", { name: "Imagem ampliada de Colar de sementes" });
     await expect(dialog).toBeVisible();
     await expect.poll(() => dialog.locator("img").evaluate(img => (img as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);

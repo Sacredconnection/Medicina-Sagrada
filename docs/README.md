@@ -1,14 +1,16 @@
 # Documentação do projeto
 
-Revisão: **06/10/2026**. Esta documentação descreve a implementação local. Consultas reais registradas anteriormente são históricas, não certificação da situação atual da loja.
+Revisão geral: **22/10/2026**. Esta documentação descreve a implementação local. Consultas reais registradas anteriormente são históricas, não certificação da situação atual da loja.
 
 ## Por onde começar
 
 | Necessidade | Leitura |
 | --- | --- |
+| Entender o estado atual e entregar ao backend | [Visão geral e handoff](VISAO-GERAL-E-HANDOFF.md) |
 | Entender e rodar o projeto | [README](../README.md), [Configuração](CONFIGURACAO.md) |
 | Entender produto e limites | [PRODUCT](../PRODUCT.md) |
 | Criar ou ajustar interfaces | [DESIGN](../DESIGN.md), [Espaçamento](ESPACAMENTO.md) |
+| Entender a implementação visual e o CSS | [CSS e direção visual](CSS-E-DIRECAO-VISUAL.md) |
 | Encontrar componentes e dados | [Arquitetura](ARQUITETURA.md) |
 | Entender URLs e APIs | [Rotas e APIs](ROTAS-E-APIS.md) |
 | Trocar texto, imagem ou guia | [Conteúdo e assets](CONTEUDO-E-ASSETS.md) |

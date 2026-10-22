@@ -71,13 +71,13 @@ test("falha ao carregar mais avaliações oferece nova tentativa sem duplicar", 
   await expect(page.locator(".review")).toHaveCount(7);
 });
 
-test("API de avaliações valida parâmetros e bloqueia envio sem origem ou credenciais", async ({ request }) => {
+test("API de avaliações valida parâmetros e exige autenticação para envio", async ({ request }) => {
   expect((await request.get("/api/reviews/?product=-1")).status()).toBe(400);
-  expect((await request.post("/api/reviews/", { data: { productId: 100, rating: 5 } })).status()).toBe(403);
+  expect((await request.post("/api/reviews/", { data: { productId: 100, rating: 5 } })).status()).toBe(401);
   expect((await request.post("/api/reviews/", {
     headers: { Origin: "http://127.0.0.1:3017" },
     data: { productId: 100, rating: 5, comment: "Avaliação simulada sem credenciais." },
-  })).status()).toBe(400);
+  })).status()).toBe(401);
   const response = await request.get("/api/reviews/?product=100");
   expect(response.status()).toBe(200);
   expect(response.headers()["set-cookie"]).toBeUndefined();

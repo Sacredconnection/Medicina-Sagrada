@@ -6,6 +6,7 @@ test("calcula com quantidade e mantém a sacola intacta, sem propagar cookies", 
   await expect(page.getByRole("dialog", { name: /Minha sacola/ })).toBeVisible();
   await page.getByRole("button", { name: "Continuar comprando" }).click();
   const before = await (await page.request.get("/api/cart/")).json();
+  await page.locator("details.product-delivery > summary").click();
   await page.getByLabel("CEP de entrega").fill("01310100");
   const quoted = page.waitForResponse(r => r.url().includes("/api/shipping/"));
   await page.getByRole("button", { name: "Calcular", exact: true }).click();
@@ -28,6 +29,7 @@ test("calcula com quantidade e mantém a sacola intacta, sem propagar cookies", 
 
 test("respeita variação, CEP inválido, indisponibilidade e resultados antigos", async ({ page }) => {
   await page.goto("/product/pulseira-artesanal/");
+  await page.locator("details.product-delivery > summary").click();
   await expect(page.getByRole("button", { name: "Calcular", exact: true })).toBeDisabled();
   await page.getByLabel("Escolha uma opção").selectOption("201");
   await page.getByLabel("CEP de entrega").fill("123");

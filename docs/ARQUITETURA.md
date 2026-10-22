@@ -61,7 +61,7 @@ Componentes abaixo são relativos a `components/`; regras/dados, a `lib/`.
 | Produto | `product-intro.tsx`, `product-gallery.tsx`, `product-purchase.tsx`, `product-purchase-controls.tsx`, `product-card.tsx` |
 | Sacola | `cart-provider.tsx`, `cart-drawer.tsx`, `cart-page.tsx`, `commerce.ts`, `cart-validation.ts` |
 | Frete | `shipping-calculator.tsx`, `shipping.ts`, `shipping-validation.ts` |
-| Avaliações | `product-reviews.tsx`, `product-review-form.tsx`, `reviews.ts`, `review-submission.ts` |
+| Avaliações | `product-reviews.tsx`, `product-review-form.tsx`, `reviews.ts`, `app/api/reviews/route.ts` |
 | Ritual Finder | `product-matcher.tsx`, `rituals-data.ts`, `ritual-recommendation.ts`, `ritual-product-selection.ts`, `ritual-catalog.ts` |
 | Home | `app/page.tsx`, `home-content.ts`, `home-*.tsx`, `live-hero.tsx` |
 | Aprenda | `app/aprenda/`, `learn-content.ts`, `learn-people-grid.tsx`, `learn-image-slot.tsx` |
@@ -72,9 +72,17 @@ Componentes abaixo são relativos a `components/`; regras/dados, a `lib/`.
 
 ## Segurança e limites
 
-HTML editorial é sanitizado; hosts de iframe ficam limitados aos definidos em `lib/html.ts`. Mutações de compra, frete e avaliação verificam origem e leem JSON até 8192 bytes. Headers e regras de imagem ficam em `next.config.ts`; a CSP restringe operações específicas, sem ser uma política completa de scripts/fontes/conexões.
+HTML editorial é sanitizado; hosts de iframe ficam limitados aos definidos em
+`lib/html.ts`. Mutações de compra e frete verificam origem e leem JSON até 8192
+bytes. O POST de avaliações está fechado e retorna `401` antes de ler o corpo.
+Headers e regras de imagem ficam em `next.config.ts`; a CSP restringe operações
+específicas, sem ser uma política completa de scripts/fontes/conexões.
 
-Avaliações recebem credenciais do próprio cliente numa requisição ao Next, que abre sessão WordPress somente para aquele envio. Exigem WordPress HTTPS; cookies de login não voltam ao navegador. O bloqueio de tentativas é em memória por instância, não distribuído. Conta e histórico permanecem no WooCommerce. Credenciais administrativas opcionais não participam da sacola.
+A leitura pública de avaliações usa o WordPress. O envio está desabilitado nesta
+cópia: `POST /api/reviews/` retorna `401` e direciona o cliente para a conta
+WooCommerce. A estratégia de autenticação para publicar avaliações pertence ao
+handoff do backend. Conta e histórico permanecem no WooCommerce. Credenciais
+administrativas opcionais não participam da sacola.
 
 ## Complemento WordPress
 

@@ -76,6 +76,13 @@ Remove-Item Env:NEXT_DIST_DIR
 
 E2E fixa `.next-e2e` no próprio config: variável no terminal não substitui esse valor. Não aplicar npm audit fix automaticamente nem reescrever módulos inteiros para um problema localizado.
 
-## Evidência da revisão documental
+## Evidência da revisão atual
+
+Em 22/10/2026, `npm.cmd run check` aprovou lint, TypeScript e 85 testes
+unitários; `npm.cmd run test:e2e` aprovou 29 cenários e ignorou 2 que exigem o
+fixture dedicado do Ritual Finder; `npm.cmd run build` concluiu o build de
+produção. A suíte E2E usa WooCommerce simulado e não homologa integrações reais.
+
+## Evidência da revisão documental anterior
 
 Em 06/10/2026 foram lidos código/contratos e amostradas home, Aprenda e Primeiro Rapé em 1440/390px. Verificação documental inclui links, rotas, scripts, sidecar JSON e correspondência de tokens. Resultados antigos de check/build/E2E não são apresentados como executados nesta revisão.

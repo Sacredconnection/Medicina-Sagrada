@@ -10,7 +10,6 @@ import { plainText } from "@/lib/html";
 import { canonicalizeEthnicityNames, getEthnicityTheme } from "@/lib/ethnicity-colors";
 
 const navigation = [
-  { href: "/intencoes/", label: "Intenções" },
   { href: "/product-category/rape/", label: "Rapé" },
   { href: "/product-category/medicinais/sananga-medicinais/", label: "Sananga" },
   { href: "/product-category/incensos/", label: "Incensos" },
