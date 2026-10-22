@@ -10,6 +10,7 @@ import { parseCatalogQuery, catalogSearch, type SearchValues } from "@/lib/catal
 import { canonicalizeEthnicityNames, getEthnicityTheme } from "@/lib/ethnicity-colors";
 import { RichText } from "@/components/rich-text";
 import { getCategoryContent } from "@/lib/category-content";
+import { getCategoryDescription } from "@/lib/category-descriptions";
 import { CategoryEditorial } from "@/components/category-editorial";
 import { getEthnicityBannerAsset } from "@/lib/ethnicity-banner-assets";
 import {
@@ -153,7 +154,7 @@ export default async function ProductCategoryPage({
         </h1>
         {parsed.page === 1 ? (
           <RichText
-            html={category.description}
+            html={getCategoryDescription(parsed.basePath, category.description)}
             className="category-description"
             textFilter={canonicalizeEthnicityNames}
             removeHeadings
