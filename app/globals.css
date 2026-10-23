@@ -236,7 +236,12 @@
 .intention-card:hover .intention-card-link span { transform: translateX(0.2rem); }
 .intention-card:focus-visible, .intention-pager a:focus-visible { outline: 2px solid var(--forest-650); outline-offset: 4px; }
 .intention-detail { max-width: 52rem; }
-.intention-detail-lede { margin: 2rem 0 clamp(3rem, 7vw, 6rem); color: var(--forest-800); font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.5rem, 3vw, 2.25rem); line-height: 1.4; }
+.intention-detail h1 { max-width: none; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; }
+.intention-detail-lede { margin: 1rem 0; color: var(--forest-800); font-size: 1rem; line-height: 1.6; }
+.intention-context { margin: 1rem 0 2rem; }
+.intention-context summary { cursor: pointer; color: var(--forest-800); text-underline-offset: 0.2em; }
+.intention-context summary:focus-visible { outline: 2px solid var(--forest-650); outline-offset: 4px; }
+.intention-context[open] summary { margin-bottom: 1rem; }
 .intention-detail section h2, .intention-editorial-note h2 { margin-bottom: 0.75rem; color: var(--forest-950); font-size: 1.25rem; }
 .intention-detail section p, .intention-editorial-note p { max-width: 65ch; color: var(--muted); line-height: 1.75; }
 .intention-editorial-note { margin-top: clamp(2.5rem, 6vw, 4rem); padding: 1.5rem; background: #f5f5ef; }
@@ -934,8 +939,9 @@ strong, b { font-weight: var(--weight-bold); }
 .product-image > span { color: var(--muted); font-size: var(--type-caption); }
 .product-card-body { display: flex; min-height: 12.25rem; padding: 1.1rem; flex: 1; flex-direction: column; }
 .product-card-meta { display: flex; min-height: 1.15rem; align-items: center; justify-content: space-between; gap: 0.75rem; }
-.product-card-intentions { display: grid; gap: 0.15rem; margin: 0.75rem 0 0; color: var(--forest-800); font-size: var(--type-caption); line-height: 1.4; }
+.product-card-intentions { margin: 0.5rem 0 0; color: var(--forest-800); font-size: var(--type-caption); line-height: 1.4; }
 .product-card-intentions span { color: var(--muted); }
+.product-card-intentions span::after { content: ":"; }
 .product-category { overflow: hidden; color: var(--brand-text); font-size: var(--type-caption); font-weight: var(--weight-bold); letter-spacing: 0.09em; line-height: 1.2; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
 .product-rating { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 0.2rem; color: #9b641d; font-size: var(--type-caption); font-variant-numeric: tabular-nums; line-height: 1.2; white-space: nowrap; }
 .product-review-count { color: var(--muted); }

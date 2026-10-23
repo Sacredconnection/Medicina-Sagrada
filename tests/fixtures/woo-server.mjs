@@ -31,6 +31,12 @@ products[1].images = [{ id: 10, src: "/assets/home/applicators/medicina-sagrada-
 products[2].images = [{ id: 11, src: "/assets/home/matcher/products/rape-huni-kuin-tradicao.jpg", alt: "Pulseira tamanho P" }];
 for (let i = 0; i < 12; i++) products.push(product(300 + i, `Artesanato ${i + 1}`, `artesanato-${i + 1}`, 1000 + i * 1000, { categories: [categories[1]], on_sale: i % 2 === 0, is_in_stock: i !== 0 }));
 const keyFor = (id) => createHash("md5").update(String(id)).digest("hex");
+// Alternate primary and secondary matches; one product has both (no duplicates).
+products.filter(p => p.type !== "variation").forEach((p, index) => {
+  if (index === 1) return;
+  p.attributes = [{ taxonomy: index % 2 ? "pa_intencoes-secundarias" : "pa_intencao-principal", terms: [{ slug: "foco-e-clareza", name: "Foco e clareza" }] }];
+  if (index === 0) p.attributes.push({ taxonomy: "pa_intencoes-secundarias", terms: [{ slug: "foco-e-clareza", name: "Foco e clareza" }, { slug: "coracao-e-conexao", name: "Coração e conexão" }] });
+});
 function snapshot(session) {
   const items = session.items.map(({ id, quantity }) => {
     const p = products.find((item) => item.id === id);
@@ -83,6 +89,11 @@ createServer(async (req, res) => {
     const params = url.searchParams;
     let result = products.filter(p => p.type !== "variation" && (!params.has("slug") || p.slug === params.get("slug")));
     if (params.get("search")) result = result.filter(p => p.name.toLowerCase().includes(params.get("search").toLowerCase()));
+    const attributeFilters = [0, 1].filter(i => params.has(`attributes[${i}][attribute]`));
+    if (attributeFilters.length) result = result.filter(p => {
+      const matches = attributeFilters.map(i => p.attributes?.some(a => a.taxonomy === params.get(`attributes[${i}][attribute]`) && a.terms.some(t => t.slug === params.get(`attributes[${i}][slug]`))));
+      return params.get("attribute_relation") === "or" ? matches.some(Boolean) : matches.every(Boolean);
+    });
     if (params.get("category")) { const ids = params.get("category").split(",").map(Number); result = result.filter(p => p.categories.some(c => ids.includes(c.id) || ids.includes(c.parent))); }
     if (params.has("min_price")) result = result.filter(p => Number(p.prices.price) >= Number(params.get("min_price")));
     if (params.has("max_price")) result = result.filter(p => Number(p.prices.price) <= Number(params.get("max_price")));

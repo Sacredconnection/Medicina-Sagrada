@@ -4,7 +4,10 @@ import type { WooCategory, WooProduct } from "@/lib/types";
 
 export function getCatalog(query: CatalogQuery, categoryId?: number, page = query.page) {
   const sort = sortOptions[query.sort];
-  const intentionFilters = [
+  const intentionFilters = query.intention ? [
+    { attribute: "pa_intencao-principal", slug: query.intention },
+    { attribute: "pa_intencoes-secundarias", slug: query.intention },
+  ] : [
     ...(query.primaryIntention ? [{ attribute: "pa_intencao-principal", slug: query.primaryIntention }] : []),
     ...(query.secondaryIntention ? [{ attribute: "pa_intencoes-secundarias", slug: query.secondaryIntention }] : []),
   ];
@@ -20,7 +23,7 @@ export function getCatalog(query: CatalogQuery, categoryId?: number, page = quer
     on_sale: query.sale ? true : undefined,
     catalog_visibility: query.q ? "search" : "catalog",
     ...attributeQuery,
-    attribute_relation: intentionFilters.length > 1 ? "and" : undefined,
+    attribute_relation: intentionFilters.length > 1 ? (query.intention ? "or" : "and") : undefined,
   }, ["woocommerce", "products"]);
 }
 

@@ -2,6 +2,18 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { parseCatalogQuery, catalogSearch } from "../lib/catalog-query.ts";
 
+test("intenção unificada sobrepõe filtros antigos e se mantém na URL", () => {
+  const query = parseCatalogQuery({ intencao: "foco-e-clareza", intencao_principal: "coracao-e-conexao", estoque: "1" });
+  assert.equal(query.intention, "foco-e-clareza");
+  assert.equal(catalogSearch(query).toString(), "estoque=1&intencao=foco-e-clareza");
+  assert.equal(parseCatalogQuery({ intencao: "unknown" }).intention, "");
+  for (const key of ["intencao_principal", "intencao_secundaria"]) {
+    const legacy = parseCatalogQuery({ [key]: "foco-e-clareza" });
+    assert.equal(legacy.intention, "foco-e-clareza");
+    assert.equal(catalogSearch(legacy).toString(), "intencao=foco-e-clareza");
+  }
+});
+
 test("filtros usam centavos e permitem apenas ordens e intervalos válidos", () => {
   const value = parseCatalogQuery({ min: "12,34", max: "500.50", ordem: "menor_preco", estoque: "1", pagina: "2", q: "  colar  " });
   assert.equal(value.min, 1234); assert.equal(value.max, 50050); assert.equal(value.page, 2);

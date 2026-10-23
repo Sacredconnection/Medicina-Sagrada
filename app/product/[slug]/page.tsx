@@ -110,18 +110,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </Link>
           ) : null}
           <h1>{productName}</h1>
+          {primaryIntention || secondaryIntentions.length ? <section className="product-intention-panel" aria-label="Intenções do produto">
+            <p className="eyebrow">Intenções do produto</p>
+            {primaryIntention ? <p><strong>Principal</strong><Link href={`/intencoes/${primaryIntention.slug}/`}>{primaryIntention.name}</Link></p> : null}
+            {secondaryIntentions.length ? <p><strong>Secundárias</strong><span>{secondaryIntentions.map((term, index) => <span key={term.slug}>{index ? ", " : ""}<Link href={`/intencoes/${term.slug}/`}>{term.name}</Link></span>)}</span></p> : null}
+            <small>Classificação editorial baseada em descrições consultadas.</small>
+          </section> : null}
           <ProductIntro html={product.short_description} />
           <p className="availability">
             <a className="product-review-link" href="#avaliacoes">{product.review_count ? `★ ${Number(product.average_rating).toLocaleString("pt-BR")} · ${product.review_count} avaliações` : "Seja o primeiro a avaliar"}</a>
           </p>
           <ProductPurchase product={product} variants={variants} originalUrl={new URL(pathname, config.wordpressSiteUrl).toString()} />
           <p className="purchase-detail">Entrega calculada pelo CEP. <Link href="/refund_returns/">Trocas e devoluções</Link>.</p>
-          {primaryIntention || secondaryIntentions.length ? <section className="product-intention-panel" aria-label="Classificação editorial">
-            <p className="eyebrow">Intenções editoriais</p>
-            {primaryIntention ? <p><strong>Principal</strong><Link href={`/intencoes/${primaryIntention.slug}/`}>{primaryIntention.name}</Link></p> : null}
-            {secondaryIntentions.length ? <p><strong>Secundárias</strong><span>{secondaryIntentions.map((term, index) => <span key={term.slug}>{index ? ", " : ""}<Link href={`/intencoes/${term.slug}/`}>{term.name}</Link></span>)}</span></p> : null}
-            <small>Classificação editorial baseada em descrições consultadas.</small>
-          </section> : null}
+
         </div>
       </div></ProductVariationProvider>
       <section className="product-description" aria-labelledby="descricao">

@@ -46,6 +46,8 @@ export default async function IntentionPage({ params }: IntentionPageProps) {
         <p className="eyebrow">Tema editorial</p>
         <h1>{intention.name}</h1>
         <p className="intention-detail-lede">{intention.meaning}</p>
+        <details className="intention-context">
+          <summary>Sobre esta intenção</summary>
         <section aria-labelledby="contexto-title">
           <h2 id="contexto-title">Como ler esta classificação</h2>
           <p>{intention.character}</p>
@@ -58,11 +60,12 @@ export default async function IntentionPage({ params }: IntentionPageProps) {
           <h2>Intenção e intensidade são coisas diferentes</h2>
           <p>Este tema descreve como um preparo é apresentado nas fontes editoriais. A intensidade só deve ser informada quando houver uma fonte identificada e revisada. Nenhuma das duas informações, isoladamente, indica segurança ou resultado.</p>
         </aside>
+        </details>
       </article>
       <section className="intention-products" aria-labelledby="intention-products-title">
         <div className="section-heading">
           <p className="eyebrow">Catálogo</p>
-          <h2 id="intention-products-title">Produtos associados a {intention.name.toLocaleLowerCase("pt-BR")}</h2>
+          <h2 id="intention-products-title">{productsResult.failed ? "Produtos associados" : `${products.length} ${products.length === 1 ? "produto associado" : "produtos associados"}`}</h2>
         </div>
         {productsResult.failed ? (
           <div className="catalog-empty" role="status">
@@ -72,7 +75,7 @@ export default async function IntentionPage({ params }: IntentionPageProps) {
           </div>
         ) : products.length ? (
           <div className="product-grid" aria-label={`Produtos associados a ${intention.name}`}>
-            {products.map((product) => <ProductCard key={product.id} product={product} />)}
+            {products.map((product) => <ProductCard key={product.id} product={product} intentionSlug={slug} />)}
           </div>
         ) : (
           <div className="catalog-empty"><h3>Nenhum produto associado</h3><p>Novos produtos aparecem aqui quando recebem uma classificação revisada.</p></div>

@@ -25,9 +25,10 @@ const formatPrice = (product: WooProduct) => {
 type ProductCardProps = {
   product: WooProduct;
   headingLevel?: 2 | 3;
+  intentionSlug?: string;
 };
 
-export function ProductCard({ product, headingLevel = 2 }: ProductCardProps) {
+export function ProductCard({ product, headingLevel = 2, intentionSlug }: ProductCardProps) {
   const image = product.images[0];
   const productName = canonicalizeEthnicityNames(plainText(product.name));
   const ethnicityTheme = getEthnicityTheme(product.categories);
@@ -36,6 +37,8 @@ export function ProductCard({ product, headingLevel = 2 }: ProductCardProps) {
   const hasReviews = product.review_count > 0 && Number.isFinite(rating) && rating > 0;
   const primaryIntention = product.attributes?.find((attribute) => attribute.taxonomy === "pa_intencao-principal")?.terms[0];
   const secondaryIntentions = product.attributes?.find((attribute) => attribute.taxonomy === "pa_intencoes-secundarias")?.terms ?? [];
+  const displayedIntention = [primaryIntention, ...secondaryIntentions].find((term) => term?.slug === intentionSlug)
+    ?? primaryIntention ?? secondaryIntentions[0];
   const Heading = headingLevel === 3 ? "h3" : "h2";
 
   return (
@@ -80,8 +83,7 @@ export function ProductCard({ product, headingLevel = 2 }: ProductCardProps) {
             {productName}
           </Heading>
           {primaryIntention || secondaryIntentions.length ? <p className="product-card-intentions">
-            {primaryIntention ? <><span>Intenção principal</span> {primaryIntention.name}</> : null}
-            {secondaryIntentions.length ? <><span>Também associada</span> {secondaryIntentions.map(({ name }) => name).join(", ")}</> : null}
+            <span>Intenção</span> {displayedIntention?.name}
           </p> : null}
           <p className="price">{formatPrice(product)}</p>
           <span className="product-cta">

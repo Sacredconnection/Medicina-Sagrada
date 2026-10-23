@@ -21,6 +21,10 @@ export function parseCatalogQuery(values: SearchValues) {
   const rawCategories = Array.isArray(values.categoria) ? values.categoria : [values.categoria ?? ""];
   const categories = [...new Set(rawCategories.flatMap(value => value.split(",")).filter(value => /^\d+$/.test(value)).map(Number).filter(value => Number.isSafeInteger(value) && value > 0))].slice(0, 50);
   const page = Number(first(values.pagina));
+  // Single-intention links from the previous UI also search both attributes.
+  const intention = first(values.intencao) ||
+    (!first(values.intencao_secundaria) ? first(values.intencao_principal) :
+      !first(values.intencao_principal) ? first(values.intencao_secundaria) : "");
   const invalidPrice = (!!first(values.min) && minimum === undefined) || (!!first(values.max) && maximum === undefined) || (minimum !== undefined && maximum !== undefined && minimum > maximum);
   return {
     q: first(values.q).trim().slice(0, 80),
@@ -30,6 +34,7 @@ export function parseCatalogQuery(values: SearchValues) {
     stock: first(values.estoque) === "1",
     sale: first(values.oferta) === "1",
     categories,
+    intention: intentionSlugs.has(intention) ? intention : "",
     primaryIntention: intentionSlugs.has(first(values.intencao_principal)) ? first(values.intencao_principal) : "",
     secondaryIntention: intentionSlugs.has(first(values.intencao_secundaria)) ? first(values.intencao_secundaria) : "",
     page: Number.isSafeInteger(page) && page > 0 && page <= 1000 ? page : 1,
@@ -46,7 +51,10 @@ export function catalogSearch(query: CatalogQuery) {
   if (query.stock) params.set("estoque", "1");
   if (query.sale) params.set("oferta", "1");
   for (const category of query.categories) params.append("categoria", String(category));
-  if (query.primaryIntention) params.set("intencao_principal", query.primaryIntention);
-  if (query.secondaryIntention) params.set("intencao_secundaria", query.secondaryIntention);
+  if (query.intention) params.set("intencao", query.intention);
+  else {
+    if (query.primaryIntention) params.set("intencao_principal", query.primaryIntention);
+    if (query.secondaryIntention) params.set("intencao_secundaria", query.secondaryIntention);
+  }
   return params;
 }
