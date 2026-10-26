@@ -31,6 +31,15 @@ products[1].images = [{ id: 10, src: "/assets/home/applicators/medicina-sagrada-
 products[2].images = [{ id: 11, src: "/assets/home/matcher/products/rape-huni-kuin-tradicao.jpg", alt: "Pulseira tamanho P" }];
 for (let i = 0; i < 12; i++) products.push(product(300 + i, `Artesanato ${i + 1}`, `artesanato-${i + 1}`, 1000 + i * 1000, { categories: [categories[1]], on_sale: i % 2 === 0, is_in_stock: i !== 0 }));
 const keyFor = (id) => createHash("md5").update(String(id)).digest("hex");
+const promotionAmount = value => `<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#082;&#036;</span>${(value / 100).toFixed(2).replace(".", ",")}</span>`;
+const promotionHtml = (regular, sale) => `<span class="yaydp-discounted-price"><span class="yaydp-original-prices"><del>${regular.map(promotionAmount).join(" &#8211; ")}</del></span><span class="yaydp-calculated-prices"><ins aria-hidden="true">${sale.map(promotionAmount).join(" &#8211; ")}</ins></span></span>`;
+// Keep these products out of general catalog counts; only direct requests use them.
+const promotionProducts = [
+  product(9000, "Produto em promoção", "produto-em-promocao", 3000, { type: "variable", prices: { ...prices(3000), price_range: { min_amount: "3000", max_amount: "14500" } }, price_html: promotionHtml([3000, 14500], [2400, 11600]), variations: [10, 20, 50, 100].map((weight, index) => ({ id: 9001 + index, attributes: [{ name: "Peso", value: `${weight}g` }] })) }),
+  ...[[10, 3000, 2400], [20, 5700, 4560], [50, 14500, 11600], [100, 25000, 20000]].map(([weight, regular, sale], index) => product(9001 + index, "Produto em promoção", `produto-em-promocao-${weight}g`, regular, { type: "variation", variation: `Peso: ${weight}g`, is_in_stock: index !== 3, price_html: promotionHtml([regular], [sale]), testSaleAmount: sale, permalink: "http://127.0.0.1:4010/product/produto-em-promocao/" })),
+  product(9010, "Produto com oferta", "produto-com-oferta", 2400, { on_sale: true, prices: { ...prices(2400), regular_price: "3000", sale_price: "2400" }, price_html: promotionHtml([3000], [2400]) }),
+];
+const findProduct = id => products.find(p => p.id === id) ?? promotionProducts.find(p => p.id === id);
 // Alternate primary and secondary matches; one product has both (no duplicates).
 products.filter(p => p.type !== "variation").forEach((p, index) => {
   if (index === 1) return;
@@ -39,11 +48,12 @@ products.filter(p => p.type !== "variation").forEach((p, index) => {
 });
 function snapshot(session) {
   const items = session.items.map(({ id, quantity }) => {
-    const p = products.find((item) => item.id === id);
-    return { key: keyFor(id), id, quantity, name: p.name, permalink: p.permalink, images: [], prices: p.prices,
+    const p = findProduct(id);
+    const currentPrice = p.testSaleAmount ?? p.prices.price;
+    return { key: keyFor(id), id, quantity, name: p.name, permalink: p.permalink, images: [], prices: { ...p.prices, price: String(currentPrice) },
       variation: p.variation ? [{ attribute: "Tamanho", value: p.variation }] : [],
       quantity_limits: { minimum: 1, maximum: 3, multiple_of: 1, editable: true },
-      totals: { ...currency, line_total: String(Number(p.prices.price) * quantity), line_subtotal: String(Number(p.prices.price) * quantity) } };
+      totals: { ...currency, line_total: String(Number(currentPrice) * quantity), line_subtotal: String(Number(currentPrice) * quantity) } };
   });
   const total = items.reduce((sum, item) => sum + Number(item.totals.line_total), 0);
   const discount = session.coupons.length ? Math.min(1000, total) : 0;
@@ -87,7 +97,7 @@ createServer(async (req, res) => {
   }
   if (url.pathname === "/wp-json/wc/store/v1/products") {
     const params = url.searchParams;
-    let result = products.filter(p => p.type !== "variation" && (!params.has("slug") || p.slug === params.get("slug")));
+    let result = (params.has("slug") ? [...products, ...promotionProducts] : products).filter(p => p.type !== "variation" && (!params.has("slug") || p.slug === params.get("slug")));
     if (params.get("search")) result = result.filter(p => p.name.toLowerCase().includes(params.get("search").toLowerCase()));
     const attributeFilters = [0, 1].filter(i => params.has(`attributes[${i}][attribute]`));
     if (attributeFilters.length) result = result.filter(p => {
@@ -104,7 +114,7 @@ createServer(async (req, res) => {
     return send(result.slice((page - 1) * perPage, page * perPage), 200, { "X-WP-Total": String(result.length), "X-WP-TotalPages": String(Math.ceil(result.length / perPage)) });
   }
   const productId = url.pathname.match(/^\/wp-json\/wc\/store\/v1\/products\/(\d+)$/);
-  if (productId) return send(products.find((p) => p.id === Number(productId[1])) ?? {}, products.some((p) => p.id === Number(productId[1])) ? 200 : 404);
+  if (productId) return send(findProduct(Number(productId[1])) ?? {}, findProduct(Number(productId[1])) ? 200 : 404);
   if (url.pathname.startsWith("/wp-json/wc/store/v1/cart")) {
     // Reproduce the live host's broken cache: unbusted GETs share an empty cart.
     if (req.method === "GET" && !url.searchParams.has("_ms_cart")) return send(snapshot({ items: [], coupons: [] }), 200, { "Cart-Token": "shared-cached-token", "X-LiteSpeed-Cache": "hit" });
@@ -118,7 +128,7 @@ createServer(async (req, res) => {
     const action = url.pathname.split("/").at(-1);
     const fail = (message, status = 400) => send({ message }, status, { "Cart-Token": token });
     if (action === "add-item") {
-      const p = products.find((p) => p.id === body.id);
+      const p = findProduct(body.id);
       if (!p?.is_in_stock || p.type === "variable") return fail("Produto indisponível.");
       const item = session.items.find((item) => item.id === body.id);
       if (body.quantity + (item?.quantity ?? 0) > 3) return fail("Estoque insuficiente.", 409);

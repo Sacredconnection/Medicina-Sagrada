@@ -4,10 +4,10 @@ for (const width of [1280, 390]) {
   test(`preço, variação e compra preservados após reduzir JavaScript (${width})`, async ({ page }) => {
     await page.setViewportSize({ width, height: 844 });
     await page.goto("/product/pulseira-artesanal/");
-    await expect(page.locator(".purchase-price .rich-text.product-price")).toContainText("R$ 39.00");
+    await expect(page.locator(".purchase-price .product-price")).toContainText("39,00");
     await expect(page.getByRole("button", { name: "Adicionar à sacola", exact: true })).toBeDisabled();
     await page.getByRole("radio", { name: /P R\$ 39,00/ }).check();
-    await expect(page.locator(".purchase-price .rich-text.product-price")).toContainText("R$ 39.00");
+    await expect(page.locator(".purchase-price .product-price")).toContainText("39,00");
     await page.getByLabel("Quantidade", { exact: true }).fill("2");
     await expect(page.locator(".purchase-total")).toContainText("78,00");
     await page.waitForLoadState("networkidle");
