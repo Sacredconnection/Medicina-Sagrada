@@ -41,8 +41,8 @@ Visitors may arrive with an interest in spiritual practice, Indigenous knowledge
 
 ## Brand Commitments
 
-- The principal brand green is `#1a4020`, confirmed by Danilo on 2026-10-26. Elements using the primary green must use this exact value. Supporting dark greens and the ethnicity accent palette remain distinct.
-- The principal brand orange is `#ef4929`, confirmed by Danilo on 2026-10-26. All orange interface accents, text and interactive states use this exact value. Existing transparency is retained for shadows and subtle effects. Ethnicity colors and partner identities remain unchanged.
+- The two fixed principal site colors are green `#1a4020` and orange `#ef4929`, confirmed by Danilo on 2026-10-26. Preserve these exact values. Do not replace, approximate or derive new principal colors without a new explicit instruction from Danilo. All other greens and ethnicity colors are supporting colors only.
+- All brand orange interface accents, small section headings, text and interactive states use the fixed principal orange `#ef4929`. Existing transparency is retained for shadows and subtle effects. Ethnicity colors and partner identities remain supporting, unchanged colors.
 - Product-card buttons at rest and green section backgrounds must use the principal green `#1a4020`, including home, catalog, related products, Aprenda and institutional callouts. Photographic backgrounds retain their image content.
 - The product name is Medicina Sagrada.
 - The experience must communicate respect for Indigenous peoples, traditional knowledge, and the forest communities represented by the products.

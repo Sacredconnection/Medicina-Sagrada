@@ -6,11 +6,11 @@
     "colorMeta": {
       "forest-950": {
         "displayName": "forest-950",
-        "role": "primary"
+        "role": "secondary"
       },
       "forest-900": {
         "displayName": "forest-900",
-        "role": "primary"
+        "role": "secondary"
       },
       "forest-800": {
         "displayName": "forest-800",
@@ -18,7 +18,7 @@
       },
       "forest-650": {
         "displayName": "forest-650",
-        "role": "primary"
+        "role": "secondary"
       },
       "leaf-400": {
         "displayName": "leaf-400",
@@ -26,7 +26,7 @@
       },
       "clay-500": {
         "displayName": "clay-500",
-        "role": "secondary"
+        "role": "primary"
       },
       "paper": {
         "displayName": "paper",
@@ -54,19 +54,19 @@
       },
       "brand-orange": {
         "displayName": "brand-orange",
-        "role": "secondary"
+        "role": "primary"
       },
       "cta-accent": {
         "displayName": "cta-accent",
-        "role": "secondary"
+        "role": "primary"
       },
       "cta-on-accent": {
         "displayName": "cta-on-accent",
-        "role": "secondary"
+        "role": "neutral"
       },
       "brand-text": {
         "displayName": "brand-text",
-        "role": "secondary"
+        "role": "primary"
       },
       "apurina": {
         "displayName": "apurina",
@@ -216,6 +216,11 @@
       "Acentos de etnias ligados ao conteúdo correspondente."
     ],
     "rules": [
+      {
+        "name": "Fixed principal colors",
+        "body": "Verde #1A4020 e laranja #EF4929 são as duas cores principais fixas. Outros verdes e cores de etnias são somente apoios. Não substituir ou aproximar sem nova orientação explícita de Danilo.",
+        "section": "colors"
+      },
       {
         "name": "Contextual Accent",
         "body": "A cor de etnia acompanha somente o povo explicitamente identificado; não inferir origem de descrição livre.",

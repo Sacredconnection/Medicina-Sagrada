@@ -6,6 +6,7 @@ Revisão geral e visual: **26/10/2026**. Esta documentação descreve a implemen
 
 | Necessidade | Leitura |
 | --- | --- |
+| Consultar a paleta e a tipografia vigentes | [Paleta de cores e tipografia](PALETA-E-TIPOGRAFIA.md) |
 | Consultar cores, tipografia, componentes e visão do projeto | [Guia geral](GUIA-GERAL.md) |
 | Conferir tokens, cores locais e referências no código | [Inventário visual](INVENTARIO-VISUAL.json) |
 | Entender intenções e seus dados no catálogo | [Intenções WooCommerce](INTENCOES-WOOCOMMERCE.md) |
@@ -45,7 +46,7 @@ Em 06/10/2026 foram amostradas home, Aprenda e Primeiro Rapé em 1440 e 390px, c
 ## Como manter
 
 Execute `npm.cmd run docs:visual` para regenerar o inventário e
-`npm.cmd run docs:visual:check` para detectar divergência. O script não altera
-o site nem infere quais seletores estão visíveis no navegador.
+`npm.cmd run docs:visual:check` para detectar divergência. Os scripts atualizam o inventário e a documentação de paleta/tipografia; não alteram
+o site nem inferem quais seletores estão visíveis no navegador.
 
 Atualize o documento do assunto na mesma entrega de uma mudança de comportamento. Altere tokens no código e depois reflita em DESIGN e no sidecar. Altere nomes/dimensões de imagens junto com o contrato local. Registre evidência com data e ambiente; em serviços externos, informe o que foi consultado e o que permanece pendente. Evite transformar capturas antigas em regras globais.

@@ -25,7 +25,7 @@ const tokens = [...global.slice(0, global.indexOf("}")).matchAll(/(--[\w-]+):\s*
     return matches.length ? [{ file: file.path, count: matches.length }] : [];
   });
   return { name, value, referenced: references.length > 0, references };
-});
+}).filter((token) => token.referenced);
 const cssDeclarations = css.flatMap((file) => {
   const result = [];
   // O seletor permanece como contexto textual; não é uma análise da cascata CSS.
@@ -34,6 +34,7 @@ const cssDeclarations = css.flatMap((file) => {
     const selector = rule[1].replace(/\/\*[\s\S]*?\*\//g, "").trim();
     for (const declaration of rule[2].matchAll(/([\w-]+)\s*:\s*([^;{}]+)\s*;?/g)) {
       const [, property, value] = declaration;
+      if (selector === ":root" && property.startsWith("--") && !tokens.some((token) => token.name === property)) continue;
       if (/(?:#[\da-f]{3,8}\b|rgba?\(|hsla?\(|oklch\(|color-mix\(|\b(?:white|black|transparent)\b)/i.test(value) || /^(?:font-family|font-size|font-weight|line-height|letter-spacing)$/.test(property)) {
         result.push({ file: file.path, selector, property, value: value.trim() });
       }
@@ -46,7 +47,7 @@ const ethnicityColors = [...themes.matchAll(/name: "([^"]+)", accent: "([^"]+)",
   .map(([, name, accent, foreground]) => ({ name, accent, foreground }));
 const report = {
   schemaVersion: 1,
-  method: "Leitura estática de app/, components/ e lib/. Não determina seletores mortos, estilos computados, carregamento de fontes ou disponibilidade externa. Valores literais locais são registrados mesmo quando o seletor pode estar inativo. SVGs, bitmaps e estilos remotos não são inventariados.",
+  method: "Leitura estática de app/, components/ e lib/. Inclui somente tokens globais com referências var(). Declarações locais registram uso no CSS, não visibilidade ou precedência na cascata. Não determina seletores mortos, carregamento de fontes ou disponibilidade externa. SVGs, bitmaps e estilos remotos não são inventariados.",
   sources: files.map((file) => file.path),
   globalTokens: tokens,
   ethnicityColors,

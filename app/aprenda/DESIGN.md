@@ -68,6 +68,9 @@ foi conferido em 1440px e 390px; ações verdes confirmadas como `#1a4020`.
 
 ## Colors
 
+Cores principais fixas: #1A4020 e #EF4929. Outros verdes e acentos dos povos
+são somente apoios. [Documentação geral](../../docs/PALETA-E-TIPOGRAFIA.md).
+
 Tokens `--learn-*` são aliases dos globais, não uma paleta independente.
 Introdução do índice: verde principal `forest-800` (`#1a4020`), título branco e destaque
 `brand-orange`. Guias: fundo claro e destaque `learn-forest`.

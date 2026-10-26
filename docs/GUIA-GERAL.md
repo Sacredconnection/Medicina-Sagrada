@@ -22,107 +22,21 @@ O sistema combina verdes profundos, branco, fotografia e acentos laranja. Cores 
 
 O logo horizontal está em `public/assets/logo/medicina-sagrada-logo-01.svg`. O contrato recomenda SVG transparente, texto em curvas e prancheta 1200 × 300; isso é especificação de exportação, não medição do arquivo. Preserve proporção e nome para manter a integração do header. [Contrato do logo](../public/assets/logo/README.md).
 
-## 3. Cores globais referenciadas
+## 3. Paleta de cores
 
-Verde principal oficial: **`#1a4020`**, confirmado por Danilo em 26/10/2026.
-O token `--forest-800` aplica esse valor aos elementos de verde principal.
-Logo, favicon, barra do header e tema do navegador seguem a mesma cor.
-Os verdes profundos/de apoio e a paleta contextual dos povos são distintos.
-Fundos verdes de seções também usam `#1a4020`. Na entrada do Ritual Finder,
-a camada sobre a textura deriva desse mesmo verde, com 88% de opacidade;
-não usa mais o gradiente de verdes escuros anterior.
-Laranja principal oficial: **`#ef4929`**, confirmado na mesma data e aplicado
-a `--brand-orange`, `--cta-accent`, logo e transparências de ação.
+As duas cores principais fixas do site são **verde #1A4020** e **laranja #EF4929**.
+Os demais verdes e as cores dos povos são apoios. Não substituir nem aproximar
+as cores principais sem nova orientação explícita de Danilo.
 
-Valores extraídos de `app/globals.css`. “Referenciado” significa que existe uso de `var()` no código; não comprova que todo seletor aparece nas páginas atuais. Não excluir uma cor só porque ela não aparece na primeira tela.
-
-| Token CSS | HEX | Papel / referência |
-| --- | --- | --- |
-| `--forest-950` | `#0b261d` | Verde profundo, títulos, ações e superfícies |
-| `--forest-900` | `#12372a` | Apoio em títulos de intenções e mídia contextual |
-| `--forest-800` | `#1a4020` | Compra, links, preços e ações de guias |
-| `--forest-650` | `#3b6f52` | Apoio, foco, bordas e texto contextual |
-| `--leaf-400` | `#9bb978` | Seleção de texto e destaques de apoio |
-| `--clay-500` | `#ef4929` | Ícones de benefícios e acento de comunidade; também há referência em `.brand-name em` |
-| `--paper` | `#ffffff` | Fundo do body |
-| `--white` | `#ffffff` | Superfícies, textos invertidos e componentes |
-| `--header-white` | `#ffffff` | Branco específico do header |
-| `--paper-deep` | `#ebe7d9` | Fundos leves e controles secundários |
-| `--line` | `#d9d6c7` | Bordas e divisórias |
-| `--ink` | `#14251d` | Texto principal |
-| `--muted` | `#68736b` | Texto secundário |
-| `--brand-orange` | `#ef4929` | Destaques de marca e editoriais |
-| `--cta-accent` | `#ef4929` | Ações editoriais, interação e foco |
-| `--cta-on-accent` | `#06140f` | Texto sobre o acento de ação |
-| `--brand-text` | `#ef4929` | Labels e texto de acento |
-
-Os dois tokens de laranja compartilham o HEX oficial, com papéis de marca e
-ação distintos. Os três tokens brancos também compartilham HEX e mantêm seus
-papéis. `brand-text`, `clay-500` e os acentos locais usam o mesmo laranja oficial. Sombras e efeitos discretos mantêm a transparência existente.
-
-### Cores locais e estados
-
-A paleta global não cobre todas as cores existentes. Há literais locais e transparências que pertencem ao componente:
-
-| Contexto | Valores de referência |
-| --- | --- |
-| Barra do header | `#1a4020` |
-| Erro comercial | `#9e3329`, `#fff4f1`, `#7a2820` |
-| Sucesso e apoio da sacola | `#edf4ee` |
-| Imagem e resumo da sacola | `#f5f6f3`, `#f4f6f2` |
-| Navegação de intenções | `#f6f8f6`, `#edf3ef` |
-| Categorias circulares | Gradiente `#fffdf7` / `#eee7d7` |
-| Ritual Finder | Entre outros, `#cbc8bb`, `#f3f0e7`, `#59645d`, `#ece9df` |
-| Conexão Ancestral | Fundo `#1a4020` pelo alias `--ancestral-green`; apoios `#cfe1ae`, `#dc251e`, `#b91f19`, `#17351f` |
-| Mídia de produto e avaliações | `#f4f2ec`, `#ef4929` |
-
-Lista completa de declarações de cor e tipografia dos dois arquivos CSS: [inventário visual](INVENTARIO-VISUAL.json). Inclui RGBA, `color-mix()`, transparências e regras que podem ser sobrescritas. Cores embutidas em imagens, SVGs e fontes remotas ficam fora desse inventário.
-
-### Paleta contextual dos povos
-
-Fonte: `lib/ethnicity-colors.ts`. Foreground é a cor de texto quando o acento serve de fundo.
-
-| Identificação | Acento | Foreground |
-| --- | --- | --- |
-| Apurinã | `#83bc43` | `#000000` |
-| Caboclo | `#997052` | `#000000` |
-| Huni Kuin | `#bfa771` | `#000000` |
-| Katukina | `#79bc43` | `#000000` |
-| Kuntanawa | `#606161` | `#ffffff` |
-| Nukini | `#dc9c41` | `#000000` |
-| Puyanawa | `#ba9b80` | `#000000` |
-| Shanenawa | `#0568a7` | `#ffffff` |
-| Shawãdawa | `#ec2326` | `#000000` |
-| Yawanawá | `#2f2f2a` | `#ffffff` |
-
-Não inferir povo por texto livre nem apresentar essas associações cromáticas como simbolismo cultural oficial. Caboclo é uma identidade regional ampla, não uma única nação indígena.
+A fonte geral para cores, aliases, aplicações, estados locais e vetores é
+[Paleta de cores e tipografia](PALETA-E-TIPOGRAFIA.md). Esse documento é gerado
+a partir do código atual, sem tokens globais sem referência de uso.
 
 ## 4. Tipografia
 
-Família principal: **Proxima Nova**, via Adobe Fonts, kit `vjh7vll`. O componente `AdobeFontsStylesheet` insere a folha de estilo no cliente e oferece alternativa `noscript`. Fallbacks, nesta ordem: Segoe UI, Avenir Next, Arial e sans-serif. O carregamento real depende da rede e das condições do kit.
-
-**Exceção atual:** títulos principais, títulos dos cards e navegação anterior/próximo de `/intencoes/` usam **Georgia**, com Times New Roman e serif como alternativas. O restante conserva a base Proxima Nova.
-
-As equivalências em px abaixo assumem raiz de 16px; `rem` permanece relativo às preferências do navegador.
-
-| Papel | Valor CSS | Referência em px |
-| --- | --- | --- |
-| Corpo | `1rem` | 16 |
-| Corpo menor | `0.9375rem` | 15 |
-| Interface | `0.875rem` | 14 |
-| Label / ação | `0.8125rem` | 13 |
-| Legenda / ação compacta | `0.75rem` | 12 |
-| Corpo editorial | `1.125rem` | 18 |
-| Título de produto | `1.05rem` | 16,8 |
-| Título de seção, token | `clamp(2.35rem, 3.3vw, 3.25rem)` | 37,6–52 |
-| Subtítulo, token | `clamp(1.45rem, 2.3vw, 2.2rem)` | 23,2–35,2 |
-| h1 global | `clamp(2.75rem, 5.5vw, 5.5rem)` | 44–88 |
-| h2 global | `clamp(2.15rem, 4vw, 4rem)` | 34,4–64 |
-| h1 de intenções | `clamp(3rem, 8vw, 6.75rem)` | 48–108 |
-
-Pesos globais referenciados: 400, 500, 600, 700, 800 e 900. Corpo: 400 e entrelinha 1,55. h1 global: 800, entrelinha 0,94; títulos globais usam tracking `-0.035em`. h1 de intenções: Georgia 400, entrelinha 0,98 e tracking `-0.055em`. Preços e quantidades usam números tabulares onde definido.
-
-O token de título de seção não equivale a todo h2. Hero, Aprenda e componentes têm substituições locais. [Design de Aprenda](../app/aprenda/DESIGN.md).
+**Proxima Nova** é a família principal. **Georgia** é apoio editorial em intenções.
+Fallbacks, pesos, tamanhos, entrelinhas, tracking e escalas por superfície estão
+no mesmo [documento geral](PALETA-E-TIPOGRAFIA.md#6-famílias-tipográficas).
 
 ## 5. Composição, espaçamento e formas
 
@@ -215,8 +129,8 @@ npm.cmd run docs:visual
 npm.cmd run docs:visual:check
 ```
 
-O primeiro comando regenera o inventário; o segundo detecta divergência com o código sem escrever arquivos. Depois revise o guia e DESIGN quando necessário. O script não altera CSS, cores ou componentes.
+O primeiro comando regenera o inventário e o documento de paleta e tipografia; o segundo detecta divergência com o código sem escrever arquivos. Depois revise o guia e DESIGN quando necessário. Os scripts não alteram CSS, cores ou componentes e verificam os HEX fixos das duas cores principais.
 
-Nesta revisão saíram da paleta e escala de uso os tokens sem referência: `--sun-400`, `--weight-thin`, `--weight-light` e `--group-space-small`. As declarações permanecem no CSS, registradas como não referenciadas no inventário; eliminá-las do código é uma limpeza diferente da atualização documental. Rampas OKLCH sintetizadas do sidecar também foram retiradas, pois não são cores implementadas.
+O inventário e a documentação vigente incluem somente tokens globais com referência de uso. Não documentar explorações cromáticas nem escalas tipográficas sem implementação.
 
 Método: leitura de código, referências, rotas, configuração e contratos; inventário automatizado e verificações de consistência. Não houve nesta revisão inspeção renderizada de todas as páginas, auditoria de seletores mortos, consulta administrativa à loja ou homologação de integrações. Capturas e testes anteriores preservam suas datas.

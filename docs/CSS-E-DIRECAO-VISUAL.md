@@ -41,14 +41,16 @@ locais. Não promover automaticamente uma composição de Aprenda a regra global
 ## Tokens globais
 
 Valores exatos: [Guia geral](GUIA-GERAL.md). Referências, literais locais e
-condições de mídia: [Inventário visual](INVENTARIO-VISUAL.json). Os tokens
-sun-400, weight-thin, weight-light e group-space-small estão declarados sem
-referência e não integram a escala de uso documentada.
+condições de mídia: [Inventário visual](INVENTARIO-VISUAL.json). A documentação
+inclui somente tokens globais com referência de uso no código.
 
 Os valores normativos completos estão no frontmatter de `DESIGN.md`. No CSS,
 os grupos principais são:
 
 ### Cores
+
+As cores principais fixas são #1A4020 e #EF4929. Outros verdes e cores de etnias
+são somente apoios. Consulte a [paleta e tipografia vigentes](PALETA-E-TIPOGRAFIA.md).
 
 Verde principal: **`#1a4020`**, token `--forest-800`. A barra do header usa
 esse token; bordas translúcidas correspondentes usam RGB `26, 64, 32`.

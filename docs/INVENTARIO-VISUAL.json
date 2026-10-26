@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "method": "Leitura estática de app/, components/ e lib/. Não determina seletores mortos, estilos computados, carregamento de fontes ou disponibilidade externa. Valores literais locais são registrados mesmo quando o seletor pode estar inativo. SVGs, bitmaps e estilos remotos não são inventariados.",
+  "method": "Leitura estática de app/, components/ e lib/. Inclui somente tokens globais com referências var(). Declarações locais registram uso no CSS, não visibilidade ou precedência na cascata. Não determina seletores mortos, carregamento de fontes ou disponibilidade externa. SVGs, bitmaps e estilos remotos não são inventariados.",
   "sources": [
     "app/[...slug]/page.tsx",
     "app/account/route.ts",
@@ -205,12 +205,6 @@
       ]
     },
     {
-      "name": "--sun-400",
-      "value": "#ef4929",
-      "referenced": false,
-      "references": []
-    },
-    {
       "name": "--paper",
       "value": "#ffffff",
       "referenced": true,
@@ -373,18 +367,6 @@
           "count": 7
         }
       ]
-    },
-    {
-      "name": "--weight-thin",
-      "value": "100",
-      "referenced": false,
-      "references": []
-    },
-    {
-      "name": "--weight-light",
-      "value": "300",
-      "referenced": false,
-      "references": []
     },
     {
       "name": "--weight-regular",
@@ -661,12 +643,6 @@
           "count": 1
         }
       ]
-    },
-    {
-      "name": "--group-space-small",
-      "value": "1rem",
-      "referenced": false,
-      "references": []
     },
     {
       "name": "--group-space-medium",
@@ -1442,12 +1418,6 @@
       "file": "app/globals.css",
       "selector": ":root",
       "property": "--clay-500",
-      "value": "#ef4929"
-    },
-    {
-      "file": "app/globals.css",
-      "selector": ":root",
-      "property": "--sun-400",
       "value": "#ef4929"
     },
     {

@@ -132,7 +132,7 @@ componentes atuais. O [guia geral](docs/GUIA-GERAL.md) reúne cores, tipografia
 e operação; o [inventário visual](docs/INVENTARIO-VISUAL.json) registra referências
 extraídas automaticamente. Na atualização das cores oficiais, catálogo e
 Aprenda foram conferidos em 1440px e 390px, incluindo estados de ação.
-Amostras computadas de 06/10/2026 continuam sendo evidências históricas.
+A paleta e a tipografia vigentes estão consolidadas no guia dedicado.
 As seções seguem o [formato DESIGN.md](https://raw.githubusercontent.com/google-labs-code/design.md/main/docs/spec.md).
 
 **Creative North Star: "Floresta, origem e clareza"**
@@ -155,67 +155,43 @@ ser promovidas automaticamente a regra de toda a loja.
 
 ## Colors
 
-O verde principal oficial é **`#1a4020`**, confirmado por Danilo em 26/10/2026.
-É o valor de `--forest-800`, compartilhado por menus, links, preços, compra,
-ações de guias e barra do header. O verde do logo, favicon e tema do navegador
-também foi alinhado. Tons profundos/de apoio e cores dos povos mantêm seus papéis.
-Fundos verdes de seções e painéis institucionais usam o mesmo verde principal:
-hero, incensos, kits, introdução do Ritual Finder, Conexão Ancestral, Aprenda,
-contato, atacado e convite institucional. Imagens de fundo mantêm seu conteúdo.
-O laranja principal oficial é **`#ef4929`**, confirmado na mesma data:
-`brand-orange` e `cta-accent` agora compartilham esse HEX, preservando seus
-papéis semânticos. `brand-text`, `clay-500` e os acentos locais também usam o laranja oficial, sem variantes escuras. Sombras e efeitos discretos mantêm sua transparência.
+As duas cores principais fixas são **verde #1A4020** e **laranja #EF4929**.
+Não aproximar, substituir ou criar variações dessas cores principais sem nova
+orientação explícita de Danilo. Todos os outros verdes e as cores das etnias
+são apoios aplicados aos contextos existentes.
 
-Somente cores globais referenciadas e a paleta contextual compõem o frontmatter.
-`sun-400` está declarado, mas sem referência, e foi excluído da paleta de uso.
-Literais locais e transparências estão no [guia geral](docs/GUIA-GERAL.md) e no
-inventário. Referência estática não comprova visibilidade de cada seletor.
+O frontmatter registra tokens globais com referência de uso e os acentos dos
+povos. Tokens com o mesmo HEX são aliases de função, não cores adicionais.
+Menus do header usam o verde principal; pequenos títulos de seção, inclusive
+“Recomendações da Medicina Sagrada”, usam o laranja principal.
 
-Os valores normativos estão no frontmatter; nomes preservam os tokens do código.
+A documentação geral completa está em [Paleta e tipografia](docs/PALETA-E-TIPOGRAFIA.md):
+cores principais, apoios, neutros, estados locais, vetores e tipografia efetiva.
+Fórmulas de transparência e ocorrências: [inventário](docs/INVENTARIO-VISUAL.json).
 
-| Papel | Tokens / aplicação |
-| --- | --- |
-| Verde principal | forest-800 `#1a4020` em compra, CTAs de produto, links, navegação e guias |
-| Estrutural de apoio | forest-950/900 em superfícies profundas, títulos e estados específicos |
-| Apoio | forest-650 e leaf-400 em contrastes de vegetação e destaques institucionais |
-| Acento de marca/ação | brand-orange em marca/destaques; cta-accent em preenchimentos editoriais e hover |
-| Apoio quente | clay-500 em tratamentos contextuais |
-| Neutros | paper/white, paper-deep e line para superfícies/bordas; ink e muted para texto |
-| Texto de acento | cta-on-accent sobre CTA laranja; brand-text para alguns labels de produto |
-| Contextual | dez tokens de etnias, conforme PRODUCT e ethnicity-colors.ts |
+**The Contextual Accent Rule.** A cor de etnia é um apoio exclusivo do povo
+explicitamente identificado nos dados; preservar seu foreground canônico.
 
-**The Contextual Accent Rule.** A cor de etnia acompanha somente o povo
-explicitamente identificado; não inferir origem de descrição livre.
-
-**The Action Context Rule.** Preserve o CTA de cada componente. Compra usa
-verde principal `#1a4020`; produto também usa `#1a4020` em repouso e
-laranja `#ef4929` em hover/foco;
-ações editoriais têm contorno e preenchimento animado. Não há regra global
-que torne todo botão laranja no mobile. brand-orange e cta-accent têm papéis
-distintos, com o mesmo HEX oficial `#ef4929`.
-
-Texto sobre acento de etnia usa preto, exceto Kuntanawa, Shanenawa e Yawanawá,
-que usam branco. Isso se aplica ao fundo de acento, não a toda a tipografia
-do card. Em Aprenda atual, nomes e ações usam esses pares.
+**The Action Context Rule.** Compra e CTAs verdes de produto usam #1A4020.
+Os estados laranja usam #EF4929. Preservar os estados específicos de cada
+componente e os apoios já aplicados. Não tornar todo botão laranja.
 
 ## Typography
 
-Família global Proxima Nova, Adobe Fonts pelo kit vjh7vll, com os fallbacks
-registrados em display. Georgia, com Times New Roman e serif como alternativas,
-aparece nos títulos principais, cards e navegação anterior/próximo de intenções.
-O corpo tem entrelinha confortável; títulos usam
-tracking negativo e text-wrap balance. Labels/ações usam peso forte, caixa
-alta e tracking positivo. Valores de títulos são fluidos; estilos de superfície
-podem substituir o display global, como hero e guias compactos.
+Família principal: Proxima Nova, com fallbacks Segoe UI, Avenir Next, Arial e
+sans-serif. Adobe Fonts: kit vjh7vll. Georgia, com Times New Roman e serif como
+alternativas, é apoio editorial para títulos, cards e navegação de intenções.
 
-**The Shared Voice Rule.** Reutilize Proxima Nova e os papéis existentes;
-preserve Georgia no contexto de intenções antes de criar uma família adicional.
+Corpo global: 1rem, peso 400, entrelinha 1,55. Pesos em uso: 400, 500, 600,
+700, 800 e 900. Os tamanhos fluidos e overrides de cada superfície estão no
+[guia de paleta e tipografia](docs/PALETA-E-TIPOGRAFIA.md), extraídos do CSS.
+O título da página individual de intenção usa sua escala local, diferente do índice.
+Aprenda mantém Proxima Nova e seus labels locais de 0,6875rem.
 
-Papéis do frontmatter correspondem aos tokens globais, com line-height/pesos
-dos componentes observados. h2 genérico e hero têm escalas próprias no CSS:
-não aplicar section-title indiscriminadamente a todos os títulos. Números
-de preço/quantidade usam tabular-nums. Estilos computados confirmaram corpo
-de 16px nas amostras; isso não prova carregamento da fonte em todo ambiente.
+**The Shared Voice Rule.** Reutilizar as famílias e os papéis existentes.
+Fallback técnico não é família adicional de marca. Não criar escala ou fonte
+com base em explorações antigas. Preços e quantidades usam números tabulares
+onde implementado.
 
 ## Layout
 
