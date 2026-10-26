@@ -5,6 +5,7 @@ colors:
   forest-950: "#0b261d"
   forest-900: "#12372a"
   forest-800: "#174b37"
+  action-green: "#1a4020"
   forest-650: "#3b6f52"
   leaf-400: "#9bb978"
   clay-500: "#b86443"
@@ -149,9 +150,15 @@ ser promovidas automaticamente a regra de toda a loja.
 
 Os valores normativos estão no frontmatter; nomes preservam os tokens do código.
 
+O verde `action-green` (`#1A4020`) é reservado aos botões e adornos verdes
+(seleções, indicadores, contornos e ícones de controles). Não substitui a
+paleta estrutural nem as cores ou a tipografia de títulos, header e footer.
+Os acentos laranja permanecem nos componentes que já os utilizam.
+
 | Papel | Tokens / aplicação |
 | --- | --- |
-| Primário estrutural | forest-950/900 em superfícies profundas e CTAs de produto; forest-800 em compra, links e guias |
+| Primário estrutural | forest-950/900 em superfícies profundas; forest-800 em títulos, links e guias |
+| Ações verdes | action-green em botões, seleções e adornos verdes; mantém os estados de hover e os acentos laranja específicos de cada componente |
 | Apoio | forest-650 e leaf-400 em contrastes de vegetação e destaques institucionais |
 | Acento de marca/ação | brand-orange em marca/destaques; cta-accent em preenchimentos editoriais e hover |
 | Apoio quente | clay-500 e sun-400 em tratamentos contextuais |

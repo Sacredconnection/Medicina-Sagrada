@@ -47,7 +47,8 @@ os grupos principais são:
 
 | Grupo | Tokens | Uso principal |
 | --- | --- | --- |
-| Floresta | `--forest-950`, `--forest-900`, `--forest-800`, `--forest-650` | Fundos profundos, texto de marca, compra, links e foco |
+| Floresta | `--forest-950`, `--forest-900`, `--forest-800`, `--forest-650` | Fundos profundos, títulos, texto de marca e links |
+| Ações verdes | `--action-green: #1A4020` | Botões e adornos verdes; não se aplica ao header, footer, títulos ou texto corrido |
 | Vegetação | `--leaf-400` | Apoio natural e detalhes editoriais |
 | Acentos quentes | `--clay-500`, `--sun-400` | Apoio contextual |
 | Neutros | `--paper`, `--paper-deep`, `--line`, `--ink`, `--muted`, `--white` | Superfícies, divisórias e texto |
