@@ -125,12 +125,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
         </div>
       </div></ProductVariationProvider>
-      <section className="product-description" aria-labelledby="descricao">
-        <h2 id="descricao">Sobre este produto</h2>
+      <nav className="product-section-tabs" aria-label="Informações do produto">
+        <a href="#descricao">Descrição</a>
+        <a href="#avaliacoes">Avaliações</a>
+        {related.some(item => item.id !== product.id) ? <a href="#relacionados">Relacionados</a> : null}
+      </nav>
+      <section id="descricao" className="product-description" aria-labelledby="description-title" tabIndex={-1}>
+        <h2 id="description-title">Sobre este produto</h2>
         <RichText html={product.description} textFilter={canonicalizeEthnicityNames} />
       </section>
-      {related.some(item => item.id !== product.id) ? <section className="related-products"><h2>Na mesma categoria</h2><div className="product-grid">{related.filter(item => item.id !== product.id).slice(0, 4).map(item => <ProductCard key={item.id} product={item} headingLevel={3} />)}</div></section> : null}
       <ProductReviews productId={product.id} count={product.review_count} average={product.average_rating} initial={reviews ?? { data: [], totalPages: 0 }} initialError={!reviews} />
+      {related.some(item => item.id !== product.id) ? <section id="relacionados" className="related-products" aria-labelledby="related-title" tabIndex={-1}><h2 id="related-title">Produtos relacionados</h2><div className="product-grid">{related.filter(item => item.id !== product.id).slice(0, 4).map(item => <ProductCard key={item.id} product={item} headingLevel={3} />)}</div></section> : null}
       <JsonLd data={[productSchema(product), breadcrumbSchema(breadcrumbs)]} />
     </article>
     <Suspense fallback={null}><ProductJourney /></Suspense>

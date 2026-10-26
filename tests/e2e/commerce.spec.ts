@@ -42,8 +42,8 @@ test("foto acompanha a variação, permite miniaturas e restaura a imagem geral"
   await expect(page.locator(".product-thumbnails button")).toHaveCount(2);
   await page.getByRole("button", { name: "Ver imagem 2 de Pulseira artesanal" }).click();
   await expect(photo).toHaveAttribute("alt", "Pulseira tamanho P");
-  await expect(page.getByLabel("Escolha uma opção")).toHaveValue("");
-  await page.getByLabel("Escolha uma opção").selectOption("201");
+  await expect(page.locator(".purchase-option").getByRole("radio", { checked: true })).toHaveCount(0);
+  await page.getByRole("radio", { name: /P R\$ 39,00/ }).check();
   await expect(photo).toHaveAttribute("alt", "Pulseira tamanho P");
   await expect(photo).toHaveAttribute("src", /rape-huni-kuin-tradicao/);
   await page.locator(".product-main-image").click();
@@ -51,11 +51,11 @@ test("foto acompanha a variação, permite miniaturas e restaura a imagem geral"
   await page.getByRole("button", { name: "Fechar imagem ampliada" }).click();
   await page.getByRole("button", { name: "Ver imagem 1 de Pulseira artesanal" }).click();
   await expect(photo).toHaveAttribute("alt", "Pulseira geral");
-  await page.getByLabel("Escolha uma opção").selectOption("");
+  await page.reload();
   await expect(photo).toHaveAttribute("alt", "Pulseira geral");
   await expect(page.locator(".product-thumbnails button")).toHaveCount(2);
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.getByLabel("Escolha uma opção").selectOption("201");
+  await page.getByRole("radio", { name: /P R\$ 39,00/ }).check();
   await expect(photo).toHaveAttribute("alt", "Pulseira tamanho P");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
@@ -63,8 +63,8 @@ test("foto acompanha a variação, permite miniaturas e restaura a imagem geral"
 test("variações, remoção e sacola vazia", async ({ page }) => {
   await page.goto("/product/pulseira-artesanal/");
   await expect(page.getByRole("button", { name: "Adicionar à sacola" })).toBeDisabled();
-  await expect(page.getByRole("option", { name: /M — Esgotado/ })).toHaveJSProperty("disabled", true);
-  await page.getByLabel("Escolha uma opção").selectOption("201");
+  await expect(page.getByRole("radio", { name: "M Esgotado" })).toBeDisabled();
+  await page.getByRole("radio", { name: /P R\$ 39,00/ }).check();
   await page.getByRole("button", { name: "Adicionar à sacola" }).click();
   await page.getByRole("dialog").getByRole("link", { name: "Ver minha sacola", exact: true }).click();
   await expect(page.getByText("Tamanho: P")).toBeVisible();

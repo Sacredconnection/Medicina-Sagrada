@@ -31,7 +31,7 @@ test("respeita variação, CEP inválido, indisponibilidade e resultados antigos
   await page.goto("/product/pulseira-artesanal/");
   await page.locator("details.product-delivery > summary").click();
   await expect(page.getByRole("button", { name: "Calcular", exact: true })).toBeDisabled();
-  await page.getByLabel("Escolha uma opção").selectOption("201");
+  await page.getByRole("radio", { name: /P R\$ 39,00/ }).check();
   await page.getByLabel("CEP de entrega").fill("123");
   await page.getByRole("button", { name: "Calcular", exact: true }).click();
   await expect(page.locator(".shipping-calculator [role=alert]")).toContainText("8 números");

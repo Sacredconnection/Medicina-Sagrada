@@ -121,7 +121,7 @@ test("produto mostra galeria, avaliações da API e formulário de envio autenti
 test("variação muda preço e quantidade pode ser editada no side cart", async ({ page }) => {
   await page.goto("/product/pulseira-artesanal/");
   await expect(page.getByText("Selecione uma opção para ver o preço exato.")).toBeVisible();
-  await page.getByLabel("Escolha uma opção").selectOption("201");
+  await page.getByRole("radio", { name: /P R\$ 39,00/ }).check();
   await expect(page.locator(".purchase-price")).toContainText("39.00");
   await page.getByRole("button", { name: "Adicionar à sacola" }).click();
   const drawer = page.getByRole("dialog");

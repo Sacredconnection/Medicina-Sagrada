@@ -37,28 +37,29 @@ export function ProductPurchaseControls({ product, variants, originalUrl }: Prod
     if (await mutate({ action: "add", id: selected.id, quantity })) setAdded(true);
   }}>
     <div className="purchase-fields">
-    {variable ? <label className="commerce-field purchase-option">Escolha uma opção
-      <select required value={selection} disabled={busy} onChange={(event) => {
-        const variant = variants.find((v) => String(v.id) === event.target.value);
-        setSelection(event.target.value);
-        setVariation(variant ? { id: variant.id, image: variant.images?.[0] } : null);
-        setQuantity(variant?.add_to_cart?.minimum ?? 1);
-        setAdded(false);
-      }}>
-        <option value="">Selecione o peso ou modelo</option>
-        {variants.map((variant) => <option key={variant.id} value={variant.id} disabled={variant.is_in_stock === false || variant.is_purchasable === false}>
-          {variant.variation || product.variations?.find((entry) => entry.id === variant.id)?.attributes.map((attr) => attr.value).join(" / ") || variant.name}
-          {variant.is_in_stock === false ? " — Esgotado" : ` — ${formatMoney(variant.prices.price, variant.prices.currency_code, variant.prices.currency_minor_unit)}`}
-        </option>)}
-      </select>
-    </label> : null}
+    {variable ? <fieldset className="purchase-option" disabled={busy}>
+      <legend>Escolha uma opção</legend>
+      <div className="purchase-swatches">
+        {variants.map((variant) => <label key={variant.id} className="purchase-swatch">
+          <input type="radio" name="product-variation" required value={variant.id} checked={selection === String(variant.id)} disabled={variant.is_in_stock === false || variant.is_purchasable === false} onChange={() => {
+            setSelection(String(variant.id));
+            setVariation({ id: variant.id, image: variant.images?.[0] });
+            setQuantity(variant.add_to_cart?.minimum ?? 1);
+            setAdded(false);
+          }} />
+          <span className="purchase-swatch-content">
+            <strong>{variant.variation || product.variations?.find((entry) => entry.id === variant.id)?.attributes.map((attr) => attr.value).join(" / ") || variant.name}</strong>
+            <span>{variant.is_in_stock === false ? "Esgotado" : variant.is_purchasable === false ? "Indisponível" : formatMoney(variant.prices.price, variant.prices.currency_code, variant.prices.currency_minor_unit)}</span>
+          </span>
+        </label>)}
+      </div>
+    </fieldset> : null}
       <div className="purchase-quantity-row"><label className="commerce-field purchase-quantity">Quantidade
         <input type="number" inputMode="numeric" min={minimum} max={maximum} step={step} required value={quantity} disabled={busy || !purchasable} onChange={(event) => { setQuantity(Number(event.target.value)); setAdded(false); }} />
       </label><div className="purchase-total" aria-live="polite"><span>Total do produto</span><strong>{total}</strong></div></div>
     </div>
     <button className="commerce-button" disabled={busy || loading || !selected || !purchasable || !validQuantity} type="submit">{busy ? "Atualizando…" : selected && !purchasable ? "Produto indisponível" : "Adicionar à sacola"}</button>
     <p className="purchase-detail">Frete e condições de pagamento na finalização.</p>
-    {selected && maximum < 9999 ? <p className="purchase-detail">Até {maximum} {maximum === 1 ? "unidade" : "unidades"} por compra.</p> : null}
     {error ? <p className="commerce-error" role="alert">{error}</p> : null}
     {added ? <p className="commerce-success" role="status">Produto adicionado. <Link href="/cart/">Ver minha sacola →</Link></p> : null}
   </form><details className="product-delivery"><summary><span>Calcule o frete e o prazo<small>Informe seu CEP de entrega</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary><ShippingCalculator productId={selected?.id} quantity={quantity} available={purchasable && validQuantity} /></details></>;
