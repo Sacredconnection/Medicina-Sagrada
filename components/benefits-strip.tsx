@@ -18,7 +18,7 @@ const benefits: Array<{ icon: BenefitIconName; title: string; detail: string }> 
   {
     icon: "secure",
     title: "Compra segura",
-    detail: "Pagamento protegido no checkout",
+    detail: "Proteção ao finalizar sua compra",
   },
   {
     icon: "support",

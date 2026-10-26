@@ -59,7 +59,7 @@ export function HomeNewsletterSection({
 
       setMessage(
         result.status === "pending"
-          ? "Quase lá! Confira seu e-mail para confirmar o cadastro na newsletter."
+          ? "Quase lá! Confira seu e-mail para confirmar o cadastro."
           : "Cadastro confirmado! Você receberá nossas histórias, saberes e novidades por e-mail.",
       );
       form.reset();
@@ -81,7 +81,7 @@ export function HomeNewsletterSection({
         <div className="newsletter-copy">
           <h2 id="newsletter-title">Histórias, <span>saberes</span> e <span>ofertas</span> no seu e-mail.</h2>
           <p>
-            Receba nossa newsletter com histórias e conhecimentos dos povos da
+            Receba por e-mail histórias e conhecimentos dos povos da
             floresta, promoções, descontos e novidades da Medicina Sagrada.
           </p>
         </div>
@@ -89,7 +89,7 @@ export function HomeNewsletterSection({
         <form
           className="newsletter-form"
           onSubmit={submit}
-          aria-label="Cadastro na newsletter"
+          aria-label="Receba novidades por e-mail"
           aria-busy={busy}
         >
           <label className="newsletter-email-label" htmlFor="newsletter-email">Seu e-mail</label>

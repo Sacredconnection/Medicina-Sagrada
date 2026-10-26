@@ -3,6 +3,8 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { parseShippingInput, type ShippingEstimate } from "@/lib/shipping-validation";
 
+class ShippingRequestError extends Error {}
+
 export function ShippingCalculator({ productId, quantity, available }: { productId?: number; quantity: number; available: boolean }) {
   const id = useId();
   const [postcode, setPostcode] = useState("");
@@ -28,9 +30,9 @@ export function ShippingCalculator({ productId, quantity, available }: { product
       try {
         const response = await fetch("/api/shipping/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(input), signal: request.signal });
         const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Não foi possível consultar o frete.");
+        if (!response.ok) throw new ShippingRequestError(data.error || "Não foi possível consultar o frete. Tente novamente em instantes.");
         setResult({ key, data });
-      } catch (error) { if (!request.signal.aborted) setResult({ key, error: error instanceof Error ? error.message : "Não foi possível consultar o frete." }); }
+      } catch (error) { if (!request.signal.aborted) setResult({ key, error: error instanceof ShippingRequestError ? error.message : "Não foi possível consultar o frete. Tente novamente em instantes." }); }
       finally { if (!request.signal.aborted) setBusy(false); }
     }}>
       <label htmlFor={`${id}-cep`}>CEP de entrega</label>
@@ -46,7 +48,7 @@ export function ShippingCalculator({ productId, quantity, available }: { product
         <p className="shipping-destination">Entrega para {postcode}</p>
         {current.data.quotes.length ? <ul className="shipping-results">{current.data.quotes.map((quote, index) => <li key={`${quote.name}-${index}`}>
           <div><strong>{quote.name}</strong><span>{quote.deliveryTime || "Prazo informado na finalização"}</span>{quote.observations ? <small>{quote.observations}</small> : null}</div><strong>{quote.price}</strong>
-        </li>)}</ul> : <p>Nenhuma opção retornada para este CEP. Confira o endereço ou consulte na finalização.</p>}
+        </li>)}</ul> : <p>Não encontramos opções de entrega para este CEP. Confira o endereço ou consulte ao finalizar a compra.</p>}
         <p className="shipping-help">Estimativa de entrega após a postagem. Valor e prazo serão confirmados com o endereço completo e todos os itens na finalização.</p>
       </> : null}
     </div>

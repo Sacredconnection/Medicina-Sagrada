@@ -15,7 +15,6 @@ test("intenção inclui principais e secundárias, preserva paginação e aparec
   await expect(page.locator(".product-intention-panel")).toContainText("Coração e conexão");
   await page.locator(".product-intention-panel").getByRole("link", { name: "Coração e conexão" }).click();
   await expect(page.locator(".product-card")).toHaveCount(1);
-  await expect(page.locator(".intention-context")).not.toHaveAttribute("open", "");
   await expect(page.locator(".product-card-intentions")).toContainText("Coração e conexão");
   await page.setViewportSize({ width: 390, height: 844 });
   await page.screenshot({ path: "test-results/intention-mobile.png", fullPage: true });

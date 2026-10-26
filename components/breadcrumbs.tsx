@@ -7,7 +7,7 @@ type Breadcrumb = {
 
 export function Breadcrumbs({ items }: { items: Breadcrumb[] }) {
   return (
-    <nav className="breadcrumbs" aria-label="Navegação estrutural">
+    <nav className="breadcrumbs" aria-label="Você está aqui">
       <ol>
         {items.map((item, index) => (
           <li key={`${item.label}-${index}`}>

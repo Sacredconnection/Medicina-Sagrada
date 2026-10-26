@@ -9,19 +9,19 @@ export type CartAction =
 const positiveInteger = (value: unknown) => typeof value === "number" && Number.isSafeInteger(value) && value > 0;
 
 export function parseCartAction(input: unknown): CartAction {
-  if (!input || typeof input !== "object" || Array.isArray(input)) throw new CartInputError("Solicitação inválida.");
+  if (!input || typeof input !== "object" || Array.isArray(input)) throw new CartInputError("Não foi possível atualizar a sacola. Atualize a página e tente novamente.");
   const value = input as Record<string, unknown>;
   const quantity = value.quantity === undefined ? 1 : value.quantity;
   if (value.action === "add" || value.action === "update") {
     if (!positiveInteger(quantity) || (quantity as number) > 9999) throw new CartInputError("Informe uma quantidade entre 1 e 9999.");
   }
   if (value.action === "add") {
-    if (!positiveInteger(value.id)) throw new CartInputError("Produto inválido.");
+    if (!positiveInteger(value.id)) throw new CartInputError("Escolha o produto novamente.");
     let variation: Array<{ attribute: string; value: string }> | undefined;
     if (value.variation !== undefined) {
-      if (!Array.isArray(value.variation) || value.variation.length > 20) throw new CartInputError("Opções inválidas.");
+      if (!Array.isArray(value.variation) || value.variation.length > 20) throw new CartInputError("Escolha as opções do produto novamente.");
       variation = value.variation.map((entry: unknown) => {
-        if (!entry || typeof entry !== "object") throw new CartInputError("Opção inválida.");
+        if (!entry || typeof entry !== "object") throw new CartInputError("Escolha a opção do produto novamente.");
         const option = entry as Record<string, unknown>;
         if (typeof option.attribute !== "string" || typeof option.value !== "string" || !option.attribute || !option.value || option.attribute.length > 100 || option.value.length > 200) throw new CartInputError("Selecione as opções do produto.");
         return { attribute: option.attribute, value: option.value };
@@ -30,14 +30,14 @@ export function parseCartAction(input: unknown): CartAction {
     return { action: "add", id: value.id as number, quantity: quantity as number, ...(variation ? { variation } : {}) };
   }
   if (value.action === "update" || value.action === "remove") {
-    if (typeof value.key !== "string" || !/^[a-f0-9]{32}$/.test(value.key)) throw new CartInputError("Item inválido.");
+    if (typeof value.key !== "string" || !/^[a-f0-9]{32}$/.test(value.key)) throw new CartInputError("Atualize a sacola e escolha o produto novamente.");
     return value.action === "remove" ? { action: "remove", key: value.key } : { action: "update", key: value.key, quantity: quantity as number };
   }
   if (value.action === "apply-coupon" || value.action === "remove-coupon") {
     if (typeof value.code !== "string" || !value.code.trim() || value.code.length > 100) throw new CartInputError("Informe um cupom válido.");
     return { action: value.action, code: value.code.trim() };
   }
-  throw new CartInputError("Operação não permitida.");
+  throw new CartInputError("Não foi possível atualizar a sacola. Atualize a página e tente novamente.");
 }
 
 export function isSameOrigin(request: Request, siteUrl: string) {
@@ -49,9 +49,9 @@ export function isSameOrigin(request: Request, siteUrl: string) {
 
 // Read with a limit even if Content-Length is missing or incorrect.
 export async function readCartBody(request: Request): Promise<unknown> {
-  if (!request.headers.get("content-type")?.startsWith("application/json")) throw new CartInputError("Envie uma solicitação JSON.");
+  if (!request.headers.get("content-type")?.startsWith("application/json")) throw new CartInputError("Não foi possível enviar seus dados. Atualize a página e tente novamente.");
   const reader = request.body?.getReader();
-  if (!reader) throw new CartInputError("Solicitação vazia.");
+  if (!reader) throw new CartInputError("Não foi possível enviar seus dados. Atualize a página e tente novamente.");
   let body = "";
   let size = 0;
   const decoder = new TextDecoder();
@@ -59,8 +59,8 @@ export async function readCartBody(request: Request): Promise<unknown> {
     const { done, value } = await reader.read();
     if (done) break;
     size += value.byteLength;
-    if (size > 8192) { await reader.cancel(); throw new CartInputError("Solicitação muito grande."); }
+    if (size > 8192) { await reader.cancel(); throw new CartInputError("Não foi possível enviar seus dados. Atualize a página e tente novamente."); }
     body += decoder.decode(value, { stream: true });
   }
-  try { return JSON.parse(body + decoder.decode()); } catch { throw new CartInputError("JSON inválido."); }
+  try { return JSON.parse(body + decoder.decode()); } catch { throw new CartInputError("Não foi possível enviar seus dados. Atualize a página e tente novamente."); }
 }

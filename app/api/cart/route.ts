@@ -11,7 +11,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  if (!isSameOrigin(request, config.siteUrl)) return NextResponse.json({ error: "Origem não permitida." }, { status: 403, headers: privateHeaders });
+  if (!isSameOrigin(request, config.siteUrl)) return NextResponse.json({ error: "Atualize a página da loja e tente novamente." }, { status: 403, headers: privateHeaders });
   try { return cartResponse(await mutateCart(parseCartAction(await readCartBody(request)), await readCartToken())); }
   catch (error) { return commerceError(error); }
 }

@@ -18,6 +18,7 @@ type CartContextValue = {
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
+class CartRequestError extends Error {}
 
 export function CartProvider({ children, checkoutUrl }: { children: React.ReactNode; checkoutUrl: string }) {
   const [cart, setCart] = useState<WooCart | null>(null);
@@ -37,10 +38,10 @@ export function CartProvider({ children, checkoutUrl }: { children: React.ReactN
     try {
       const response = await fetch("/api/cart/", { cache: "no-store" });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+      if (!response.ok) throw new CartRequestError(data.error);
       if (version === requestVersion.current) { setCart(data.cart); setError(""); }
     } catch (failure) {
-      if (version === requestVersion.current) setError(failure instanceof Error ? failure.message : "Não foi possível carregar a sacola.");
+      if (version === requestVersion.current) setError(failure instanceof CartRequestError ? failure.message : "Não foi possível carregar a sacola. Tente novamente em instantes.");
     } finally { if (version === requestVersion.current) setLoading(false); }
   }, []);
 
@@ -66,13 +67,13 @@ export function CartProvider({ children, checkoutUrl }: { children: React.ReactN
     try {
       const response = await fetch("/api/cart/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(action) });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+      if (!response.ok) throw new CartRequestError(data.error);
       setCart(data.cart);
       if (action.action === "add") setDrawerOpen(true);
       channel.current?.postMessage("updated");
       return true;
     } catch (failure) {
-      setError(failure instanceof Error ? failure.message : "Não foi possível atualizar a sacola.");
+      setError(failure instanceof CartRequestError ? failure.message : "Não foi possível confirmar a alteração. Atualize a sacola antes de tentar novamente.");
       // A timed-out mutation may have succeeded upstream. Reconcile without
       // replaying the write, which could add the same product twice.
       try {
@@ -91,11 +92,11 @@ export function CartProvider({ children, checkoutUrl }: { children: React.ReactN
     try {
       const response = await fetch("/api/checkout/", { method: "POST" });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+      if (!response.ok) throw new CartRequestError(data.error);
       window.location.assign(safeCheckoutDestination(data.url, checkoutUrl, {
         allowLocalHttp: process.env.NODE_ENV === "development",
       }));
-    } catch (failure) { setError(failure instanceof Error ? failure.message : "Não foi possível abrir o pagamento."); }
+    } catch (failure) { setError(failure instanceof CartRequestError ? failure.message : "Não foi possível abrir o pagamento. Tente novamente em instantes."); }
     finally { operation.current = false; setBusy(false); }
   }, [checkoutUrl]);
 

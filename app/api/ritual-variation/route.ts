@@ -4,7 +4,7 @@ import type { WooProduct } from "@/lib/types";
 export async function GET(request: Request) {
   const id = new URL(request.url).searchParams.get("id");
   if (!id || !/^[1-9]\d{0,9}$/.test(id)) {
-    return Response.json({ error: "Opção inválida." }, { status: 400 });
+    return Response.json({ error: "Escolha a opção do produto novamente." }, { status: 400 });
   }
   try {
     const product = await wooFetch<WooProduct>(`products/${id}`, {}, ["woocommerce", "products"], 15_000);

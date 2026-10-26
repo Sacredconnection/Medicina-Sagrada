@@ -224,7 +224,6 @@
 .intentions-intro { max-width: 48rem; margin-bottom: clamp(2.5rem, 6vw, 5rem); }
 .intentions-intro h1, .intention-detail h1 { max-width: 14ch; margin: 0.5rem 0 1rem; color: var(--forest-950); font-family: Georgia, "Times New Roman", serif; font-size: clamp(3rem, 8vw, 6.75rem); font-weight: 400; letter-spacing: -0.055em; line-height: 0.98; }
 .intentions-lede { max-width: 40rem; margin: 1.5rem 0; color: var(--ink); font-size: clamp(1.1rem, 2.2vw, 1.4rem); line-height: 1.55; }
-.intentions-note { max-width: 37rem; margin: 0; padding-left: 1rem; border-left: 2px solid var(--clay-500); color: var(--muted); font-size: 0.9375rem; line-height: 1.65; }
 .intentions-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); }
 .intention-card { display: grid; align-content: start; gap: 0.8rem; min-height: 13rem; padding: 1.5rem 1rem 1.5rem 0; border-bottom: 1px solid var(--line); color: inherit; text-decoration: none; }
 .intention-card:nth-child(odd) { margin-right: clamp(1rem, 4vw, 4rem); }
@@ -238,14 +237,6 @@
 .intention-detail { max-width: 52rem; }
 .intention-detail h1 { max-width: none; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; }
 .intention-detail-lede { margin: 1rem 0; color: var(--forest-800); font-size: 1rem; line-height: 1.6; }
-.intention-context { margin: 1rem 0 2rem; }
-.intention-context summary { cursor: pointer; color: var(--forest-800); text-underline-offset: 0.2em; }
-.intention-context summary:focus-visible { outline: 2px solid var(--forest-650); outline-offset: 4px; }
-.intention-context[open] summary { margin-bottom: 1rem; }
-.intention-detail section h2, .intention-editorial-note h2 { margin-bottom: 0.75rem; color: var(--forest-950); font-size: 1.25rem; }
-.intention-detail section p, .intention-editorial-note p { max-width: 65ch; color: var(--muted); line-height: 1.75; }
-.intention-editorial-note { margin-top: clamp(2.5rem, 6vw, 4rem); padding: 1.5rem; background: #f5f5ef; }
-.intention-editorial-note p { margin-bottom: 0; }
 .intention-pager { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: clamp(3rem, 7vw, 6rem); padding-top: 1.5rem; border-top: 1px solid var(--line); }
 .intention-pager a { display: grid; gap: 0.55rem; align-content: start; min-width: 0; color: var(--forest-800); text-decoration: none; }
 .intention-pager a:nth-child(2) { text-align: center; }
@@ -280,7 +271,7 @@
 .purchase-actions { display: flex; align-items: end; gap: 1rem; }
 .purchase-actions > .commerce-button { flex: 1; }
 .purchase-quantity { flex: 0 0 6rem; }
-.purchase-detail, .bag-payment-note { margin: 0; color: var(--muted); font-size: var(--type-ui); line-height: 1.6; }
+.purchase-detail { margin: 0; color: var(--muted); font-size: var(--type-ui); line-height: 1.6; }
 .commerce-error { margin-block: 1rem; padding: 1rem; border-left: 3px solid #9e3329; background: #fff4f1; color: #7a2820; font-size: var(--type-body-small); overflow-wrap: anywhere; }
 .commerce-error p { margin: 0; }
 .commerce-success { margin: 0; padding: 1rem; background: #edf4ee; color: var(--forest-800); }
@@ -1283,7 +1274,6 @@ strong, b { font-weight: var(--weight-bold); }
 .product-intention-panel > .eyebrow { margin: 0; }
 .product-intention-panel > p:not(.eyebrow) { display: grid; gap: 0.2rem; margin: 0; font-size: var(--type-ui); }
 .product-intention-panel a { width: fit-content; color: var(--forest-800); text-underline-offset: 0.18em; }
-.product-intention-panel small { color: var(--muted); line-height: 1.45; }
 .product-page .shipping-calculator { padding-block: 1rem 0.5rem; }
 .product-page .shipping-calculator h2 { margin-bottom: 0.625rem; font-size: 1.125rem; }
 .product-page .shipping-calculator label { margin-bottom: 0.375rem; }

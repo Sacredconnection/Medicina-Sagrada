@@ -38,15 +38,15 @@ export async function fetchCart(token?: string, path = "", body?: Record<string,
     throw new CommerceError(body ? "Não foi possível confirmar a alteração. Atualize a sacola antes de tentar novamente." : "Não foi possível consultar a sacola. Tente novamente em instantes.", 503);
   }
   if (/hit/i.test(response.headers.get("x-litespeed-cache") ?? "") || response.headers.get("cf-cache-status") === "HIT" || Number(response.headers.get("age") ?? 0) > 0) {
-    throw new CommerceError("A sessão de compra está temporariamente indisponível. Tente novamente em instantes.", 503);
+    throw new CommerceError("Não foi possível carregar sua sacola. Tente novamente em instantes.", 503);
   }
   const data = await response.json().catch(() => null);
   if (!response.ok) {
     const expired = response.status === 401 || response.status === 403;
-    throw new CommerceError(expired ? "Sua sessão expirou. Atualize a sacola para continuar." : response.status >= 500 ? "A loja está temporariamente indisponível. Atualize a sacola antes de tentar novamente." : plainText(data?.message ?? "Não foi possível atualizar a sacola."), expired ? 401 : response.status >= 500 ? 502 : response.status);
+    throw new CommerceError(expired ? "Atualize a sacola para continuar sua compra." : response.status >= 500 ? "A loja está temporariamente indisponível. Atualize a sacola antes de tentar novamente." : plainText(data?.message ?? "Não foi possível atualizar a sacola."), expired ? 401 : response.status >= 500 ? 502 : response.status);
   }
   const nextToken = response.headers.get("Cart-Token") ?? token;
-  if (!nextToken || !data || !Array.isArray(data.items) || !data.totals) throw new CommerceError("A loja não retornou uma sessão de compra válida.");
+  if (!nextToken || !data || !Array.isArray(data.items) || !data.totals) throw new CommerceError("Não foi possível carregar sua sacola. Tente novamente em instantes.");
   // Only return cart fields used by the storefront; exclude addresses and plugin data.
   return { token: nextToken, cart: {
     items: data.items, items_count: data.items_count, coupons: data.coupons, totals: data.totals,
@@ -77,7 +77,7 @@ export function commerceError(error: unknown) {
 
 export function checkoutUrl(token: string) {
   const url = new URL(config.wooCheckoutUrl);
-  if (url.origin === new URL(config.siteUrl).origin) throw new CommerceError("O checkout precisa usar a origem do WooCommerce. Confira a configuração do ambiente.", 503);
+  if (url.origin === new URL(config.siteUrl).origin) throw new CommerceError("Não foi possível abrir o pagamento. Tente novamente em instantes.", 503);
   url.searchParams.set("session", token);
   return url.toString();
 }

@@ -44,7 +44,7 @@ test("respeita variação, CEP inválido, indisponibilidade e resultados antigos
   await expect(page.locator(".shipping-calculator [role=alert]")).not.toContainText("database");
   await page.getByLabel("CEP de entrega").fill("01001000");
   await page.getByRole("button", { name: "Calcular", exact: true }).click();
-  await expect(page.getByText(/Nenhuma opção retornada/)).toBeVisible();
+  await expect(page.getByText(/Não encontramos opções de entrega/)).toBeVisible();
   await page.getByLabel("CEP de entrega").fill("20200000");
   const pending = page.waitForResponse(r => r.url().includes("/api/shipping/"));
   await page.getByRole("button", { name: "Calcular", exact: true }).click();

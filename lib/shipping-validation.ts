@@ -3,7 +3,7 @@ export type ShippingQuote = { name: string; price: string; deliveryTime: string;
 export type ShippingEstimate = { quotes: ShippingQuote[] };
 
 export function parseShippingInput(input: unknown): ShippingInput {
-  if (!input || typeof input !== "object" || Array.isArray(input)) throw new Error("Solicitação inválida.");
+  if (!input || typeof input !== "object" || Array.isArray(input)) throw new Error("Confira o produto, a quantidade e o CEP para calcular o frete.");
   const value = input as Record<string, unknown>;
   if (!Number.isSafeInteger(value.productId) || Number(value.productId) < 1) throw new Error("Selecione uma opção do produto.");
   if (!Number.isSafeInteger(value.quantity) || Number(value.quantity) < 1 || Number(value.quantity) > 9999) throw new Error("Informe uma quantidade válida.");

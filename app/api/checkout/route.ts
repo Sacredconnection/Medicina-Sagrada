@@ -6,7 +6,7 @@ import { CommerceError, commerceError, prepareCheckout, privateHeaders, readCart
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
-  if (!isSameOrigin(request, config.siteUrl)) return NextResponse.json({ error: "Origem não permitida." }, { status: 403, headers: privateHeaders });
+  if (!isSameOrigin(request, config.siteUrl)) return NextResponse.json({ error: "Atualize a página da loja e tente novamente." }, { status: 403, headers: privateHeaders });
   try {
     const token = await readCartToken();
     if (!token) throw new CommerceError("Adicione um produto à sacola para continuar.", 400);

@@ -812,8 +812,7 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
                   </div>
 
                   <p className="matcher-care-note">
-                    Esta curadoria é informativa e não substitui a orientação do produtor
-                    ou de um profissional de saúde. O rapé contém tabaco e nicotina.
+                    O rapé contém tabaco e nicotina.
                   </p>
               </>
             </div>

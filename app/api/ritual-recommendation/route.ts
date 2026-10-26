@@ -25,7 +25,7 @@ export async function GET(request: Request) {
     !experienceIds.has(experience)
   ) {
     return Response.json(
-      { error: "Intenção ou experiência inválida." },
+      { error: "Escolha sua intenção e conte se já tem experiência para continuar." },
       { status: 400, headers: responseHeaders },
     );
   }

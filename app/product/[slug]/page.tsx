@@ -114,7 +114,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <p className="eyebrow">Intenções do produto</p>
             {primaryIntention ? <p><strong>Principal</strong><Link href={`/intencoes/${primaryIntention.slug}/`}>{primaryIntention.name}</Link></p> : null}
             {secondaryIntentions.length ? <p><strong>Secundárias</strong><span>{secondaryIntentions.map((term, index) => <span key={term.slug}>{index ? ", " : ""}<Link href={`/intencoes/${term.slug}/`}>{term.name}</Link></span>)}</span></p> : null}
-            <small>Classificação editorial baseada em descrições consultadas.</small>
           </section> : null}
           <ProductIntro html={product.short_description} />
           <p className="availability">

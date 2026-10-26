@@ -49,7 +49,6 @@ export function CartPage() {
         {cart.coupons.map((entry) => <p className="bag-applied-coupon" key={entry.code}>{entry.code}<button type="button" className="commerce-text-button" disabled={busy || loading} onClick={() => void mutate({ action: "remove-coupon", code: entry.code })}>Remover cupom</button></p>)}
         {cart.errors.map((entry) => <p className="commerce-error" role="alert" key={entry.code}>{plainText(entry.message)}</p>)}
         <button className="commerce-button bag-checkout" disabled={busy || loading || cart.errors.length > 0} onClick={() => void checkout()}>{busy ? "Preparando sua compra…" : "Continuar para pagamento →"}</button>
-        <p className="bag-payment-note">Você continuará no checkout seguro da Medicina Sagrada para informar a entrega e escolher como pagar.</p>
         <div className="bag-payment-methods" aria-label="Formas de pagamento">{cart.payment_methods.includes("woo-pagarme-payments-pix") ? <span>Pix</span> : null}{cart.payment_methods.includes("woo-pagarme-payments-credit_card") ? <span>Cartão</span> : null}{cart.payment_methods.includes("woo-pagarme-payments-billet") ? <span>Boleto</span> : null}</div>
       </aside>
     </div> : null}
