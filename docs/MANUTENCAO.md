@@ -78,6 +78,43 @@ E2E fixa `.next-e2e` no próprio config: variável no terminal não substitui es
 
 ## Evidência da revisão atual
 
+Atualização de marca em **26/10/2026**: verde principal `#1a4020` e laranja
+principal `#ef4929`. Tokens, logo, favicon, barra do header, transparências e
+tema do navegador foram alinhados. Catálogo e Aprenda foram conferidos em
+1440px e 390px com WooCommerce simulado; cores computadas confirmadas em
+menus, barra, preços, filtro e ações dos guias. Hover/foco de CTA de produto
+confirmou o laranja oficial; hover comercial manteve o verde profundo de apoio.
+Catálogo sem overflow nas duas larguras. Capturas em
+`output/playwright/brand-colors/`, fora do Git. Essa conferência não é uma
+homologação da loja real.
+
+Na complementação da mesma revisão, todos os CTAs dos cards passaram a usar
+`#1a4020` em repouso, incluindo relacionados; hover/foco compartilham `#ef4929`.
+Fundos verdes de seções e painéis institucionais foram alinhados. Home e
+Aprenda tiveram cores de fundo computadas conferidas em 1440px e 390px.
+No Ritual Finder, o gradiente antigo foi substituído por uma camada do verde
+oficial com 88% de opacidade sobre a textura. Capturas específicas:
+`matcher-1440.png` e `matcher-390.png`, na mesma pasta de evidências.
+
+Em **26/10/2026**, revisão documental: `npm.cmd run check` aprovou lint,
+TypeScript e **90 testes unitários**. O inventário foi gerado e
+`npm.cmd run docs:visual:check` confirmou correspondência com o código.
+Links locais da documentação foram verificados. Não foram repetidos build,
+E2E ou consultas à loja real. A inspeção visual posterior das cores está
+registrada acima.
+
+Para manter cores e tipografia documentadas:
+
+```powershell
+npm.cmd run docs:visual
+npm.cmd run docs:visual:check
+```
+
+O inventário lê fontes locais e distingue tokens referenciados de declarações
+sem referência; não detecta seletores mortos nem comprova aparência renderizada.
+
+## Evidência da revisão de 22/10/2026
+
 Em 22/10/2026, `npm.cmd run check` aprovou lint, TypeScript e 85 testes
 unitários; `npm.cmd run test:e2e` aprovou 29 cenários e ignorou 2 que exigem o
 fixture dedicado do Ritual Finder; `npm.cmd run build` concluiu o build de

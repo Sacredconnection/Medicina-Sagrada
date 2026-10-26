@@ -13,12 +13,12 @@
 .learn-intro-copy > p { color: var(--muted); max-width: 42rem; line-height: 1.75; }
 .learn-intro-copy > p + p { font-size: .875rem; line-height: 1.5rem; color: var(--muted); margin-top: 1.25rem; max-width: 36rem; }
 .learn-intro-home { min-height: 33.75rem; display: flex; align-items: center; padding-block: 3.5rem; }
-.learn-intro-home::before { background-color: var(--forest-900); }
+.learn-intro-home::before { background-color: var(--forest-800); }
 .learn-header-image { position: absolute; z-index: -1; inset: 0; overflow: hidden; }
 @media (min-width: 1024px) {
   .learn-intro-home { min-height: 26.25rem; padding-block: 4rem; }
 }
-.learn-intro-home h1, .learn-intro-home .learn-label { color: var(--white); }
+.learn-intro-home h1 { color: var(--white); }
 .learn-intro-home h1 em { color: var(--brand-orange); }
 .learn-intro-home .learn-intro-copy > p { color: color-mix(in srgb, var(--white) 90%, transparent); }
 .learn-intro-home .learn-intro-copy > p + p { color: color-mix(in srgb, var(--white) 75%, transparent); }
@@ -56,7 +56,7 @@
 .learn-page .learn-person-teaser { font-size: 1rem; line-height: 1.6; font-weight: 700; color: var(--learn-ink); }
 .learn-page .learn-person-body { margin-top: 1rem; margin-bottom: 1.5rem; font-size: .9375rem; line-height: 1.75; color: var(--muted); }
 .learn-person-choosing { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--person-accent); }
-.learn-person-choosing .learn-label { color: var(--learn-ink); }
+.learn-person-choosing .learn-label { color: var(--brand-orange); }
 .learn-person-choosing p + p { margin-top: .5rem; font-size: .875rem; line-height: 1.6; color: var(--muted); }
 .learn-person-link { display: flex; align-items: center; justify-content: center; gap: .75rem; min-height: 3rem; padding: .75rem 1rem; margin-top: 1.25rem; border-radius: 999px; background: var(--person-accent); color: var(--person-foreground); font-size: .75rem; font-weight: 700; letter-spacing: .06em; line-height: 1.4; text-transform: uppercase; text-align: center; transition: transform 200ms ease; }
 .learn-person-link:hover { transform: translateY(-1px); }

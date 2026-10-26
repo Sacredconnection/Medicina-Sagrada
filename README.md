@@ -2,7 +2,7 @@
 
 Vitrine e experiência editorial em Next.js integradas ao WordPress e ao WooCommerce existentes. O frontend apresenta catálogo, produtos, artigos, guias e sacola; conta, pedidos, frete definitivo e pagamento ficam no WooCommerce.
 
-Documentação geral revisada em **22/10/2026**, com base no código desta cópia. Disponibilidade remota, instalação de plugins e homologação financeira dependem de verificação no ambiente correspondente.
+Documentação geral e visual revisada em **26/10/2026**, com base no código desta cópia. Disponibilidade remota, instalação de plugins e homologação financeira dependem de verificação no ambiente correspondente.
 
 ## Começar no Windows
 
@@ -19,6 +19,10 @@ npm.cmd run dev
 Abra `/` para a home, `/busca/` para catálogo, `/aprenda/` para guias, `/cart/` para sacola e `/diagnostico-api/` para diagnóstico em desenvolvimento.
 
 ## Documentação
+
+Comece pelo **[Guia geral do projeto](docs/GUIA-GERAL.md)**: cores em HEX,
+tipografia, componentes, espaçamento, páginas, conteúdo e manutenção.
+[Índice completo](docs/README.md).
 
 Comece pelo **[índice completo](docs/README.md)**.
 

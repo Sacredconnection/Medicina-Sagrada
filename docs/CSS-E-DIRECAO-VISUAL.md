@@ -1,6 +1,6 @@
 # CSS e direção visual
 
-Revisão: **22/10/2026**.
+Revisão: **26/10/2026**.
 
 Este documento conecta o sistema visual registrado em [DESIGN](../DESIGN.md)
 à implementação CSS atual. Ele não cria uma identidade nova: descreve arquivos,
@@ -40,16 +40,30 @@ locais. Não promover automaticamente uma composição de Aprenda a regra global
 
 ## Tokens globais
 
+Valores exatos: [Guia geral](GUIA-GERAL.md). Referências, literais locais e
+condições de mídia: [Inventário visual](INVENTARIO-VISUAL.json). Os tokens
+sun-400, weight-thin, weight-light e group-space-small estão declarados sem
+referência e não integram a escala de uso documentada.
+
 Os valores normativos completos estão no frontmatter de `DESIGN.md`. No CSS,
 os grupos principais são:
 
 ### Cores
 
+Verde principal: **`#1a4020`**, token `--forest-800`. A barra do header usa
+esse token; bordas translúcidas correspondentes usam RGB `26, 64, 32`.
+Logo, favicon e tema do navegador estão alinhados ao mesmo HEX.
+Laranja principal: **`#ef4929`**, compartilhado por `--brand-orange` e
+`--cta-accent`; as transparências correspondentes usam RGB `239, 73, 41`.
+Fundos verdes das seções usam `--forest-800`. Na introdução do Ritual Finder,
+o pseudo-elemento sobre a textura usa `color-mix()` com 88% desse mesmo verde;
+o gradiente antigo de outros tons foi removido.
+
 | Grupo | Tokens | Uso principal |
 | --- | --- | --- |
 | Floresta | `--forest-950`, `--forest-900`, `--forest-800`, `--forest-650` | Fundos profundos, texto de marca, compra, links e foco |
 | Vegetação | `--leaf-400` | Apoio natural e detalhes editoriais |
-| Acentos quentes | `--clay-500`, `--sun-400` | Apoio contextual |
+| Acentos quentes | `--clay-500` | Apoio contextual |
 | Neutros | `--paper`, `--paper-deep`, `--line`, `--ink`, `--muted`, `--white` | Superfícies, divisórias e texto |
 | Marca e ação | `--brand-orange`, `--cta-accent`, `--cta-on-accent`, `--brand-text` | Marca, CTA editorial, hover e labels |
 
@@ -60,14 +74,15 @@ os CTAs por uma regra genérica.
 ### Tipografia
 
 - família principal: `--font-primary`, com Proxima Nova e fallbacks de sistema;
-- pesos: `--weight-thin` até `--weight-black`;
+- pesos globais referenciados: 400, 500, 600, 700, 800 e 900;
 - corpo e UI: `--type-body`, `--type-body-small`, `--type-ui`, `--type-label` e
   `--type-caption`;
 - títulos: `--type-section-title`, `--type-subsection-title` e
   `--type-card-title`;
 - ações: `--type-action` e `--type-action-compact`.
 
-O `body` usa a família principal. Títulos globais têm tracking negativo e
+Georgia é a exceção local para títulos principais, títulos de cards e navegação
+anterior/próximo de intenções. O `body` usa a família principal. Títulos globais têm tracking negativo e
 largura controlada. Valores comerciais usam `font-variant-numeric: tabular-nums`
 quando o alinhamento de preço ou quantidade precisa permanecer estável.
 
@@ -81,7 +96,7 @@ quando o alinhamento de preço ou quantidade precisa permanecer estável.
 | `--section-space-compact` | Seção curta |
 | `--section-space-standard` | Ritmo padrão |
 | `--section-space-major` | Separação ampla |
-| `--group-space-small/medium/large` | Ritmo interno de grupos |
+| `--group-space-medium/large` | Ritmo interno de grupos |
 | `--home-section-gap` | Intervalo externo entre seções da home |
 | `--sticky-offset` | Compensação de elementos sticky |
 
@@ -145,7 +160,9 @@ legibilidade e impedem interação. Erro e sucesso têm tratamento próprio.
 ### Cards de produto
 
 O card inteiro é clicável. A imagem ocupa mídia quadrada; corpo reúne categoria,
-nome, intenções editoriais quando disponíveis, preço e CTA na base. Em desktop
+nome, intenções editoriais quando disponíveis, preço e CTA na base.
+O botão do card usa `--forest-800` (`#1a4020`) em repouso, incluindo home,
+catálogo e relacionados. Hover e foco usam o laranja oficial `#ef4929`. Em desktop
 com hover, borda, sombra e deslocamento sinalizam interação. Foco por teclado
 possui tratamento equivalente.
 
@@ -166,8 +183,8 @@ dependam de uma estrutura perfeita ou de um único editor WordPress.
 
 Aprenda possui tokens locais `--learn-*`, cards e grids próprios. A grade de
 povos muda para duas colunas em 640px e três em 1024px. Guias internos mudam de
-composição em 768px e 1024px. Consulte também `app/aprenda/DESIGN.md`, lembrando
-que trechos antigos podem não representar a implementação atual.
+composição em 768px e 1024px. Consulte também o registro atualizado
+em `app/aprenda/DESIGN.md`.
 
 ## Responsividade
 

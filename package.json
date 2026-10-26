@@ -9,6 +9,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "docs:visual": "node scripts/document-visual-system.mjs",
+    "docs:visual:check": "node scripts/document-visual-system.mjs --check",
     "setup": "node scripts/setup.mjs",
     "check:connection": "node scripts/check-connection.mjs",
     "check:woocommerce": "node scripts/check-woocommerce.mjs",
