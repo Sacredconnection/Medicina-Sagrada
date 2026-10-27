@@ -75,7 +75,10 @@ function PlayIcon() {
 const getYouTubeEmbedUrl = (videoId: string) => {
   const parameters = new URLSearchParams({
     autoplay: "1",
+    controls: "1",
+    disablekb: "0",
     enablejsapi: "1",
+    fs: "1",
     playsinline: "1",
     rel: "0",
   });
