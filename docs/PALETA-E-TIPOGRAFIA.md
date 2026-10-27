@@ -1,18 +1,17 @@
 # Paleta de cores e tipografia — Medicina Sagrada
 
-Documento geral vigente. Fonte: estilos e componentes locais, com extração reproduzível pelo comando de documentação. Aprovação das cores principais: Danilo Gravina Dalla Paula, 26/10/2026.
+Referência visual vigente, gerada a partir dos estilos e componentes locais pelo comando de documentação. Aprovação das cores principais: Danilo Gravina Dalla Paula, 26/10/2026.
+
+Leitura: cores principais → apoios e neutros → etnias → tipografia. O [inventário técnico](INVENTARIO-VISUAL.json) concentra declarações CSS, transparências e media queries; ele não define cores adicionais de marca nem comprova que cada seletor está renderizado.
 
 ## 1. Cores principais fixas
 
 **Verde principal: #1A4020. Laranja principal: #EF4929.** Estas são as duas cores principais do site e ficam fixadas. Não aproximar o HEX, não substituí-las por tons de apoio e não gerar variantes como novas cores principais. Uma revisão exige nova orientação explícita de Danilo.
 
-| Token | HEX | Aplicação atual |
+| Cor principal | HEX | Tokens em uso |
 | --- | --- | --- |
-| `--forest-800` | `#1A4020` | Principal fixa: navegação, links, preços, compra e fundos verdes de seção |
-| `--clay-500` | `#EF4929` | Alias do laranja principal: ícones e detalhes de comunidade |
-| `--brand-orange` | `#EF4929` | Principal fixa: marca, pequenos títulos, ícones e destaques |
-| `--cta-accent` | `#EF4929` | Alias do laranja principal: preenchimento, contorno e interação |
-| `--brand-text` | `#EF4929` | Alias do laranja principal: pequenos títulos, labels e links de destaque |
+| Verde principal | `#1A4020` | `--forest-800` |
+| Laranja principal | `#EF4929` | `--clay-500`, `--brand-orange`, `--cta-accent`, `--brand-text` |
 
 Tokens diferentes com o mesmo HEX são aliases de aplicação, não cores adicionais. Títulos pequenos acima dos títulos principais, incluindo “Recomendações da Medicina Sagrada”, usam o laranja principal. Categorias do header usam o verde principal em repouso. Os indicadores “Deslize para ver mais” e “Deslize para ver os vídeos” mantêm os cinzas de apoio; na seção verde dos kits, o texto mantém branco com transparência. O traço decorativo mantém o laranja principal. Estados de interação conservam as regras do componente.
 
@@ -54,57 +53,22 @@ Preenchimentos laranja de ações usam o foreground de cada componente; a docume
 
 As cores dos povos são contextuais e não são cores principais da Medicina Sagrada. Usar somente quando o povo está explicitamente identificado nos dados. Preservar os pares de texto da tabela. Não inferir origem por descrição livre nem atribuir simbolismo cultural oficial a essas associações.
 
-## 4. Cores locais existentes
+## 4. Tratamentos locais
 
-São cores aplicadas em regras atuais de componentes, estados, fundos e detalhes. Não são uma paleta alternativa. A tabela referencia os seletores que as aplicam; o inventário técnico registra todas as ocorrências. Uso em CSS não significa presença em todas as páginas ou em todos os estados.
-
-| Cor local | Referência de aplicação |
-| --- | --- |
-| `#000` | `.youtube-player-frame → background` |
-| `#17351F` | `.ancestral-photo → background` |
-| `#234C2D` | `.status-ok → color` |
-| `#27302B` | `.category-editorial .rich-text → color` |
-| `#59645D` | `.matcher-intention-card → background-color` |
-| `#59655D` | `.matcher-section → --matcher-muted` |
-| `#7A2820` | `.commerce-error → color` |
-| `#7B2222` | `.status-error → color` |
-| `#9E3329` | `.review-form > .commerce-error → color` |
-| `#B91F19` | `.ancestral-cta::before → background` |
-| `#C5D4CD` | `.product-page → --line` |
-| `#CBC8BB` | `.matcher-progress li:not(:last-child)::after → background` |
-| `#CFE1AE` | `.ancestral-section → --ancestral-accent` |
-| `#DC251E` | `.ancestral-section → --ancestral-red` |
-| `#DCEBD6` | `.status-ok → background` |
-| `#ECE9DF` | `.ritual-product-image → background` |
-| `#EDF3EF` | `.intention-sidebar-links a[aria-current="page"] → background` |
-| `#EDF4EE` | `.verified-review → background` |
-| `#EEE7D7` | `.category-tile-image → background` |
-| `#F2F6F1` | `.navigation-submenu a:hover, .navigation-submenu summary:hover → background` |
-| `#F3F0E7` | `.matcher-progress-symbol → background` |
-| `#F4F2EC` | `.product-image → background` |
-| `#F4F6F2` | `.bag-summary → background` |
-| `#F5F5EF` | `.product-intention-panel → background` |
-| `#F5F6F3` | `.bag-item-image → background` |
-| `#F6F8F6` | `.intention-sidebar-links a:hover → background` |
-| `#F7DDDD` | `.status-error → background` |
-| `#FFD0C2` | `.matcher-cart-error → color` |
-| `#FFF4F0` | `.applicator-card:is(:hover, :focus-visible) .applicator-card-cta → color` |
-| `#FFF4F1` | `.commerce-error → background` |
-| `#FFFDF7` | `.category-tile-image → background` |
+Estados de erro e sucesso, fundos de mídia e detalhes de componentes têm regras locais. Consulte o [inventário técnico](INVENTARIO-VISUAL.json) e a cascata do componente quando precisar alterá-los. Essas declarações ficam fora da paleta de marca; não reutilize uma cor isolada como novo token global.
 
 Sombras, overlays fotográficos e fundos discretos também usam RGBA, gradientes e misturas de cores já presentes. Transparência é um tratamento do componente, não uma nova cor principal. Fórmulas exatas: [inventário visual](INVENTARIO-VISUAL.json). Não extrair uma nova paleta das fotografias.
 
-## 5. Cores nos arquivos vetoriais
+## 5. Vetores referenciados pela interface
 
 | Arquivo | Cores literais presentes |
 | --- | --- |
 | `public/assets/logo/medicina-sagrada-logo-01.svg` | `#EF4929`, `#1A4020` |
 | `public/assets/contato/simbolo-contato-fundo-claro.svg` | `#EF4929`, `#19401F` |
-| `public/assets/contato/simbolo-contato.svg` | `#EF4929`, `#19401F` |
 | `public/assets/partners/maya-herbs-logo.svg` | `#CC6632`, `#989836` |
 | `public/assets/partners/sacred-connection-logo.svg` | `#268072` |
 
-As identidades de parceiros e os verdes existentes nos símbolos de contato são apoios dos respectivos assets. Não substituir suas cores pelas da marca. Cores dentro de fotografias, vídeos e bitmaps são conteúdo, não tokens de interface.
+Somente SVGs com caminho referenciado no código entram nesta tabela; arquivos apenas armazenados em public não entram. As identidades de parceiros e os verdes existentes nos símbolos de contato são apoios dos respectivos assets. Não substituir suas cores pelas da marca. Cores dentro de fotografias, vídeos e bitmaps são conteúdo, não tokens de interface.
 
 ## 6. Famílias tipográficas
 

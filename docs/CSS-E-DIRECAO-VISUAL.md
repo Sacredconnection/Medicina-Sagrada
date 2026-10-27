@@ -1,6 +1,6 @@
 # CSS e direção visual
 
-Revisão: **26/10/2026**.
+Revisão documental: **27/10/2026**.
 
 Este documento conecta o sistema visual registrado em [DESIGN](../DESIGN.md)
 à implementação CSS atual. Ele não cria uma identidade nova: descreve arquivos,

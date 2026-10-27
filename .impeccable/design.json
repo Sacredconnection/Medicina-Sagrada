@@ -1,9 +1,10 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-26T19:23:55.013Z",
+  "generatedAt": "2026-10-27T10:52:09.032Z",
   "title": "Design System: Medicina Sagrada",
   "extensions": {
     "colorMeta": {
+      "header-white": { "displayName": "Branco do header", "role": "neutral" },
       "forest-950": {
         "displayName": "forest-950",
         "role": "secondary"
@@ -170,7 +171,7 @@
       "kind": "button",
       "refersTo": "commerce-button",
       "description": "Controle sólido compartilhado de compra.",
-      "html": "<button class=\"ds-commerce\">Adicionar é sacola</button>",
+      "html": "<button class=\"ds-commerce\">Adicionar à sacola</button>",
       "css": ".ds-commerce{display:inline-flex;align-items:center;justify-content:center;min-height:3rem;padding:.85rem 1.3rem;border:1px solid var(--forest-800,#1a4020);border-radius:.25rem;background:var(--forest-800,#1a4020);color:white;font-size:1rem;font-weight:600;line-height:1.35;cursor:pointer;font-family:var(--font-primary,\"proxima-nova\",\"Segoe UI\",Arial,sans-serif);}.ds-commerce:hover:not(:disabled){background:var(--forest-950,#0b261d)}.ds-commerce:disabled{opacity:.5;cursor:not-allowed}.ds-commerce:focus-visible{outline:.2rem solid var(--cta-accent,#ef4929);outline-offset:.25rem;}"
     },
     {
@@ -186,7 +187,7 @@
       "kind": "chip",
       "refersTo": "",
       "description": "Link removível de filtro, sem conexão com catálogo.",
-      "html": "<a class=\"ds-chip\" href=\"#\">Em estoque é</a>",
+      "html": "<a class=\"ds-chip\" href=\"#\">Em estoque ×</a>",
       "css": ".ds-chip{display:inline-block;padding:.4rem .65rem;border:1px solid var(--line,#d9d6c7);color:var(--forest-800,#1a4020);font-size:.8125rem;text-decoration:none;font-family:var(--font-primary,\"proxima-nova\",\"Segoe UI\",Arial,sans-serif);}.ds-chip:focus-visible{outline:.2rem solid var(--cta-accent,#ef4929);outline-offset:.25rem;}"
     },
     {

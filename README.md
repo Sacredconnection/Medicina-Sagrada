@@ -2,7 +2,7 @@
 
 Vitrine e experiência editorial em Next.js integradas ao WordPress e ao WooCommerce existentes. O frontend apresenta catálogo, produtos, artigos, guias e sacola; conta, pedidos, frete definitivo e pagamento ficam no WooCommerce.
 
-Documentação geral e visual revisada em **26/10/2026**, com base no código desta cópia. Disponibilidade remota, instalação de plugins e homologação financeira dependem de verificação no ambiente correspondente.
+Documentação geral e visual organizada em **27/10/2026**, com base no código desta cópia. Disponibilidade remota, instalação de plugins e homologação financeira dependem de verificação no ambiente correspondente.
 
 ## Começar no Windows
 
@@ -20,16 +20,13 @@ Abra `/` para a home, `/busca/` para catálogo, `/aprenda/` para guias, `/cart/`
 
 ## Documentação
 
-Comece pelo **[Guia geral do projeto](docs/GUIA-GERAL.md)**: cores em HEX,
-tipografia, componentes, espaçamento, páginas, conteúdo e manutenção.
-[Índice completo](docs/README.md).
-
-Comece pelo **[índice completo](docs/README.md)**.
+Comece pelo **[Guia geral do projeto](docs/GUIA-GERAL.md)** para entender a estrutura e pelo **[guia de paleta e tipografia](docs/PALETA-E-TIPOGRAFIA.md)** para consultar a identidade visual vigente. O **[índice completo](docs/README.md)** organiza as referências por assunto.
 
 | Assunto | Documento |
 | --- | --- |
 | Estado atual, responsabilidades e entrega ao backend | [Visão geral e handoff](docs/VISAO-GERAL-E-HANDOFF.md) |
 | Propósito, público e compromissos | [PRODUCT](PRODUCT.md) |
+| Paleta vigente, fontes e escalas tipográficas | [Paleta e tipografia](docs/PALETA-E-TIPOGRAFIA.md) |
 | Cores, tipografia, composição e componentes | [DESIGN](DESIGN.md) |
 | Implementação visual, CSS, responsividade e estados | [CSS e direção visual](docs/CSS-E-DIRECAO-VISUAL.md) |
 | Estrutura e fluxo de dados | [Arquitetura](docs/ARQUITETURA.md) |
@@ -54,6 +51,13 @@ npm.cmd run build
 `check` executa lint, tipos e unitários. E2E usa WooCommerce simulado, sem pagamento real; alguns cenários exigem fixture específica, descrita em [Manutenção](docs/MANUTENCAO.md).
 
 Para problemas externos, `npm.cmd run check:connection` gera `artifacts/connection-report.json`. `npm.cmd run check:woocommerce` consulta APIs administrativas somente quando há credenciais configuradas no servidor.
+
+Para atualizar ou conferir a documentação visual a partir do código:
+
+```powershell
+npm.cmd run docs:visual
+npm.cmd run docs:visual:check
+```
 
 ## Situação e continuidade
 

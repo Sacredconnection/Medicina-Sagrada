@@ -28,26 +28,17 @@ for(const name of primaryNames) {
   }
 }
 const colorTable = list => table(['Token','HEX','Aplicação atual'], list.map(t=>[code(t.name),code(t.value.toUpperCase()),roles[t.name]??'Apoio local']));
-const rootColors=new Set(tokens.map(t=>t.value.toLowerCase()));
-const literals=new Map();
-for (const declaration of inventory.cssDeclarations) {
-  if(declaration.selector===':root')continue;
-  for(let hex of declaration.value.match(/#[\da-f]{3,8}\b/gi)??[]) {
-    hex=hex.toLowerCase();
-    if(rootColors.has(hex))continue;
-    const contexts=literals.get(hex)??new Set();
-    contexts.add(`${declaration.selector} → ${declaration.property}`);
-    literals.set(hex,contexts);
-  }
-}
 const ethnicity=table(['Povo / identidade','Acento de apoio','Texto sobre acento'],inventory.ethnicityColors.map(c=>[c.name,code(c.accent.toUpperCase()),code(c.foreground.toUpperCase())]));
 const typeTokens=inventory.globalTokens.filter(t=>t.name.startsWith('--type-'));
 const typography=table(['Token de tamanho','Valor CSS'], typeTokens.map(t=>[code(t.name),code(t.value)]));
 const weights=inventory.globalTokens.filter(t=>t.name.startsWith('--weight-'));
 const svgRows=[];
+// Arquivo guardado em public/ não comprova uso na interface.
+const sourceText=(await Promise.all(inventory.sources.map(file=>readFile(new URL(`../${file}`,import.meta.url),'utf8')))).join('\n');
 for(const dir of ['logo','contato','partners']) {
   for(const file of await readdir(new URL(`../public/assets/${dir}/`,import.meta.url))) {
     if(!file.endsWith('.svg'))continue;
+    if(!sourceText.includes(`/assets/${dir}/${file}`))continue;
     const text=await readFile(new URL(`../public/assets/${dir}/${file}`,import.meta.url),'utf8');
     const colors=[...new Set(text.match(/#[\da-f]{6}\b/gi)??[])];
     if(colors.length)svgRows.push([code(`public/assets/${dir}/${file}`),colors.map(c=>code(c.toUpperCase())).join(', ')]);
@@ -74,13 +65,18 @@ const scales=[
 ].map(([label,selector,source])=>[label,code(declaration(selector,'font-size',source)),code(declaration(selector,'line-height',source)),code(selector)]);
 const text=`# Paleta de cores e tipografia — Medicina Sagrada
 
-Documento geral vigente. Fonte: estilos e componentes locais, com extração reproduzível pelo comando de documentação. Aprovação das cores principais: Danilo Gravina Dalla Paula, 26/10/2026.
+Referência visual vigente, gerada a partir dos estilos e componentes locais pelo comando de documentação. Aprovação das cores principais: Danilo Gravina Dalla Paula, 26/10/2026.
+
+Leitura: cores principais → apoios e neutros → etnias → tipografia. O [inventário técnico](INVENTARIO-VISUAL.json) concentra declarações CSS, transparências e media queries; ele não define cores adicionais de marca nem comprova que cada seletor está renderizado.
 
 ## 1. Cores principais fixas
 
 **Verde principal: #1A4020. Laranja principal: #EF4929.** Estas são as duas cores principais do site e ficam fixadas. Não aproximar o HEX, não substituí-las por tons de apoio e não gerar variantes como novas cores principais. Uma revisão exige nova orientação explícita de Danilo.
 
-${colorTable(tokens.filter(t=>primaryNames.includes(t.name)))}
+${table(['Cor principal','HEX','Tokens em uso'],[
+  ['Verde principal',code('#1A4020'),code('--forest-800')],
+  ['Laranja principal',code('#EF4929'),tokens.filter(t=>primaryNames.includes(t.name)&&t.name!=='--forest-800').map(t=>code(t.name)).join(', ')],
+])}
 
 Tokens diferentes com o mesmo HEX são aliases de aplicação, não cores adicionais. Títulos pequenos acima dos títulos principais, incluindo “Recomendações da Medicina Sagrada”, usam o laranja principal. Categorias do header usam o verde principal em repouso. Os indicadores “Deslize para ver mais” e “Deslize para ver os vídeos” mantêm os cinzas de apoio; na seção verde dos kits, o texto mantém branco com transparência. O traço decorativo mantém o laranja principal. Estados de interação conservam as regras do componente.
 
@@ -98,19 +94,17 @@ ${ethnicity}
 
 As cores dos povos são contextuais e não são cores principais da Medicina Sagrada. Usar somente quando o povo está explicitamente identificado nos dados. Preservar os pares de texto da tabela. Não inferir origem por descrição livre nem atribuir simbolismo cultural oficial a essas associações.
 
-## 4. Cores locais existentes
+## 4. Tratamentos locais
 
-São cores aplicadas em regras atuais de componentes, estados, fundos e detalhes. Não são uma paleta alternativa. A tabela referencia os seletores que as aplicam; o inventário técnico registra todas as ocorrências. Uso em CSS não significa presença em todas as páginas ou em todos os estados.
-
-${table(['Cor local','Referência de aplicação'],[...literals].sort(([a],[b])=>a.localeCompare(b)).map(([hex,contexts])=>[code(hex.toUpperCase()),code([...contexts][0])]))}
+Estados de erro e sucesso, fundos de mídia e detalhes de componentes têm regras locais. Consulte o [inventário técnico](INVENTARIO-VISUAL.json) e a cascata do componente quando precisar alterá-los. Essas declarações ficam fora da paleta de marca; não reutilize uma cor isolada como novo token global.
 
 Sombras, overlays fotográficos e fundos discretos também usam RGBA, gradientes e misturas de cores já presentes. Transparência é um tratamento do componente, não uma nova cor principal. Fórmulas exatas: [inventário visual](INVENTARIO-VISUAL.json). Não extrair uma nova paleta das fotografias.
 
-## 5. Cores nos arquivos vetoriais
+## 5. Vetores referenciados pela interface
 
 ${table(['Arquivo','Cores literais presentes'],svgRows)}
 
-As identidades de parceiros e os verdes existentes nos símbolos de contato são apoios dos respectivos assets. Não substituir suas cores pelas da marca. Cores dentro de fotografias, vídeos e bitmaps são conteúdo, não tokens de interface.
+Somente SVGs com caminho referenciado no código entram nesta tabela; arquivos apenas armazenados em public não entram. As identidades de parceiros e os verdes existentes nos símbolos de contato são apoios dos respectivos assets. Não substituir suas cores pelas da marca. Cores dentro de fotografias, vídeos e bitmaps são conteúdo, não tokens de interface.
 
 ## 6. Famílias tipográficas
 

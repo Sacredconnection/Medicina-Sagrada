@@ -127,7 +127,7 @@ components:
 
 ## Overview
 
-Revisão do código em **26/10/2026**, a partir de globals.css, aprenda.css e
+Revisão documental contra o código em **27/10/2026**, a partir de globals.css, aprenda.css e
 componentes atuais. O [guia geral](docs/GUIA-GERAL.md) reúne cores, tipografia
 e operação; o [inventário visual](docs/INVENTARIO-VISUAL.json) registra referências
 extraídas automaticamente. Na atualização das cores oficiais, catálogo e
@@ -167,7 +167,10 @@ Menus do header usam o verde principal; pequenos títulos de seção, inclusive
 
 A documentação geral completa está em [Paleta e tipografia](docs/PALETA-E-TIPOGRAFIA.md):
 cores principais, apoios, neutros, estados locais, vetores e tipografia efetiva.
-Fórmulas de transparência e ocorrências: [inventário](docs/INVENTARIO-VISUAL.json).
+Cores locais de estados e fórmulas de transparência ficam no
+[inventário técnico](docs/INVENTARIO-VISUAL.json), fora da paleta de marca.
+O inventário registra declarações, inclusive regras sujeitas a overrides;
+confira a cascata antes de assumir que uma cor local aparece na interface.
 
 **The Contextual Accent Rule.** A cor de etnia é um apoio exclusivo do povo
 explicitamente identificado nos dados; preservar seu foreground canônico.

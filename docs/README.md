@@ -1,6 +1,15 @@
 # Documentação do projeto
 
-Revisão geral e visual: **26/10/2026**. Esta documentação descreve a implementação local. Consultas reais e testes registrados anteriormente conservam suas datas e não certificam a situação atual da loja.
+Organização geral e visual: **27/10/2026**. Esta documentação descreve a implementação local. Consultas reais e testes registrados anteriormente conservam suas datas e não certificam a situação atual da loja.
+
+## Ordem de leitura
+
+1. [Guia geral](GUIA-GERAL.md): visão do projeto, composição, componentes e operação.
+2. [Paleta e tipografia](PALETA-E-TIPOGRAFIA.md): cores e fontes vigentes, com os papéis de cada uma.
+3. [DESIGN](../DESIGN.md): contrato visual para criar e manter interfaces.
+4. [CSS e direção visual](CSS-E-DIRECAO-VISUAL.md) e [Espaçamento](ESPACAMENTO.md): implementação e composição.
+
+As tabelas de identidade não incluem explorações antigas ou tokens sem referência no código. O inventário JSON é uma ferramenta técnica; suas declarações locais não constituem uma paleta de marca.
 
 ## Por onde começar
 

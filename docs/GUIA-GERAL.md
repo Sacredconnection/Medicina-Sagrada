@@ -1,6 +1,6 @@
 # Guia geral — Medicina Sagrada
 
-Revisão: **26/10/2026**. Retrato do código desta cópia do projeto. Este guia reúne identidade, interface, conteúdo e operação; as referências técnicas detalhadas ficam nos documentos vinculados. Não é um manual de marca para impressão: cores são valores digitais sRGB, sem conversões CMYK ou Pantone aprovadas.
+Revisão documental: **27/10/2026**. Retrato do código desta cópia do projeto. Este guia reúne identidade, interface, conteúdo e operação; as referências técnicas detalhadas ficam nos documentos vinculados. Não é um manual de marca para impressão: cores são valores digitais sRGB, sem conversões CMYK ou Pantone aprovadas.
 
 ## 1. Produto e responsabilidades
 
@@ -28,13 +28,16 @@ As duas cores principais fixas do site são **verde #1A4020** e **laranja #EF492
 Os demais verdes e as cores dos povos são apoios. Não substituir nem aproximar
 as cores principais sem nova orientação explícita de Danilo.
 
-A fonte geral para cores, aliases, aplicações, estados locais e vetores é
+A referência para cores, aliases, aplicações e vetores em uso é
 [Paleta de cores e tipografia](PALETA-E-TIPOGRAFIA.md). Esse documento é gerado
-a partir do código atual, sem tokens globais sem referência de uso.
+a partir do código atual, sem tokens globais sem referência de uso. Cores locais de
+estados, overlays e regras CSS ficam no inventário técnico, fora da paleta de marca.
 
 ## 4. Tipografia
 
 **Proxima Nova** é a família principal. **Georgia** é apoio editorial em intenções.
+Segoe UI, Avenir Next, Arial e Times New Roman são fallbacks técnicos, não fontes
+adicionais da identidade. Os pesos com uso são 400, 500, 600, 700, 800 e 900.
 Fallbacks, pesos, tamanhos, entrelinhas, tracking e escalas por superfície estão
 no mesmo [documento geral](PALETA-E-TIPOGRAFIA.md#6-famílias-tipográficas).
 
