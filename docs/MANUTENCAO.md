@@ -92,6 +92,10 @@ Em 28/10/2026, lint/TypeScript e 101 testes unitários passaram. Os 47 cenários
 
 O build de produção concluiu 29 páginas pré-geradas. O teste no build com catálogo real confirmou Cidoca a R$ 24–116 em vitrine/PDP/schema, arquivos de temas, compatibilidade de uploads e ausência de erros JavaScript/overflow nos layouts amostrados. Evidências: `artifacts/release-browser-qa.json` e capturas `artifacts/release-*.png`. A auditoria de dependências de produção retornou zero vulnerabilidades (`artifacts/release-npm-audit.json`).
 
+A variação Cidoca 10 g também foi adicionada a uma sacola nova para conferir o valor real: preço e total de R$ 24,00, iguais ao anúncio. O item foi removido e a sacola vazia foi confirmada; nenhum checkout, pedido ou pagamento foi iniciado nesse teste. Evidência: `artifacts/release-live-price-check.json`.
+
+A comparação sequencial com o inventário público verificou 338 URLs: 333 páginas responderam corretamente e duas tiveram os redirecionamentos esperados de conta/checkout. As três ausências correspondem somente aos artigos de demonstração já excluídos pelos IDs 10184, 500 e 492. Nenhum caminho comercial do inventário ficou ausente. Inclui 137 produtos, 30 categorias de produtos e 121 arquivos de temas; há caminhos compartilhados entre grupos. Relatório: `artifacts/release-slug-audit.json` e `.md`. Isso não representa todos os URLs históricos do Search Console nem paridade de cada campo Rank Math. Respostas de erro em páginas transmitidas progressivamente podem retornar HTTP 200 com conteúdo de erro/noindex; a auditoria confere também o corpo, sem tratar todo 200 como página válida.
+
 `artifacts/release-check.json` registra os bloqueios externos. O subdomínio checkout responde, mas WordPress ainda informa a origem antiga e redireciona checkout vazio a ela; revalidação remota está desativada e Redis não foi configurado. Nenhum deploy, DNS, pedido ou pagamento foi realizado nesta preparação. E2E usa WooCommerce simulado e não homologa liquidação financeira. O workflow de CI foi preparado localmente, mas ainda não executado no GitHub.
 
 ## Evidência da revisão documental anterior

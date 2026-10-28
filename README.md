@@ -4,6 +4,8 @@ Vitrine e experiência editorial em Next.js integradas ao WordPress e ao WooComm
 
 Documentação geral revisada em **22/10/2026**, com base no código desta cópia. Disponibilidade remota, instalação de plugins e homologação financeira dependem de verificação no ambiente correspondente.
 
+Preparação de lançamento atualizada em **28/10/2026**: use `npm.cmd run prepare:release` para gerar os arquivos privados e `npm.cmd run check:release` para conferir as pendências. Nenhum desses comandos publica o site. O roteiro para WordPress/checkout, Vercel, DNS e retorno está em [Publicação](docs/PUBLICACAO.md); evidências dos testes estão em [Manutenção](docs/MANUTENCAO.md).
+
 ## Começar no Windows
 
 Requer Node.js **22.18 ou superior**, npm e Google Chrome instalado para E2E. A stack é Next.js 16, React 19 e TypeScript 6. Versões resolvidas estão no `package-lock.json`; `package.json` define os intervalos permitidos.
