@@ -21,7 +21,7 @@ npm.cmd run build
 
 Check combina ESLint, TypeScript sem emissão e unitários Node. Unitários cobrem queries, validação comercial, frete, diagnóstico, HTML, etnias, CTAs, avaliações, variações e seleção de rituais. Não substituem prova visual.
 
-Playwright usa Chrome headless, um worker, sem paralelismo e timeout de 60s. Inicia Woo simulado em **4010** e frontend em **3017**, com `.next-e2e` e URLs locais. `reuseExistingServer: false`: portas precisam estar livres. Resultados e traces de falha ficam em diretórios ignorados pelo Git.
+Playwright usa Chrome headless localmente e Chromium no CI, um worker, sem paralelismo e timeout de 60s. Inicia Woo simulado em **4010** e frontend em **3017**, com `.next-e2e` e URLs locais. `reuseExistingServer: false`: portas precisam estar livres. Resultados e traces de falha ficam em diretórios ignorados pelo Git. Rodar build e E2E em sequência: ambos regeneram tipos de rota e uma execução simultânea pode interromper a leitura desses arquivos no Windows.
 
 Há cenários de catálogo, sacola, checkout, galeria, avaliações, frete e resiliência editorial. `ritual-catalog.spec.ts` é skipped sem fixture dedicada:
 
@@ -52,7 +52,17 @@ Etnias: compare estado inicial e hover/foco com PRODUCT e ethnicity-colors.ts. C
 
 Scripts live não são simulação isolada. Consulte seu código antes de operar loja real. Esta revisão documental não criou pedido nem cobrança.
 
-## Problemas comuns
+## Proteções e ajustes da auditoria de 23/10/2026
+
+- `MONTHLY_PRODUCT_SLUG` define manualmente o produto do mês. Vazio mostra a próxima escolha como "Em breve". O destaque não anuncia preço nem desconto automático. Trocas exigem novo deploy.
+- As APIs de carrinho, checkout, frete, catálogo auxiliar, newsletter e relatórios CSP têm limite de requisições. Sem Redis, o limite é local ao processo. Em múltiplas instâncias, configure `RATE_LIMIT_REDIS_URL` e `RATE_LIMIT_REDIS_TOKEN` com Redis REST compatível com Upstash. Falha do serviço configurado retorna 503.
+- A Vercel usa seu cabeçalho de IP. Em hospedagem própria, `RATE_LIMIT_IP_HEADER` deve nomear um cabeçalho sempre sobrescrito pelo proxy. Nunca confie em um cabeçalho que o visitante possa definir. Sem IP confiável, há limite por sessão e limite anônimo compartilhado.
+- CSP bloqueia atributos de script inline e envia violações a `/api/csp-report/`. O coletor aceita corpos limitados e registra somente diretiva e origem bloqueada. A política completa de scripts permanece em Report-Only para preservar ISR e scripts do Next. Revisar os logs antes de promover essa política; nonces exigem renderização dinâmica.
+- Checkout copia itens e cupons via Store API `/batch`, em blocos de até 20 operações sequenciais. Requer suporte a esse endpoint na hospedagem WooCommerce. A adição do ritual só troca a sessão após confirmar todos os itens; falha mantém a sacola original.
+- Avaliações encaminham à página original do produto no WordPress, onde a autenticação é mantida. O frontend não coleta senhas. A home carrega seções de forma independente e não substitui falhas do catálogo por preços ou avaliações de demonstração.
+- Next, sharp e sanitize-html foram atualizados. A auditoria ainda aponta a cadeia de desenvolvimento `braces → micromatch → fast-glob → @next/eslint-plugin-next`, sem versão corrigida de braces disponível na data. Não aplicar downgrade automático do eslint-config-next; acompanhar atualização e repetir `npm audit`.
+
+## Diagnóstico de problemas
 
 | Sintoma | Conferir / ação |
 | --- | --- |
@@ -78,10 +88,11 @@ E2E fixa `.next-e2e` no próprio config: variável no terminal não substitui es
 
 ## Evidência da revisão atual
 
-Em 22/10/2026, `npm.cmd run check` aprovou lint, TypeScript e 85 testes
-unitários; `npm.cmd run test:e2e` aprovou 29 cenários e ignorou 2 que exigem o
-fixture dedicado do Ritual Finder; `npm.cmd run build` concluiu o build de
-produção. A suíte E2E usa WooCommerce simulado e não homologa integrações reais.
+Em 28/10/2026, lint/TypeScript e 101 testes unitários passaram. Os 47 cenários E2E passaram, incluindo os dois de Ritual Finder com fixture dedicada. A execução inicial teve falhas de sincronização/seletores nos testes; os cenários afetados foram corrigidos e repetidos. O resumo consolidado está em `artifacts/release-e2e-summary.json`. No Windows, o encerramento dos servidores Playwright precisou ser interrompido após registrar todos os resultados.
+
+O build de produção concluiu 29 páginas pré-geradas. O teste no build com catálogo real confirmou Cidoca a R$ 24–116 em vitrine/PDP/schema, arquivos de temas, compatibilidade de uploads e ausência de erros JavaScript/overflow nos layouts amostrados. Evidências: `artifacts/release-browser-qa.json` e capturas `artifacts/release-*.png`. A auditoria de dependências de produção retornou zero vulnerabilidades (`artifacts/release-npm-audit.json`).
+
+`artifacts/release-check.json` registra os bloqueios externos. O subdomínio checkout responde, mas WordPress ainda informa a origem antiga e redireciona checkout vazio a ela; revalidação remota está desativada e Redis não foi configurado. Nenhum deploy, DNS, pedido ou pagamento foi realizado nesta preparação. E2E usa WooCommerce simulado e não homologa liquidação financeira. O workflow de CI foi preparado localmente, mas ainda não executado no GitHub.
 
 ## Evidência da revisão documental anterior
 

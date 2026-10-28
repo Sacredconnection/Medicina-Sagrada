@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function IntentionsPage() {
   return (
-    <main className="intentions-page container">
+    <div className="intentions-page container">
       <nav className="intentions-breadcrumb" aria-label="Você está aqui">
         <Link href="/">Início</Link><span aria-hidden="true">/</span><span>Intenções</span>
       </nav>
@@ -25,6 +25,6 @@ export default function IntentionsPage() {
           </Link>
         ))}
       </section>
-    </main>
+    </div>
   );
 }

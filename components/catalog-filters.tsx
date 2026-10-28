@@ -44,17 +44,7 @@ export function CatalogFilters({ query, categories, basePath, categoryId }: { qu
             <option value="">Todas as intenções</option>
             {intentions.map(({ slug, name }) => <option key={slug} value={slug}>{name}</option>)}
           </select></label>
-          {!query.intention && (query.primaryIntention || query.secondaryIntention) ? <>
-          <label className="commerce-field">Principal<select name="intencao_principal" defaultValue={query.primaryIntention}>
-            <option value="">Qualquer intenção principal</option>
-            {intentions.map(({ slug, name }) => <option key={slug} value={slug}>{name}</option>)}
-          </select></label>
-          <label className="commerce-field">Secundária<select name="intencao_secundaria" defaultValue={query.secondaryIntention}>
-            <option value="">Qualquer intenção secundária</option>
-            {intentions.map(({ slug, name }) => <option key={slug} value={slug}>{name}</option>)}
-          </select></label>
-          </> : null}
-          <p className="purchase-detail">Inclui intenções principais e secundárias.</p>
+          <p className="purchase-detail">As intenções ajudam a explorar os produtos a partir de suas descrições.</p>
         </fieldset>
         {categories.some(c => c.count > 0) ? <fieldset><legend>{categoryId ? "Subcategorias" : "Categorias"}</legend><div className="catalog-category-options"><p className="purchase-detail">Selecione uma ou mais opções.</p>{categories.filter(c => c.count > 0).map(c => <label className="catalog-checkbox" key={c.id}><input name="categoria" type="checkbox" value={c.id} defaultChecked={query.categories.includes(c.id)} /><span>{canonicalizeEthnicityNames(c.name)} <small>({c.count})</small></span></label>)}</div></fieldset> : null}
         <fieldset><legend>Preço (R$)</legend><div className="catalog-price-fields">

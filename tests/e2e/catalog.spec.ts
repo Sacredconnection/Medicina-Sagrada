@@ -99,7 +99,7 @@ test("categoria usa URL canônica, filtros no celular e estado vazio recuperáve
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
-test("produto mostra galeria, avaliações da API e formulário de envio autenticado", async ({ page }) => {
+test("produto mostra galeria, avaliações da API e acesso seguro para avaliar", async ({ page }) => {
   await page.goto("/product/colar-de-sementes/");
   await expect(page.locator(".breadcrumbs").getByRole("link", { name: "Colares" })).toHaveAttribute("href", "/product-category/artesanato/colares/");
   await page.getByRole("button", { name: "Ver imagem 2 de Colar de sementes" }).click();
@@ -110,12 +110,9 @@ test("produto mostra galeria, avaliações da API e formulário de envio autenti
   await expect(page.locator(".review").first()).not.toContainText("alert(");
   await page.getByRole("button", { name: "Carregar mais avaliações" }).click();
   await expect(page.locator(".review")).toHaveCount(7);
-  const form = page.locator("#product-review-form");
-  await expect(form.getByRole("heading", { name: "Compartilhe sua experiência" })).toBeVisible();
-  await expect(form.getByRole("radio", { name: "5 estrelas", exact: true })).toBeAttached();
-  await expect(form.getByLabel("Sua avaliação", { exact: true })).toBeVisible();
-  await expect(form.getByLabel("E-mail ou usuário")).toBeVisible();
-  await expect(form.getByLabel("Senha da conta")).toHaveAttribute("type", "password");
+  await expect(page.getByRole("heading", { name: "Compartilhe sua experiência" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Acessar a loja para avaliar" })).toHaveAttribute("href", "http://127.0.0.1:4010/product/colar-de-sementes/#reviews");
+  await expect(page.locator('input[type="password"]')).toHaveCount(0);
 });
 
 test("variação muda preço e quantidade pode ser editada no side cart", async ({ page }) => {

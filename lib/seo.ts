@@ -9,6 +9,7 @@ import type {
 } from "@/lib/types";
 import { absoluteUrl } from "@/lib/url";
 import { isDemoContentPath } from "@/lib/sitemap-policy";
+import { getPurchasePrice } from "@/lib/purchase-price";
 
 type MetadataInput = {
   title: string;
@@ -103,11 +104,21 @@ export const metadataForProductCategory = (
     image: category.image?.src,
   });
 
-const productPrice = (product: WooProduct) => {
+const productOffers = (product: WooProduct) => {
+  const price = getPurchasePrice(product);
+  if (!price) return undefined;
   const divisor = 10 ** product.prices.currency_minor_unit;
-  return (Number(product.prices.price) / divisor).toFixed(
-    product.prices.currency_minor_unit,
-  );
+  const format = (amount: string) => (Number(amount) / divisor).toFixed(product.prices.currency_minor_unit);
+  return {
+    "@type": price.maximum ? "AggregateOffer" : "Offer",
+    url: absoluteUrl(`/product/${product.slug}`),
+    priceCurrency: product.prices.currency_code,
+    ...(price.maximum
+      ? { lowPrice: format(price.amount), highPrice: format(price.maximum) }
+      : { price: format(price.amount) }),
+    availability: product.is_in_stock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+    itemCondition: "https://schema.org/NewCondition",
+  };
 };
 
 export function editorialSchema({ pathname, headline, description, image, datePublished, dateModified, type = "Article" }: {
@@ -161,16 +172,7 @@ export const productSchema = (product: WooProduct) => ({
   sku: product.sku || undefined,
   image: product.images.map((image) => image.src),
   category: product.categories.map((category) => canonicalizeEthnicityNames(category.name)).join(", "),
-  offers: {
-    "@type": "Offer",
-    url: absoluteUrl(`/product/${product.slug}`),
-    priceCurrency: product.prices.currency_code,
-    price: productPrice(product),
-    availability: product.is_in_stock
-      ? "https://schema.org/InStock"
-      : "https://schema.org/OutOfStock",
-    itemCondition: "https://schema.org/NewCondition",
-  },
+  offers: productOffers(product),
   ...(product.review_count > 0
     ? {
         aggregateRating: {

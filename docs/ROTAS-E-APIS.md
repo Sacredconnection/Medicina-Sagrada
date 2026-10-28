@@ -13,6 +13,8 @@ URLs de navegação usam barra final (`trailingSlash: true`). Preserve slugs e h
 | `/product-category/{slug}/page/{n}/` | Paginação, inclusive em hierarquias aninhadas |
 | `/blog/`, `/blog/page/{n}/` | Índice editorial paginado |
 | `/category/{slug}/` | Categoria WordPress, com paginação por `page/{n}` |
+| `/tag/{slug}/`, `/tag/{slug}/page/{n}/` | Temas de matérias WordPress, preservando URLs antigas |
+| `/product-tag/{slug}/`, `/product-tag/{slug}/page/{n}/` | Temas de produtos, com filtros e paginação |
 | `/{slug}/` e caminhos aninhados | Página/post WordPress com validação do permalink |
 | `/sobre-nos/`, `/atendimento/`, `/atacado/` | Resolução WordPress e apresentação local específica |
 | `/politica-de-privacidade/`, `/refund_returns/` | Políticas e componentes próprios |
@@ -63,8 +65,11 @@ registrar token ou credencial.
 | GET `/api/ritual-recommendation/` | intention e experience válidos | Recomendação; valores inválidos 400, consulta 503 |
 | GET `/api/ritual-variation/?id={id}` | ID positivo de 1–10 dígitos | WooProduct tipo variation; 400/404/503 |
 | POST `/api/revalidate/` | Bearer + JSON abaixo | `{ revalidated, path, timestamp }`; segredo 401, corpo inválido 400 |
+| GET `/api/health/` | Público, sem sessão | `{ status: "ok" }` sem cache; liveness, não comprova dependências |
 | GET `/api/diagnostico/` | Desenvolvimento | Diagnóstico; 404 fora dele |
 | GET `/api/commerce-status/` | Desenvolvimento | Diagnóstico comercial; 404 fora dele |
+| POST `/api/newsletter/` | Mesma origem, e-mail e consentimento | 202 após aceite Mailchimp; 400 inválido, 429 excesso, 503 indisponível; ver [Newsletter](NEWSLETTER.md) |
+| POST `/api/csp-report/` | Relatório JSON limitado a 16 KiB | 204 aceito; logs sem caminhos ou dados pessoais |
 | GET `/api/dev/asset-version/?path=/assets/...` | Caminho dentro de assets | `{ version }` ou null; inválido 400; fora de dev 204 |
 
 Contratos completos: `lib/types.ts`, `cart-types.ts`, `reviews.ts` e handlers. Não confundir Store API pública com API administrativa WooCommerce.
@@ -89,17 +94,16 @@ Contratos completos: `lib/types.ts`, `cart-types.ts`, `reviews.ts` e handlers. N
 
 `remove-coupon` usa code. Quantidade 1–9999, default 1. Key tem 32 hexadecimais minúsculos. Até 20 pares de variação, attribute até 100 e value até 200 caracteres. Cupom até 100 caracteres. Os valores acima são exemplos: use dados reais retornados pelo WooCommerce para operar a loja.
 
+`restore-item` recebe os mesmos dados de `add` e garante pelo menos a quantidade removida, sem somá-la novamente em tentativas posteriores. `add-bundle` recebe `items` com exatamente dois IDs diferentes e quantidades de 1 a 20; monta uma sessão nova e só a entrega ao navegador após confirmar o conjunto. O checkout também usa a cópia em lote, preservando itens e cupons. Não aceita preços enviados pelo cliente.
+
 ## Frete e avaliações
 
 CEP aceita oito números ou `00000-000`, rejeita dígitos todos iguais; quantidade 1–9999. productId pode identificar variação. Cotação não modifica a sacola do comprador nem determina frete final. Cada quote contém name, price, deliveryTime e observations. Veja [Frete](FRETE.md).
 
 Avaliações: `GET /api/reviews/` aceita produto e página conforme a tabela. O
-formulário visual ainda reúne nota, comentário, usuário e senha, mas o envio está
-fechado: `POST /api/reviews/` ignora o corpo, retorna `401` e direciona para a
-conta WooCommerce. Não existe adaptador ativo de publicação nesta cópia. O
-backend precisa definir a autenticação antes de reativar o envio, e o formulário
-deve ser alinhado ao contrato final. Não armazenar ou registrar senha de cliente
-no Next.
+frontend exibe as avaliações e um link para avaliar na página original do
+produto, no WordPress. Não coleta senhas nem comentários para um envio sem
+suporte. `POST /api/reviews/` continua retornando `401` para clientes antigos.
 
 ## Revalidação
 
@@ -113,4 +117,4 @@ Content-Type: application/json
 { "type": "product", "slug": "slug-real" }
 ```
 
-Alternativa: `{ "path": "/sobre-nos/" }`. Tipos declarados: page, post, product, product-category. Revalida caminho/sitemap e tags wordpress/woocommerce com perfil max. O handler faz validação mínima de presença, não schema estrito nem expurgo total. O plugin atual envia path `/`; demais recursos dependem também de tags/ISR. Segredo usa `timingSafeEqual`.
+Alternativa: `{ "path": "/sobre-nos/" }`. Tipos aceitos: page, post, product, product-category. O handler rejeita corpos nulos, caminhos externos, traversal e caminhos API; limita o JSON autenticado a 4 KiB. Revalida caminho/sitemap e expira tags wordpress/woocommerce com `{ expire: 0 }`, para a próxima leitura consultar a origem. O plugin atual envia path `/`; demais recursos dependem também de tags/ISR. Segredo usa `timingSafeEqual`.

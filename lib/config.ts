@@ -1,4 +1,6 @@
 const stripTrailingSlash = (value: string) => value.replace(/\/+$/, "");
+const wordpressSiteUrl = stripTrailingSlash(process.env.WORDPRESS_SITE_URL ?? "https://medicinasagrada.com.br");
+const wordpressApiUrl = stripTrailingSlash(process.env.WORDPRESS_API_URL ?? `${wordpressSiteUrl}/wp-json`);
 
 // Older deployments configured Woo's English default, but this installation
 // serves the account at /account/ (/my-account/ is a confirmed 404).
@@ -24,19 +26,11 @@ export const config = {
           ? `https://${process.env.VERCEL_URL}`
           : "http://localhost:3000"),
   ),
-  wordpressSiteUrl: stripTrailingSlash(
-    process.env.WORDPRESS_SITE_URL ?? "https://medicinasagrada.com.br",
-  ),
-  wordpressApiUrl: stripTrailingSlash(
-    process.env.WORDPRESS_API_URL ??
-      "https://medicinasagrada.com.br/wp-json",
-  ),
+  wordpressSiteUrl,
+  wordpressApiUrl,
   wooStoreApiUrl: stripTrailingSlash(
     process.env.WOOCOMMERCE_STORE_API_URL ??
-      `${
-        process.env.WORDPRESS_API_URL ??
-        "https://medicinasagrada.com.br/wp-json"
-      }/wc/store/v1`,
+      `${wordpressApiUrl}/wc/store/v1`,
   ),
   contentRevalidate: parsePositiveInteger(
     process.env.CONTENT_REVALIDATE_SECONDS,

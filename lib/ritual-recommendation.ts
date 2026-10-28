@@ -6,7 +6,7 @@ import {
   type RitualKey,
 } from "@/lib/rituals-data";
 import type { WooProduct } from "@/lib/types";
-import { getAllProducts, getProductVariations } from "@/lib/woocommerce";
+import { getProductsBySlugs, getProductVariations } from "@/lib/woocommerce";
 
 export type RitualRecommendationProduct = {
   product: WooProduct;
@@ -23,7 +23,9 @@ export async function getAvailableRitualRecommendation(
   experience: RitualExperienceId,
 ): Promise<RitualRecommendationResult> {
   const recommendation = ritualsData[`${intention}:${experience}` as RitualKey];
-  const products = await getAllProducts();
+  const products = await getProductsBySlugs([
+    ...recommendation.produtoPrincipal.candidatos.map(candidate => candidate.slug), recommendation.aplicador.slug,
+  ]);
   const fallback = getRitualCatalogFallback(
     recommendation.produtoPrincipal.candidatos, recommendation.aplicador.slug, products,
   );

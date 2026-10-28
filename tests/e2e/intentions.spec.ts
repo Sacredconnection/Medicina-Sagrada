@@ -14,6 +14,7 @@ test("intenção inclui principais e secundárias, preserva paginação e aparec
   await expect(page.locator(".product-intention-panel")).toContainText("Foco e clareza");
   await expect(page.locator(".product-intention-panel")).toContainText("Coração e conexão");
   await page.locator(".product-intention-panel").getByRole("link", { name: "Coração e conexão" }).click();
+  await expect(page).toHaveURL(/\/intencoes\/coracao-e-conexao\//, { timeout: 15_000 });
   await expect(page.locator(".product-card")).toHaveCount(1);
   await expect(page.locator(".product-card-intentions")).toContainText("Coração e conexão");
   const sidebar = page.getByRole("navigation", { name: "Escolher intenção", exact: true });

@@ -1,13 +1,7 @@
 import { timingSafeEqual } from "node:crypto";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
-import { ensureTrailingSlash } from "@/lib/url";
-
-type RevalidationPayload = {
-  type?: "page" | "post" | "product" | "product-category";
-  slug?: string;
-  path?: string;
-};
+import { revalidationPath } from "@/lib/revalidation";
 
 const safeEquals = (received: string, expected: string) => {
   const receivedBuffer = Buffer.from(received);
@@ -32,9 +26,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ revalidated: false }, { status: 401 });
   }
 
-  let payload: RevalidationPayload;
+  let payload: unknown;
   try {
-    payload = (await request.json()) as RevalidationPayload;
+    const body = await request.text();
+    if (body.length > 4096) return NextResponse.json({ revalidated: false }, { status: 413 });
+    payload = JSON.parse(body);
   } catch {
     return NextResponse.json(
       { revalidated: false, error: "JSON inválido." },
@@ -42,7 +38,8 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!payload.path && (!payload.type || !payload.slug)) {
+  const path = revalidationPath(payload);
+  if (!path) {
     return NextResponse.json(
       {
         revalidated: false,
@@ -52,22 +49,14 @@ export async function POST(request: Request) {
     );
   }
 
-  const path =
-    payload.path ??
-    (payload.type === "product"
-      ? `/product/${payload.slug}/`
-      : payload.type === "product-category"
-        ? `/product-category/${payload.slug}/`
-        : `/${payload.slug}/`);
-
-  revalidatePath(ensureTrailingSlash(path!));
+  revalidatePath(path);
   revalidatePath("/sitemap.xml");
-  revalidateTag("wordpress", "max");
-  revalidateTag("woocommerce", "max");
+  revalidateTag("wordpress", { expire: 0 });
+  revalidateTag("woocommerce", { expire: 0 });
 
   return NextResponse.json({
     revalidated: true,
-    path: ensureTrailingSlash(path!),
+    path,
     timestamp: new Date().toISOString(),
   });
 }

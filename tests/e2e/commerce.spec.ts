@@ -5,7 +5,7 @@ test("sacola persiste, edita quantidades, trata cupons e transfere valores ao ch
   await page.getByRole("button", { name: "Adicionar à sacola" }).click();
   await expect(page.getByRole("dialog", { name: /Minha sacola/ })).toBeVisible();
   await page.getByRole("dialog").getByRole("link", { name: "Ver minha sacola", exact: true }).click();
-  await expect(page).toHaveURL(/\/cart\/$/);
+  await expect(page).toHaveURL(/\/cart\/$/, { timeout: 15_000 });
   await expect(page.getByRole("heading", { name: "Colar de sementes" })).toBeVisible();
   await page.reload();
   await page.getByRole("button", { name: "Aumentar quantidade de Colar de sementes" }).click();

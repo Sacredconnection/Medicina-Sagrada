@@ -56,10 +56,69 @@ export async function fetchCart(token?: string, path = "", body?: Record<string,
 }
 
 export async function mutateCart(action: CartAction, token?: string) {
+  if (action.action === "restore-item") {
+    const current = await fetchCart(token);
+    const existing = current.cart.items.find(item => item.id === action.id);
+    // Retrying after a lost response must not add the removed quantity twice.
+    if (existing && existing.quantity >= action.quantity) return current;
+    return existing
+      ? fetchCart(current.token, "/update-item", { key: existing.key, quantity: action.quantity })
+      : fetchCart(current.token, "/add-item", { id: action.id, quantity: action.quantity, ...(action.variation ? { variation: action.variation } : {}) });
+  }
+  if (action.action === "add-bundle") {
+    const original = await fetchCart(token);
+    try {
+      const result = await copyCart(original.cart, action.items);
+      if (result.cart.errors.length || !sameItems(result.cart, original.cart, action.items)) throw new CommerceError("Disponibilidade alterada.", 409);
+      return result;
+    } catch {
+      // Work only on a fresh session. The browser keeps its original cookie
+      // unless the entire bundle is confirmed; retries cannot duplicate half.
+      throw new CommerceError("Não foi possível adicionar o ritual completo. Sua sacola foi preservada. Confira os produtos e tente novamente.", 409);
+    }
+  }
   const sessionToken = token ?? (await fetchCart()).token;
   const { action: operation, ...body } = action;
   const paths = { add: "add-item", update: "update-item", remove: "remove-item", "apply-coupon": "apply-coupon", "remove-coupon": "remove-coupon" };
   return fetchCart(sessionToken, `/${paths[operation]}`, body);
+}
+
+type CartAddition = { id: number; quantity: number; variation?: WooCart["items"][number]["variation"] };
+function sameItems(actual: WooCart, original: WooCart, additions: CartAddition[] = []) {
+  const counts = (items: CartAddition[]) => {
+    const result = new Map<number, number>();
+    for (const item of items) result.set(item.id, (result.get(item.id) ?? 0) + item.quantity);
+    return [...result].sort(([a], [b]) => a - b);
+  };
+  return JSON.stringify(counts(actual.items)) === JSON.stringify(counts([...original.items, ...additions]));
+}
+
+async function copyCart(cart: WooCart, additions: CartAddition[] = []) {
+  const copy = await fetchCart();
+  const requests = [
+    ...[...cart.items, ...additions].map(item => ({
+      method: "POST", path: "/wc/store/v1/cart/add-item",
+      headers: { "Cart-Token": copy.token },
+      body: { id: item.id, quantity: item.quantity, ...(item.variation?.length ? { variation: item.variation } : {}) },
+    })),
+    ...cart.coupons.map(coupon => ({ method: "POST", path: "/wc/store/v1/cart/apply-coupon", headers: { "Cart-Token": copy.token }, body: { code: coupon.code } })),
+  ];
+  // Woo's documented batch endpoint keeps sequential cart writes in one
+  // upstream round trip. Never parallelize writes to the same Woo session.
+  const signal = AbortSignal.timeout(30_000);
+  for (let index = 0; index < requests.length; index += 20) {
+    const chunk = requests.slice(index, index + 20);
+    const response = await fetch(`${config.wooStoreApiUrl}/batch`, {
+      method: "POST", headers: { "Content-Type": "application/json", "Cart-Token": copy.token },
+      body: JSON.stringify({ requests: chunk }), cache: "no-store", redirect: "error", signal,
+    });
+    const data = await response.json();
+    if (!response.ok || !Array.isArray(data.responses) || data.responses.length !== chunk.length ||
+      data.responses.some((entry: { status?: number }) => !entry || typeof entry.status !== "number" || entry.status < 200 || entry.status >= 300)) {
+      throw new CommerceError("Não foi possível confirmar todos os itens. Sua sacola foi preservada. Tente novamente.", 409);
+    }
+  }
+  return fetchCart(copy.token);
 }
 
 export function cartResponse(result: { cart: WooCart; token: string }) {
@@ -92,12 +151,8 @@ export async function prepareCheckout(token: string) {
   if (!original.cart.payment_methods.some((method) => method.startsWith("woo-pagarme-payments-"))) throw new CommerceError("O pagamento está temporariamente indisponível. Tente novamente em instantes.", 503);
   // Check destination before doing any work.
   checkoutUrl(original.token);
-  let copy = await fetchCart();
-  for (const item of original.cart.items) {
-    copy = await fetchCart(copy.token, "/add-item", { id: item.id, quantity: item.quantity, ...(item.variation.length ? { variation: item.variation } : {}) });
-  }
-  for (const coupon of original.cart.coupons) copy = await fetchCart(copy.token, "/apply-coupon", { code: coupon.code });
-  if (copy.cart.errors.length || copy.cart.items_count !== original.cart.items_count) throw new CommerceError("A disponibilidade mudou. Confira os itens da sacola antes de continuar.", 409);
+  const copy = await copyCart(original.cart);
+  if (copy.cart.errors.length || !sameItems(copy.cart, original.cart)) throw new CommerceError("A disponibilidade mudou. Confira os itens da sacola antes de continuar.", 409);
   // No address is collected in the frontend; shipping and payment discounts are
   // calculated by the existing checkout. Item totals must still agree.
   if (copy.cart.totals.total_items !== original.cart.totals.total_items || copy.cart.totals.total_discount !== original.cart.totals.total_discount) throw new CommerceError("O preço foi atualizado. Atualize a sacola e confira o novo total.", 409);

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import ts from "typescript";
+import { withPurchasePrice } from "../lib/purchase-price.ts";
 
 // Run the real loader with a controlled Store API, without a Next.js server.
 const source = ts.transpileModule(
@@ -14,6 +15,7 @@ function loader(wooFetch) {
   const require = (name) => {
     if (name === "@/lib/api") return { wooFetch };
     if (name === "@/lib/catalog-query") return {};
+    if (name === "@/lib/purchase-price") return { withPurchasePrice };
     throw new Error(`Unexpected import: ${name}`);
   };
   new Function("require", "module", "exports", source)(require, compiledModule, compiledModule.exports);

@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { isProductionSite } from "./lib/config";
+import { config, isProductionSite } from "./lib/config";
 
 const wordpressOrigin = new URL(
   process.env.WORDPRESS_SITE_URL ?? "https://medicinasagrada.com.br",
@@ -19,6 +19,8 @@ const reportOnlyCsp = [
   `frame-src ${allowedPlayers}`,
   "object-src 'none'",
   "base-uri 'self'",
+  "report-uri /api/csp-report/",
+  "report-to csp",
 ].join("; ");
 
 const nextConfig: NextConfig = {
@@ -44,6 +46,7 @@ const nextConfig: NextConfig = {
       },
     ],
     remotePatterns: [
+      ...["medicinasagrada.com.br", "www.medicinasagrada.com.br"].filter(hostname => hostname !== wordpressOrigin.hostname).map(hostname => ({ protocol: "https" as const, hostname, pathname: "/wp-content/uploads/**" })),
       {
         protocol: wordpressOrigin.protocol.replace(":", "") as "http" | "https",
         hostname: wordpressOrigin.hostname,
@@ -51,6 +54,12 @@ const nextConfig: NextConfig = {
         pathname: "/wp-content/uploads/**",
       },
     ],
+  },
+  async rewrites() {
+    // Preserve existing indexed media URLs after the public domain moves to Next.
+    // Only uploads are proxied; WordPress administration and APIs are not exposed.
+    if (wordpressOrigin.origin === new URL(config.siteUrl).origin) return [];
+    return [{ source: "/wp-content/uploads/:path*", destination: `${wordpressOrigin.origin}/wp-content/uploads/:path*` }];
   },
   async headers() {
     return [
@@ -72,11 +81,15 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: `frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src ${allowedPlayers}`,
+            value: `frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; script-src-attr 'none'; frame-src ${allowedPlayers}; report-uri /api/csp-report/; report-to csp`,
           },
           {
             key: "Content-Security-Policy-Report-Only",
             value: reportOnlyCsp,
+          },
+          {
+            key: "Reporting-Endpoints",
+            value: `csp="${config.siteUrl}/api/csp-report/"`,
           },
           {
             key: "X-Frame-Options",

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ProductReviewForm } from "@/components/product-review-form";
 import type { ProductReview } from "@/lib/reviews";
 
-export function ProductReviews({ productId, count, average, initial, initialError }: { productId: number; count: number; average: string; initial: { data: ProductReview[]; totalPages: number }; initialError: boolean }) {
+export function ProductReviews({ productId, reviewUrl, count, average, initial, initialError }: { productId: number; reviewUrl: string; count: number; average: string; initial: { data: ProductReview[]; totalPages: number }; initialError: boolean }) {
   const [reviews, setReviews] = useState(initial.data);
   const [page, setPage] = useState(initialError ? 0 : 1);
   const [totalPages, setTotalPages] = useState(initial.totalPages);
@@ -27,6 +27,6 @@ export function ProductReviews({ productId, count, average, initial, initialErro
     <div className="review-list" aria-busy={busy}>{reviews.map(review => <article key={review.id} className="review"><header><strong>{review.reviewer}</strong>{review.verified ? <span className="verified-review">Compra verificada</span> : null}<time dateTime={`${review.date}Z`}>{new Date(`${review.date}Z`).toLocaleDateString("pt-BR", { timeZone: "UTC" })}</time></header><p className="review-stars" aria-label={`${review.rating} de 5 estrelas`}>{"★".repeat(Math.max(0, Math.min(5, Math.round(review.rating))))}<span aria-hidden="true">{"☆".repeat(Math.max(0, 5 - Math.round(review.rating)))}</span></p><p className="review-text">{review.review}</p></article>)}</div>
     {error ? <p className="commerce-error" role="alert">{error}</p> : null}
     {error || page < totalPages ? <button className="commerce-text-button" disabled={busy} onClick={() => void more()}>{busy ? "Carregando…" : error ? "Tentar novamente" : "Carregar mais avaliações"}</button> : null}
-    <ProductReviewForm productId={productId} />
+    <ProductReviewForm reviewUrl={reviewUrl} />
   </section>;
 }

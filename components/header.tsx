@@ -4,7 +4,8 @@ import { CartLink } from "@/components/cart-link";
 import { ScrollToTopLink } from "@/components/scroll-to-top-link";
 import { config } from "@/lib/config";
 import { HeaderNavigation, type NavigationItem } from "@/components/header-navigation";
-import { getAllProductCategories, getProducts } from "@/lib/woocommerce";
+import { getAllProductCategories, getProductBySlug } from "@/lib/woocommerce";
+import { monthlyProductSlug } from "@/lib/monthly-product";
 import { pathnameFromUrl } from "@/lib/url";
 import { plainText } from "@/lib/html";
 import { canonicalizeEthnicityNames, getEthnicityTheme } from "@/lib/ethnicity-colors";
@@ -43,19 +44,14 @@ export async function Header() {
     return { ...item, children: category ? descendants(category.id) : [] };
   });
   items.push({ label: "Aprenda", href: "/aprenda/", children: [{ label: "Blog", href: "/blog/" }] });
-  const rapeCategory = categories.find((category) => category.slug === "rape");
-  if (rapeCategory) {
-    const products = await getProducts({ categoryId: rapeCategory.id, perPage: 12 }).catch(() => []);
-    const product = products.find((product) => product.is_in_stock !== false && !/\bkits?\b/i.test(product.name) && !product.categories.some((category) => category.slug === "kits"));
+  if (monthlyProductSlug) {
+    const product = await getProductBySlug(monthlyProductSlug).catch(() => null);
     if (product) {
-      const format = new Intl.NumberFormat("pt-BR", { style: "currency", currency: product.prices.currency_code });
-      const amount = Number(product.prices.price_range?.min_amount ?? product.prices.price) / 10 ** product.prices.currency_minor_unit;
       const ethnicityTheme = getEthnicityTheme(product.categories);
       items[0].feature = {
         name: canonicalizeEthnicityNames(plainText(product.name)),
         href: `/product/${product.slug}/`,
         image: product.images[0]?.src,
-        price: `${product.prices.price_range ? "A partir de " : ""}${format.format(amount)}`,
         accent: ethnicityTheme?.accent,
         foreground: ethnicityTheme?.foreground,
       };

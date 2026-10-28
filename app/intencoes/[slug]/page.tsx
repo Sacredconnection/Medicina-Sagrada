@@ -39,7 +39,7 @@ export default async function IntentionPage({ params }: IntentionPageProps) {
   );
 
   return (
-    <main className="intentions-page container">
+    <div className="intentions-page container">
       <nav className="intentions-breadcrumb" aria-label="Você está aqui">
         <Link href="/">Início</Link><span aria-hidden="true">/</span><Link href="/intencoes/">Intenções</Link><span aria-hidden="true">/</span><span>{intention.name}</span>
       </nav>
@@ -74,6 +74,6 @@ export default async function IntentionPage({ params }: IntentionPageProps) {
           <Link href={`/intencoes/${next.slug}/`}><span>Próxima intenção →</span><strong>{next.name}</strong></Link>
         </nav>
       </div>
-    </main>
+    </div>
   );
 }

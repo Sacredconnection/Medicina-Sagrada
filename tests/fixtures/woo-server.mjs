@@ -63,6 +63,16 @@ createServer(async (req, res) => {
   const url = new URL(req.url, "http://127.0.0.1:4010");
   const send = (data, status = 200, headers = {}) => { res.writeHead(status, { "Content-Type": "application/json", ...headers }); res.end(JSON.stringify(data)); };
   if (url.pathname === "/health") return send({ ok: true });
+  if (url.pathname === "/wp-json/wp/v2/tags") return send(!url.searchParams.has("slug") || url.searchParams.get("slug") === "saberes" ? [{ id: 700, name: "Saberes", slug: "saberes", count: 13, description: "" }] : []);
+  if (url.pathname === "/wp-json/wp/v2/posts" && url.searchParams.get("tags") === "700") {
+    const page = Number(url.searchParams.get("page") || 1);
+    const posts = Array.from({ length: 13 }, (_, i) => ({ id: 5001 + i, slug: `materia-${i + 1}`, link: `http://127.0.0.1:4010/materia-${i + 1}/`, type: "post", date: "2026-01-01T12:00:00", modified: "2026-01-01T12:00:00", title: { rendered: `Materia ${i + 1}` }, excerpt: { rendered: "Resumo da materia." }, content: { rendered: "Conteudo." } }));
+    return send(posts.slice((page - 1) * 12, page * 12), 200, { "X-WP-Total": "13", "X-WP-TotalPages": "2" });
+  }
+  if (url.pathname === "/wp-json/wc/store/v1/products/tags") return send([
+    { id: 700, name: "Artesanato", slug: "artesanato", count: products.filter(p => p.type !== "variation").length, description: "" },
+    { id: 701, name: "Ofertas especiais", slug: "ofertas-especiais", count: 1, description: "" },
+  ]);
   if (url.pathname === "/product-category/artesanato/colares/") {
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
     return res.end('<div class="below-woocommerce-category"><h2>Origem dos colares de teste</h2><p>Conteúdo editorial da categoria preservado.</p></div>');
@@ -97,7 +107,9 @@ createServer(async (req, res) => {
   }
   if (url.pathname === "/wp-json/wc/store/v1/products") {
     const params = url.searchParams;
-    let result = (params.has("slug") ? [...products, ...promotionProducts] : products).filter(p => p.type !== "variation" && (!params.has("slug") || p.slug === params.get("slug")));
+    let result = (params.has("slug") ? [...products, ...promotionProducts] : products).filter(p => p.type !== "variation" && (!params.has("slug") || params.get("slug").split(",").includes(p.slug)));
+    if (params.get("tag") === "701") result = [promotionProducts[0]];
+    else if (params.has("tag") && params.get("tag") !== "700") result = [];
     if (params.get("search")) result = result.filter(p => p.name.toLowerCase().includes(params.get("search").toLowerCase()));
     const attributeFilters = [0, 1].filter(i => params.has(`attributes[${i}][attribute]`));
     if (attributeFilters.length) result = result.filter(p => {
@@ -115,6 +127,19 @@ createServer(async (req, res) => {
   }
   const productId = url.pathname.match(/^\/wp-json\/wc\/store\/v1\/products\/(\d+)$/);
   if (productId) return send(findProduct(Number(productId[1])) ?? {}, findProduct(Number(productId[1])) ? 200 : 404);
+  if (url.pathname === "/wp-json/wc/store/v1/batch") {
+    const chunks = []; for await (const chunk of req) chunks.push(chunk);
+    const body = JSON.parse(Buffer.concat(chunks).toString());
+    const responses = [];
+    for (const entry of body.requests ?? []) {
+      if (!/^\/wc\/store\/v1\/cart\/(add-item|apply-coupon)$/.test(entry.path)) return send({ error: "Unexpected batch path" }, 400);
+      const response = await fetch(`http://127.0.0.1:4010/wp-json${entry.path}`, {
+        method: "POST", headers: { ...entry.headers, "Content-Type": "application/json" }, body: JSON.stringify(entry.body),
+      });
+      responses.push({ status: response.status, body: await response.json() });
+    }
+    return send({ responses });
+  }
   if (url.pathname.startsWith("/wp-json/wc/store/v1/cart")) {
     // Reproduce the live host's broken cache: unbusted GETs share an empty cart.
     if (req.method === "GET" && !url.searchParams.has("_ms_cart")) return send(snapshot({ items: [], coupons: [] }), 200, { "Cart-Token": "shared-cached-token", "X-LiteSpeed-Cache": "hit" });

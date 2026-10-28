@@ -1,23 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import { Suspense, type CSSProperties } from "react";
 import { BenefitsStrip } from "@/components/benefits-strip";
 import { HomeApplicatorsSection } from "@/components/home-applicators-section";
 import { HomeConexaoAncestralSection } from "@/components/home-conexao-ancestral-section";
-import { HomeCraftsSection } from "@/components/home-crafts-section";
-import { HomeKitsSection } from "@/components/home-kit-grid";
 import { HomeNewsletterSection } from "@/components/home-newsletter-section";
-import { HomeProductGrid } from "@/components/home-product-grid";
-import { HomeYoutubeSection } from "@/components/home-youtube-section";
+import { newsletterConfiguration } from "@/lib/newsletter";
+import { HomeCraftsSection } from "@/components/home-crafts-section";
+import { HomeKits, HomeProducts, HomeVideos, RitualJourney } from "@/components/home-live-sections";
 import { JsonLd } from "@/components/json-ld";
 import { LiveHero } from "@/components/live-hero";
-import { ProductMatcher } from "@/components/product-matcher";
-import { toRitualCatalog } from "@/lib/ritual-catalog";
-import { getAllProducts } from "@/lib/woocommerce";
-import { getYouTubeVideos } from "@/lib/youtube";
 import {
-  demoProducts,
-  getHomeKitBanners,
   homeAssets,
   homeCategories,
 } from "@/lib/home-content";
@@ -37,13 +30,7 @@ export const metadata = {
   title: { absolute: "Medicina Sagrada" },
 };
 
-export default async function Home() {
-  const [apiProducts, youtubeVideos] = await Promise.all([
-    getAllProducts().catch(() => []),
-    getYouTubeVideos(),
-  ]);
-  const products = apiProducts.length ? apiProducts : demoProducts;
-  const rotatingKitBanners = getHomeKitBanners(apiProducts);
+export default function Home() {
   const pageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -126,7 +113,7 @@ export default async function Home() {
               <h2 id="mais-vendidos-title">Mais procurados</h2>
             </div>
           </div>
-          <HomeProductGrid products={products} />
+          <Suspense fallback={<p role="status">Carregando produtos…</p>}><HomeProducts /></Suspense>
           <div className="products-section-action">
             <Link className="button" href="/busca/">
               Ver todos os produtos
@@ -135,11 +122,11 @@ export default async function Home() {
         </div>
       </section>
 
-      <ProductMatcher products={toRitualCatalog(apiProducts)} />
+      <Suspense fallback={<p className="container" role="status">Carregando a jornada…</p>}><RitualJourney /></Suspense>
 
       <HomeApplicatorsSection />
 
-      <HomeKitsSection banners={rotatingKitBanners} />
+      <Suspense fallback={null}><HomeKits /></Suspense>
 
       <HomeCraftsSection />
 
@@ -248,11 +235,12 @@ export default async function Home() {
         </div>
       </section>
 
-      <HomeYoutubeSection videos={youtubeVideos} />
+      <Suspense fallback={null}><HomeVideos /></Suspense>
 
       <HomeConexaoAncestralSection />
 
-      <HomeNewsletterSection />
+      {newsletterConfiguration() ? <HomeNewsletterSection /> : null}
+
       </div>
 
       <JsonLd data={pageSchema} />

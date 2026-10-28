@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useCart } from "@/components/cart-provider";
+import { CartUndo } from "@/components/cart-undo";
 import { formatMoney } from "@/lib/cart-types";
 import { plainText } from "@/lib/plain-text";
 import { pathnameFromUrl } from "@/lib/url";
@@ -17,6 +18,7 @@ export function CartPage() {
     <div className="bag-heading"><div><p className="eyebrow">Sua escolha</p><h1>Minha sacola</h1></div><Link href="/">Continuar comprando →</Link></div>
     {error ? <div className="commerce-error" role="alert"><p>{error}</p><button className="commerce-text-button" disabled={busy || loading} onClick={() => void refresh()}>Atualizar sacola</button></div> : null}
     {loading && !cart ? <p role="status">Carregando sua sacola…</p> : null}
+    <CartUndo />
     {cart && cart.items.length === 0 ? <div className="bag-empty"><span aria-hidden="true">◌</span><h2>Sua sacola está vazia</h2><p>Explore a loja e escolha os produtos que quer levar com você.</p><Link className="commerce-button" href="/">Explorar a loja</Link></div> : null}
     {cart && cart.items.length > 0 ? <div className="bag-layout" aria-busy={busy || loading}>
       <div className="bag-items">

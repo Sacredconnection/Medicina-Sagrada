@@ -10,7 +10,6 @@ type NavigationFeature = {
   name: string;
   href: string;
   image?: string;
-  price: string;
   accent?: string;
   foreground?: string;
 };
@@ -23,6 +22,7 @@ export type NavigationItem = {
 };
 
 const categoryFeatureImages: Record<string, string> = {
+  Rapé: "/assets/home/categories/medicina-sagrada-categoria-rape.webp",
   Sananga: "/assets/home/categories/medicina-sagrada-categoria-sananga.webp",
   Incensos: "/assets/home/categories/medicina-sagrada-categoria-incensos.webp",
   "Acessórios": "/assets/home/categories/medicina-sagrada-categoria-acessorios.webp",
@@ -83,11 +83,7 @@ function MegaPanel({ item, pathname }: { item: NavigationItem; pathname: string 
             </svg>
             Rapé do mês
           </span>
-          <span className="mega-feature-caption-discount">
-            <strong>10%</strong>
-            <span>de desconto</span>
-          </span>
-        </> : "Em destaque"}
+        </> : isRape ? "Rapé do mês" : "Em destaque"}
       </p>
       {item.feature ? <Link
         className="mega-product"
@@ -98,15 +94,15 @@ function MegaPanel({ item, pathname }: { item: NavigationItem; pathname: string 
         </span>
         <span className="mega-product-details">
           <span className="mega-product-name">{item.feature.name}</span>
-          <span className="mega-feature-cta">Aproveitar o desconto</span>
+          <span className="mega-feature-cta">Conhecer o produto</span>
         </span>
       </Link> : <Link className="mega-collection" href={item.href}>
         <span className="mega-collection-image">
           {categoryFeatureImage && <Image src={categoryFeatureImage} alt="" width={480} height={480} sizes="(min-width: 1001px) 22rem, 1px" />}
         </span>
         <span className="mega-collection-details">
-          <span className="mega-collection-name">{item.label}</span>
-          <span className="mega-feature-cta">{isLearn ? "Explore os guias" : "Conheça a coleção"}</span>
+          <span className="mega-collection-name">{isRape ? "Em breve, nossa próxima escolha" : item.label}</span>
+          <span className="mega-feature-cta">{isLearn ? "Explore os guias" : isRape ? "Explorar os rapés" : "Conheça a coleção"}</span>
         </span>
       </Link>}
     </div>
@@ -127,8 +123,7 @@ function MobileFeaturedProduct({ feature }: { feature: NavigationFeature }) {
       <span className="mobile-featured-kicker">Rapé do mês</span>
       <span className="mobile-featured-name">{feature.name}</span>
       <span className="mobile-featured-footer">
-        <span className="mobile-featured-discount"><strong>10%</strong><span className="mobile-featured-discount-copy"> de desconto</span></span>
-        <span className="mobile-featured-cta">Aproveitar</span>
+        <span className="mobile-featured-cta">Conhecer o produto</span>
       </span>
     </span>
   </Link>;

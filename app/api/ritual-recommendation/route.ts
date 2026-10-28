@@ -1,3 +1,4 @@
+import { limitRequest } from "@/lib/rate-limit";
 import { getAvailableRitualRecommendation } from "@/lib/ritual-recommendation";
 import {
   ritualExperienceOptions,
@@ -14,6 +15,8 @@ const responseHeaders = {
 };
 
 export async function GET(request: Request) {
+  const limited = await limitRequest(request, "catalog");
+  if (limited) return limited;
   const params = new URL(request.url).searchParams;
   const intention = params.get("intention");
   const experience = params.get("experience");

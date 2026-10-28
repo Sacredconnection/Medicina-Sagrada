@@ -9,8 +9,7 @@ import { ProductPurchase } from "@/components/product-purchase";
 import { ProductIntro } from "@/components/product-intro";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductVariationProvider } from "@/components/product-variation-provider";
-import { ProductMatcher } from "@/components/product-matcher";
-import { toRitualCatalog } from "@/lib/ritual-catalog";
+import { RitualJourney } from "@/components/home-live-sections";
 import { ProductReviews } from "@/components/product-reviews";
 import { ProductCard } from "@/components/product-card";
 import { getReviews } from "@/lib/reviews";
@@ -23,18 +22,13 @@ import {
   productSchema,
 } from "@/lib/seo";
 import { pathMatches } from "@/lib/url";
-import { getAllProducts, getProductBySlug, getProductVariations, getProductCategoryBySlug, getProducts } from "@/lib/woocommerce";
+import { getProductBySlug, getProductVariations, getProductCategoryBySlug, getProducts } from "@/lib/woocommerce";
 
 export const revalidate = 900;
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
 };
-
-async function ProductJourney() {
-  const products = await getAllProducts().catch(() => []);
-  return <ProductMatcher products={toRitualCatalog(products)} introTitle={<>Está <strong>indeciso?</strong></>} />;
-}
 
 export async function generateMetadata({
   params,
@@ -133,11 +127,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <h2 id="description-title">Sobre este produto</h2>
         <RichText html={product.description} textFilter={canonicalizeEthnicityNames} />
       </section>
-      <ProductReviews productId={product.id} count={product.review_count} average={product.average_rating} initial={reviews ?? { data: [], totalPages: 0 }} initialError={!reviews} />
+      <ProductReviews reviewUrl={`${new URL(pathname, config.wordpressSiteUrl).toString()}#reviews`} productId={product.id} count={product.review_count} average={product.average_rating} initial={reviews ?? { data: [], totalPages: 0 }} initialError={!reviews} />
       {related.some(item => item.id !== product.id) ? <section id="relacionados" className="related-products" aria-labelledby="related-title" tabIndex={-1}><h2 id="related-title">Produtos relacionados</h2><div className="product-grid">{related.filter(item => item.id !== product.id).slice(0, 4).map(item => <ProductCard key={item.id} product={item} headingLevel={3} />)}</div></section> : null}
       <JsonLd data={[productSchema(product), breadcrumbSchema(breadcrumbs)]} />
     </article>
-    <Suspense fallback={null}><ProductJourney /></Suspense>
+    <Suspense fallback={null}><RitualJourney productPage /></Suspense>
     </>
   );
 }

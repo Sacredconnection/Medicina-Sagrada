@@ -1,4 +1,5 @@
 import { config } from "@/lib/config";
+import { mapCmsUrls } from "@/lib/cms-urls";
 
 type QueryValue = string | number | boolean | undefined;
 
@@ -43,7 +44,7 @@ async function apiFetch<T>(
     );
   }
 
-  return { data: (await response.json()) as T, total: Number(response.headers.get("X-WP-Total") ?? 0), totalPages: Number(response.headers.get("X-WP-TotalPages") ?? 0) };
+  return { data: mapCmsUrls((await response.json()) as T, config.wordpressSiteUrl), total: Number(response.headers.get("X-WP-Total") ?? 0), totalPages: Number(response.headers.get("X-WP-TotalPages") ?? 0) };
 }
 
 export const wpFetch = <T>(

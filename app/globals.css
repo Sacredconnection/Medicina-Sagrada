@@ -218,6 +218,10 @@
 @keyframes cart-slide-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
 @media (prefers-reduced-motion: reduce) { .cart-drawer[open] { animation: none; } }
 
+/* Undo removal from the cart */
+.cart-undo { margin: 1rem 0; padding: 1rem; border: 1px solid var(--line); }
+.cart-undo p { margin: 0 0 0.5rem; }
+
 /* Editorial intention guide */
 .intentions-page { padding-top: clamp(1.25rem, 3vw, 2.5rem); padding-bottom: var(--section-space-major); }
 .intentions-breadcrumb { display: flex; flex-wrap: wrap; gap: 0.65rem; align-items: center; margin-bottom: clamp(2.5rem, 6vw, 5rem); color: var(--muted); font-size: 0.8125rem; }

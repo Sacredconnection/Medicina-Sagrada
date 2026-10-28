@@ -59,7 +59,7 @@ export function HomeNewsletterSection({
 
       setMessage(
         result.status === "pending"
-          ? "Quase lá! Confira seu e-mail para confirmar o cadastro."
+          ? "Solicitação recebida. Se este for um novo cadastro, você receberá um e-mail para confirmar. Se já recebe nossas novidades, está tudo certo."
           : "Cadastro confirmado! Você receberá nossas histórias, saberes e novidades por e-mail.",
       );
       form.reset();

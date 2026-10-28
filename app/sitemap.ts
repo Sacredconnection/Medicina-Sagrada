@@ -3,10 +3,12 @@ import {
   getAllPostCategories,
   getAllPosts,
   getAllPages,
+  getAllPostTags,
 } from "@/lib/wordpress";
 import {
   getAllProductCategories,
   getAllProducts,
+  getAllProductTags,
 } from "@/lib/woocommerce";
 import { absoluteUrl, pathnameFromUrl } from "@/lib/url";
 import { learnGuides } from "@/lib/learn-content";
@@ -38,18 +40,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   try {
-    const [pages, posts, products, productCategories, postCategories] =
+    const [pages, posts, products, productCategories, postCategories, postTags, productTags] =
       await Promise.all([
         getAllPages(),
         getAllPosts(),
         getAllProducts(),
         getAllProductCategories(),
         getAllPostCategories(),
+        getAllPostTags(),
+        getAllProductTags(),
       ]);
 
     return finalizeSitemap([
       ...home,
       ...intentionPages,
+      ...postTags.filter(tag => tag.count > 0).map(tag => ({ url: absoluteUrl(`/tag/${tag.slug}/`), changeFrequency: "monthly" as const, priority: 0.5 })),
+      ...productTags.filter(tag => tag.count > 0).map(tag => ({ url: absoluteUrl(`/product-tag/${tag.slug}/`), changeFrequency: "weekly" as const, priority: 0.6 })),
       ...pages
         .filter((page) => pathnameFromUrl(page.link) !== "/")
         .map((page) => ({

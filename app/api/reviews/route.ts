@@ -1,3 +1,4 @@
+import { limitRequest } from "@/lib/rate-limit";
 import { getReviews } from "@/lib/reviews";
 
 export async function POST() {
@@ -8,6 +9,8 @@ export async function POST() {
 }
 
 export async function GET(request: Request) {
+  const limited = await limitRequest(request, "catalog");
+  if (limited) return limited;
   const params = new URL(request.url).searchParams;
   const id = Number(params.get("product")), page = Number(params.get("page") || 1);
   const headers = { "Cache-Control": "no-store", "X-Robots-Tag": "noindex" };

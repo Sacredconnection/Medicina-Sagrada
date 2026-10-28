@@ -7,7 +7,7 @@ import { getAllProductCategories, getCatalog } from "@/lib/woocommerce";
 import { canonicalizeEthnicityNames } from "@/lib/ethnicity-colors";
 import { getIntention } from "@/lib/intencoes";
 
-export async function Catalog({ query: inputQuery, basePath, categoryId, page = inputQuery.page }: { query: CatalogQuery; basePath: string; categoryId?: number; page?: number }) {
+export async function Catalog({ query: inputQuery, basePath, categoryId, tagId, page = inputQuery.page }: { query: CatalogQuery; basePath: string; categoryId?: number; tagId?: number; page?: number }) {
   const categories = await getAllProductCategories();
   const allowed = categoryId ? categories.filter(category => {
     const visited = new Set<number>();
@@ -19,25 +19,23 @@ export async function Catalog({ query: inputQuery, basePath, categoryId, page = 
     return false;
   }) : categories;
   const query = { ...inputQuery, categories: inputQuery.categories.filter(id => allowed.some(category => category.id === id)) };
-  const result = await getCatalog(query, categoryId, page);
-  if (categoryId && page > 1 && !result.data.length) notFound();
+  const result = await getCatalog(query, categoryId, page, tagId);
+  const archive = categoryId !== undefined || tagId !== undefined;
+  if (archive && page > 1 && !result.data.length) notFound();
   const params = catalogSearch(query);
   const hasActiveFilters = query.categories.length > 0 || query.stock || query.sale
     || query.min !== undefined || query.max !== undefined;
   const href = (target: number) => {
     const next = new URLSearchParams(params);
-    if (!categoryId && target > 1) next.set("pagina", String(target));
-    const path = categoryId && target > 1 ? `${basePath}page/${target}/` : basePath;
+    if (!archive && target > 1) next.set("pagina", String(target));
+    const path = archive && target > 1 ? `${basePath}page/${target}/` : basePath;
     return `${path}${next.size ? `?${next}` : ""}`;
   };
   return <div className="catalog-layout">
     <CatalogFilters key={basePath} query={query} basePath={basePath} categories={allowed} categoryId={categoryId} />
     <div className="catalog-results">
-      {query.intention || query.primaryIntention || query.secondaryIntention ? <div className="catalog-active-filters" aria-label="Filtros de intenção aplicados" role="group">
-        {query.intention ? <Link scroll={false} href={`${basePath}?${catalogSearch({ ...query, intention: "", primaryIntention: "", secondaryIntention: "" })}`}>Intenção: {getIntention(query.intention)?.name} ×</Link> : <>
-        {query.primaryIntention ? <Link scroll={false} href={`${basePath}?${catalogSearch({ ...query, primaryIntention: "" })}`}>Principal: {getIntention(query.primaryIntention)?.name} ×</Link> : null}
-        {query.secondaryIntention ? <Link scroll={false} href={`${basePath}?${catalogSearch({ ...query, secondaryIntention: "" })}`}>Secundária: {getIntention(query.secondaryIntention)?.name} ×</Link> : null}
-        </>}
+      {query.intention ? <div className="catalog-active-filters" aria-label="Filtros de intenção aplicados" role="group">
+        <Link scroll={false} href={`${basePath}?${catalogSearch({ ...query, intention: "" })}`}>Intenção: {getIntention(query.intention)?.name} ×</Link>
       </div> : null}
       <div className="catalog-toolbar"><p>{result.total} {result.total === 1 ? "produto encontrado" : "produtos encontrados"}{result.data.length ? ` · ${((page - 1) * 12) + 1}–${((page - 1) * 12) + result.data.length}` : ""}</p><CatalogSort key={params.toString()} value={query.sort} /></div>
       {query.invalidPrice ? <p className="commerce-error" role="alert">Informe preços válidos, com o mínimo menor ou igual ao máximo. O filtro de preço não foi aplicado.</p> : null}
@@ -49,7 +47,7 @@ export async function Catalog({ query: inputQuery, basePath, categoryId, page = 
       })}
       {[["estoque", query.stock ? "Em estoque" : ""], ["oferta", query.sale ? "Em oferta" : ""], ["min", query.min !== undefined ? `A partir de R$ ${query.min / 100}` : ""], ["max", query.max !== undefined ? `Até R$ ${query.max / 100}` : ""]].map(([key, label]) => { const next = new URLSearchParams(params); next.delete(key); return label ? <Link key={key} href={`${basePath}?${next}`} aria-label={`Remover filtro ${label}`}>{label} ×</Link> : null; })}
       </div> : null}
-      {result.data.length ? <section className="product-grid" aria-label="Produtos encontrados">{result.data.map(product => <ProductCard key={product.id} product={product} intentionSlug={query.intention || query.primaryIntention || query.secondaryIntention} />)}</section> : <div className="catalog-empty"><h2>Nenhum produto encontrado</h2><p>Tente outra busca ou remova alguns filtros.</p><Link href={basePath} className="commerce-text-button">Recomeçar a busca</Link></div>}
+      {result.data.length ? <section className="product-grid" aria-label="Produtos encontrados">{result.data.map(product => <ProductCard key={product.id} product={product} intentionSlug={query.intention} />)}</section> : <div className="catalog-empty"><h2>Nenhum produto encontrado</h2><p>Tente outra busca ou remova alguns filtros.</p><Link href={basePath} className="commerce-text-button">Recomeçar a busca</Link></div>}
       {page > 1 || page < result.totalPages ? <nav className="pagination" aria-label="Paginação de produtos">{page > 1 ? <Link href={href(page - 1)}>Página anterior</Link> : <span />}<span aria-current="page">Página {page}{result.totalPages ? ` de ${result.totalPages}` : ""}</span>{page < result.totalPages ? <Link href={href(page + 1)}>Próxima página</Link> : <span />}</nav> : null}
     </div>
   </div>;

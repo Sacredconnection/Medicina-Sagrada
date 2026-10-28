@@ -2,6 +2,14 @@ import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import test from "node:test";
 
+test("WordPress API defaults follow the configured CMS origin", () => {
+  const env = { ...process.env, WORDPRESS_SITE_URL: "https://checkout.medicinasagrada.com.br/" };
+  delete env.WORDPRESS_API_URL;
+  delete env.WOOCOMMERCE_STORE_API_URL;
+  const output = execFileSync(process.execPath, ["--input-type=module", "-e", "import { config } from './lib/config.ts'; process.stdout.write(JSON.stringify([config.wordpressApiUrl, config.wooStoreApiUrl]))"], { env, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
+  assert.deepEqual(JSON.parse(output), ["https://checkout.medicinasagrada.com.br/wp-json", "https://checkout.medicinasagrada.com.br/wp-json/wc/store/v1"]);
+});
+
 function siteUrl(overrides) {
   const env = { ...process.env };
   for (const key of ["NEXT_PUBLIC_SITE_URL", "VERCEL_PROJECT_PRODUCTION_URL", "VERCEL_URL"]) delete env[key];
