@@ -140,7 +140,7 @@ As seções seguem o [formato DESIGN.md](https://raw.githubusercontent.com/googl
 Este nome é uma síntese documental provisória, não uma nova direção aprovada.
 A vitrine combina fotografias, superfícies verdes profundas e áreas brancas de
 leitura. A descoberta é editorial; escolhas comerciais usam controles diretos,
-preços legíveis e feedback explícito. Proxima Nova é a base; títulos de intenções usam Georgia.
+preços legíveis e feedback explícito. Proxima Nova é a base e também a fonte do índice de intenções; páginas individuais de intenção mantêm Georgia.
 
 **Key Characteristics:**
 
@@ -187,7 +187,7 @@ os estilos e os vetores de marca contra variantes de laranja.
 
 Família principal: Proxima Nova, com fallbacks Segoe UI, Avenir Next, Arial e
 sans-serif. Adobe Fonts: kit vjh7vll. Georgia, com Times New Roman e serif como
-alternativas, é apoio editorial para títulos, cards e navegação de intenções.
+alternativas, é apoio editorial para títulos das páginas individuais e navegação de intenções. O índice e seus cards usam Proxima Nova, alinhados à home.
 
 Corpo global: 1rem, peso 400, entrelinha 1,55. Pesos em uso: 400, 500, 600,
 700, 800 e 900. Os tamanhos fluidos e overrides de cada superfície estão no
@@ -265,7 +265,7 @@ componente; não padronize todos os raios com um valor único.
   de opções reais; imagem contextual não substitui validação comercial.
 - **Aprenda:** cards de guia com CTA verde, povos estáticos com acento por
   contexto e slots locais, sem expansores.
-- **Intenções:** índice de sete temas, títulos Georgia, páginas individuais,
+- **Intenções:** índice de oito temas com Proxima Nova, fotos verticais 3:4 e CTAs verdes com hover/foco laranja; páginas individuais com títulos Georgia,
   filtros e produtos associados aos atributos públicos do WooCommerce.
 
 Foco global usa outline de 0.2rem no acento com offset de 0.25rem. Algumas

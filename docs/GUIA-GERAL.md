@@ -77,7 +77,7 @@ Responsividade é por componente. Header passa ao menu mobile até 1000px. Apren
 | Galeria | Imagem ampliável e diálogo; navegação e fechamento por controles próprios |
 | Ritual Finder | Intenção, experiência, recomendação e opções de compra; depende de dados comerciais válidos |
 | Aprenda | Três guias e glossário de cards estáticos; sem painéis expansíveis |
-| Intenções | Índice de sete temas, páginas individuais, produtos associados e navegação contextual |
+| Intenções | Índice de oito temas, páginas individuais, produtos associados e navegação contextual |
 | Newsletter | E-mail, consentimento e feedback; endpoint esperado `/api/newsletter/` sem handler local implementado |
 
 O foco global tem contorno `0.2rem` em `cta-accent`, offset `0.25rem`; alguns componentes substituem esse tratamento. Há regras de movimento reduzido e hover condicionado. A conferência documental não certifica cobertura integral de acessibilidade.

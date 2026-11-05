@@ -1,5 +1,11 @@
 # Círculos de intenção da abertura
 
+A abertura apresenta oito círculos. As cinco fotos abaixo continuam nesta pasta.
+Os outros três usam diretamente os arquivos de `public/assets/intentions/`:
+`foco-e-clareza.webp`, `energia-e-renovacao.webp` e `oracao-e-cerimonia.webp`.
+Eles são temporários e serão atualizados também nos círculos quando substituídos
+pelas fotos finais, sem exigir cópias adicionais.
+
 Coloque nesta pasta as cinco imagens quadradas abaixo, mantendo exatamente estes
 nomes:
 

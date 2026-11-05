@@ -20,7 +20,7 @@ URLs de navegação usam barra final (`trailingSlash: true`). Preserve slugs e h
 | `/aprenda/primeiro-rape/` | Guia Seu primeiro rapé |
 | `/aprenda/escolher-aplicador/` | Guia de aplicadores |
 | `/aprenda/preparar-com-cuidado/` | Guia de incensos/resinas |
-| `/intencoes/` | Índice local dos sete temas editoriais |
+| `/intencoes/` | Índice local dos oito temas editoriais e jornada compartilhada com a home |
 | `/intencoes/{slug}/` | Tema, produtos associados e navegação contextual |
 | `/cart/` | Sacola e resumo |
 | `/checkout/` | Encaminha à sacola; GET não inicia checkout |

@@ -57,9 +57,9 @@ function declaration(selector,property,source=css) {
 const scales=[
   ['h1 global','h1',css], ['Hero principal','.hero-title-primary',css], ['Hero secundário','.hero-title-secondary',css],
   ['Título de produto vigente','.product-page .product-summary h1',css],
-  ['Intenções: índice','.intentions-intro h1, .intention-detail h1',css],
+  ['Intenções: índice','.intentions-index .intentions-intro h1',css],
   ['Intenção: página individual','.intention-detail h1',css],
-  ['Intenções: cards','.intention-card-title',css],
+  ['Intenções: cards','.intentions-index .intention-card-title',css],
   ['Aprenda: índice','.learn-intro h1',local], ['Aprenda: guia','.learn-guide-article .learn-intro h1',local],
   ['Aprenda: h2','.learn-page h2',local],
 ].map(([label,selector,source])=>[label,code(declaration(selector,'font-size',source)),code(declaration(selector,'line-height',source)),code(selector)]);
@@ -110,7 +110,7 @@ Somente SVGs com caminho referenciado no código entram nesta tabela; arquivos a
 
 **Principal: Proxima Nova.** Stack: ${code(inventory.globalTokens.find(t=>t.name==='--font-primary').value)}. Adobe Fonts, kit ${code('vjh7vll')}, carregado por ${code('components/adobe-fonts-stylesheet.tsx')}. Os fallbacks são alternativas técnicas quando a fonte não carrega, não famílias de marca adicionais.
 
-**Apoio editorial: Georgia.** Stack: ${code('Georgia, "Times New Roman", serif')}. Aplicação atual: títulos do índice e das páginas de intenções, títulos dos cards de intenção e navegação anterior/próximo. Corpo, catálogo, produto, header e Aprenda mantêm Proxima Nova.
+**Apoio editorial: Georgia.** Stack: ${code('Georgia, "Times New Roman", serif')}. Aplicação atual: títulos das páginas individuais de intenção e navegação anterior/próximo. O índice de intenções e seus cards usam Proxima Nova, assim como corpo, catálogo, produto, header e Aprenda.
 
 ## 7. Tamanhos e pesos em uso
 
@@ -120,7 +120,7 @@ Os valores em rem acompanham a configuração do navegador. Como referência, 1r
 
 ${table(['Token de peso','Peso'],weights.map(t=>[code(t.name),t.value]))}
 
-Corpo global: peso 400 e entrelinha 1,55. h1 global: peso 800 e entrelinha 0,94. Títulos globais usam tracking -0,035em. Labels de seção: 700, caixa alta e tracking 0,1em. Aprenda usa labels locais de 0,6875rem, peso 700 e tracking 0,12em. Títulos de intenções usam Georgia; o índice tem peso 400 e tracking -0,055em. Preços e quantidades usam números tabulares onde implementado.
+Corpo global: peso 400 e entrelinha 1,55. h1 global: peso 800 e entrelinha 0,94. Títulos globais usam tracking -0,035em. Labels de seção: 700, caixa alta e tracking 0,1em. Aprenda usa labels locais de 0,6875rem, peso 700 e tracking 0,12em. O índice de intenções usa Proxima Nova, peso 800 e tracking -0,035em; seus cards usam peso 700. Títulos das páginas individuais de intenção mantêm Georgia. Preços e quantidades usam números tabulares onde implementado.
 
 ## 8. Escalas de títulos por superfície
 

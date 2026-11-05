@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: IntentionPageProps) {
   const intention = getIntention(slug);
   return intention ? {
     title: `${intention.name} | Intenções | Medicina Sagrada`,
-    description: intention.meaning,
+    description: intention.meaning.replace(/\s+/g, " "),
   } : {};
 }
 

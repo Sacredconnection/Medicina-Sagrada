@@ -2,7 +2,7 @@ export type SearchValues = Record<string, string | string[] | undefined>;
 const intentionSlugs = new Set([
   "aterramento-e-presenca", "foco-e-clareza", "calma-e-introspeccao",
   "energia-e-renovacao", "limpeza-e-refrescancia", "oracao-e-cerimonia",
-  "coracao-e-conexao",
+  "coracao-e-conexao", "forca-e-coragem",
 ]);
 export const sortOptions = {
   destaque: { label: "Destaques", orderby: "menu_order", order: "asc" },

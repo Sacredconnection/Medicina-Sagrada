@@ -234,6 +234,28 @@
 .intention-card-link span { display: inline-block; margin-left: 0.25rem; transition: transform 160ms ease; }
 .intention-card:hover .intention-card-link span { transform: translateX(0.2rem); }
 .intention-card:focus-visible, .intention-pager a:focus-visible { outline: 2px solid var(--forest-650); outline-offset: 4px; }
+.intentions-index .intentions-breadcrumb { margin-bottom: var(--group-space-large); }
+.intentions-index .intentions-intro { display: grid; max-width: none; grid-template-columns: 1fr 1fr; align-items: start; gap: var(--group-space-large); margin-bottom: var(--section-space-compact); }
+.intentions-index .intentions-intro h1 { max-width: none; margin: 0; color: var(--forest-800); font-family: var(--font-primary); font-size: clamp(3rem, 5.5vw, 5.5rem); font-weight: var(--weight-extrabold); letter-spacing: -0.035em; line-height: 1; overflow-wrap: anywhere; }
+.intentions-index .intentions-lede { max-width: 36ch; margin: 0; color: var(--forest-800); font-size: clamp(1.125rem, 1.6vw, 1.4rem); }
+.intentions-journey-prompt { margin: 1.5rem 0 0.75rem; color: var(--muted); font-size: var(--type-body-small); }
+.intentions-journey-button { text-decoration: none; }
+.intentions-index .intentions-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--group-space-large) 1.5rem; border-top: 0; }
+.intentions-index .intention-card { min-width: 0; grid-template-rows: auto minmax(2.5em, auto) 1fr auto; align-content: start; gap: 1rem; margin: 0; padding: 0; border: 0; }
+.intention-card-media { --intention-image-radius: var(--radius, 0.75rem); position: relative; display: block; overflow: hidden; aspect-ratio: 3 / 4; background: var(--forest-800); border-radius: var(--intention-image-radius); }
+.intention-card-media img { object-fit: cover; }
+.intentions-index .intention-card-title { max-width: none; margin: 0; color: var(--forest-800); font-family: var(--font-primary); font-size: clamp(1.25rem, 1.6vw, 1.5rem); font-weight: var(--weight-bold); letter-spacing: -0.02em; line-height: 1.15; white-space: pre-line; }
+.intentions-index .intention-card-meaning { font-size: var(--type-body-small); line-height: 1.55; white-space: pre-line; }
+.intentions-index .intention-card-link { display: flex; min-height: 3rem; align-items: center; justify-content: center; text-align: center; gap: 0.5rem; margin: 0.25rem 0 0; padding: 0.85rem 1rem; border-radius: 0.45rem; background: var(--forest-800); color: var(--white); font-size: var(--type-action); font-weight: var(--weight-bold); line-height: 1.2; transition: background-color 180ms ease, color 180ms ease; }
+.intentions-index .intention-card:is(:hover, :focus-visible) .intention-card-link { background: var(--cta-accent); color: var(--cta-on-accent); }
+.intentions-index .intention-card:focus-visible { outline: 2px solid var(--cta-accent); outline-offset: 5px; border-radius: var(--radius, 0.75rem); }
+.intentions-index #descubra-seu-rape { scroll-margin-top: var(--sticky-offset); }
+.intentions-index { padding-bottom: var(--section-space-major); }
+.matcher-all-intentions { display: block; width: fit-content; margin-top: 1.25rem; color: var(--white); font-size: 0.875rem; text-underline-offset: 0.25em; }
+@media (max-width: 1000px) { .intentions-index .intentions-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .intentions-index .intentions-intro { grid-template-columns: 1fr; gap: 1.5rem; } }
+@media (max-width: 600px) { .intentions-index .intentions-list { grid-template-columns: 1fr; gap: var(--group-space-large); } .intentions-index .intention-card { grid-template-rows: auto auto auto auto; } }
+@media (prefers-reduced-motion: reduce) { .intentions-index .intention-card-link { transition: none; } }
 .intention-detail { max-width: 52rem; }
 .intention-detail h1 { max-width: none; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; }
 .intention-detail-lede { margin: 1rem 0; color: var(--forest-800); font-size: 1rem; line-height: 1.6; }
@@ -702,19 +724,22 @@ strong, b { font-weight: var(--weight-bold); }
   gap: clamp(3rem, 6vw, 6rem);
   color: var(--white);
 }
-.matcher-intro h2 { max-width: 10ch; font-size: clamp(3.65rem, 5.6vw, 5.6rem); font-weight: var(--weight-semibold); letter-spacing: -0.04em; line-height: 0.9; text-wrap: balance; }
+.matcher-intro h2 { max-width: 10ch; font-size: clamp(3.5rem, 5vw, 5rem); font-weight: var(--weight-semibold); letter-spacing: -0.04em; line-height: 0.94; text-wrap: balance; }
 .matcher-intro h2 strong { display: block; color: var(--cta-accent); font-weight: var(--weight-extrabold); }
 .matcher-intro h2::after { display: block; width: 4rem; height: 0.125rem; margin-top: 1.65rem; border-radius: 999px; background: rgba(255, 255, 255, 0.92); content: ""; }
 .matcher-intro-action { position: relative; max-width: 31rem; padding: 0.25rem 0 0.35rem clamp(2rem, 4vw, 4rem); }
 .matcher-intro-action::before { position: absolute; top: 10%; bottom: 10%; left: clamp(-2rem, -2vw, -1rem); width: 1px; background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.34) 22%, rgba(255, 255, 255, 0.34) 78%, transparent); content: ""; }
 .matcher-intro-intention-slots { display: flex; isolation: isolate; align-items: center; flex-wrap: nowrap; gap: 0; margin: 0 0 clamp(1.25rem, 3vw, 1.75rem); }
-.matcher-intro-intention-slot { --matcher-intention-image: none; position: relative; width: clamp(5rem, 7.8vw, 7rem); aspect-ratio: 1; flex: 0 0 auto; border: 2px solid rgba(255, 255, 255, 0.92); border-radius: 50%; background-color: rgba(255, 255, 255, 0.08); background-image: var(--matcher-intention-image); background-position: center; background-size: cover; }
-.matcher-intro-intention-slot + .matcher-intro-intention-slot { margin-left: -1.625rem; }
+.matcher-intro-intention-slot { --matcher-intention-image: none; position: relative; width: clamp(3rem, 5vw, 4rem); aspect-ratio: 1; flex: 0 0 auto; border: 2px solid rgba(255, 255, 255, 0.92); border-radius: 50%; background-color: rgba(255, 255, 255, 0.08); background-image: var(--matcher-intention-image); background-position: center; background-size: cover; }
+.matcher-intro-intention-slot + .matcher-intro-intention-slot { margin-left: -1rem; }
 .matcher-intro-intention-slot:nth-child(1) { z-index: 1; }
 .matcher-intro-intention-slot:nth-child(2) { z-index: 2; }
 .matcher-intro-intention-slot:nth-child(3) { z-index: 3; }
 .matcher-intro-intention-slot:nth-child(4) { z-index: 4; }
 .matcher-intro-intention-slot:nth-child(5) { z-index: 5; }
+.matcher-intro-intention-slot:nth-child(6) { z-index: 6; }
+.matcher-intro-intention-slot:nth-child(7) { z-index: 7; }
+.matcher-intro-intention-slot:nth-child(8) { z-index: 8; }
 .matcher-intro p { max-width: 33rem; color: rgba(255, 255, 255, 0.8); font-size: clamp(1.02rem, 1.2vw, 1.14rem); line-height: 1.65; }
 .matcher-start-button,
 .kits-section-cta { min-width: 13rem; background: rgba(255, 255, 255, 0.025); box-shadow: 0 0.75rem 1.6rem rgba(0, 0, 0, 0.14); color: var(--white); }
@@ -734,8 +759,8 @@ strong, b { font-weight: var(--weight-bold); }
 .matcher-heading h2 { color: var(--forest-950); font-size: clamp(2.75rem, 5.2vw, 4.6rem); line-height: 0.96; }
 .matcher-heading p { width: min(100%, 55ch); margin: 1.25rem auto 0; color: var(--matcher-muted); font-size: var(--type-card-title); }
 .matcher-options { display: grid; gap: 1rem; margin-top: clamp(2.5rem, 5vw, 4rem); }
-.matcher-intention-options { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-.matcher-intention-card { --matcher-card-image: none; position: relative; display: flex; min-width: 0; aspect-ratio: 0.72; align-items: flex-end; overflow: hidden; padding: 1.25rem; border: 0; border-radius: 0.875rem; background-color: #59645d; box-shadow: 0 1.1rem 2rem rgba(11, 38, 29, 0.12); color: var(--white); cursor: pointer; font: inherit; isolation: isolate; text-align: left; transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 260ms ease; }
+.matcher-intention-options { width: min(100%, 64rem); margin-inline: auto; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.matcher-intention-card { --matcher-card-image: none; position: relative; display: flex; min-width: 0; aspect-ratio: 0.85; align-items: flex-end; overflow: hidden; padding: 1.25rem; border: 0; border-radius: 0.875rem; background-color: #59645d; box-shadow: 0 1.1rem 2rem rgba(11, 38, 29, 0.12); color: var(--white); cursor: pointer; font: inherit; isolation: isolate; text-align: left; transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 260ms ease; }
 .matcher-intention-card::before { position: absolute; z-index: -2; inset: 0; background-image: var(--matcher-card-image); background-position: center; background-size: cover; content: ""; transform: scale(1); transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1); }
 .matcher-intention-card::after { position: absolute; z-index: -1; inset: 0; background-color: rgba(11, 38, 29, 0.1); background-image: linear-gradient(180deg, rgba(6, 20, 15, 0.02) 30%, rgba(6, 20, 15, 0.92) 100%); content: ""; transition: background-color 220ms ease; }
 .matcher-intention-card:is(:hover, :focus-visible) { transform: translateY(-0.25rem); box-shadow: 0 1.5rem 2.5rem rgba(11, 38, 29, 0.18); }
@@ -743,11 +768,11 @@ strong, b { font-weight: var(--weight-bold); }
 .matcher-intention-card:is(:hover, :focus-visible)::after { background-color: transparent; }
 .matcher-intention-card:active { transform: translateY(-0.1rem); }
 .matcher-intention-card:focus-visible { outline: 2px solid var(--white); outline-offset: -4px; }
-.matcher-card-frame { position: absolute; z-index: 0; inset: 0.45rem; border: 1px solid rgba(255, 255, 255, 0.62); border-radius: calc(0.875rem - 0.3rem); pointer-events: none; transition: border-color 220ms ease; }
-.matcher-intention-card:is(:hover, :focus-visible) .matcher-card-frame { border-color: rgba(255, 255, 255, 0.86); }
+.matcher-card-frame, .intention-card-media::after { position: absolute; z-index: 1; inset: 0.45rem; border: 1px solid rgba(255, 255, 255, 0.62); border-radius: calc(var(--intention-image-radius, 0.875rem) - 0.3rem); pointer-events: none; transition: border-color 220ms ease; content: ""; }
+.matcher-intention-card:is(:hover, :focus-visible) .matcher-card-frame, .intention-card:is(:hover, :focus-visible) .intention-card-media::after { border-color: rgba(255, 255, 255, 0.86); }
 .matcher-card-copy { position: absolute; inset: 0; }
-.matcher-card-title { position: absolute; right: 1rem; bottom: 4.6rem; left: 1rem; color: var(--white); font-size: clamp(1.05rem, 1.45vw, 1.3rem); font-weight: var(--weight-bold); letter-spacing: -0.025em; line-height: 1.02; text-align: center; text-shadow: 0 0.15rem 0.35rem rgba(4, 17, 12, 0.55); text-transform: uppercase; text-wrap: balance; white-space: pre-line; }
-.matcher-card-description { position: absolute; right: 1.25rem; bottom: 1.25rem; left: 1.25rem; color: rgba(255, 255, 255, 0.88); font-size: var(--type-label); line-height: 1.45; text-align: center; }
+.matcher-card-title { position: absolute; right: 1rem; bottom: 4.6rem; left: 1rem; color: var(--white); font-size: clamp(1.05rem, 1.45vw, 1.3rem); font-weight: var(--weight-bold); letter-spacing: -0.025em; line-height: 1.02; text-align: center; text-shadow: 0 0.15rem 0.35rem rgba(4, 17, 12, 0.55); text-transform: uppercase; text-wrap: nowrap; white-space: pre; }
+.matcher-card-description { position: absolute; right: 1.25rem; bottom: 1.25rem; left: 1.25rem; color: rgba(255, 255, 255, 0.88); font-size: var(--type-label); line-height: 1.45; text-align: center; white-space: pre; }
 .matcher-experience-options { width: min(100%, 58rem); margin-inline: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .matcher-experience-card { display: grid; min-height: 12rem; padding: 1.6rem; border: 1px solid #cbc8bb; border-radius: 0.875rem; background: transparent; color: var(--forest-950); cursor: pointer; font: inherit; grid-template-columns: auto 1fr; align-items: start; gap: 1.3rem; text-align: left; transition: background-color 240ms ease, border-color 240ms ease, transform 280ms cubic-bezier(0.16, 1, 0.3, 1); }
 .matcher-experience-card:hover { border-color: var(--forest-650); background: rgba(255, 255, 255, 0.68); transform: translateY(-0.25rem); }
@@ -2417,7 +2442,7 @@ strong, b { font-weight: var(--weight-bold); }
   .benefits-marquee-group { display: flex; flex: 0 0 auto; }
   .benefit-item, .benefit-item:first-child { min-width: min(78vw, 17rem); flex: 0 0 min(78vw, 17rem); justify-content: flex-start; padding: 0.9rem 1rem; border-right: 1px solid var(--line); border-bottom: 0; scroll-snap-align: start; }
   .benefit-item:last-child { border-right: 1px solid var(--line); }
-  .matcher-intention-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .matcher-intention-options { width: min(100%, 32rem); grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .matcher-intention-card { aspect-ratio: 0.82; }
   .matcher-result-heading { grid-template-columns: 1fr; align-items: start; gap: 1.25rem; }
   .ritual-bundle { grid-template-columns: 1fr; }
@@ -2539,8 +2564,8 @@ strong, b { font-weight: var(--weight-bold); }
   .matcher-intro h2::after { width: 3rem; margin-top: 1.1rem; margin-inline: auto; }
   .matcher-intro-action { width: 100%; max-width: none; padding-top: 0; border-top: 0; }
   .matcher-intro-intention-slots { justify-content: center; }
-  .matcher-intro-intention-slot { width: 4.5rem; }
-  .matcher-intro-intention-slot + .matcher-intro-intention-slot { margin-left: -1.25rem; }
+  .matcher-intro-intention-slot { width: clamp(2.25rem, 10vw, 2.75rem); }
+  .matcher-intro-intention-slot + .matcher-intro-intention-slot { margin-left: -0.75rem; }
   .matcher-intro p { margin-inline: auto; font-size: var(--type-body); line-height: 1.55; }
   .matcher-start-button { width: 100%; }
   .matcher-progress { margin-bottom: 2.5rem; }
@@ -2550,7 +2575,17 @@ strong, b { font-weight: var(--weight-bold); }
   .matcher-heading p { margin-top: 1.15rem; font-size: var(--type-body); }
   .matcher-options { display: flex; width: auto; margin-inline: calc(var(--page-gutter) * -1); padding: 0.25rem var(--page-gutter) 1rem; gap: 0.85rem; overflow-x: auto; overscroll-behavior-inline: contain; scroll-padding-inline: var(--page-gutter); scroll-snap-type: x mandatory; scrollbar-width: none; }
   .matcher-options::-webkit-scrollbar { display: none; }
-  .matcher-intention-card { min-width: min(72vw, 17rem); flex: 0 0 min(72vw, 17rem); aspect-ratio: 0.75; scroll-snap-align: start; }
+  .matcher-intention-card { min-width: min(64vw, 14rem); flex: 0 0 min(64vw, 14rem); aspect-ratio: 0.82; scroll-snap-align: start; }
+  .matcher-intention-options { display: grid; width: 100%; margin-inline: 0; padding: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 1rem; overflow: visible; }
+  .matcher-intention-options .matcher-intention-card { display: block; min-width: 0; width: 100%; padding: 0; aspect-ratio: auto; overflow: visible; border-radius: 0.5rem; background: transparent; box-shadow: none; }
+  .matcher-intention-options .matcher-intention-card::before { position: static; display: block; aspect-ratio: 4 / 5; border-radius: 0.5rem; transform: none; }
+  .matcher-intention-options .matcher-intention-card::after, .matcher-intention-options .matcher-card-description { display: none; }
+  .matcher-intention-options .matcher-card-frame { display: block; inset: 0.3rem 0.3rem auto; aspect-ratio: 4 / 5; border-radius: 0.25rem; }
+  .matcher-intention-options .matcher-card-copy { position: static; display: block; margin-top: 0.5rem; }
+  .matcher-intention-options .matcher-card-title { position: static; display: block; color: var(--forest-800); font-size: clamp(0.875rem, 3.6vw, 1rem); letter-spacing: -0.025em; line-height: 1.2; text-shadow: none; white-space: pre; }
+  .matcher-intention-options .matcher-intention-card:is(:hover, :focus-visible) { box-shadow: none; transform: none; }
+  .matcher-intention-options .matcher-intention-card:focus-visible { outline-color: var(--cta-accent); outline-offset: 3px; }
+  .matcher-intention-options + .matcher-options-scroll-hint { display: none; }
   .matcher-options-scroll-hint { display: flex; margin: 1.5rem auto 0; color: var(--matcher-muted); }
   .product-thumbnails-scroll-hint.is-visible { display: flex; margin: 0.75rem auto 0; color: var(--muted); }
   .matcher-card-title { font-size: 1.25rem; }

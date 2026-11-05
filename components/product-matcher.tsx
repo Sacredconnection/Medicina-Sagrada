@@ -23,10 +23,35 @@ import type { RitualCatalogProduct } from "@/lib/ritual-catalog";
 import ritualImages from "@/public/assets/home/matcher/products/manifest.json";
 import ritualVariationImages from "@/public/assets/home/matcher/products/variations.json";
 import { ResponsiveSurfaceImage } from "@/components/responsive-surface-image";
+import { intentions, intentionCardImages } from "@/lib/intencoes";
 
 type FinderStep = "intro" | "intention" | "experience" | "result";
 
 const finderStepOrder: FinderStep[] = ["intro", "intention", "experience", "result"];
+
+const introImageKeys = {
+  "aterramento-e-presenca": "grounding",
+  "forca-e-coragem": "strength",
+  "foco-e-clareza": "focus",
+  "calma-e-introspeccao": "serenity",
+  "energia-e-renovacao": "energy",
+  "limpeza-e-refrescancia": "purification",
+  "oracao-e-cerimonia": "prayer",
+  "coracao-e-conexao": "heart",
+} as const;
+
+// Oito escolhas editoriais; apenas os perfis com curadoria seguem para experiência.
+const intentionOptions = intentions.map((intention) => {
+  const ritual = ritualIntentions.find((option) => option.intentionSlug === intention.slug);
+  return {
+    slug: intention.slug,
+    label: intention.cardTitle,
+    description: intention.meaning,
+    image: ritual?.image ?? intentionCardImages[intention.slug],
+    ritualId: ritual?.id,
+    introImageKey: introImageKeys[intention.slug],
+  };
+});
 
 // Troque para false para desfazer apenas a entrada dos círculos.
 const INTRO_CIRCLES_ENTRANCE_ENABLED = true;
@@ -39,7 +64,10 @@ const MATCHER_LIVE_IMAGE_PATHS = {
   serenity: "/assets/home/matcher/intro-intentions/silencio-mental-paz.webp",
   heart: "/assets/home/matcher/intro-intentions/abertura-coracao.webp",
   purification: "/assets/home/matcher/intro-intentions/purificacao-limpeza.webp",
-} as const satisfies Record<"desktop" | "mobile" | RitualIntentionId, string>;
+  focus: intentionCardImages["foco-e-clareza"],
+  energy: intentionCardImages["energia-e-renovacao"],
+  prayer: intentionCardImages["oracao-e-cerimonia"],
+} as const satisfies Record<"desktop" | "mobile" | (typeof introImageKeys)[keyof typeof introImageKeys], string>;
 
 type MatcherLiveImageKey = keyof typeof MATCHER_LIVE_IMAGE_PATHS;
 
@@ -51,6 +79,9 @@ const MATCHER_INITIAL_IMAGES: Record<MatcherLiveImageKey, string> = {
   serenity: MATCHER_LIVE_IMAGE_PATHS.serenity,
   heart: MATCHER_LIVE_IMAGE_PATHS.heart,
   purification: MATCHER_LIVE_IMAGE_PATHS.purification,
+  focus: MATCHER_LIVE_IMAGE_PATHS.focus,
+  energy: MATCHER_LIVE_IMAGE_PATHS.energy,
+  prayer: MATCHER_LIVE_IMAGE_PATHS.prayer,
 };
 
 const progressSteps = [
@@ -274,6 +305,9 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
     serenity: "",
     heart: "",
     purification: "",
+    focus: "",
+    energy: "",
+    prayer: "",
   });
   const [step, setStep] = useState<FinderStep>("intro");
   const [direction, setDirection] = useState(1);
@@ -576,24 +610,24 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
               </h2>
               <div className="matcher-intro-action">
                 <div aria-hidden="true" className="matcher-intro-intention-slots">
-                  {ritualIntentions.map((option, index) => (
+                  {intentionOptions.map((option, index) => (
                     <motion.span
                       initial={false}
                       animate={animateIntroCircles
                         ? { x: [-55, 0], opacity: [0, 1] }
                         : { x: 0, opacity: 1 }}
                       transition={animateIntroCircles
-                        ? { duration: 1.2, delay: index * 0.2, ease: [0.22, 1, 0.36, 1] }
+                        ? { duration: 0.8, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }
                         : { duration: 0 }}
                       className="matcher-intro-intention-slot"
-                      data-intention={option.id}
-                      key={option.id}
+                      data-intention={option.introImageKey}
+                      key={option.slug}
                       style={
                         {
                           "--matcher-intention-image":
-                            liveImages[option.id] === "none"
+                            liveImages[option.introImageKey] === "none"
                               ? "none"
-                              : `url("${liveImages[option.id]}")`,
+                              : `url("${liveImages[option.introImageKey]}")`,
                         } as CSSProperties
                       }
                     />
@@ -610,6 +644,9 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
                 >
                   Iniciar Jornada
                 </button>
+                <Link className="matcher-all-intentions" href="/intencoes/">
+                  Explorar as {intentions.length} intenções →
+                </Link>
               </div>
             </div>
           ) : null}
@@ -623,29 +660,40 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
                 <p>Escolha a intenção que mais se aproxima do seu momento.</p>
               </div>
               <div className="matcher-options matcher-intention-options">
-                {ritualIntentions.map((option) => {
+                {intentionOptions.map((option) => {
                   const cardStyle = {
                     "--matcher-card-image": `url("${option.image}")`,
                   } as CSSProperties;
+                  const cardContent = <>
+                    <span aria-hidden="true" className="matcher-card-frame" />
+                    <span className="matcher-card-copy">
+                      <span className="matcher-card-title">{option.label}</span>
+                      <span className="matcher-card-description">{option.description}</span>
+                    </span>
+                  </>;
+                  const ritualId = option.ritualId;
+
+                  if (!ritualId) {
+                    return (
+                      <Link className="matcher-intention-card" key={option.slug} href={`/intencoes/${option.slug}/`} style={cardStyle}>
+                        {cardContent}
+                        <span className="sr-only">Ver produtos desta intenção</span>
+                      </Link>
+                    );
+                  }
 
                   return (
                     <button
                       className="matcher-intention-card"
-                      key={option.id}
+                      key={option.slug}
                       onClick={() => {
-                        setIntention(option.id);
+                        setIntention(ritualId);
                         goToStep("experience");
                       }}
                       style={cardStyle}
                       type="button"
                     >
-                      <span aria-hidden="true" className="matcher-card-frame" />
-                      <span className="matcher-card-copy">
-                        <span className="matcher-card-title">{option.label}</span>
-                        <span className="matcher-card-description">
-                          {option.description}
-                        </span>
-                      </span>
+                      {cardContent}
                     </button>
                   );
                 })}
@@ -717,6 +765,11 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
                   </h2>
                 </div>
                 <p>{recommendation.descricao}</p>
+                {intention ? (
+                  <Link className="commerce-text-button" href={`/intencoes/${ritualIntentions.find((option) => option.id === intention)!.intentionSlug}/`}>
+                    Conheça esta intenção e seus produtos →
+                  </Link>
+                ) : null}
               </div>
 
               <>
