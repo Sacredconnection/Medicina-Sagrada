@@ -32,7 +32,7 @@ export default async function IntentionsPage() {
         {intentions.map((intention, index) => (
           <Link className="intention-card" href={`/intencoes/${intention.slug}/`} key={intention.slug}>
             <span className="intention-card-media" aria-hidden="true">
-              <Image src={intentionCardImages[intention.slug]} alt="" fill unoptimized={process.env.NODE_ENV === "development"} loading={index === 0 ? "eager" : "lazy"} sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 25vw" />
+              <Image src={intentionCardImages[intention.slug]} alt="" fill unoptimized={process.env.NODE_ENV === "development"} loading={index === 0 ? "eager" : "lazy"} sizes="(max-width: 600px) 50vw, 16rem" />
             </span>
             <h2 className="intention-card-title">{intention.cardTitle}</h2>
             <span className="intention-card-meaning">{intention.meaning}</span>

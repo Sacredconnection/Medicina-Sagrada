@@ -667,7 +667,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 17
+          "count": 15
         }
       ]
     },
@@ -2049,6 +2049,30 @@
       "selector": ".matcher-all-intentions",
       "property": "font-size",
       "value": "0.875rem"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intentions-index .intention-card-title",
+      "property": "font-size",
+      "value": "clamp(0.8125rem, 3.5vw, 1rem)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intentions-index .intention-card-meaning",
+      "property": "font-size",
+      "value": "clamp(0.6875rem, 3vw, 0.8125rem)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intentions-index .intention-card-meaning",
+      "property": "line-height",
+      "value": "1.5"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intentions-index .intention-card-link",
+      "property": "font-size",
+      "value": "0.75rem"
     },
     {
       "file": "app/globals.css",

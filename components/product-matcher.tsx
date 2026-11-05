@@ -63,7 +63,7 @@ const MATCHER_LIVE_IMAGE_PATHS = {
   strength: "/assets/home/matcher/intro-intentions/forca-coragem.webp",
   serenity: "/assets/home/matcher/intro-intentions/silencio-mental-paz.webp",
   heart: "/assets/home/matcher/intro-intentions/abertura-coracao.webp",
-  purification: "/assets/home/matcher/intro-intentions/purificacao-limpeza.webp",
+  purification: intentionCardImages["limpeza-e-refrescancia"],
   focus: intentionCardImages["foco-e-clareza"],
   energy: intentionCardImages["energia-e-renovacao"],
   prayer: intentionCardImages["oracao-e-cerimonia"],

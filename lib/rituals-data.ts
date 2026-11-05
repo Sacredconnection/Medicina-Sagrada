@@ -64,7 +64,7 @@ export const ritualIntentions = [
     intentionSlug: "limpeza-e-refrescancia",
     label: "Limpeza e refrescância",
     description: "Para renovar o ambiente e marcar um novo começo.",
-    image: "/assets/home/matcher/purificacao-limpeza.webp",
+    image: "/assets/intentions/limpeza-e-refrescancia.webp",
   },
 ] as const satisfies ReadonlyArray<{
   id: RitualIntentionId;

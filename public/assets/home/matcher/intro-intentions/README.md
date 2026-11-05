@@ -1,19 +1,19 @@
 # Círculos de intenção da abertura
 
-A abertura apresenta oito círculos. As cinco fotos abaixo continuam nesta pasta.
-Os outros três usam diretamente os arquivos de `public/assets/intentions/`:
-`foco-e-clareza.webp`, `energia-e-renovacao.webp` e `oracao-e-cerimonia.webp`.
-Eles são temporários e serão atualizados também nos círculos quando substituídos
-pelas fotos finais, sem exigir cópias adicionais.
+A abertura apresenta oito círculos. Quatro fotos continuam nesta pasta.
+Os outros quatro usam diretamente os arquivos de `public/assets/intentions/`:
+`foco-e-clareza.webp`, `energia-e-renovacao.webp`, `oracao-e-cerimonia.webp`
+e `limpeza-e-refrescancia.webp`. As substituições desses arquivos também atualizam
+os círculos, sem exigir cópias adicionais. Limpeza e refrescância também usa o
+mesmo arquivo nos cards da jornada, substituindo a antiga fogueira.
 
-Coloque nesta pasta as cinco imagens quadradas abaixo, mantendo exatamente estes
+Coloque nesta pasta as quatro imagens quadradas abaixo, mantendo exatamente estes
 nomes:
 
 - `aterramento-presenca.webp`
 - `forca-coragem.webp`
 - `silencio-mental-paz.webp`
 - `abertura-coracao.webp`
-- `purificacao-limpeza.webp`
 
 ## Especificação
 
