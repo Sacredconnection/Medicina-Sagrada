@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AboutContactSection } from "@/components/about-contact-section";
 import { Breadcrumbs } from "@/components/breadcrumbs";
@@ -10,8 +8,8 @@ import { PrivacyPage } from "@/components/privacy-page";
 import { RichText } from "@/components/rich-text";
 import { ReturnsPage } from "@/components/returns-page";
 import { WholesalePage } from "@/components/wholesale-page";
-import { articleShortcodeMediaIds, cleanHtml, plainText, prepareArticleHtml } from "@/lib/html";
-import { ArticleContent } from "@/components/article-content";
+import { articleShortcodeMediaIds, plainText, prepareArticleHtml } from "@/lib/html";
+import { BlogArticle } from "@/components/blog-article";
 import { articleCtas, contextualizeArticleCta } from "@/lib/article-cta";
 import { breadcrumbSchema, editorialSchema, metadataForContent } from "@/lib/seo";
 import type { WordPressContent } from "@/lib/types";
@@ -84,8 +82,6 @@ export default async function ContentPage({ params }: ContentPageProps) {
   const articleHtml = isPost
     ? contextualizeArticleCta(content, prepareArticleHtml(content.content.rendered, shortcodeMedia))
     : content.content.rendered;
-  const featuredMedia = content._embedded?.["wp:featuredmedia"]?.[0];
-  const readingMinutes = Math.max(1, Math.ceil(plainText(articleHtml).split(/\s+/).filter(Boolean).length / 210));
   const breadcrumbs = [
     { name: "Início", pathname: "/" },
     ...(isPost ? [{ name: "Blog", pathname: "/blog/" }] : []),
@@ -158,57 +154,14 @@ export default async function ContentPage({ params }: ContentPageProps) {
   }
 
   return (
-    <article
-      className={`container content-page editorial-page${isPost ? " blog-post-page" : ""}${isAboutPage ? " about-page" : ""}`}
-    >
+    <article className={`container content-page editorial-page${isPost ? " blog-post-page" : ""}${isAboutPage ? " about-page" : ""}`}>
       <Breadcrumbs items={breadcrumbItems} />
-      <header className={`article-header${isPost ? " blog-article-header" : ""}`}>
-        {isPost ? (
-          <div className="blog-article-meta">
-            <time dateTime={content.date}>
-              {new Intl.DateTimeFormat("pt-BR", { dateStyle: "long" }).format(new Date(content.date))}
-            </time>
-            <span aria-hidden="true">•</span>
-            <span>{readingMinutes} min de leitura</span>
-          </div>
-        ) : null}
-        <h1 className={isPost && title.length > 72 ? "blog-article-title-long" : undefined}>{title}</h1>
-      </header>
-      {isPost && featuredMedia?.source_url ? (
-        <figure className="blog-article-hero">
-          <Image
-            src={featuredMedia.source_url}
-            alt={featuredMedia.alt_text || title}
-            width={featuredMedia.media_details?.width ?? 1600}
-            height={featuredMedia.media_details?.height ?? 900}
-            sizes="(max-width: 768px) 100vw, 1152px"
-            priority
-          />
-        </figure>
-      ) : null}
-      {isPost ? (
-        <div className="blog-article-layout">
-          <aside className="blog-article-rail" aria-label="Navegação da matéria">
-            <Link href="/blog/">Todas as matérias</Link>
-          </aside>
-          <ArticleContent html={cleanHtml(articleHtml)} />
-        </div>
-      ) : (
+      {isPost ? <BlogArticle content={content} html={articleHtml} /> : <>
+        <header className="article-header"><h1>{title}</h1></header>
         <RichText className={isAboutPage ? "about-content" : ""} html={articleHtml} />
-      )}
-      {isPost ? (
-        <footer className="blog-article-footer">
-          <p>Continue explorando histórias, saberes e tradições.</p>
-          <Link href="/blog/">Ver todas as matérias</Link>
-        </footer>
-      ) : null}
+      </>}
       {isAboutPage ? <AboutContactSection /> : null}
-      <JsonLd
-        data={[
-          articleSchema(content, pathname),
-          breadcrumbSchema(breadcrumbs),
-        ]}
-      />
+      <JsonLd data={[articleSchema(content, pathname), breadcrumbSchema(breadcrumbs)]} />
     </article>
   );
 }

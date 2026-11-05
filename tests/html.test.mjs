@@ -36,7 +36,7 @@ test("agrupa fotos consecutivas mantendo links e legendas, sem juntar banners ou
   assert.match(html, /<\/figure><div class="article-gallery">/);
   assert.equal((html.match(/href="\/foto\/"/g) ?? []).length, 3);
   assert.equal((html.match(/<figcaption>Legenda<\/figcaption>/g) ?? []).length, 3);
-  assert.match(html, /<\/div>\s*<p>Separação editorial\.<\/p><figure>/);
+  assert.match(html, /<\/div>\s*<figure class="article-photo-wrap">[\s\S]*<\/figure><p>Separação editorial\.<\/p>/);
 });
 
 test("separa parágrafos marcados por dupla quebra e mantém links e quebras simples", () => {
@@ -44,6 +44,43 @@ test("separa parágrafos marcados por dupla quebra e mantém links e quebras sim
   assert.match(html, /<\/p><p>Segunda ideia\.<br>Dado complementar\.<\/p>/);
   assert.match(html, /href="\/blog\/"/);
   assert.match(html, /Primeira ideia/);
+});
+
+test("libera o texto das colunas antigas e posiciona cada foto antes do trecho correspondente", () => {
+  const media = [{ id: 42, source_url: "/foto.jpg", media_details: { width: 600, height: 600 } }];
+  const html = prepareArticleHtml('<p>[row][col]</p><p>Texto ao lado.</p><p>[/col]<br>[col][ux_image id="42"][/col][/row]</p><p>[row][col][ux_image id="42"][/col][col]</p><p>Outra história.</p><p>[/col][/row]</p>', media);
+  assert.equal((html.match(/article-photo-wrap/g) ?? []).length, 2);
+  assert.doesNotMatch(html, /article-row|article-column|article-gallery|\[\/?(?:row|col)/);
+  assert.match(html, /<\/figure>\s*<p>Texto ao lado\.<\/p>\s*<figure/);
+  assert.doesNotMatch(html, /<\/div><br>/);
+  assert.match(html, /Texto ao lado\./);
+  assert.match(html, /Outra história\./);
+});
+
+test("não reserva espaço para coluna de mídia ausente e preserva o texto completo", () => {
+  const html = prepareArticleHtml('[row][col]<p>Parágrafo completo.</p>[/col][col][ux_image id="404"][/col][/row]<br><p>Continuação.</p>');
+  assert.equal(html, '<p>Parágrafo completo.</p><p>Continuação.</p>');
+});
+
+test("encaixa uma foto final nos últimos parágrafos sem mudar a ordem da leitura", () => {
+  const html = prepareArticleHtml('<h2>História</h2><p>Primeira parte.</p><p>Última parte.</p><figure><img src="/final.jpg" width="600" height="400"><figcaption>Pôr do sol</figcaption></figure>');
+  assert.match(html, /<h2>História<\/h2><figure class="article-photo-wrap">/);
+  assert.match(html, /<\/figure><p>Primeira parte\.<\/p><p>Última parte\.<\/p>/);
+  assert.match(html, /<figcaption>Pôr do sol<\/figcaption>/);
+});
+
+test("mantém o alinhamento original ao extrair uma foto de um parágrafo", () => {
+  const html = prepareArticleHtml('<p><img class="wp-image-1 alignleft" src="/foto.jpg" width="300" height="400">Texto associado.</p>');
+  assert.match(html, /class="article-media alignleft article-photo-wrap"/);
+  assert.match(html, /<\/figure><p>Texto associado\.<\/p>/);
+});
+
+test("restaura alinhamento lateral das fotos preservando banners, legendas e links", () => {
+  const html = prepareArticleHtml('<figure class="wp-caption alignleft"><a href="/foto/"><img src="/foto.jpg" width="300" height="400"></a><figcaption>Legenda original</figcaption></figure><p>Texto.</p><figure><img src="/banner.jpg" width="1200" height="300"></figure>');
+  assert.match(html, /class="wp-caption alignleft article-photo-wrap"/);
+  assert.match(html, /href="\/foto\/"/);
+  assert.match(html, /<figcaption>Legenda original<\/figcaption>/);
+  assert.match(html, /<figure><img src="\/banner.jpg"/);
 });
 
 test("separa imagens de títulos e parágrafos preservando o texto e o link da mídia", () => {
