@@ -46,6 +46,10 @@ export default async function LearnGuidePage({ params }: Props) {
       <div className="learn-reading-shell learn-article-steps">
         <aside className="learn-checklist" aria-labelledby="learn-checklist-title"><h2 id="learn-checklist-title">Antes de escolher, confira:</h2><ul>{guide.checklist.map((item) => <li key={item}><span aria-hidden="true" />{item}</li>)}</ul></aside>
         <div className="learn-steps-grid">{guide.sections.map((section, index) => <section className="learn-article-step" key={section.title} aria-labelledby={`passo-${index + 1}`}><LearnImageSlot src={`/assets/aprenda/guias/${guide.slug}/passo-${String(index + 1).padStart(2, "0")}.webp`} alt={section.alt} className="learn-article-image" sizes="(min-width: 1024px) 33vw, 100vw" /><div className="learn-article-copy"><p className="learn-label">Passo {String(index + 1).padStart(2, "0")}</p><h2 id={`passo-${index + 1}`}>{section.title}</h2><p>{section.body}</p></div></section>)}</div>
+        {guide.slug === "primeiro-rape" && <section className="learn-questionnaire-cta" aria-labelledby="learn-questionnaire-title">
+          <div><h2 id="learn-questionnaire-title">Quer ajuda para escolher seu rapé?</h2><p>Responda a um breve questionário sobre sua intenção e experiência e receba uma sugestão para o seu momento.</p></div>
+          <Link className="button" href="/questionario/">Responder ao questionário</Link>
+        </section>}
       </div>
     </article>
     <section className="learn-recommendations learn-photo-before-cta" aria-labelledby="learn-collection-title"><div className="learn-reading-shell"><div className="learn-recommendation-heading"><div className="learn-collection-intro"><h2 id="learn-collection-title">{guide.collectionTitle}</h2><p>{guide.collectionCopy}</p><Link className="button" href={collectionHref}>{collectionLabel}</Link></div><LearnImageSlot src={collectionImage} alt={collectionAlt} className="learn-collection-photo" /></div></div></section>

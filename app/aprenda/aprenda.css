@@ -142,6 +142,13 @@
 .learn-guide-article .learn-checklist h2 { font-size: 1.25rem; margin: 0 0 1rem; letter-spacing: -.02em; }
 .learn-guide-article .learn-checklist li { padding-block: .75rem; }
 .learn-steps-grid { display: grid; gap: 1rem; }
+.learn-questionnaire-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; margin-top: 1.5rem; padding: 1.5rem; border-radius: .75rem; background: var(--forest-800); color: var(--white); }
+.learn-questionnaire-cta > div { flex: 1 1 24rem; min-width: 0; }
+.learn-guide-article .learn-questionnaire-cta h2 { margin: 0; color: var(--white); font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.2; letter-spacing: -.02em; }
+.learn-guide-article .learn-questionnaire-cta p { max-width: 65ch; margin: .75rem 0 0; color: var(--white); font-size: .9375rem; line-height: 1.6; }
+.learn-questionnaire-cta .button { flex: 0 1 auto; max-width: 100%; background: var(--white); color: var(--forest-800); text-align: center; text-decoration: none; }
+.learn-questionnaire-cta .button:is(:hover, :focus-visible) { color: var(--cta-on-accent); transform: none; }
+.learn-questionnaire-cta .button:focus-visible { outline: 2px solid var(--white); outline-offset: 4px; }
 .learn-guide-article .learn-article-step { display: flex; flex-direction: column; min-width: 0; margin: 0; }
 .learn-guide-article .learn-article-image { aspect-ratio: 16 / 9; min-height: 0; }
 .learn-first-guide .learn-article-step:nth-child(2) .learn-article-image img { object-fit: contain; background: var(--white); }
