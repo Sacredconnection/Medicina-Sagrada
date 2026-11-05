@@ -57,6 +57,7 @@
     "components/expandable-description.tsx",
     "components/footer.tsx",
     "components/header-navigation.tsx",
+    "components/header-search.tsx",
     "components/header.tsx",
     "components/home-applicators-section.tsx",
     "components/home-conexao-ancestral-section.tsx",
@@ -243,7 +244,7 @@
         },
         {
           "file": "app/globals.css",
-          "count": 89
+          "count": 90
         }
       ]
     },
@@ -299,7 +300,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 2
+          "count": 3
         }
       ]
     },
@@ -598,7 +599,7 @@
         },
         {
           "file": "app/globals.css",
-          "count": 17
+          "count": 19
         }
       ]
     },
@@ -2567,6 +2568,18 @@
       "selector": ".header-icon-button",
       "property": "background",
       "value": "transparent"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".header-search-panel",
+      "property": "background",
+      "value": "var(--header-white)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".header-search-panel",
+      "property": "box-shadow",
+      "value": "0 .75rem 1.5rem rgb(11 38 29 / 12%)"
     },
     {
       "file": "app/globals.css",

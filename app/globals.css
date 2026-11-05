@@ -412,6 +412,10 @@ strong, b { font-weight: var(--weight-bold); }
 .header-desktop-actions { display: flex; align-items: center; color: var(--forest-800); }
 .header-icon-button { display: inline-grid; width: 2.75rem; height: 2.75rem; flex: 0 0 auto; place-items: center; padding: 0; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; transition: background-color 180ms ease, color 180ms ease; }
 .header-search-button { color: var(--forest-800); }
+.header-search { display: flex; }
+.header-search-panel { position: absolute; z-index: 13; top: 100%; right: var(--page-gutter); display: flex; gap: .75rem; width: min(36rem, calc(100% - var(--page-gutter) * 2)); padding: 1rem; border: 1px solid var(--line); background: var(--header-white); box-shadow: 0 .75rem 1.5rem rgb(11 38 29 / 12%); }
+.header-search-panel .search-input { flex: 1; width: 0; min-width: 0; }
+.header-search-panel .commerce-button { flex-shrink: 0; }
 .header-line-icon { width: 1.5rem; height: 1.5rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .header-icon-button:not(:disabled):hover,
 .header-icon-button:not(:disabled):focus-visible,
