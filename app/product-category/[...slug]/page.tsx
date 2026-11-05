@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type { CSSProperties } from "react";
+import { Suspense, type CSSProperties } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
@@ -86,6 +86,18 @@ export async function generateMetadata({
   };
 }
 
+async function AdditionalCategoryContent({ pathname, categoryId, categoryName }: {
+  pathname: string;
+  categoryId: number;
+  categoryName: string;
+}) {
+  const html = await getCategoryContent(pathname, categoryId).catch((error) => {
+    console.warn("Não foi possível carregar o conteúdo complementar da categoria.", error);
+    return "";
+  });
+  return html ? <CategoryEditorial html={html} categoryName={categoryName} /> : null;
+}
+
 export default async function ProductCategoryPage({
   params,
   searchParams,
@@ -99,12 +111,6 @@ export default async function ProductCategoryPage({
   }
 
   const query = parseCatalogQuery(await searchParams);
-  const additionalContent = parsed.page === 1
-    ? await getCategoryContent(parsed.basePath, category.id).catch((error) => {
-        console.warn("Não foi possível carregar o conteúdo complementar da categoria.", error);
-        return "";
-      })
-    : "";
   const categoryName = canonicalizeEthnicityNames(category.name);
   const ethnicityTheme = parsed.basePath.startsWith("/product-category/rape/")
     ? getEthnicityTheme([{ name: category.name, slug: category.slug }])
@@ -176,9 +182,18 @@ export default async function ProductCategoryPage({
 
   const catalogContent = (
     <>
-      <Catalog query={query} categoryId={category.id} page={parsed.page} basePath={parsed.basePath} />
-      {additionalContent ? (
-        <CategoryEditorial html={additionalContent} categoryName={categoryName} />
+      <Suspense key={parsed.pathname} fallback={
+        <div className="loading" role="status">
+          <span className="loading-mark" aria-hidden="true" />
+          <span>Carregando produtos…</span>
+        </div>
+      }>
+        <Catalog query={query} categoryId={category.id} page={parsed.page} basePath={parsed.basePath} />
+      </Suspense>
+      {parsed.page === 1 ? (
+        <Suspense fallback={null}>
+          <AdditionalCategoryContent pathname={parsed.basePath} categoryId={category.id} categoryName={categoryName} />
+        </Suspense>
       ) : null}
     </>
   );
@@ -222,7 +237,9 @@ export default async function ProductCategoryPage({
       <div className="container ethnicity-catalog-content">
         {catalogContent}
         {ethnicityTheme && parsed.page === 1 ? (
-          <OtherEthnicityProducts category={category} categories={categories} />
+          <Suspense fallback={null}>
+            <OtherEthnicityProducts category={category} categories={categories} />
+          </Suspense>
         ) : null}
       </div>
       <JsonLd data={breadcrumbSchema(breadcrumbs)} />

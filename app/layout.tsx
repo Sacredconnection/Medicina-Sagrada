@@ -3,6 +3,7 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { CartProvider } from "@/components/cart-provider";
 import { AdobeFontsStylesheet } from "@/components/adobe-fonts-stylesheet";
+import { RouteScrollReset } from "@/components/route-scroll-reset";
 import { JsonLd } from "@/components/json-ld";
 import { config, isProductionSite } from "@/lib/config";
 import { organizationSchema, websiteSchema } from "@/lib/seo";
@@ -45,6 +46,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://p.typekit.net" />
       </head>
       <body id="top">
+        <RouteScrollReset />
         <AdobeFontsStylesheet />
         <a className="skip-link" href="#conteudo">
           Ir para o conteúdo
