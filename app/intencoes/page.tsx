@@ -24,15 +24,17 @@ export default async function IntentionsPage() {
         <h1>Intenções</h1>
         <div className="intentions-intro-copy">
           <p className="intentions-lede">Explore as {intentions.length} intenções e conheça os produtos relacionados a cada uma.</p>
-          <p className="intentions-journey-prompt">Precisa de ajuda para escolher?</p>
-          <a className="button intentions-journey-button" href="#descubra-seu-rape">Inicie sua jornada</a>
+          <div className="intentions-journey">
+            <p className="intentions-journey-prompt">Precisa de ajuda para escolher?</p>
+            <a className="button intentions-journey-button" href="#descubra-seu-rape">Inicie sua jornada</a>
+          </div>
         </div>
       </header>
       <section className="intentions-list" aria-label="Explore as intenções">
         {intentions.map((intention, index) => (
           <Link className="intention-card" href={`/intencoes/${intention.slug}/`} key={intention.slug}>
             <span className="intention-card-media" aria-hidden="true">
-              <Image src={intentionCardImages[intention.slug]} alt="" fill unoptimized={process.env.NODE_ENV === "development"} loading={index === 0 ? "eager" : "lazy"} sizes="(max-width: 600px) 50vw, 16rem" />
+              <Image src={intentionCardImages[intention.slug]} alt="" fill unoptimized={process.env.NODE_ENV === "development"} loading={index === 0 ? "eager" : "lazy"} sizes="(max-width: 1000px) 50vw, (max-width: 1216px) 25vw, 17rem" />
             </span>
             <h2 className="intention-card-title">{intention.cardTitle}</h2>
             <span className="intention-card-meaning">{intention.meaning}</span>

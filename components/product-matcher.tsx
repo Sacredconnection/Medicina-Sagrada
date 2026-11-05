@@ -740,12 +740,6 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
                   </button>
                 ))}
               </div>
-              <span
-                aria-hidden="true"
-                className="scroll-hint matcher-options-scroll-hint"
-              >
-                Deslize para ver mais
-              </span>
               <button
                 className="matcher-back"
                 onClick={() => goToStep("intention")}
