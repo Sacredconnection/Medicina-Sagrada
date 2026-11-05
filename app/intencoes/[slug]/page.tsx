@@ -69,9 +69,15 @@ export default async function IntentionPage({ params }: IntentionPageProps) {
           )}
         </section>
         <nav className="intention-pager" aria-label="Explore outras intenções">
-          <Link href={`/intencoes/${previous.slug}/`}><span>← Intenção anterior</span><strong>{previous.name}</strong></Link>
-          <Link href="/intencoes/"><span>Continue explorando</span><strong>Todas as intenções</strong></Link>
-          <Link href={`/intencoes/${next.slug}/`}><span>Próxima intenção →</span><strong>{next.name}</strong></Link>
+          <Link className="intention-pager-direction" href={`/intencoes/${previous.slug}/`} rel="prev">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 5-7 7 7 7M3 12h18" /></svg>
+            <span className="intention-pager-copy"><span>Intenção anterior</span><strong>{previous.name}</strong></span>
+          </Link>
+          <Link className="intention-pager-all" href="/intencoes/">Todas as intenções</Link>
+          <Link className="intention-pager-direction intention-pager-next" href={`/intencoes/${next.slug}/`} rel="next">
+            <span className="intention-pager-copy"><span>Próxima intenção</span><strong>{next.name}</strong></span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5 7 7-7 7M21 12H3" /></svg>
+          </Link>
         </nav>
       </div>
     </main>
