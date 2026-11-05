@@ -37,11 +37,11 @@ typography:
     lineHeight: 0.94
     letterSpacing: "-0.035em"
   intention-display:
-    fontFamily: 'Georgia, "Times New Roman", serif'
-    fontSize: "clamp(3rem, 8vw, 6.75rem)"
-    fontWeight: 400
-    lineHeight: 0.98
-    letterSpacing: "-0.055em"
+    fontFamily: '"proxima-nova", "Segoe UI", "Avenir Next", Arial, sans-serif'
+    fontSize: "clamp(2.25rem, 4vw, 3.5rem)"
+    fontWeight: 800
+    lineHeight: 1.05
+    letterSpacing: "-0.035em"
   section-title:
     fontSize: "clamp(2.35rem, 3.3vw, 3.25rem)"
     fontWeight: 700
@@ -140,7 +140,7 @@ As seções seguem o [formato DESIGN.md](https://raw.githubusercontent.com/googl
 Este nome é uma síntese documental provisória, não uma nova direção aprovada.
 A vitrine combina fotografias, superfícies verdes profundas e áreas brancas de
 leitura. A descoberta é editorial; escolhas comerciais usam controles diretos,
-preços legíveis e feedback explícito. Proxima Nova é a base e também a fonte do índice de intenções; páginas individuais de intenção mantêm Georgia.
+preços legíveis e feedback explícito. Proxima Nova é a base, incluindo o índice, os cards, as páginas individuais e a navegação de intenções.
 
 **Key Characteristics:**
 
@@ -186,8 +186,10 @@ os estilos e os vetores de marca contra variantes de laranja.
 ## Typography
 
 Família principal: Proxima Nova, com fallbacks Segoe UI, Avenir Next, Arial e
-sans-serif. Adobe Fonts: kit vjh7vll. Georgia, com Times New Roman e serif como
-alternativas, é apoio editorial para títulos das páginas individuais e navegação de intenções. O índice e seus cards usam Proxima Nova, alinhados à home.
+sans-serif. Adobe Fonts: kit vjh7vll. O índice de intenções, seus cards, páginas
+individuais e navegação anterior/próximo usam a mesma família, alinhados à home.
+As subpáginas usam títulos com peso 800 e navegação com peso 600. Nos cards do
+índice no celular, títulos usam 16px e descrições 14px com raiz de 16px.
 
 Corpo global: 1rem, peso 400, entrelinha 1,55. Pesos em uso: 400, 500, 600,
 700, 800 e 900. Os tamanhos fluidos e overrides de cada superfície estão no
@@ -265,7 +267,7 @@ componente; não padronize todos os raios com um valor único.
   de opções reais; imagem contextual não substitui validação comercial.
 - **Aprenda:** cards de guia com CTA verde, povos estáticos com acento por
   contexto e slots locais, sem expansores.
-- **Intenções:** índice de oito temas com Proxima Nova, fotos verticais 3:4 e CTAs verdes com hover/foco laranja; páginas individuais com títulos Georgia,
+- **Intenções:** índice de oito temas e páginas individuais com Proxima Nova, fotos verticais 3:4 e CTAs verdes com hover/foco laranja,
   filtros e produtos associados aos atributos públicos do WooCommerce.
 
 Foco global usa outline de 0.2rem no acento com offset de 0.25rem. Algumas

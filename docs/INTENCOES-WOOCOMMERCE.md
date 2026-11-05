@@ -3,6 +3,7 @@
 ## Entrega
 
 - `/intencoes/` apresenta oito temas editoriais, incluindo Força e coragem, e suas páginas individuais.
+- Índice e oito subpáginas usam Proxima Nova em títulos, textos, sidebar e navegação inferior. Títulos individuais têm peso 800, a navegação inferior peso 600 e a contagem de produtos fica subordinada ao h1. No índice em celular, títulos dos cards usam 1rem e descrições 0,875rem, respeitando a escala de texto do navegador.
 - A página reutiliza `ProductMatcher`, o mesmo componente da home. A escolha mostra os oito temas em cards compactos: quatro colunas no desktop, duas em larguras intermediárias e duas imagens verticais 4:5 por fila no celular, com nomes abaixo e sem carrossel. Os cinco perfis com curadoria continuam para experiência e ritual. Foco e clareza, Energia e renovação e Oração e cerimônia abrem diretamente suas páginas de produtos; não há curadoria por experiência definida para esses três temas. `intentionSlug` em `lib/rituals-data.ts` liga cada perfil à sua página editorial, com os mesmos nomes usados nas páginas.
 - Nomes, descrições e quebras dos cards vêm de lib/intencoes.ts, compartilhados com o índice e as páginas individuais. Os nomes usam a conjunção e, sem o símbolo &.
 - O resultado da jornada oferece acesso à página da intenção; a introdução permite explorar os oito temas.
@@ -10,6 +11,7 @@
 - Todas as imagens dos cards de intenção usam o mesmo traçado interno branco de 1px, inclusive no índice e nos cards verticais da jornada no celular. O traçado fica mais evidente em hover/foco; o recuo acompanha o tamanho da imagem.
 - Imagens dos cards em `public/assets/intentions/`, com mapa em `lib/intencoes.ts` e instruções no README da pasta. Cinco fotos foram reaproveitadas da jornada. Foco e clareza, Energia e renovação e Oração e cerimônia têm arquivos WebP temporários identificados; basta substituí-los mantendo os nomes.
 - Força e coragem usa o slug `forca-e-coragem`. Sua página só lista produtos que já tenham esse termo nos atributos públicos; esta alteração não cadastra termos nem reclassifica produtos no WooCommerce.
+- Para preencher essa intenção, a seleção de seis rapés e o cadastro proposto estão no [repasse de Força e coragem](FORCA-E-CORAGEM-REPASSE.md). A execução foi delegada por Danilo ao responsável pelo WooCommerce e está pendente.
 - Cada página busca produtos na Store API e os relaciona por intenção principal ou secundária.
 - Os cards e fichas de produto mostram as classificações cadastradas e levam às páginas do tema.
 - O filtro “Buscar por intenção” (`intencao`) inclui correspondências na intenção principal ou nas secundárias, com paginação. Links antigos com filtros separados continuam compatíveis.

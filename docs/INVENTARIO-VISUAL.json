@@ -369,7 +369,7 @@
         },
         {
           "file": "app/globals.css",
-          "count": 9
+          "count": 12
         }
       ]
     },
@@ -402,7 +402,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 49
+          "count": 50
         }
       ]
     },
@@ -413,7 +413,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 81
+          "count": 82
         }
       ]
     },
@@ -424,7 +424,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 8
+          "count": 9
         }
       ]
     },
@@ -468,7 +468,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 34
+          "count": 36
         }
       ]
     },
@@ -479,7 +479,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 37
+          "count": 38
         }
       ]
     },
@@ -523,7 +523,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 2
+          "count": 3
         }
       ]
     },
@@ -534,7 +534,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 2
+          "count": 3
         }
       ]
     },
@@ -545,7 +545,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 7
+          "count": 8
         }
       ]
     },
@@ -1844,37 +1844,43 @@
       "file": "app/globals.css",
       "selector": ".intentions-breadcrumb",
       "property": "font-size",
-      "value": "0.8125rem"
+      "value": "var(--type-ui)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intentions-breadcrumb",
+      "property": "line-height",
+      "value": "1.5"
     },
     {
       "file": "app/globals.css",
       "selector": ".intentions-intro h1, .intention-detail h1",
       "property": "font-family",
-      "value": "Georgia, \"Times New Roman\", serif"
+      "value": "var(--font-primary)"
     },
     {
       "file": "app/globals.css",
       "selector": ".intentions-intro h1, .intention-detail h1",
       "property": "font-size",
-      "value": "clamp(3rem, 8vw, 6.75rem)"
+      "value": "clamp(2.5rem, 5.5vw, 5.5rem)"
     },
     {
       "file": "app/globals.css",
       "selector": ".intentions-intro h1, .intention-detail h1",
       "property": "font-weight",
-      "value": "400"
+      "value": "var(--weight-extrabold)"
     },
     {
       "file": "app/globals.css",
       "selector": ".intentions-intro h1, .intention-detail h1",
       "property": "letter-spacing",
-      "value": "-0.055em"
+      "value": "-0.035em"
     },
     {
       "file": "app/globals.css",
       "selector": ".intentions-intro h1, .intention-detail h1",
       "property": "line-height",
-      "value": "0.98"
+      "value": "1.05"
     },
     {
       "file": "app/globals.css",
@@ -1892,19 +1898,25 @@
       "file": "app/globals.css",
       "selector": ".intention-card-title",
       "property": "font-family",
-      "value": "Georgia, \"Times New Roman\", serif"
+      "value": "var(--font-primary)"
     },
     {
       "file": "app/globals.css",
       "selector": ".intention-card-title",
       "property": "font-size",
-      "value": "clamp(1.5rem, 3vw, 2.2rem)"
+      "value": "clamp(1.25rem, 1.6vw, 1.5rem)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intention-card-title",
+      "property": "font-weight",
+      "value": "var(--weight-bold)"
     },
     {
       "file": "app/globals.css",
       "selector": ".intention-card-title",
       "property": "line-height",
-      "value": "1.1"
+      "value": "1.2"
     },
     {
       "file": "app/globals.css",
@@ -2054,13 +2066,19 @@
       "file": "app/globals.css",
       "selector": ".intentions-index .intention-card-title",
       "property": "font-size",
-      "value": "clamp(0.8125rem, 3.5vw, 1rem)"
+      "value": "1rem"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intentions-index .intention-card-title",
+      "property": "line-height",
+      "value": "1.25"
     },
     {
       "file": "app/globals.css",
       "selector": ".intentions-index .intention-card-meaning",
       "property": "font-size",
-      "value": "clamp(0.6875rem, 3vw, 0.8125rem)"
+      "value": "var(--type-ui)"
     },
     {
       "file": "app/globals.css",
@@ -2072,31 +2090,43 @@
       "file": "app/globals.css",
       "selector": ".intentions-index .intention-card-link",
       "property": "font-size",
-      "value": "0.75rem"
+      "value": "var(--type-action)"
     },
     {
       "file": "app/globals.css",
       "selector": ".intention-detail h1",
       "property": "font-size",
-      "value": "clamp(2rem, 5vw, 3.5rem)"
+      "value": "clamp(2.25rem, 4vw, 3.5rem)"
     },
     {
       "file": "app/globals.css",
       "selector": ".intention-detail h1",
       "property": "line-height",
-      "value": "1.1"
+      "value": "1.05"
     },
     {
       "file": "app/globals.css",
       "selector": ".intention-detail-lede",
       "property": "font-size",
-      "value": "1rem"
+      "value": "var(--type-editorial-body)"
     },
     {
       "file": "app/globals.css",
       "selector": ".intention-detail-lede",
       "property": "line-height",
       "value": "1.6"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intention-products .section-heading h2",
+      "property": "font-size",
+      "value": "var(--type-subsection-title)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intention-products .section-heading h2",
+      "property": "line-height",
+      "value": "1.1"
     },
     {
       "file": "app/globals.css",
@@ -2174,25 +2204,43 @@
       "file": "app/globals.css",
       "selector": ".intention-pager span",
       "property": "font-size",
-      "value": "0.75rem"
+      "value": "var(--type-label)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intention-pager span",
+      "property": "line-height",
+      "value": "1.5"
     },
     {
       "file": "app/globals.css",
       "selector": ".intention-pager strong",
       "property": "font-family",
-      "value": "Georgia, \"Times New Roman\", serif"
+      "value": "var(--font-primary)"
     },
     {
       "file": "app/globals.css",
       "selector": ".intention-pager strong",
       "property": "font-size",
-      "value": "clamp(0.95rem, 2vw, 1.25rem)"
+      "value": "clamp(1rem, 1.5vw, 1.125rem)"
     },
     {
       "file": "app/globals.css",
       "selector": ".intention-pager strong",
       "property": "font-weight",
-      "value": "400"
+      "value": "var(--weight-semibold)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intention-pager strong",
+      "property": "letter-spacing",
+      "value": "-0.015em"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intention-pager strong",
+      "property": "line-height",
+      "value": "1.35"
     },
     {
       "file": "app/globals.css",

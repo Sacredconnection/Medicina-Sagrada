@@ -74,7 +74,7 @@ Somente SVGs com caminho referenciado no código entram nesta tabela; arquivos a
 
 **Principal: Proxima Nova.** Stack: `"proxima-nova", "Segoe UI", "Avenir Next", Arial, sans-serif`. Adobe Fonts, kit `vjh7vll`, carregado por `components/adobe-fonts-stylesheet.tsx`. Os fallbacks são alternativas técnicas quando a fonte não carrega, não famílias de marca adicionais.
 
-**Apoio editorial: Georgia.** Stack: `Georgia, "Times New Roman", serif`. Aplicação atual: títulos das páginas individuais de intenção e navegação anterior/próximo. O índice de intenções e seus cards usam Proxima Nova, assim como corpo, catálogo, produto, header e Aprenda.
+**Intenções:** índice, cards, páginas individuais e navegação anterior/próximo usam Proxima Nova. Os títulos das subpáginas têm peso 800; a navegação inferior usa peso 600. No índice em celular, títulos de card usam 1rem e descrições 0,875rem.
 
 ## 7. Tamanhos e pesos em uso
 
@@ -103,7 +103,7 @@ Os valores em rem acompanham a configuração do navegador. Como referência, 1r
 | `--weight-extrabold` | 800 |
 | `--weight-black` | 900 |
 
-Corpo global: peso 400 e entrelinha 1,55. h1 global: peso 800 e entrelinha 0,94. Títulos globais usam tracking -0,035em. Labels de seção: 700, caixa alta e tracking 0,1em. Aprenda usa labels locais de 0,6875rem, peso 700 e tracking 0,12em. O índice de intenções usa Proxima Nova, peso 800 e tracking -0,035em; seus cards usam peso 700. Títulos das páginas individuais de intenção mantêm Georgia. Preços e quantidades usam números tabulares onde implementado.
+Corpo global: peso 400 e entrelinha 1,55. h1 global: peso 800 e entrelinha 0,94. Títulos globais usam tracking -0,035em. Labels de seção: 700, caixa alta e tracking 0,1em. Aprenda usa labels locais de 0,6875rem, peso 700 e tracking 0,12em. Índice e páginas individuais de intenção usam Proxima Nova, peso 800 e tracking -0,035em; seus cards usam peso 700. Preços e quantidades usam números tabulares onde implementado.
 
 ## 8. Escalas de títulos por superfície
 
@@ -114,7 +114,7 @@ Corpo global: peso 400 e entrelinha 1,55. h1 global: peso 800 e entrelinha 0,94.
 | Hero secundário | `clamp(1.8rem, 2.45vw, 2.65rem)` | `1.06` | `.hero-title-secondary` |
 | Título de produto vigente | `clamp(2rem, 3.2vw, 3rem)` | `1.08` | `.product-page .product-summary h1` |
 | Intenções: índice | `clamp(3rem, 5.5vw, 5.5rem)` | `1` | `.intentions-index .intentions-intro h1` |
-| Intenção: página individual | `clamp(2rem, 5vw, 3.5rem)` | `1.1` | `.intention-detail h1` |
+| Intenção: página individual | `clamp(2.25rem, 4vw, 3.5rem)` | `1.05` | `.intention-detail h1` |
 | Intenções: cards | `clamp(1.25rem, 1.6vw, 1.5rem)` | `1.15` | `.intentions-index .intention-card-title` |
 | Aprenda: índice | `herdado` | `1.06` | `.learn-intro h1` |
 | Aprenda: guia | `herdado` | `herdado` | `.learn-guide-article .learn-intro h1` |

@@ -43,6 +43,7 @@ test("índice reúne oito intenções e conecta Força e coragem à jornada comp
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Força e coragem");
   await page.goto("/intencoes/");
   const matcher = page.locator("#descubra-seu-rape");
+  await expect(page.locator(".intentions-list .intention-card")).toHaveCount(8);
   const normalize = (text: string) => text.replace(/\s+/g, " ").trim();
   const indexTitles = (await page.locator(".intentions-list .intention-card-title").allTextContents()).map(normalize);
   const indexDescriptions = (await page.locator(".intentions-list .intention-card-meaning").allTextContents()).map(normalize);

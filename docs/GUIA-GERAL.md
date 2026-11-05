@@ -101,7 +101,7 @@ Mapa completo: [Rotas e APIs](ROTAS-E-APIS.md). Principais superfícies: home, b
 
 Imagens: preferir WebP sRGB; vetores: SVG; nomes minúsculos com hífens, sem acentos. PSD, AI, INDD e TIFF editáveis ficam fora de `public`. Não embutir textos de interface em fundos. Dimensões recomendadas e nomes estão nos [contratos de assets](CONTEUDO-E-ASSETS.md).
 
-A home pode recorrer a `demoProducts` se a consulta falhar ou retornar vazia. Essa apresentação não comprova estoque ou compra disponível. Intenções editoriais não são promessas de efeito ou orientações de segurança. [Integração de intenções](INTENCOES-WOOCOMMERCE.md).
+A home pode recorrer a `demoProducts` se a consulta falhar ou retornar vazia. Essa apresentação não comprova estoque ou compra disponível. Intenções editoriais não são promessas de efeito ou orientações de segurança. [Integração de intenções](INTENCOES-WOOCOMMERCE.md). O [repasse de Força e coragem](FORCA-E-CORAGEM-REPASSE.md) reúne os seis produtos selecionados e o cadastro pendente com o responsável pelo WooCommerce.
 
 ## 8. Execução e manutenção
 

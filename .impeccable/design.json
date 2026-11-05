@@ -209,7 +209,7 @@
   ],
   "narrative": {
     "northStar": "Floresta, origem e clareza",
-    "overview": "Este nome é uma síntese documental provisória, não uma nova direção aprovada.\nA vitrine combina fotografias, superfícies verdes profundas e áreas brancas de\nleitura. A descoberta é editorial; escolhas comerciais usam controles diretos,\npreços legíveis e feedback explícito. Proxima Nova é a base; títulos de intenções usam Georgia.",
+    "overview": "Este nome é uma síntese documental provisória, não uma nova direção aprovada.\nA vitrine combina fotografias, superfícies verdes profundas e áreas brancas de\nleitura. A descoberta é editorial; escolhas comerciais usam controles diretos,\npreços legíveis e feedback explícito. Proxima Nova é a base, incluindo índice, páginas individuais e navegação de intenções.",
     "keyCharacteristics": [
       "Fotografia como contexto de origem e descoberta.",
       "Verdes estruturais com acentos quentes em ações editoriais.",
@@ -234,7 +234,7 @@
       },
       {
         "name": "Shared Voice",
-        "body": "Reutilize Proxima Nova e os papéis existentes; preserve Georgia no contexto de intenções antes de criar uma família adicional.",
+        "body": "Reutilize Proxima Nova e os papéis existentes em todo o fluxo de intenções, incluindo títulos e navegação.",
         "section": "typography"
       }
     ],

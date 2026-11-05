@@ -51,7 +51,7 @@ export async function Header() {
       crafts,
     ];
   }
-  items.push({ label: "Aprenda", href: "/aprenda/", children: [{ label: "Blog", href: "/blog/" }] });
+  items.push({ label: "Aprenda", href: "/aprenda/", children: [{ label: "Intenções", href: "/intencoes/" }, { label: "Blog", href: "/blog/" }] });
   const rapeCategory = categories.find((category) => category.slug === "rape");
   if (rapeCategory) {
     const products = await getProducts({ categoryId: rapeCategory.id, perPage: 12 }).catch(() => []);
