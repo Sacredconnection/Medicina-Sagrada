@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
 import { Catalog } from "@/components/catalog";
+import { ExpandableDescription } from "@/components/expandable-description";
 import { OtherEthnicityProducts } from "@/components/other-ethnicity-products";
 import { parseCatalogQuery, catalogSearch, type SearchValues } from "@/lib/catalog-query";
 import { canonicalizeEthnicityNames, getEthnicityTheme } from "@/lib/ethnicity-colors";
@@ -152,7 +153,16 @@ export default async function ProductCategoryPage({
         <h1 className={ethnicityTheme ? "ethnicity-title" : undefined}>
           {categoryName}
         </h1>
-        {parsed.page === 1 ? (
+        {parsed.page === 1 && ethnicityTheme ? (
+          <ExpandableDescription key={parsed.basePath}>
+            <RichText
+              html={getCategoryDescription(parsed.basePath, category.description)}
+              className="category-description"
+              textFilter={canonicalizeEthnicityNames}
+              removeHeadings
+            />
+          </ExpandableDescription>
+        ) : parsed.page === 1 ? (
           <RichText
             html={getCategoryDescription(parsed.basePath, category.description)}
             className="category-description"

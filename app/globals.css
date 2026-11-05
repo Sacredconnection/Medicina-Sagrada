@@ -1019,6 +1019,15 @@ strong, b { font-weight: var(--weight-bold); }
 .archive-header h1, .article-header h1 { font-size: clamp(2.5rem, 6vw, 4.8rem); }
 .product-summary h1 { font-size: clamp(2.25rem, 4vw, 4.25rem); letter-spacing: -0.03em; line-height: 0.98; }
 .archive-header .rich-text { margin-top: 1.5rem; }
+.expandable-description { margin-top: 1.5rem; }
+.expandable-description-content { scroll-margin-top: calc(var(--sticky-offset) + 1rem); }
+.archive-header .expandable-description .rich-text { margin-top: 0; }
+.expandable-description[data-expanded="false"] .rich-text { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; }
+.expandable-description-toggle { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.75rem; margin-top: .5rem; padding: 0; border: 0; background: transparent; color: var(--forest-800); font: inherit; font-weight: var(--weight-semibold); cursor: pointer; text-decoration: underline; text-underline-offset: .2em; }
+.expandable-description-toggle:hover { color: var(--brand-orange); }
+.expandable-description-toggle:focus-visible { outline: 2px solid var(--forest-800); outline-offset: 3px; }
+.expandable-description-toggle svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.expandable-description[data-expanded="true"] .expandable-description-toggle svg { transform: rotate(180deg); }
 .category-editorial {
   --category-editorial-accent: var(--forest-650);
   max-width: 72rem;
@@ -2599,6 +2608,7 @@ strong, b { font-weight: var(--weight-bold); }
 .nav-list > li { position: static; }
 .navigation-disclosure > summary { display: flex; align-items: center; justify-content: space-between; gap: .35rem; cursor: pointer; list-style: none; }
 .navigation-disclosure > summary::-webkit-details-marker { display: none; }
+:is(.nav-list, .mobile-nav-list) .navigation-disclosure > summary > a { flex: 1; min-width: 0; min-height: inherit; align-items: center; padding: 0; border: 0; color: inherit; font: inherit; letter-spacing: inherit; text-transform: inherit; }
 .navigation-disclosure > summary svg { width: .8rem; height: .8rem; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform 160ms ease; }
 .navigation-disclosure[open] > summary svg { transform: rotate(180deg); }
 :is(.nav-list, .mobile-nav-list) .navigation-disclosure[data-active] > summary,
