@@ -236,12 +236,16 @@
 .intention-card:focus-visible, .intention-pager a:focus-visible { outline: 2px solid var(--forest-650); outline-offset: 4px; }
 .intentions-index .intentions-page { max-width: 72rem; }
 .intentions-index .intentions-breadcrumb { margin-bottom: var(--group-space-large); }
-.intentions-index .intentions-intro { display: grid; max-width: none; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: var(--group-space-large); margin-bottom: var(--group-space-large); }
+.intentions-index .intentions-intro { display: grid; max-width: none; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: var(--group-space-large); margin-bottom: var(--group-space-large); }
+.intentions-intro-copy { display: grid; min-width: 0; gap: var(--group-space-medium); }
 .intentions-index .intentions-intro h1 { max-width: none; margin: 0; color: var(--forest-800); font-family: var(--font-primary); font-size: clamp(3rem, 5.5vw, 5.5rem); font-weight: var(--weight-extrabold); letter-spacing: -0.035em; line-height: 1; overflow-wrap: anywhere; }
 .intentions-index .intentions-lede { max-width: 36ch; margin: 0; color: var(--forest-800); font-size: clamp(1.125rem, 1.6vw, 1.4rem); }
-.intentions-journey { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem var(--group-space-small); margin-top: var(--group-space-medium); }
-.intentions-journey-prompt { margin: 0; color: var(--muted); font-size: var(--type-body-small); }
-.intentions-journey-button { text-decoration: none; }
+.intentions-journey { display: grid; min-width: 0; justify-items: start; gap: var(--group-space-small); margin: 0; padding: var(--group-space-medium); border-radius: var(--radius); background: var(--forest-800); color: var(--white); }
+.intentions-journey h2 { margin: 0; color: var(--white); font-size: clamp(1.35rem, 2vw, 1.625rem); font-weight: var(--weight-bold); letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance; }
+.intentions-journey-prompt { margin: 0; color: var(--white); font-size: var(--type-body-small); line-height: 1.6; }
+.intentions-journey .intentions-journey-button { max-width: 100%; background: var(--white); color: var(--forest-800); text-align: center; text-decoration: none; }
+.intentions-journey .intentions-journey-button:is(:hover, :focus-visible) { color: var(--cta-on-accent); transform: none; }
+.intentions-journey .intentions-journey-button:focus-visible { outline: 2px solid var(--white); outline-offset: 4px; }
 .intentions-index .intentions-list { width: 100%; margin-inline: 0; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--section-space-compact) var(--group-space-medium); border-top: 0; }
 .intentions-index .intention-card { min-width: 0; grid-template-rows: auto minmax(2.5em, auto) 1fr auto; align-content: start; gap: 0.75rem; margin: 0; padding: 0; border: 0; }
 .intention-card-media { --intention-image-radius: var(--radius, 0.75rem); position: relative; display: block; overflow: hidden; aspect-ratio: 3 / 4; background: var(--forest-800); border-radius: var(--intention-image-radius); }

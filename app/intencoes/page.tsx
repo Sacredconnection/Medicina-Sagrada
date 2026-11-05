@@ -17,14 +17,15 @@ export default function IntentionsPage() {
         <Link href="/">Início</Link><span aria-hidden="true">/</span><span>Intenções</span>
       </nav>
       <header className="intentions-intro">
-        <h1>Intenções</h1>
         <div className="intentions-intro-copy">
+          <h1>Intenções</h1>
           <p className="intentions-lede">Explore as {intentions.length} intenções e conheça os produtos relacionados a cada uma.</p>
-          <div className="intentions-journey">
-            <p className="intentions-journey-prompt">Quer ajuda para escolher seu rapé? Responda ao questionário sobre sua intenção e experiência e receba uma sugestão para o seu momento.</p>
-            <Link className="button intentions-journey-button" href="/questionario/">Responder ao questionário</Link>
-          </div>
         </div>
+        <section className="intentions-journey" aria-labelledby="intentions-help-title">
+            <h2 id="intentions-help-title">Precisa de ajuda para escolher seu rapé?</h2>
+            <p className="intentions-journey-prompt">Responda ao questionário sobre sua intenção e experiência e receba uma sugestão para o seu momento.</p>
+            <Link className="button intentions-journey-button" href="/questionario/">Responder ao questionário</Link>
+        </section>
       </header>
       <section className="intentions-list" aria-label="Explore as intenções">
         {intentions.map((intention, index) => (
