@@ -54,6 +54,7 @@
     "components/category-editorial-index.tsx",
     "components/category-editorial.tsx",
     "components/contact-page.tsx",
+    "components/expandable-description.tsx",
     "components/footer.tsx",
     "components/header-navigation.tsx",
     "components/header.tsx",
@@ -88,6 +89,7 @@
     "components/responsive-surface-image.tsx",
     "components/returns-page.tsx",
     "components/rich-text.tsx",
+    "components/route-scroll-reset.tsx",
     "components/scroll-to-top-link.tsx",
     "components/shipping-calculator.tsx",
     "components/wholesale-page.tsx",
@@ -163,7 +165,7 @@
         },
         {
           "file": "app/globals.css",
-          "count": 135
+          "count": 137
         }
       ]
     },
@@ -286,7 +288,7 @@
         },
         {
           "file": "app/globals.css",
-          "count": 103
+          "count": 105
         }
       ]
     },
@@ -312,7 +314,7 @@
         },
         {
           "file": "app/globals.css",
-          "count": 29
+          "count": 37
         }
       ]
     },
@@ -323,7 +325,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 36
+          "count": 34
         }
       ]
     },
@@ -334,7 +336,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 9
+          "count": 10
         }
       ]
     },
@@ -397,7 +399,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 47
+          "count": 48
         }
       ]
     },
@@ -673,7 +675,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 14
+          "count": 15
         }
       ]
     },
@@ -2922,12 +2924,6 @@
     },
     {
       "file": "app/globals.css",
-      "selector": ".scroll-hint::before",
-      "property": "background",
-      "value": "linear-gradient(90deg, transparent, var(--cta-accent))"
-    },
-    {
-      "file": "app/globals.css",
       "selector": ".category-tile-image",
       "property": "border",
       "value": "1px solid rgba(18, 55, 42, 0.2)"
@@ -2965,12 +2961,6 @@
     {
       "file": "app/globals.css",
       "selector": ".category-tile:is(:hover, :focus-visible) .category-tile-image",
-      "property": "border-color",
-      "value": "rgba(239, 73, 41, 0.62)"
-    },
-    {
-      "file": "app/globals.css",
-      "selector": ".category-tile:is(:hover, :focus-visible) .category-tile-image",
       "property": "box-shadow",
       "value": "0 0.35rem 0.8rem rgba(11, 38, 29, 0.1), 0 1.35rem 2.8rem rgba(11, 38, 29, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.98)"
     },
@@ -2979,12 +2969,6 @@
       "selector": ".category-tile:is(:hover, :focus-visible) .category-tile-image::after",
       "property": "border-color",
       "value": "rgba(255, 255, 255, 0.72)"
-    },
-    {
-      "file": "app/globals.css",
-      "selector": ".category-tile:is(:hover, :focus-visible) .category-tile-image::after",
-      "property": "box-shadow",
-      "value": "inset 0 0 0 1px rgba(239, 73, 41, 0.22)"
     },
     {
       "file": "app/globals.css",
@@ -3068,7 +3052,7 @@
       "file": "app/globals.css",
       "selector": ".category-tile:is(:hover, :focus-visible) .category-tile-cta",
       "property": "box-shadow",
-      "value": "0 0.45rem 1.1rem rgba(239, 73, 41, 0.22)"
+      "value": "0 0.45rem 1.1rem rgba(11, 38, 29, 0.22)"
     },
     {
       "file": "app/globals.css",
@@ -3326,7 +3310,7 @@
       "file": "app/globals.css",
       "selector": ".applicator-card:is(:hover, :focus-visible) .applicator-card-cta",
       "property": "color",
-      "value": "#fff4f0"
+      "value": "var(--white)"
     },
     {
       "file": "app/globals.css",
@@ -3762,27 +3746,21 @@
     },
     {
       "file": "app/globals.css",
+      "selector": ".matcher-intention-card:focus-visible",
+      "property": "outline",
+      "value": "2px solid var(--white)"
+    },
+    {
+      "file": "app/globals.css",
       "selector": ".matcher-card-frame",
       "property": "border",
       "value": "1px solid rgba(255, 255, 255, 0.62)"
     },
     {
       "file": "app/globals.css",
-      "selector": ".matcher-card-frame",
-      "property": "box-shadow",
-      "value": "0 0 0 1px rgba(239, 73, 41, 0.72), 0 0 0 2px rgba(18, 55, 42, 0.52), inset 0 0 0 1px rgba(18, 55, 42, 0.2)"
-    },
-    {
-      "file": "app/globals.css",
       "selector": ".matcher-intention-card:is(:hover, :focus-visible) .matcher-card-frame",
       "property": "border-color",
       "value": "rgba(255, 255, 255, 0.86)"
-    },
-    {
-      "file": "app/globals.css",
-      "selector": ".matcher-intention-card:is(:hover, :focus-visible) .matcher-card-frame",
-      "property": "box-shadow",
-      "value": "0 0 0 1px rgba(239, 73, 41, 0.92), 0 0 0 2px rgba(18, 55, 42, 0.68), inset 0 0 0 1px rgba(255, 255, 255, 0.2)"
     },
     {
       "file": "app/globals.css",
@@ -4179,12 +4157,6 @@
       "selector": ".matcher-cart-note",
       "property": "line-height",
       "value": "1.4"
-    },
-    {
-      "file": "app/globals.css",
-      "selector": ".matcher-cart-error",
-      "property": "color",
-      "value": "#ffd0c2"
     },
     {
       "file": "app/globals.css",
@@ -4903,12 +4875,6 @@
     {
       "file": "app/globals.css",
       "selector": ".product-rating",
-      "property": "color",
-      "value": "#ef4929"
-    },
-    {
-      "file": "app/globals.css",
-      "selector": ".product-rating",
       "property": "font-size",
       "value": "var(--type-caption)"
     },
@@ -5115,6 +5081,18 @@
       "selector": ".product-summary h1",
       "property": "line-height",
       "value": "0.98"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".expandable-description-toggle",
+      "property": "background",
+      "value": "transparent"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".expandable-description-toggle",
+      "property": "font-weight",
+      "value": "var(--weight-semibold)"
     },
     {
       "file": "app/globals.css",
@@ -7836,12 +7814,6 @@
     },
     {
       "file": "app/globals.css",
-      "selector": ".social-links a:hover",
-      "property": "background",
-      "value": "rgba(239, 73, 41, 0.05)"
-    },
-    {
-      "file": "app/globals.css",
       "selector": ".footer-bottom",
       "property": "font-size",
       "value": "var(--type-label)"
@@ -8373,6 +8345,12 @@
       "selector": ".product-card .price",
       "property": "font-size",
       "value": "var(--type-body)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ":is(.nav-list, .mobile-nav-list) .navigation-disclosure > summary > a",
+      "property": "letter-spacing",
+      "value": "inherit"
     },
     {
       "file": "app/globals.css",

@@ -178,6 +178,10 @@ explicitamente identificado nos dados; preservar seu foreground canônico.
 **The Action Context Rule.** Compra e CTAs verdes de produto usam #1A4020.
 Os estados laranja usam #EF4929. Preservar os estados específicos de cada
 componente e os apoios já aplicados. Não tornar todo botão laranja.
+O laranja de marca permanece sólido: sem transparência, mistura, gradiente
+ou ajuste de luminosidade, inclusive em bordas, hover, foco e controles
+desabilitados. Sombras usam neutros. `npm.cmd run check:orange` verifica
+os estilos e os vetores de marca contra variantes de laranja.
 
 ## Typography
 

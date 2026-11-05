@@ -98,7 +98,7 @@ As cores dos povos são contextuais e não são cores principais da Medicina Sag
 
 Estados de erro e sucesso, fundos de mídia e detalhes de componentes têm regras locais. Consulte o [inventário técnico](INVENTARIO-VISUAL.json) e a cascata do componente quando precisar alterá-los. Essas declarações ficam fora da paleta de marca; não reutilize uma cor isolada como novo token global.
 
-Sombras, overlays fotográficos e fundos discretos também usam RGBA, gradientes e misturas de cores já presentes. Transparência é um tratamento do componente, não uma nova cor principal. Fórmulas exatas: [inventário visual](INVENTARIO-VISUAL.json). Não extrair uma nova paleta das fotografias.
+O laranja de marca usa sempre #EF4929 sólido, sem transparência, mistura ou gradiente, inclusive em hover, foco, bordas e controles desabilitados. Sombras usam neutros. Execute ${code('npm.cmd run check:orange')} para verificar variantes nos estilos e vetores de marca. Os demais tratamentos de sombras e overlays fotográficos permanecem no [inventário visual](INVENTARIO-VISUAL.json). Não extrair uma nova paleta das fotografias.
 
 ## 5. Vetores referenciados pela interface
 
