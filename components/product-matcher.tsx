@@ -40,7 +40,7 @@ const introImageKeys = {
   "coracao-e-conexao": "heart",
 } as const;
 
-// Oito escolhas editoriais; apenas os perfis com curadoria seguem para experiência.
+// Perfis guiados e temas editoriais compartilham nomes, mas têm caminhos distintos.
 const intentionOptions = intentions.map((intention) => {
   const ritual = ritualIntentions.find((option) => option.intentionSlug === intention.slug);
   return {
@@ -290,7 +290,8 @@ function FinderProduct({
   );
 }
 
-export function ProductMatcher({ products, introTitle }: { products: RitualCatalogProduct[]; introTitle?: React.ReactNode }) {
+export function ProductMatcher({ products = [], introTitle, questionnaire = false }: { products?: RitualCatalogProduct[]; introTitle?: React.ReactNode; questionnaire?: boolean }) {
+  const StepHeading = questionnaire ? "h1" : "h2";
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -309,7 +310,7 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
     energy: "",
     prayer: "",
   });
-  const [step, setStep] = useState<FinderStep>("intro");
+  const [step, setStep] = useState<FinderStep>(questionnaire ? "intention" : "intro");
   const [direction, setDirection] = useState(1);
   const [intention, setIntention] = useState<RitualIntentionId | null>(null);
   const [experience, setExperience] = useState<RitualExperienceId | null>(null);
@@ -568,10 +569,10 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
           <>
           <p aria-live="polite" className="sr-only">
             {step === "intention"
-              ? "Etapa 1 de 3: intenção"
+              ? "Pergunta 1 de 2: intenção"
               : step === "experience"
-                ? "Etapa 2 de 3: experiência"
-                : "Etapa 3 de 3: ritual recomendado"}
+                ? "Pergunta 2 de 2: experiência"
+                : "Seu resultado: ritual recomendado"}
           </p>
           <ol aria-label="Progresso da jornada" className="matcher-progress">
             {progressSteps.map((item, index) => {
@@ -637,13 +638,12 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
                   Em 2 passos simples, descubra o rapé que melhor acompanha o seu
                   momento de consagração.
                 </p>
-                <button
+                <Link
                   className="button matcher-start-button"
-                  onClick={() => goToStep("intention")}
-                  type="button"
+                  href="/questionario/"
                 >
-                  Iniciar Jornada
-                </button>
+                  Responder ao questionário
+                </Link>
                 <Link className="matcher-all-intentions" href="/intencoes/">
                   Explorar as {intentions.length} intenções →
                 </Link>
@@ -654,9 +654,9 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
           {step === "intention" ? (
             <div>
               <div className="matcher-heading">
-                <h2 id="matcher-title" ref={headingRef} tabIndex={-1}>
+                <StepHeading id="matcher-title" ref={headingRef} tabIndex={-1}>
                   O que você busca despertar hoje?
-                </h2>
+                </StepHeading>
                 <p>Escolha a intenção que mais se aproxima do seu momento.</p>
               </div>
               <div className="matcher-options matcher-intention-options">
@@ -674,12 +674,7 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
                   const ritualId = option.ritualId;
 
                   if (!ritualId) {
-                    return (
-                      <Link className="matcher-intention-card" key={option.slug} href={`/intencoes/${option.slug}/`} style={cardStyle}>
-                        {cardContent}
-                        <span className="sr-only">Ver produtos desta intenção</span>
-                      </Link>
-                    );
+                    return <Link className="matcher-intention-card" key={option.slug} href={`/intencoes/${option.slug}/`} style={cardStyle}>{cardContent}</Link>;
                   }
 
                   return (
@@ -698,21 +693,15 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
                   );
                 })}
               </div>
-              <span
-                aria-hidden="true"
-                className="scroll-hint matcher-options-scroll-hint"
-              >
-                Deslize para ver mais
-              </span>
             </div>
           ) : null}
 
           {step === "experience" ? (
             <div className="matcher-experience">
               <div className="matcher-heading">
-                <h2 id="matcher-title" ref={headingRef} tabIndex={-1}>
+                <StepHeading id="matcher-title" ref={headingRef} tabIndex={-1}>
                   Qual a sua relação com a medicina?
-                </h2>
+                </StepHeading>
                 <p>Isso nos ajuda a indicar um perfil coerente com a sua prática.</p>
               </div>
               <div className="matcher-options matcher-experience-options">
@@ -754,9 +743,9 @@ export function ProductMatcher({ products, introTitle }: { products: RitualCatal
             <div className="matcher-result">
               <div className="matcher-result-heading">
                 <div>
-                  <h2 id="matcher-title" ref={headingRef} tabIndex={-1}>
+                  <StepHeading id="matcher-title" ref={headingRef} tabIndex={-1}>
                     {recommendation.titulo}
-                  </h2>
+                  </StepHeading>
                 </div>
                 <p>{recommendation.descricao}</p>
                 {intention ? (

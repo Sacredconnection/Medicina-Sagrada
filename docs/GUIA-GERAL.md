@@ -95,6 +95,7 @@ Mapa completo: [Rotas e APIs](ROTAS-E-APIS.md). Principais superfícies: home, b
 | Produtos, preços e estoque | WooCommerce; adaptadores em `lib/woocommerce.ts` |
 | Conteúdo editorial | WordPress; adaptadores em `lib/wordpress.ts` |
 | Intenções | `lib/intencoes.ts`, `lib/woocommerce.ts`, `app/intencoes/` |
+| Questionário de rapé | `app/questionario/`, `components/product-matcher.tsx`, `lib/rituals-data.ts`; fluxo e limites em [Intenções e WooCommerce](INTENCOES-WOOCOMMERCE.md) |
 | SEO | `lib/seo.ts`, `lib/config.ts`, metadata, sitemap e robots |
 | Fotos e vetores finais | `public/assets/` e README de cada pasta |
 | Downloads públicos | `public/files/` |

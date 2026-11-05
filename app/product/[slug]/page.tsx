@@ -10,7 +10,6 @@ import { ProductIntro } from "@/components/product-intro";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductVariationProvider } from "@/components/product-variation-provider";
 import { ProductMatcher } from "@/components/product-matcher";
-import { toRitualCatalog } from "@/lib/ritual-catalog";
 import { ProductReviews } from "@/components/product-reviews";
 import { ProductCard } from "@/components/product-card";
 import { getReviews } from "@/lib/reviews";
@@ -23,7 +22,7 @@ import {
   productSchema,
 } from "@/lib/seo";
 import { pathMatches } from "@/lib/url";
-import { getAllProducts, getProductBySlug, getProductVariations, getProductCategoryBySlug, getProducts } from "@/lib/woocommerce";
+import { getProductBySlug, getProductVariations, getProductCategoryBySlug, getProducts } from "@/lib/woocommerce";
 
 export const revalidate = 900;
 
@@ -31,9 +30,8 @@ type ProductPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-async function ProductJourney() {
-  const products = await getAllProducts().catch(() => []);
-  return <ProductMatcher products={toRitualCatalog(products)} introTitle={<>Está <strong>indeciso?</strong></>} />;
+function ProductJourney() {
+  return <ProductMatcher introTitle={<>Está <strong>indeciso?</strong></>} />;
 }
 
 export async function generateMetadata({

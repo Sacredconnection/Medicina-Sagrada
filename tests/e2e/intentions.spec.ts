@@ -42,15 +42,14 @@ test("índice reúne oito intenções e conecta Força e coragem à jornada comp
   await page.locator('.intention-card[href="/intencoes/forca-e-coragem/"]').click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Força e coragem");
   await page.goto("/intencoes/");
-  const matcher = page.locator("#descubra-seu-rape");
   await expect(page.locator(".intentions-list .intention-card")).toHaveCount(8);
-  const normalize = (text: string) => text.replace(/\s+/g, " ").trim();
-  const indexTitles = (await page.locator(".intentions-list .intention-card-title").allTextContents()).map(normalize);
-  const indexDescriptions = (await page.locator(".intentions-list .intention-card-meaning").allTextContents()).map(normalize);
-  await matcher.getByRole("button", { name: "Iniciar Jornada" }).click();
+  await expect(page.locator("#descubra-seu-rape")).toHaveCount(0);
+  await page.getByRole("link", { name: "Responder ao questionário", exact: true }).click();
+  await expect(page).toHaveURL(/\/questionario\/$/);
+  const matcher = page.locator("#descubra-seu-rape");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("O que você busca despertar hoje?");
+  await expect(matcher.locator(".matcher-intro")).toHaveCount(0);
   await expect(matcher.locator(".matcher-card-title")).toHaveCount(8);
-  expect((await matcher.locator(".matcher-card-title").allTextContents()).map(normalize)).toEqual(indexTitles);
-  expect((await matcher.locator(".matcher-card-description").allTextContents()).map(normalize)).toEqual(indexDescriptions);
   await matcher.getByRole("button", { name: /Força e\s+coragem/i }).click();
   await matcher.getByRole("button", { name: /Iniciante/ }).click();
   await expect(matcher.getByRole("link", { name: "Conheça esta intenção e seus produtos" })).toHaveAttribute("href", "/intencoes/forca-e-coragem/");
@@ -59,14 +58,16 @@ test("índice reúne oito intenções e conecta Força e coragem à jornada comp
   await expect(page).toHaveURL(/intencao=forca-e-coragem/);
 });
 
-test("home e índice oferecem oito escolhas com acesso às três novas intenções", async ({ page }) => {
-  for (const [route, width] of [["/", 1440], ["/intencoes/", 390]] as const) {
+test("convites levam ao questionário e separam escolhas guiadas das intenções de catálogo", async ({ page }) => {
+  for (const [route, width] of [["/", 1440], ["/intencoes/", 390], ["/product/colar-de-sementes/", 390]] as const) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto(route);
+    await page.getByRole("link", { name: "Responder ao questionário", exact: true }).click();
+    await expect(page).toHaveURL(/\/questionario\/$/);
     const matcher = page.locator("#descubra-seu-rape");
-    await expect(matcher.locator(".matcher-intro-intention-slot")).toHaveCount(8);
-    await matcher.getByRole("button", { name: "Iniciar Jornada" }).click();
-    await expect(matcher.locator(".matcher-intention-card")).toHaveCount(8);
+    await expect(matcher.locator("button.matcher-intention-card")).toHaveCount(5);
+    await page.evaluate(() => document.fonts.ready);
+    await page.screenshot({ path: `output/playwright/questionnaire-flow-${width}.png`, fullPage: true });
     for (const slug of ["foco-e-clareza", "energia-e-renovacao", "oracao-e-cerimonia"]) {
       await expect(matcher.locator(`a.matcher-intention-card[href="/intencoes/${slug}/"]`)).toHaveCount(1);
     }

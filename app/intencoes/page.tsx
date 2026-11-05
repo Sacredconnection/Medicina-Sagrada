@@ -1,9 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ProductMatcher } from "@/components/product-matcher";
 import { intentions, intentionCardImages } from "@/lib/intencoes";
-import { toRitualCatalog } from "@/lib/ritual-catalog";
-import { getAllProducts } from "@/lib/woocommerce";
 
 export const revalidate = 900;
 
@@ -12,8 +9,7 @@ export const metadata = {
   description: "Explore os produtos por intenção e conheça o significado de cada uma.",
 };
 
-export default async function IntentionsPage() {
-  const products = await getAllProducts().catch(() => []);
+export default function IntentionsPage() {
   return (
     <div className="intentions-index">
       <div className="intentions-page container">
@@ -25,8 +21,8 @@ export default async function IntentionsPage() {
         <div className="intentions-intro-copy">
           <p className="intentions-lede">Explore as {intentions.length} intenções e conheça os produtos relacionados a cada uma.</p>
           <div className="intentions-journey">
-            <p className="intentions-journey-prompt">Precisa de ajuda para escolher?</p>
-            <a className="button intentions-journey-button" href="#descubra-seu-rape">Inicie sua jornada</a>
+            <p className="intentions-journey-prompt">Quer ajuda para escolher seu rapé? Responda ao questionário sobre sua intenção e experiência e receba uma sugestão para o seu momento.</p>
+            <Link className="button intentions-journey-button" href="/questionario/">Responder ao questionário</Link>
           </div>
         </div>
       </header>
@@ -43,7 +39,6 @@ export default async function IntentionsPage() {
         ))}
       </section>
       </div>
-      <ProductMatcher products={toRitualCatalog(products)} />
     </div>
   );
 }

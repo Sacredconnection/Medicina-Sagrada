@@ -12,7 +12,6 @@ import { HomeYoutubeSection } from "@/components/home-youtube-section";
 import { JsonLd } from "@/components/json-ld";
 import { LiveHero } from "@/components/live-hero";
 import { ProductMatcher } from "@/components/product-matcher";
-import { toRitualCatalog } from "@/lib/ritual-catalog";
 import { getAllProducts } from "@/lib/woocommerce";
 import { getYouTubeVideos } from "@/lib/youtube";
 import {
@@ -135,7 +134,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <ProductMatcher products={toRitualCatalog(apiProducts)} />
+      <ProductMatcher />
 
       <HomeApplicatorsSection />
 
