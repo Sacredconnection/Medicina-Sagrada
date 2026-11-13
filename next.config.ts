@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { config, isProductionSite } from "./lib/config";
+import { config, isProductionSite } from "./lib/config.ts";
 
 const wordpressOrigin = new URL(
   process.env.WORDPRESS_SITE_URL ?? "https://medicinasagrada.com.br",

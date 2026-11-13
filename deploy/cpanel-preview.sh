@@ -6,6 +6,7 @@ SOURCE=$(git rev-parse --show-toplevel)
 test "$(realpath "$APP")" = "$APP"
 mkdir -p "$APP/tmp"
 exec > "$APP/tmp/deploy.log" 2>&1
+printf 'running\n' > "$APP/tmp/deploy.status"
 trap 'rc=$?; printf "exit=%s\n" "$rc" > "$APP/tmp/deploy.status"' EXIT
 printf 'Deploying commit %s\n' "$(git rev-parse HEAD)"
 git -C "$SOURCE" archive HEAD | tar -x --exclude=server.cjs -C "$APP"
