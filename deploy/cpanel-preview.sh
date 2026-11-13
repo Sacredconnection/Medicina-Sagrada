@@ -8,7 +8,7 @@ mkdir -p "$APP/tmp"
 exec > "$APP/tmp/deploy.log" 2>&1
 trap 'rc=$?; printf "exit=%s\n" "$rc" > "$APP/tmp/deploy.status"' EXIT
 printf 'Deploying commit %s\n' "$(git rev-parse HEAD)"
-git -C "$SOURCE" archive HEAD | tar -x -C "$APP"
+git -C "$SOURCE" archive HEAD | tar -x --exclude=server.cjs -C "$APP"
 cd "$APP"
 set -a
 source deploy/cpanel-staging.env.example
@@ -35,5 +35,6 @@ ln -sfn "$APP/package.json" "$VENV/lib/package.json"
 ln -sfn "$APP/package-lock.json" "$VENV/lib/package-lock.json"
 "$NODE" "$NPM" --prefix "$VENV/lib" install --include=dev --no-audit --no-fund
 "$NODE" "$APP/node_modules/next/dist/bin/next" build --webpack
+cp "$SOURCE/server.cjs" "$APP/server.cjs"
 touch tmp/restart.txt
 printf 'Preview deployment completed\n'
