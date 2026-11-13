@@ -23,7 +23,8 @@ NPM="$NODE_HOME/lib/node_modules/npm/bin/npm-cli.js"
 "$NODE" "$NPM" --version
 # Next loads these same public endpoint settings at build and runtime.
 "$NODE" -e 'const fs=require("fs"); const names=["NODE_ENV","NEXT_PUBLIC_SITE_URL","WORDPRESS_SITE_URL","WORDPRESS_API_URL","WOOCOMMERCE_STORE_API_URL","WOOCOMMERCE_CHECKOUT_URL","WOOCOMMERCE_ACCOUNT_URL","CONTENT_REVALIDATE_SECONDS"]; fs.writeFileSync(".env.production.local",names.map(k=>k+"="+process.env[k]).join("\n")+"\n",{mode:0o600});'
-cloudlinux-selector set --json --interpreter nodejs --app-root apps/medicina-sagrada-teste --env-vars '{"NODE_ENV":"production","NEXT_PUBLIC_SITE_URL":"https://preview.medicinasagrada.com.br","WORDPRESS_SITE_URL":"https://medicinasagrada.com.br","WORDPRESS_API_URL":"https://medicinasagrada.com.br/wp-json","WOOCOMMERCE_STORE_API_URL":"https://medicinasagrada.com.br/wp-json/wc/store/v1","WOOCOMMERCE_CHECKOUT_URL":"https://medicinasagrada.com.br/checkout/","WOOCOMMERCE_ACCOUNT_URL":"https://medicinasagrada.com.br/account/","CONTENT_REVALIDATE_SECONDS":"900"}'
+# The hosting account does not expose the cloudlinux-selector CLI.
+# Next.js reads .env.production.local itself, so the settings also survive restarts.
 # Install in CloudLinux's virtual environment and preserve its module symlink.
 mkdir -p "$VENV/lib/node_modules"
 if [ ! -e "$APP/node_modules" ] && [ ! -L "$APP/node_modules" ]; then
