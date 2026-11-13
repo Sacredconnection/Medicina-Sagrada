@@ -88,6 +88,12 @@ E2E fixa `.next-e2e` no próprio config: variável no terminal não substitui es
 
 ## Evidência da revisão atual
 
+Em 13/11/2026, foram conciliados os 18 commits da `main` remota até `049d0de` com os dois commits locais de preparação de publicação até `a1e1ae5`. A integração preserva a navegação e o questionário novos, o carregamento independente da home, o destaque mensal configurável, as proteções comerciais e os arquivos de temas.
+
+Validação da integração: TypeScript e 106 testes unitários aprovados; lint sem erros, com um aviso em arquivo local ignorado de `outputs/`; 50 cenários E2E gerais aprovados e os dois cenários de catálogo ritual aprovados em execução dedicada. Build de produção com WooCommerce simulado concluiu 31 páginas pré-geradas. `docs:visual:check` confirmou o inventário, a paleta e a tipografia atualizados. Os testes usaram serviços locais e não homologam pagamentos reais.
+
+## Evidência da preparação de publicação de 28/10/2026
+
 Em 28/10/2026, lint/TypeScript e 101 testes unitários passaram. Os 47 cenários E2E passaram, incluindo os dois de Ritual Finder com fixture dedicada. A execução inicial teve falhas de sincronização/seletores nos testes; os cenários afetados foram corrigidos e repetidos. O resumo consolidado está em `artifacts/release-e2e-summary.json`. No Windows, o encerramento dos servidores Playwright precisou ser interrompido após registrar todos os resultados.
 
 O build de produção concluiu 29 páginas pré-geradas. O teste no build com catálogo real confirmou Cidoca a R$ 24–116 em vitrine/PDP/schema, arquivos de temas, compatibilidade de uploads e ausência de erros JavaScript/overflow nos layouts amostrados. Evidências: `artifacts/release-browser-qa.json` e capturas `artifacts/release-*.png`. A auditoria de dependências de produção retornou zero vulnerabilidades (`artifacts/release-npm-audit.json`).
@@ -97,6 +103,50 @@ A variação Cidoca 10 g também foi adicionada a uma sacola nova para conferir 
 A comparação sequencial com o inventário público verificou 338 URLs: 333 páginas responderam corretamente e duas tiveram os redirecionamentos esperados de conta/checkout. As três ausências correspondem somente aos artigos de demonstração já excluídos pelos IDs 10184, 500 e 492. Nenhum caminho comercial do inventário ficou ausente. Inclui 137 produtos, 30 categorias de produtos e 121 arquivos de temas; há caminhos compartilhados entre grupos. Relatório: `artifacts/release-slug-audit.json` e `.md`. Isso não representa todos os URLs históricos do Search Console nem paridade de cada campo Rank Math. Respostas de erro em páginas transmitidas progressivamente podem retornar HTTP 200 com conteúdo de erro/noindex; a auditoria confere também o corpo, sem tratar todo 200 como página válida.
 
 `artifacts/release-check.json` registra os bloqueios externos. O subdomínio checkout responde, mas WordPress ainda informa a origem antiga e redireciona checkout vazio a ela; revalidação remota está desativada e Redis não foi configurado. Nenhum deploy, DNS, pedido ou pagamento foi realizado nesta preparação. E2E usa WooCommerce simulado e não homologa liquidação financeira. O workflow de CI foi preparado localmente, mas ainda não executado no GitHub.
+
+## Evidência da revisão de marca e documentação de 26/10/2026
+
+Atualização de marca em **26/10/2026**: verde principal `#1a4020` e laranja
+principal `#ef4929`. Tokens, logo, favicon, barra do header, transparências e
+tema do navegador foram alinhados. Catálogo e Aprenda foram conferidos em
+1440px e 390px com WooCommerce simulado; cores computadas confirmadas em
+menus, barra, preços, filtro e ações dos guias. Hover/foco de CTA de produto
+confirmou o laranja oficial; hover comercial manteve o verde profundo de apoio.
+Catálogo sem overflow nas duas larguras. Capturas em
+`output/playwright/brand-colors/`, fora do Git. Essa conferência não é uma
+homologação da loja real.
+
+Na complementação da mesma revisão, todos os CTAs dos cards passaram a usar
+`#1a4020` em repouso, incluindo relacionados; hover/foco compartilham `#ef4929`.
+Fundos verdes de seções e painéis institucionais foram alinhados. Home e
+Aprenda tiveram cores de fundo computadas conferidas em 1440px e 390px.
+No Ritual Finder, o gradiente antigo foi substituído por uma camada do verde
+oficial com 88% de opacidade sobre a textura. Capturas específicas:
+`matcher-1440.png` e `matcher-390.png`, na mesma pasta de evidências.
+
+Em **26/10/2026**, revisão documental: `npm.cmd run check` aprovou lint,
+TypeScript e **90 testes unitários**. O inventário foi gerado e
+`npm.cmd run docs:visual:check` confirmou correspondência com o código.
+Links locais da documentação foram verificados. Não foram repetidos build,
+E2E ou consultas à loja real. A inspeção visual posterior das cores está
+registrada acima.
+
+Para manter cores e tipografia documentadas:
+
+```powershell
+npm.cmd run docs:visual
+npm.cmd run docs:visual:check
+```
+
+O inventário lê fontes locais e distingue tokens referenciados de declarações
+sem referência; não detecta seletores mortos nem comprova aparência renderizada.
+
+## Evidência da revisão de 22/10/2026
+
+Em 22/10/2026, `npm.cmd run check` aprovou lint, TypeScript e 85 testes
+unitários; `npm.cmd run test:e2e` aprovou 29 cenários e ignorou 2 que exigem o
+fixture dedicado do Ritual Finder; `npm.cmd run build` concluiu o build de
+produção. A suíte E2E usa WooCommerce simulado e não homologa integrações reais.
 
 ## Evidência da revisão documental anterior
 

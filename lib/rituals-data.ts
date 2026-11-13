@@ -1,3 +1,5 @@
+import type { Intention } from "@/lib/intencoes";
+
 export type RitualIntentionId =
   | "grounding"
   | "strength"
@@ -31,36 +33,42 @@ export type RitualRecommendation = {
 export const ritualIntentions = [
   {
     id: "grounding",
-    label: "Aterramento & Presença",
+    intentionSlug: "aterramento-e-presenca",
+    label: "Aterramento e presença",
     description: "Para voltar ao corpo, ao ritmo e ao momento presente.",
     image: "/assets/home/matcher/aterramento-presenca.webp",
   },
   {
     id: "strength",
-    label: "Força &\nCoragem",
+    intentionSlug: "forca-e-coragem",
+    label: "Força e coragem",
     description: "Para sustentar firmeza, disposição e movimento.",
     image: "/assets/home/matcher/forca-coragem.webp",
   },
   {
     id: "serenity",
-    label: "Silêncio Mental & Paz",
+    intentionSlug: "calma-e-introspeccao",
+    label: "Calma e introspecção",
     description: "Para desacelerar e criar espaço para a quietude.",
     image: "/assets/home/matcher/silencio-mental-paz.webp",
   },
   {
     id: "heart",
-    label: "Abertura do Coração",
+    intentionSlug: "coracao-e-conexao",
+    label: "Coração e conexão",
     description: "Para acolher afeto, presença e conexão.",
     image: "/assets/home/matcher/abertura-coracao.webp",
   },
   {
     id: "purification",
-    label: "Purificação & Limpeza",
+    intentionSlug: "limpeza-e-refrescancia",
+    label: "Limpeza e refrescância",
     description: "Para renovar o ambiente e marcar um novo começo.",
-    image: "/assets/home/matcher/purificacao-limpeza.webp",
+    image: "/assets/intentions/limpeza-e-refrescancia.webp",
   },
 ] as const satisfies ReadonlyArray<{
   id: RitualIntentionId;
+  intentionSlug: Intention["slug"];
   label: string;
   description: string;
   image: string;
@@ -100,7 +108,7 @@ const practitionerDose =
 
 export const ritualsData: Record<RitualKey, RitualRecommendation> = {
   "grounding:beginner": {
-    titulo: "Ritual de Aterramento & Presença",
+    titulo: "Ritual de Aterramento e presença",
     descricao:
       "Uma combinação de perfil tradicional para criar pausa, escuta e contato com o presente.",
     produtoPrincipal: {
@@ -120,7 +128,7 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     preco: "soma-dos-produtos-ao-vivo",
   },
   "grounding:practitioner": {
-    titulo: "Ritual de Aterramento & Firmeza",
+    titulo: "Ritual de Aterramento e Firmeza",
     descricao:
       "Uma escolha de presença densa e estrutura para práticas já estabelecidas.",
     produtoPrincipal: {
@@ -168,7 +176,7 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     preco: "soma-dos-produtos-ao-vivo",
   },
   "strength:practitioner": {
-    titulo: "Ritual de Força & Direção",
+    titulo: "Ritual de Força e Direção",
     descricao:
       "Uma combinação de caráter intenso para quem já cultiva uma prática consciente.",
     produtoPrincipal: {
@@ -192,7 +200,7 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     preco: "soma-dos-produtos-ao-vivo",
   },
   "serenity:beginner": {
-    titulo: "Ritual de Silêncio & Acolhimento",
+    titulo: "Ritual de Silêncio e Acolhimento",
     descricao:
       "Uma escolha aromática para desacelerar o ritmo e preparar um momento de quietude.",
     produtoPrincipal: {
@@ -216,7 +224,7 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     preco: "soma-dos-produtos-ao-vivo",
   },
   "serenity:practitioner": {
-    titulo: "Ritual de Silêncio & Clareza",
+    titulo: "Ritual de Silêncio e Clareza",
     descricao:
       "Um perfil de calma e firmeza para práticas de recolhimento, organização e escuta interior.",
     produtoPrincipal: {
@@ -240,7 +248,7 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     preco: "soma-dos-produtos-ao-vivo",
   },
   "heart:beginner": {
-    titulo: "Ritual de Abertura & Suavidade",
+    titulo: "Ritual de Abertura e Suavidade",
     descricao:
       "Uma escolha floral e acolhedora para conduzir a prática com delicadeza.",
     produtoPrincipal: {
@@ -260,7 +268,7 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     preco: "soma-dos-produtos-ao-vivo",
   },
   "heart:practitioner": {
-    titulo: "Ritual de Coração & Harmonia",
+    titulo: "Ritual de Coração e Harmonia",
     descricao:
       "Uma combinação de ervas ligada à compaixão, ao vínculo e à presença do coração.",
     produtoPrincipal: {
@@ -284,7 +292,7 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     preco: "soma-dos-produtos-ao-vivo",
   },
   "purification:beginner": {
-    titulo: "Ritual de Renovação & Frescor",
+    titulo: "Ritual de Renovação e Frescor",
     descricao:
       "Uma escolha fresca para marcar transições e renovar a atenção com leveza.",
     produtoPrincipal: {
@@ -308,7 +316,7 @@ export const ritualsData: Record<RitualKey, RitualRecommendation> = {
     preco: "soma-dos-produtos-ao-vivo",
   },
   "purification:practitioner": {
-    titulo: "Ritual de Purificação & Clareza",
+    titulo: "Ritual de Purificação e Clareza",
     descricao:
       "Um perfil mentolado e marcante para uma prática de renovação já amadurecida.",
     produtoPrincipal: {

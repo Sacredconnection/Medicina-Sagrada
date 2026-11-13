@@ -2,6 +2,8 @@ import { createServer } from "node:http";
 import { createHash, randomUUID } from "node:crypto";
 
 const sessions = new Map();
+let editorialDelayMs = 0;
+let pendingEditorialRequests = 0;
 const currency = { currency_code: "BRL", currency_minor_unit: 2, currency_symbol: "R$", currency_decimal_separator: ",", currency_thousand_separator: ".", currency_prefix: "R$", currency_suffix: "" };
 const prices = (amount) => ({ ...currency, price: String(amount), regular_price: String(amount), sale_price: String(amount), price_range: null });
 const product = (id, name, slug, amount, extra = {}) => ({ id, name, slug, type: "simple", sku: String(id), permalink: `http://127.0.0.1:4010/product/${slug}/`, description: "<p>Artesanato em sementes.</p>", short_description: "<p>Feito à mão.</p>", prices: prices(amount), price_html: `<span>R$ ${(amount / 100).toFixed(2)}</span>`, images: [], categories: [], review_count: 0, average_rating: "0", on_sale: false, is_in_stock: true, is_purchasable: true, add_to_cart: { minimum: 1, maximum: 3, multiple_of: 1 }, ...extra });
@@ -62,7 +64,20 @@ function snapshot(session) {
 createServer(async (req, res) => {
   const url = new URL(req.url, "http://127.0.0.1:4010");
   const send = (data, status = 200, headers = {}) => { res.writeHead(status, { "Content-Type": "application/json", ...headers }); res.end(JSON.stringify(data)); };
-  if (url.pathname === "/health") return send({ ok: true });
+  if (url.pathname === "/health") return send({ ok: true, pendingEditorialRequests });
+  if (url.pathname === "/__test/editorial-delay" && req.method === "POST") {
+    editorialDelayMs = Math.min(10_000, Math.max(0, Number(url.searchParams.get("ms")) || 0));
+    return send({ editorialDelayMs });
+  }
+  if (url.pathname === "/product-category/artesanato/" && editorialDelayMs) {
+    pendingEditorialRequests += 1;
+    try {
+      await new Promise(resolve => setTimeout(resolve, editorialDelayMs));
+      return send({ error: "Editorial unavailable" }, 404);
+    } finally {
+      pendingEditorialRequests -= 1;
+    }
+  }
   if (url.pathname === "/wp-json/wp/v2/tags") return send(!url.searchParams.has("slug") || url.searchParams.get("slug") === "saberes" ? [{ id: 700, name: "Saberes", slug: "saberes", count: 13, description: "" }] : []);
   if (url.pathname === "/wp-json/wp/v2/posts" && url.searchParams.get("tags") === "700") {
     const page = Number(url.searchParams.get("page") || 1);

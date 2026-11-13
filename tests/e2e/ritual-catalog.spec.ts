@@ -10,8 +10,9 @@ for (const [width, route] of [[1280, "/product/colar-de-sementes/"], [390, "/"]]
     await page.route("**/api/ritual-recommendation/**", request => request.fulfill({ status: 503, json: { error: "Teste de fallback" } }));
     await page.goto(route);
     const matcher = page.locator("section[aria-labelledby='matcher-title']");
-    await matcher.getByRole("button", { name: "Iniciar Jornada" }).click();
-    await matcher.getByRole("button", { name: /Aterramento & Presença/ }).click();
+    await matcher.getByRole("link", { name: "Responder ao questionário" }).click();
+    await expect(page).toHaveURL(/\/questionario\/$/);
+    await matcher.getByRole("button", { name: /Aterramento e presença/i }).click();
     await matcher.locator(".matcher-experience-card").first().click();
     await expect(matcher.locator(".ritual-product").first()).toContainText("Rapé de teste");
     const buy = matcher.getByRole("button", { name: "Comprar apenas o rapé" });

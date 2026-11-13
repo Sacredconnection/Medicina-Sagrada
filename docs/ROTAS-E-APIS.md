@@ -22,6 +22,9 @@ URLs de navegação usam barra final (`trailingSlash: true`). Preserve slugs e h
 | `/aprenda/primeiro-rape/` | Guia Seu primeiro rapé |
 | `/aprenda/escolher-aplicador/` | Guia de aplicadores |
 | `/aprenda/preparar-com-cuidado/` | Guia de incensos/resinas |
+| `/intencoes/` | Índice local dos oito temas editoriais e acesso ao questionário |
+| `/intencoes/{slug}/` | Tema, produtos associados e navegação contextual |
+| `/questionario/` | Jornada guiada por intenção e experiência, com sugestões do catálogo |
 | `/cart/` | Sacola e resumo |
 | `/checkout/` | Encaminha à sacola; GET não inicia checkout |
 | `/account/` | Redirecionamento 307 à conta WooCommerce, sem cache |
@@ -40,6 +43,8 @@ A rota curinga compara o `link` retornado pelo CMS com o caminho pedido. Posts e
 | `estoque=1` | Somente em estoque |
 | `oferta=1` | Somente em oferta |
 | `categoria` | IDs positivos, repetidos ou separados por vírgulas; até 50 únicos |
+| `intencao` | Slug de tema; corresponde à intenção principal ou secundária |
+| `intencao_principal`, `intencao_secundaria` | Parâmetros legados convertidos ao filtro único; a intenção principal válida tem prioridade, e `intencao` explícita sobrepõe ambos |
 | `pagina` | Inteiro 1–1000; fallback 1 |
 
 Faixa inválida é marcada e não enviada à API. Fonte: `lib/catalog-query.ts`. Paginação por caminho é resolvida pela rota correspondente.

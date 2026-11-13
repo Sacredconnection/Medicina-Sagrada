@@ -12,6 +12,7 @@
 | CTAs editoriais | lib/article-cta.ts |
 | Ritual Finder | lib/rituals-data.ts, ritual-recommendation.ts, ritual-product-selection.ts |
 | Cores/aliases de etnias | lib/ethnicity-colors.ts e PRODUCT.md |
+| Intenções editoriais | lib/intencoes.ts, app/intencoes/ e atributos WooCommerce; ver [integração](INTENCOES-WOOCOMMERCE.md) |
 | Banners de etnias | lib/ethnicity-banner-assets.ts e contrato local |
 
 Parte da apresentação institucional é local, mesmo quando a rota depende de página CMS. Editar WordPress não altera todo texto da interface. O menu não é administrável pelo CMS nesta implementação.
@@ -52,7 +53,7 @@ Glossário usa cards estáticos com imagem, nome, resumo, contexto e link. Não 
 
 Guias têm checklist antes dos passos; passos usam uma coluna no mobile e três a partir de 1024px. Declarações finais de aprenda.css prevalecem sobre regras anteriores. Primeiro Rapé tem recortes próprios nos passos 2/3.
 
-[DESIGN local antigo](../app/aprenda/DESIGN.md) permanece preservado: expansores, faixas laterais e alguns valores tipográficos estão desatualizados. README de assets mantém referências antigas de recorte de povos/passos. Dimensões ali são referência de produção; confira recorte atual no CSS e navegador. Esta revisão não substituiu esses arquivos de referência.
+[DESIGN local](../app/aprenda/DESIGN.md) revisado em 26/10/2026: cards estáticos, etiquetas de nome e guias compactos. README de assets mantém referências antigas de recorte de povos/passos. Dimensões ali são referência de produção; confira recorte atual no CSS e navegador.
 
 ## Caminhos de Aprenda
 

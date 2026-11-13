@@ -7,9 +7,9 @@ related_targets: ["app/page.tsx"]
 
 # Home: newsletter
 
-Escopo: seção Persuade ao final da home, abaixo de Conexão Ancestral e antes do footer.
+Estado documental vigente: **27/10/2026**. Modo: Persuade.
+Última seção da home, abaixo de Conexão Ancestral e antes do footer.
 O visitante deixa seu e-mail para receber histórias, conhecimentos, promoções e avisos.
-Integração Mailchimp/WordPress pertence ao parceiro de Danilo; serviço não confirmado.
 
 ## Direction contract
 
@@ -19,20 +19,24 @@ OWN-WORLD: fundo branco, com arte transparente somente acima de 900px; mobile se
 
 STORY: entenda o conteúdo, informe o e-mail e autorize o recebimento.
 
-FIRST VIEWPORT: título e explicação à esquerda; campo, botão e consentimento à direita. Mobile empilha a composição e amplia a ação.
+FIRST VIEWPORT: título, explicação e formulário empilhados na coluna esquerda; metade direita livre para arte. Até 900px, a coluna ocupa a largura disponível. Até 600px, campo e botão empilham.
 
-FORM: extensão direta da home existente; seleção de conceito dispensada para esta adição local. Interação principal: cadastro com validação e estados de envio, erro e confirmação real. Movimento restrito aos estados do botão, respeitando movimento reduzido.
+FORM: extensão da home existente. E-mail, consentimento obrigatório, validação e estados de envio, erro e confirmação conforme resposta do serviço. Preservar movimento reduzido nas regras existentes.
 
-FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+## Visual e assets atuais
 
-## Fechamento em 08/10/2026
+- Fundo desktop sobre toda a seção, com `cover/center` sobre branco.
+- Apenas o arquivo desktop tem contrato ativo em [fundos da newsletter](../../public/assets/home/newsletter/background/README.md). Não preparar fundo mobile.
+- Destaques “saberes” e “ofertas” usam `--forest-650`; corpo e controles usam Proxima Nova e os tokens globais.
+- O contrato de exportação especifica a produção da imagem; não comprova disponibilidade do arquivo ou recorte final.
 
-Revisão independente: **ship**, no escopo da nova seção. Documentação conferida por agente independente em docs/NEWSLETTER.md e indexada em docs/README.md. DESIGN.md e o sidecar existentes permanecem a autoridade; não houve mudança global de sistema nem criação de imagens de produção.
+## Integração e verificação
 
-Lint, tipos e 89 testes passaram. Conferência local de layout em 1440, 768, 390 e 320px, com fluxo e estados do formulário exercitados. Capturas finais válidas em output/playwright/newsletter/desktop.png, tablet.png e mobile.png. Sucessos simulados verificam somente o frontend. Integração Mailchimp/WordPress continua a cargo do parceiro de Danilo, conforme escopo confirmado.
+O endpoint esperado é `POST /api/newsletter/`, sem handler local implementado.
+A integração Mailchimp/WordPress pertence ao parceiro de Danilo; o serviço
+não está confirmado. Sucesso depende de resposta válida do serviço.
 
-## Preparação dos fundos em 08/10/2026
-
-Pedido posterior de Danilo: arte transparente sobre toda a seção, com versões desktop e mobile. Caminhos e dimensões de exportação documentados em public/assets/home/newsletter/background/README.md. O CSS alterna em 900px, usa cover/center e mantém branco sob o canal alpha. As imagens finais aguardam fornecimento; a conferência da arte e de seu recorte ocorre quando elas chegarem.
-
-Slots conferidos no navegador em 1440, 901, 900, 768, 390 e 320px: caminhos corretos, branco de segurança e recorte cover centralizado. Capturas desktop/mobile sem arquivos mantiveram o layout e não apresentaram overflow. Requisições dos dois fundos testadas com respostas transparentes simuladas, removidas ao final; nenhuma arte provisória foi salva em public. Capturas em output/playwright/newsletter/background-prepared-desktop.png e background-prepared-mobile.png.
+Referência funcional e evidências anteriores com suas datas originais:
+[Newsletter](../../docs/NEWSLETTER.md). Esta atualização foi documental,
+conferida contra o componente e o CSS; não representa nova homologação visual
+ou da integração externa.

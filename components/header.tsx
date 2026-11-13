@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { HeaderSearch } from "@/components/header-search";
 import { CartLink } from "@/components/cart-link";
 import { ScrollToTopLink } from "@/components/scroll-to-top-link";
 import { config } from "@/lib/config";
@@ -43,7 +43,16 @@ export async function Header() {
     const category = categories.find((category) => pathnameFromUrl(category.permalink) === item.href);
     return { ...item, children: category ? descendants(category.id) : [] };
   });
-  items.push({ label: "Aprenda", href: "/aprenda/", children: [{ label: "Blog", href: "/blog/" }] });
+  const accessories = items.find((item) => item.href === "/product-category/acessorios/");
+  const craftsIndex = items.findIndex((item) => item.href === "/product-category/artesanato/");
+  if (accessories && craftsIndex >= 0) {
+    const [crafts] = items.splice(craftsIndex, 1);
+    accessories.children = [
+      ...(accessories.children ?? []).filter((item) => item.href !== crafts.href),
+      crafts,
+    ];
+  }
+  items.push({ label: "Aprenda", href: "/aprenda/", children: [{ label: "Intenções", href: "/intencoes/" }, { label: "Blog", href: "/blog/" }] });
   if (monthlyProductSlug) {
     const product = await getProductBySlug(monthlyProductSlug).catch(() => null);
     if (product) {
@@ -94,13 +103,7 @@ export async function Header() {
           <HeaderNavigation items={items} />
         </nav>
         <div className="header-actions" aria-label="Ações da conta e loja">
-          <Link
-            className="header-icon-button header-search-button"
-            href="/busca/"
-            aria-label="Buscar produtos"
-          >
-            <svg className="header-line-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m15.5 15.5 5 5" /></svg>
-          </Link>
+          <HeaderSearch />
           <span className="header-desktop-actions">
             <a className="header-icon-button" href={config.wooAccountUrl} aria-label="Minha conta">
               <AccountIcon />

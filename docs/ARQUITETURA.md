@@ -67,6 +67,9 @@ Componentes abaixo são relativos a `components/`; regras/dados, a `lib/`.
 | Aprenda | `app/aprenda/`, `learn-content.ts`, `learn-people-grid.tsx`, `learn-image-slot.tsx` |
 | Editorial | `wordpress.ts`, `html.ts`, `article-cta.ts`, `article-content.tsx`, `category-editorial.ts` |
 | Etnias | `ethnicity-colors.ts`, `ethnicity-banner-assets.ts`, `other-ethnicity-products.ts` |
+| Intenções | `app/intencoes/`, `intencoes.ts`, `woocommerce.ts`, `intention-sidebar.tsx`, filtros e atributos de produto |
+| Vídeos da home | `youtube.ts`, `home-youtube-section.tsx` |
+| Documentação visual | `scripts/document-visual-system.mjs`, `docs/GUIA-GERAL.md`, `docs/INVENTARIO-VISUAL.json` |
 | SEO | `seo.ts`, `url.ts`, `json-ld.tsx`, `app/robots.ts`, `app/sitemap.ts` |
 | Diagnóstico | `diagnostics.ts`, `commerce-diagnostics.ts`, `diagnostic-request.ts` |
 

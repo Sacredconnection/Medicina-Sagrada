@@ -1,5 +1,9 @@
 # Logotipo
 
+Cores oficiais confirmadas por Danilo em 26/10/2026: verde `#1a4020` e
+laranja `#ef4929`. O SVG horizontal e o favicon foram alinhados; o favicon
+preserva a variante branca no modo escuro.
+
 Coloque nesta pasta o arquivo final com este nome:
 
 `medicina-sagrada-logo-01.svg`

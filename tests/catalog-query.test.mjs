@@ -31,6 +31,9 @@ test("categorias são cumulativas, únicas e preservadas na URL", () => {
 });
 
 test("intenções válidas são preservadas no filtro e valores desconhecidos são descartados", () => {
+  const strength = parseCatalogQuery({ intencao: "forca-e-coragem" });
+  assert.equal(strength.intention, "forca-e-coragem");
+  assert.equal(catalogSearch(strength).get("intencao"), "forca-e-coragem");
   const query = parseCatalogQuery({ intencao_principal: "limpeza-e-refrescancia", intencao_secundaria: "foco-e-clareza" });
   assert.equal(query.intention, "limpeza-e-refrescancia");
   const search = catalogSearch(query);

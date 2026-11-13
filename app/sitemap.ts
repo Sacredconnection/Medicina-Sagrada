@@ -31,6 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   ];
   const intentionPages: MetadataRoute.Sitemap = [
+    { url: absoluteUrl("/questionario/"), changeFrequency: "monthly", priority: 0.6 },
     { url: absoluteUrl("/intencoes/"), changeFrequency: "monthly", priority: 0.7 },
     ...intentions.map(({ slug }) => ({
       url: absoluteUrl(`/intencoes/${slug}/`),

@@ -1,6 +1,13 @@
 # Visão geral e handoff técnico
 
-Revisão: **22/10/2026**.
+Revisão documental: **26/10/2026**. Resultados de integração e testes abaixo
+mantêm suas datas originais. Nesta revisão, `check` passou com 90 unitários;
+build, E2E e serviços externos não foram revalidados.
+
+Para identidade visual, cores, tipografia, componentes e navegação pelos
+documentos, comece pelo [Guia geral](GUIA-GERAL.md). A implementação inclui
+também `/intencoes/` e as sete páginas de tema, filtros e classificação
+editorial dos produtos: [Intenções WooCommerce](INTENCOES-WOOCOMMERCE.md).
 
 Este documento apresenta o estado atual do projeto para continuidade entre o
 frontend e o responsável pelo backend. Ele descreve somente o que existe nesta

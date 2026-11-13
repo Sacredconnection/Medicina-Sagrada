@@ -13,8 +13,10 @@ Especificação recomendada para desktop: **2880 × 1216 px**. Para mobile, use
 cada. Não inclua textos, botões ou logotipos dentro das imagens. Preserve áreas
 livres para o título, a descrição e o botão.
 
-As imagens ocupam a seção inteira, sem card. A seção aplica uma camada verde escura
-sobre a imagem para preservar a identidade
+As imagens ocupam a seção inteira, sem card. Desde 26/10/2026, a base usa
+o verde principal `#1a4020` e a camada sobre a imagem usa o mesmo token
+`--forest-800` com 88% de opacidade, sem o gradiente verde antigo. O grafismo
+permanece visível. Esse tratamento preserva a identidade
 visual e a leitura dos textos. Como o arquivo será recortado com
 `background-size: cover`, deixe margem segura ao redor do assunto principal.
 No mobile, o CSS prioriza o arquivo terminado em `-mobile.webp`; se ele estiver

@@ -4,22 +4,21 @@ description: Sistema visual extraído da vitrine e experiência editorial existe
 colors:
   forest-950: "#0b261d"
   forest-900: "#12372a"
-  forest-800: "#174b37"
-  action-green: "#1a4020"
+  forest-800: "#1a4020"
   forest-650: "#3b6f52"
   leaf-400: "#9bb978"
-  clay-500: "#b86443"
-  sun-400: "#d39c55"
+  clay-500: "#ef4929"
   paper: "#ffffff"
   paper-deep: "#ebe7d9"
   line: "#d9d6c7"
   ink: "#14251d"
   muted: "#68736b"
   white: "#ffffff"
-  brand-orange: "#ef4928"
-  cta-accent: "#ef492b"
+  header-white: "#ffffff"
+  brand-orange: "#ef4929"
+  cta-accent: "#ef4929"
   cta-on-accent: "#06140f"
-  brand-text: "#c1371e"
+  brand-text: "#ef4929"
   apurina: "#83bc43"
   caboclo: "#997052"
   huni-kuin: "#bfa771"
@@ -36,6 +35,12 @@ typography:
     fontSize: "clamp(2.75rem, 5.5vw, 5.5rem)"
     fontWeight: 800
     lineHeight: 0.94
+    letterSpacing: "-0.035em"
+  intention-display:
+    fontFamily: '"proxima-nova", "Segoe UI", "Avenir Next", Arial, sans-serif'
+    fontSize: "clamp(2.25rem, 4vw, 3.5rem)"
+    fontWeight: 800
+    lineHeight: 1.05
     letterSpacing: "-0.035em"
   section-title:
     fontSize: "clamp(2.35rem, 3.3vw, 3.25rem)"
@@ -81,7 +86,6 @@ spacing:
   section-standard: "clamp(4rem, 6vw, 5.5rem)"
   section-major: "clamp(4.5rem, 7vw, 6.5rem)"
   home-section-gap: "clamp(1rem, 2vw, 1.5rem)"
-  group-small: "1rem"
   group-medium: "1.5rem"
   group-large: "2.5rem"
 components:
@@ -102,7 +106,7 @@ components:
   commerce-button-hover:
     backgroundColor: "{colors.forest-950}"
   product-action:
-    backgroundColor: "{colors.forest-950}"
+    backgroundColor: "{colors.forest-800}"
     textColor: "{colors.white}"
     rounded: "{rounded.product-action}"
     padding: "0.7rem 0.9rem"
@@ -123,9 +127,12 @@ components:
 
 ## Overview
 
-Registro do sistema existente em 06/10/2026, extraído de globals.css, aprenda.css,
-componentes e estilos computados da home, Aprenda e Primeiro Rapé em desktop e
-mobile. A documentação descreve a identidade implementada, sem iniciar redesign.
+Revisão documental contra o código em **27/10/2026**, a partir de globals.css, aprenda.css e
+componentes atuais. O [guia geral](docs/GUIA-GERAL.md) reúne cores, tipografia
+e operação; o [inventário visual](docs/INVENTARIO-VISUAL.json) registra referências
+extraídas automaticamente. Na atualização das cores oficiais, catálogo e
+Aprenda foram conferidos em 1440px e 390px, incluindo estados de ação.
+A paleta e a tipografia vigentes estão consolidadas no guia dedicado.
 As seções seguem o [formato DESIGN.md](https://raw.githubusercontent.com/google-labs-code/design.md/main/docs/spec.md).
 
 **Creative North Star: "Floresta, origem e clareza"**
@@ -133,7 +140,7 @@ As seções seguem o [formato DESIGN.md](https://raw.githubusercontent.com/googl
 Este nome é uma síntese documental provisória, não uma nova direção aprovada.
 A vitrine combina fotografias, superfícies verdes profundas e áreas brancas de
 leitura. A descoberta é editorial; escolhas comerciais usam controles diretos,
-preços legíveis e feedback explícito. Proxima Nova unifica as superfícies.
+preços legíveis e feedback explícito. Proxima Nova é a base, incluindo o índice, os cards, as páginas individuais e a navegação de intenções.
 
 **Key Characteristics:**
 
@@ -148,52 +155,52 @@ ser promovidas automaticamente a regra de toda a loja.
 
 ## Colors
 
-Os valores normativos estão no frontmatter; nomes preservam os tokens do código.
+As duas cores principais fixas são **verde #1A4020** e **laranja #EF4929**.
+Não aproximar, substituir ou criar variações dessas cores principais sem nova
+orientação explícita de Danilo. Todos os outros verdes e as cores das etnias
+são apoios aplicados aos contextos existentes.
 
-O verde `action-green` (`#1A4020`) é reservado aos botões e adornos verdes
-(seleções, indicadores, contornos e ícones de controles). Não substitui a
-paleta estrutural nem as cores ou a tipografia de títulos, header e footer.
-Os acentos laranja permanecem nos componentes que já os utilizam.
+O frontmatter registra tokens globais com referência de uso e os acentos dos
+povos. Tokens com o mesmo HEX são aliases de função, não cores adicionais.
+Menus do header usam o verde principal; pequenos títulos de seção, inclusive
+“Recomendações da Medicina Sagrada”, usam o laranja principal.
 
-| Papel | Tokens / aplicação |
-| --- | --- |
-| Primário estrutural | forest-950/900 em superfícies profundas; forest-800 em títulos, links e guias |
-| Ações verdes | action-green em botões, seleções e adornos verdes; mantém os estados de hover e os acentos laranja específicos de cada componente |
-| Apoio | forest-650 e leaf-400 em contrastes de vegetação e destaques institucionais |
-| Acento de marca/ação | brand-orange em marca/destaques; cta-accent em preenchimentos editoriais e hover |
-| Apoio quente | clay-500 e sun-400 em tratamentos contextuais |
-| Neutros | paper/white, paper-deep e line para superfícies/bordas; ink e muted para texto |
-| Texto de acento | cta-on-accent sobre CTA laranja; brand-text para alguns labels de produto |
-| Contextual | dez tokens de etnias, conforme PRODUCT e ethnicity-colors.ts |
+A documentação geral completa está em [Paleta e tipografia](docs/PALETA-E-TIPOGRAFIA.md):
+cores principais, apoios, neutros, estados locais, vetores e tipografia efetiva.
+Cores locais de estados e fórmulas de transparência ficam no
+[inventário técnico](docs/INVENTARIO-VISUAL.json), fora da paleta de marca.
+O inventário registra declarações, inclusive regras sujeitas a overrides;
+confira a cascata antes de assumir que uma cor local aparece na interface.
 
-**The Contextual Accent Rule.** A cor de etnia acompanha somente o povo
-explicitamente identificado; não inferir origem de descrição livre.
+**The Contextual Accent Rule.** A cor de etnia é um apoio exclusivo do povo
+explicitamente identificado nos dados; preservar seu foreground canônico.
 
-**The Action Context Rule.** Preserve o CTA de cada componente. Compra usa
-verde; produto usa verde profundo em repouso e laranja em hover/foco;
-ações editoriais têm contorno e preenchimento animado. Não há regra global
-que torne todo botão laranja no mobile. brand-orange e cta-accent são distintos.
-
-Texto sobre acento de etnia usa preto, exceto Kuntanawa, Shanenawa e Yawanawá,
-que usam branco. Isso se aplica ao fundo de acento, não a toda a tipografia
-do card. Em Aprenda atual, nomes e ações usam esses pares.
+**The Action Context Rule.** Compra e CTAs verdes de produto usam #1A4020.
+Os estados laranja usam #EF4929. Preservar os estados específicos de cada
+componente e os apoios já aplicados. Não tornar todo botão laranja.
+O laranja de marca permanece sólido: sem transparência, mistura, gradiente
+ou ajuste de luminosidade, inclusive em bordas, hover, foco e controles
+desabilitados. Sombras usam neutros. `npm.cmd run check:orange` verifica
+os estilos e os vetores de marca contra variantes de laranja.
 
 ## Typography
 
-Família global Proxima Nova, Adobe Fonts pelo kit vjh7vll, com os fallbacks
-registrados em display. O corpo tem entrelinha confortável; títulos usam
-tracking negativo e text-wrap balance. Labels/ações usam peso forte, caixa
-alta e tracking positivo. Valores de títulos são fluidos; estilos de superfície
-podem substituir o display global, como hero e guias compactos.
+Família principal: Proxima Nova, com fallbacks Segoe UI, Avenir Next, Arial e
+sans-serif. Adobe Fonts: kit vjh7vll. O índice de intenções, seus cards, páginas
+individuais e navegação anterior/próximo usam a mesma família, alinhados à home.
+As subpáginas usam títulos com peso 800 e navegação com peso 600. Nos cards do
+índice no celular, títulos usam 16px e descrições 14px com raiz de 16px.
 
-**The Shared Voice Rule.** Reutilize Proxima Nova e papéis existentes antes
-de criar uma família ou escala adicional.
+Corpo global: 1rem, peso 400, entrelinha 1,55. Pesos em uso: 400, 500, 600,
+700, 800 e 900. Os tamanhos fluidos e overrides de cada superfície estão no
+[guia de paleta e tipografia](docs/PALETA-E-TIPOGRAFIA.md), extraídos do CSS.
+O título da página individual de intenção usa sua escala local, diferente do índice.
+Aprenda mantém Proxima Nova e seus labels locais de 0,6875rem.
 
-Papéis do frontmatter correspondem aos tokens globais, com line-height/pesos
-dos componentes observados. h2 genérico e hero têm escalas próprias no CSS:
-não aplicar section-title indiscriminadamente a todos os títulos. Números
-de preço/quantidade usam tabular-nums. Estilos computados confirmaram corpo
-de 16px nas amostras; isso não prova carregamento da fonte em todo ambiente.
+**The Shared Voice Rule.** Reutilizar as famílias e os papéis existentes.
+Fallback técnico não é família adicional de marca. Não criar escala ou fonte
+com base em explorações antigas. Preços e quantidades usam números tabulares
+onde implementado.
 
 ## Layout
 
@@ -212,8 +219,8 @@ Breakpoints são por componente, não uma escala Tailwind.
 Aprenda e seus guias usam o mesmo container de 80rem do header,
 com as margens responsivas page-gutter. Cards dos povos passam de
 uma para duas colunas em 640px e três em 1024px. Guias internos compactos têm
-três passos lado a lado a partir de 1024px e empilhados no mobile. O documento
-local antigo tem divergências registradas em [Conteúdo e assets](docs/CONTEUDO-E-ASSETS.md).
+três passos lado a lado a partir de 1024px e empilhados no mobile. O
+[design local](app/aprenda/DESIGN.md) registra os overrides atuais.
 
 **The Section Rhythm Rule.** Separe margem externa entre seções de padding
 interno; preserve a exceção explícita do hero sem acumular margens avulsas.
@@ -227,8 +234,8 @@ produtos interativos e diálogos. Não é um sistema global sem sombras.
 O token shadow é uma sombra ampla e suave (0 1.25rem 3rem rgba(11, 38, 29, 0.09)).
 Produto em hover usa sombra menor (0 0.85rem 1.8rem rgba(11, 38, 29, 0.1)).
 Esses valores e sombras de overlays estão no sidecar como extensões.
-As rampas cromáticas do sidecar são explorações sintetizadas em OKLCH para
-visualização; não autorizam substituir as cores canônicas, especialmente etnias.
+Rampas OKLCH sintetizadas foram retiradas do sidecar: não pertencem à paleta
+implementada. Cores locais e transparências permanecem no inventário CSS.
 
 ## Shapes
 
@@ -259,7 +266,9 @@ componente; não padronize todos os raios com um valor único.
 - **Ritual Finder:** sequência de intenção/experiência, resultado e seleção
   de opções reais; imagem contextual não substitui validação comercial.
 - **Aprenda:** cards de guia com CTA verde, povos estáticos com acento por
-  contexto e slots locais; não reconstruir expansores do documento antigo.
+  contexto e slots locais, sem expansores.
+- **Intenções:** índice de oito temas e páginas individuais com Proxima Nova, fotos verticais 3:4 e CTAs verdes com hover/foco laranja,
+  filtros e produtos associados aos atributos públicos do WooCommerce.
 
 Foco global usa outline de 0.2rem no acento com offset de 0.25rem. Algumas
 superfícies têm foco local. Movimento usa transições e transforms pontuais;

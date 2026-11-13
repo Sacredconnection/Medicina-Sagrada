@@ -167,10 +167,11 @@ export function prepareArticleHtml(html: string, media: WordPressMedia[] = []) {
       if (closing) {
         const index = layoutStack.findLastIndex((item) => item.name === name);
         if (index >= 0) layoutStack.splice(index);
+        return name === "row" || name === "col" ? "</div>" : "";
       } else {
         layoutStack.push({ name, visibility: shortcodeAttribute(shortcode, "visibility") });
       }
-      return "";
+      return name === "row" ? '<div class="article-row">' : name === "col" ? '<div class="article-column">' : "";
     }
     if (closing && name === "ux_banner") return "";
 
@@ -217,6 +218,10 @@ export function prepareArticleHtml(html: string, media: WordPressMedia[] = []) {
     .replace(/<\/h[56]>/gi, "</h3>");
 
   const document = parseDocument(cleanHtml(prepared));
+  // WordPress inserts breaks between column shortcodes; they are not grid items.
+  for (const row of findAll((element) => /\barticle-row\b/.test(element.attribs.class ?? ""), document.children)) {
+    row.children.filter((node) => "name" in node && node.name === "br").forEach(removeElement);
+  }
   // Images pasted inside prose or headings are separate editorial media blocks.
   for (const image of findAll((element) => element.name === "img", document.children)) {
     let block = image.parent;
@@ -227,6 +232,8 @@ export function prepareArticleHtml(html: string, media: WordPressMedia[] = []) {
       ? parent : image;
     const figure = parseDocument('<figure class="article-media"></figure>').children[0];
     if (!("children" in figure)) continue;
+    const alignment = (image.attribs.class ?? "").match(/\balign(?:left|right|center|none)\b/)?.[0];
+    if (alignment && "attribs" in figure) figure.attribs.class += ` ${alignment}`;
     removeElement(mediaNode);
     appendChild(figure, mediaNode);
     prepend(block, figure);
@@ -280,6 +287,32 @@ export function prepareArticleHtml(html: string, media: WordPressMedia[] = []) {
     !textContent(element).replace(/\s|\u00a0/g, "") &&
     !findAll((child) => /^(img|iframe|video|audio|source|svg)$/.test(child.name), element.children).length,
   document.children).forEach(removeElement);
+
+  // Builder columns describe the old page, not the reading measure. Flatten them
+  // so missing media never reserves half a row and prose can continue below photos.
+  for (const row of findAll((element) => /\barticle-row\b/.test(element.attribs.class ?? ""), document.children)) {
+    const columns = row.children.filter((node) => "attribs" in node && /\barticle-column\b/.test(node.attribs.class ?? ""));
+    const mediaColumns = columns.filter((column) => "children" in column &&
+      !textContent(column).trim() && findAll((element) => element.name === "figure", column.children).length);
+    // A photo stored after its copy must come first for natural text wrapping.
+    const ordered = [...mediaColumns, ...columns.filter((column) => !mediaColumns.includes(column))];
+    for (const column of ordered) {
+      if (!("children" in column)) continue;
+      for (const child of [...column.children]) {
+        removeElement(child);
+        appendChild(row, child);
+      }
+      removeElement(column);
+    }
+    // Unwrap the row too: subsequent paragraphs should use the space below a photo.
+    for (const child of [...row.children]) {
+      removeElement(child);
+      prepend(row, child);
+    }
+    removeElement(row);
+  }
+  // These breaks were builder separators, not editorial line breaks.
+  document.children.filter((node) => "name" in node && node.name === "br").forEach(removeElement);
 
   // Some old button shortcodes were wrapped in a heading by the editor.
   for (const heading of findAll((element) => /^h[2-4]$/.test(element.name), document.children)) {
@@ -335,6 +368,34 @@ export function prepareArticleHtml(html: string, media: WordPressMedia[] = []) {
     for (const item of photos) {
       removeElement(item);
       appendChild(gallery, item);
+    }
+  }
+  // Restore the editorial text wrap lost when legacy inline styles are sanitized.
+  // Wide banners and galleries keep their full-width composition.
+  for (const photo of findAll((element) => element.name === "figure", document.children)) {
+    if (!isGalleryPhoto(photo) || (photo.parent && "attribs" in photo.parent &&
+      /\barticle-gallery\b/.test(photo.parent.attribs.class ?? ""))) continue;
+    photo.attribs.class = `${photo.attribs.class ?? ""} article-photo-wrap`.trim();
+    // A closing photo belongs with the final prose, rather than an empty line
+    // after it. Stop at another photo or a section heading to keep its context.
+    let following = photo.next;
+    while (following && "data" in following && !following.data.trim()) following = following.next;
+    if (!following || ("attribs" in following && /\barticle-(?:sources|inline-cta|shop-cta)\b/.test(following.attribs.class ?? ""))) {
+      let previous = photo.prev;
+      let firstParagraph: typeof photo | undefined;
+      let length = 0;
+      while (previous) {
+        if ("data" in previous && !previous.data.trim()) { previous = previous.prev; continue; }
+        if (!("attribs" in previous) || previous.name !== "p") break;
+        firstParagraph = previous;
+        length += textContent(previous).length;
+        if (length >= 450) break;
+        previous = previous.prev;
+      }
+      if (firstParagraph) {
+        removeElement(photo);
+        prepend(firstParagraph, photo);
+      }
     }
   }
   return getOuterHTML(document, { encodeEntities: false });
