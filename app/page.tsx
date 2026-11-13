@@ -76,7 +76,7 @@ export default function Home() {
       <section className="category-rail-wrap" aria-labelledby="categorias-title">
         <div className="container">
           <div className="section-heading category-rail-heading">
-            <h2 id="categorias-title">Nossas Categorias</h2>
+            <h2 id="categorias-title">Explore nossas categorias</h2>
             <p className="category-rail-subtitle">
               Tradição e respeito: medicinas e artesanatos originais, direto das aldeias.
             </p>
