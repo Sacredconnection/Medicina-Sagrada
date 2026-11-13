@@ -15,6 +15,7 @@ set -a
 source deploy/cpanel-staging.env.example
 set +a
 export NEXT_TELEMETRY_DISABLED=1
+export NEXT_BUILD_CPUS=2
 NODE_HOME=/opt/alt/alt-nodejs24/root/usr
 VENV=/home/medsagra/nodevenv/apps/medicina-sagrada-teste/24
 export PATH="$NODE_HOME/bin:$PATH"

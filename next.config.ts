@@ -24,6 +24,9 @@ const reportOnlyCsp = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  ...(Number.isInteger(Number(process.env.NEXT_BUILD_CPUS)) && Number(process.env.NEXT_BUILD_CPUS) > 0
+    ? { experimental: { cpus: Number(process.env.NEXT_BUILD_CPUS) } }
+    : {}),
   distDir: process.env.NEXT_DIST_DIR ?? ".next",
   compress: true,
   poweredByHeader: false,
