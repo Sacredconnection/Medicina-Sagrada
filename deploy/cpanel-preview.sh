@@ -1,0 +1,27 @@
+#!/bin/bash
+# cPanel Git deployment: main -> preview.medicinasagrada.com.br.
+set -eo pipefail
+APP=/home/medsagra/apps/medicina-sagrada-teste
+SOURCE=$(git rev-parse --show-toplevel)
+test "$(realpath "$APP")" = "$APP"
+mkdir -p "$APP/tmp"
+exec > "$APP/tmp/deploy.log" 2>&1
+trap 'rc=$?; printf "exit=%s\n" "$rc" > "$APP/tmp/deploy.status"' EXIT
+printf 'Deploying commit %s\n' "$(git rev-parse HEAD)"
+git -C "$SOURCE" archive HEAD | tar -x -C "$APP"
+cd "$APP"
+set -a
+source deploy/cpanel-staging.env.example
+set +a
+export NEXT_TELEMETRY_DISABLED=1
+source /home/medsagra/nodevenv/apps/medicina-sagrada-teste/24/bin/activate
+node --version
+npm --version
+# Next loads these same public endpoint settings at build and runtime.
+node -e 'const fs=require("fs"); const names=["NODE_ENV","NEXT_PUBLIC_SITE_URL","WORDPRESS_SITE_URL","WORDPRESS_API_URL","WOOCOMMERCE_STORE_API_URL","WOOCOMMERCE_CHECKOUT_URL","WOOCOMMERCE_ACCOUNT_URL","CONTENT_REVALIDATE_SECONDS"]; fs.writeFileSync(".env.production.local",names.map(k=>k+"="+process.env[k]).join("\n")+"\n",{mode:0o600});'
+cloudlinux-selector set --json --interpreter nodejs --app-root apps/medicina-sagrada-teste --env-vars '{"NODE_ENV":"production","NEXT_PUBLIC_SITE_URL":"https://preview.medicinasagrada.com.br","WORDPRESS_SITE_URL":"https://medicinasagrada.com.br","WORDPRESS_API_URL":"https://medicinasagrada.com.br/wp-json","WOOCOMMERCE_STORE_API_URL":"https://medicinasagrada.com.br/wp-json/wc/store/v1","WOOCOMMERCE_CHECKOUT_URL":"https://medicinasagrada.com.br/checkout/","WOOCOMMERCE_ACCOUNT_URL":"https://medicinasagrada.com.br/account/","CONTENT_REVALIDATE_SECONDS":"900"}'
+# Preserve CloudLinux's node_modules symlink; include TypeScript for the build.
+npm install --include=dev --no-audit --no-fund
+npm run build -- --webpack
+touch tmp/restart.txt
+printf 'Preview deployment completed\n'
