@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Medicina Sagrada — Conexão Headless
  * Description: Revalidação do catálogo e conclusão da sacola do frontend Next.js. Os pagamentos continuam no plugin oficial Pagar.me.
- * Version: 1.3.0
+ * Version: 1.3.1
  * Requires PHP: 7.4
  * Requires Plugins: woocommerce
  */
@@ -225,8 +225,17 @@ add_action( 'rest_api_init', function () {
                             return new WP_Error( 'unavailable', 'WooCommerce indisponível.', array( 'status' => 503 ) );
                         }
                         $orders = wc_get_orders( array( 'customer_id' => $user->ID, 'type' => 'shop_order', 'limit' => 10, 'orderby' => 'date', 'order' => 'DESC' ) );
-                        $result = array( 'name' => $user->display_name, 'email' => $user->user_email, 'orders' => array_map( function ( $order ) {
-                            return array( 'id' => $order->get_order_number(), 'status' => wc_get_order_status_name( $order->get_status() ), 'total' => html_entity_decode( wp_strip_all_tags( $order->get_formatted_order_total() ), ENT_QUOTES, 'UTF-8' ) );
+                        $result = array( 'name' => $user->display_name, 'email' => $user->user_email, 'orders' => array_map( function ( $order ) use ( $params ) {
+                            $summary = array( 'id' => $order->get_order_number(), 'status' => wc_get_order_status_name( $order->get_status() ), 'total' => html_entity_decode( wp_strip_all_tags( $order->get_formatted_order_total() ), ENT_QUOTES, 'UTF-8' ) );
+                            if ( (string) $summary['id'] === ( $params['order'] ?? '' ) ) {
+                                $date = $order->get_date_created();
+                                $summary['date'] = $date ? wc_format_datetime( $date ) : '';
+                                $summary['payment'] = $order->get_payment_method_title();
+                                $summary['items'] = array_values( array_map( function ( $item ) use ( $order ) {
+                                    return array( 'name' => $item->get_name(), 'quantity' => $item->get_quantity(), 'amount' => html_entity_decode( wp_strip_all_tags( $order->get_formatted_line_subtotal( $item ) ), ENT_QUOTES, 'UTF-8' ) );
+                                }, $order->get_items() ) );
+                            }
+                            return $summary;
                         }, $orders ) );
                         $customer = new WC_Customer( $user->ID );
                         $result['addresses'] = array( 'billing' => $customer->get_data()['billing'], 'shipping' => $customer->get_data()['shipping'] );

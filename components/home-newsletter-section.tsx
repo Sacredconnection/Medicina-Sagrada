@@ -72,7 +72,7 @@ export function HomeNewsletterSection({
   }
 
   return (
-    <section className="newsletter-section" id="newsletter" aria-labelledby="newsletter-title">
+    <section className="newsletter-section" style={{ borderTop: "2px solid #cad6c9", backgroundColor: "#f6f8f3" }} id="newsletter" aria-labelledby="newsletter-title">
       <div className="container newsletter-layout">
         <div className="newsletter-copy">
           <h2 id="newsletter-title">Histórias, <span>saberes</span> e <span>ofertas</span> no seu e-mail.</h2>

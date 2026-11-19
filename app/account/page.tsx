@@ -5,12 +5,12 @@ import { accountRequest, cookieName } from "./api";
 import { login, logout, register, recover } from "./actions";
 
 export const metadata = { title: "Minha conta", robots: { index: false, follow: false } };
-export default async function Account({ searchParams }: { searchParams: Promise<{ error?: string; tab?: string; sent?: string; saved?: string }> }) {
+export default async function Account({ searchParams }: { searchParams: Promise<{ error?: string; tab?: string; sent?: string; saved?: string; order?: string }> }) {
   let profile: AccountProfile | undefined;
-  let { error, tab, sent, saved } = await searchParams;
+  let { error, tab, sent, saved, order } = await searchParams;
   if ((await cookies()).has(cookieName)) {
     try {
-      const response = await accountRequest("profile");
+      const response = await accountRequest("profile", typeof order === "string" ? { order } : {});
       if (response.ok) profile = await response.json();
       else error = response.status === 401 ? "expired" : "unavailable";
     } catch { error = "unavailable"; }
@@ -21,7 +21,7 @@ export default async function Account({ searchParams }: { searchParams: Promise<
       <h1>Minha conta</h1>
       {profile && <form action={logout}><button className={styles.exit}>Sair da conta</button></form>}
     </header>
-    {profile ? <CustomerArea profile={profile} tab={tab} saved={saved} /> : <div className={styles.login}>
+    {profile ? <CustomerArea profile={profile} tab={tab} saved={saved} order={order} /> : <div className={styles.login}>
       <nav aria-label="Acesso à conta" className={styles.tabs}>
         <a href="/account/" aria-current={tab !== "register" ? "page" : undefined}>Entrar</a>
         <a href="/account/?tab=register" aria-current={tab === "register" ? "page" : undefined}>Cadastre-se</a>
