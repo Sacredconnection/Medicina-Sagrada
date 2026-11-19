@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Medicina Sagrada — Conexão Headless
  * Description: Revalidação do catálogo e conclusão da sacola do frontend Next.js. Os pagamentos continuam no plugin oficial Pagar.me.
- * Version: 1.0.1
+ * Version: 1.1.0
  * Requires PHP: 7.4
  * Requires Plugins: woocommerce
  */
@@ -124,3 +124,56 @@ add_action( 'save_post', function ( $post_id ) {
 add_action( 'woocommerce_product_set_stock', 'ms_headless_schedule_revalidation' );
 add_action( 'woocommerce_variation_set_stock', 'ms_headless_schedule_revalidation' );
 add_action( 'edited_product_cat', 'ms_headless_schedule_revalidation' );
+
+add_action( 'rest_api_init', function () {
+    foreach ( array( 'login', 'profile', 'logout' ) as $action ) {
+        register_rest_route( 'ms-account/v1', '/' . $action, array(
+            'methods' => 'POST',
+            'permission_callback' => function ( $request ) {
+                return defined( 'MS_REVALIDATION_SECRET' ) && strlen( MS_REVALIDATION_SECRET ) >= 32
+                    && hash_equals( 'Bearer ' . hash_hmac( 'sha256', 'ms-account-v1', MS_REVALIDATION_SECRET ), $request->get_header( 'authorization' ) );
+            },
+            'callback' => function ( $request ) use ( $action ) {
+                $params = $request->get_json_params();
+                if ( 'login' === $action ) {
+                    $login = trim( (string) ( $params['login'] ?? '' ) );
+                    $limit = 'ms_login_' . hash( 'sha256', strtolower( $login ) );
+                    $attempts = (int) get_transient( $limit );
+                    if ( $attempts >= 8 ) {
+                        return new WP_Error( 'rate_limit', 'Aguarde antes de tentar novamente.', array( 'status' => 429 ) );
+                    }
+                    $user = wp_authenticate( $login, (string) ( $params['password'] ?? '' ) );
+                    if ( is_wp_error( $user ) ) {
+                        set_transient( $limit, $attempts + 1, 10 * MINUTE_IN_SECONDS );
+                        return new WP_Error( 'invalid_login', 'Credenciais inválidas.', array( 'status' => 401 ) );
+                    }
+                    delete_transient( $limit );
+                    $session = bin2hex( random_bytes( 32 ) );
+                    set_transient( 'ms_customer_' . hash( 'sha256', $session ), $user->ID, HOUR_IN_SECONDS );
+                    $result = array( 'session' => $session );
+                } else {
+                    $key = 'ms_customer_' . hash( 'sha256', (string) ( $params['session'] ?? '' ) );
+                    $user = get_userdata( (int) get_transient( $key ) );
+                    if ( ! $user ) {
+                        return new WP_Error( 'expired', 'Sessão expirada.', array( 'status' => 401 ) );
+                    }
+                    if ( 'logout' === $action ) {
+                        delete_transient( $key );
+                        $result = array( 'ok' => true );
+                    } else {
+                        if ( ! function_exists( 'wc_get_orders' ) ) {
+                            return new WP_Error( 'unavailable', 'WooCommerce indisponível.', array( 'status' => 503 ) );
+                        }
+                        $orders = wc_get_orders( array( 'customer_id' => $user->ID, 'type' => 'shop_order', 'limit' => 10, 'orderby' => 'date', 'order' => 'DESC' ) );
+                        $result = array( 'name' => $user->display_name, 'email' => $user->user_email, 'orders' => array_map( function ( $order ) {
+                            return array( 'id' => $order->get_order_number(), 'status' => wc_get_order_status_name( $order->get_status() ), 'total' => html_entity_decode( wp_strip_all_tags( $order->get_formatted_order_total() ), ENT_QUOTES, 'UTF-8' ) );
+                        }, $orders ) );
+                    }
+                }
+                $response = rest_ensure_response( $result );
+                $response->header( 'Cache-Control', 'private, no-store' );
+                return $response;
+            },
+        ) );
+    }
+} );
