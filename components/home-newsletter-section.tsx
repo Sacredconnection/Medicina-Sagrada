@@ -57,7 +57,7 @@ export function HomeNewsletterSection({
         throw new Error(unavailableMessage);
       }
 
-      setMessage("Solicitação recebida! Se for necessário confirmar seu e-mail, você receberá as instruções na sua caixa de entrada.");
+      setMessage(String(values.get("email")).trim());
       form.reset();
     } catch (failure) {
       setError(
@@ -82,7 +82,12 @@ export function HomeNewsletterSection({
           </p>
         </div>
 
-        <form
+        {message ? (
+          <div tabIndex={-1} ref={node => { node?.focus({ preventScroll: true }); }} aria-labelledby="newsletter-success-title" aria-describedby="newsletter-success-detail" style={{ background: "#edf5ef", color: "#173c29", borderLeft: "4px solid #346849", borderRadius: ".5rem", padding: "1.5rem", overflowWrap: "anywhere" }}>
+            <h3 id="newsletter-success-title"><span aria-hidden="true">✓ </span>Inscrição recebida!</h3>
+            <p id="newsletter-success-detail">Você cadastrou o e-mail <strong>{message}</strong>. Se receber uma mensagem de confirmação, clique no link para concluir.</p>
+          </div>
+        ) : <form
           className="newsletter-form"
           method="post"
           onSubmit={submit}
@@ -128,8 +133,7 @@ export function HomeNewsletterSection({
           </label>
 
           {error ? <p className="newsletter-feedback commerce-error" role="alert">{error}</p> : null}
-          {message ? <p className="newsletter-feedback" role="status">{message}</p> : null}
-        </form>
+        </form>}
       </div>
     </section>
   );
