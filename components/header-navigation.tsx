@@ -77,17 +77,37 @@ function MobileFeaturedProduct({ feature }: { feature: NavigationFeature }) {
 }
 
 function Branch({ item, mobile, pathname, group = "mobile-navigation" }: { item: NavigationItem; mobile: boolean; pathname: string; group?: string }) {
+  const openedByHover = useRef(false);
   if (!item.children?.length) return <Link href={item.href} aria-current={isCurrentPage(pathname, item.href) ? "page" : undefined}>{item.label}</Link>;
 
   return (
     <details className="navigation-disclosure" data-active={isCurrentSection(pathname, item) || undefined} name={mobile ? group : "desktop-navigation"}
+      onPointerEnter={(event) => {
+        if (!mobile && event.pointerType === "mouse" && !event.currentTarget.open) {
+          openedByHover.current = true;
+          event.currentTarget.open = true;
+        }
+      }}
+      onPointerLeave={(event) => {
+        if (event.pointerType === "mouse" && openedByHover.current &&
+            !event.currentTarget.contains(document.activeElement)) {
+          event.currentTarget.open = false;
+          openedByHover.current = false;
+        }
+      }}
       onToggle={(event) => {
+        if (!event.currentTarget.open) openedByHover.current = false;
         if (!mobile || event.currentTarget.open) return;
         event.currentTarget.querySelectorAll<HTMLDetailsElement>("details[open]").forEach((detail) => { detail.open = false; });
       }}
       onBlur={(event) => { if (!mobile && !event.currentTarget.contains(event.relatedTarget)) event.currentTarget.open = false; }}
     >
-      <summary>
+      <summary onClick={(event) => {
+        if (event.detail > 0 && openedByHover.current && event.currentTarget.parentElement?.hasAttribute("open")) {
+          event.preventDefault();
+          openedByHover.current = false;
+        }
+      }}>
         {item.label}
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
       </summary>
