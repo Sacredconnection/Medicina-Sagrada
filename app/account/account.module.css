@@ -1,0 +1,28 @@
+﻿.page {
+  width: min(52rem, calc(100% - 2rem));
+  margin-inline: auto;
+  padding-block: clamp(2rem, 5vw, 4rem);
+  color: var(--forest-950);
+}
+.header, .identity { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem; }
+.header { justify-content: space-between; }
+.header h1 { margin: 0; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; }
+.exit, .login button { min-height: 44px; border-radius: 2rem; padding-inline: 1.2rem; cursor: pointer; font: inherit; font-weight: 600; }
+.exit { background: white; color: var(--forest-800); border: 1px solid var(--line); }
+.exit:hover { background: var(--paper-soft); }
+.identity { margin-block: .75rem 2rem; overflow-wrap: anywhere; }
+.identity span { color: var(--muted); }
+.panel, .login { border: 1px solid var(--line); border-radius: 1rem; background: white; }
+.panel { overflow: hidden; }
+.panel h2 { margin: 0; padding: 1.3rem clamp(.8rem, 3vw, 1.6rem); font-size: 1.45rem; }
+.panel table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+.panel td, .panel th { padding: .9rem clamp(.45rem, 2vw, 1.6rem); text-align: left; border-top: 1px solid var(--line); }
+.panel thead { background: var(--paper-soft); font-size: .85rem; }
+.panel tr > :last-child { text-align: right; white-space: nowrap; }
+.panel p { padding-inline: 1.5rem; }
+.status { display: inline-block; padding: .25rem .55rem; background: #edf2ed; color: #254730; border-radius: .45rem; font-size: .85rem; }
+.login { margin-top: 1.5rem; padding: clamp(1rem, 3vw, 2rem); display: grid; max-width: 29rem; gap: 1.2rem; }
+.login label { display: grid; gap: .45rem; font-weight: 600; }
+.login input { width: 100%; min-height: 46px; border: 1px solid #99a79c; border-radius: .5rem; padding-inline: .8rem; font: inherit; }
+.login button { background: var(--forest-800); border: 0; color: white; }
+.login p[role="alert"] { margin: 0; color: #87371f; }

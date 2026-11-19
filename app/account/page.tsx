@@ -1,3 +1,4 @@
+﻿import styles from "./account.module.css";
 import { cookies } from "next/headers";
 import { accountRequest, cookieName } from "./api";
 import { login, logout } from "./actions";
@@ -15,15 +16,24 @@ export default async function Account({ searchParams }: { searchParams: Promise<
     } catch { error = "unavailable"; }
   }
   const messages: Record<string, string> = { credentials: "Confira seu usuário e sua senha.", expired: "Sua sessão expirou. Entre novamente.", limit: "Aguarde alguns minutos antes de tentar novamente.", unavailable: "O serviço da conta está indisponível. Tente novamente em instantes." };
-  return <main className="container" style={{ paddingBlock: "3rem", maxWidth: "44rem" }}>
-    <h1>Minha conta</h1>
-    {error && messages[error] && <p role="alert">{messages[error]}</p>}
+  return <main className={styles.page}>
+    <header className={styles.header}>
+      <h1>Minha conta</h1>
+      {profile && <form action={logout}><button className={styles.exit}>Sair da conta</button></form>}
+    </header>
     {profile ? <>
-      <p>{profile.name} · {profile.email}</p>
-      <h2>Últimos pedidos</h2>
-      {profile.orders.length ? <ul>{profile.orders.map(order => <li key={order.id}>Pedido #{order.id} · {order.status} · {order.total}</li>)}</ul> : <p>Você ainda não tem pedidos.</p>}
-      <form action={logout}><button type="submit">Sair da conta</button></form>
-    </> : <form action={login} style={{ display: "grid", gap: "1rem", maxWidth: "26rem" }}>
+      <div className={styles.identity}><strong>{profile.name}</strong><span>{profile.email}</span></div>
+      <section className={styles.panel} aria-labelledby="orders-title">
+        <h2 id="orders-title">Últimos pedidos</h2>
+        {profile.orders.length ? <table>
+          <thead><tr><th scope="col">Pedido</th><th scope="col">Situação</th><th scope="col">Total</th></tr></thead>
+          <tbody>{profile.orders.map(order => <tr key={order.id}>
+            <th scope="row">#{order.id}</th><td><span className={styles.status}>{order.status}</span></td><td>{order.total}</td>
+          </tr>)}</tbody>
+        </table> : <p>Você ainda não tem pedidos.</p>}
+      </section>
+    </> : <form className={styles.login} action={login}>
+      {error && messages[error] && <p role="alert">{messages[error]}</p>}
       <label>E-mail ou usuário<input name="login" autoComplete="username" required /></label>
       <label>Senha<input type="password" name="password" autoComplete="current-password" required /></label>
       <button type="submit">Entrar</button>
