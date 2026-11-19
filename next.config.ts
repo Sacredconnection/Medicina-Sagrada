@@ -84,7 +84,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: `frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; script-src-attr 'none'; frame-src ${allowedPlayers}; report-uri /api/csp-report/; report-to csp`,
+            value: `frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://medicinasagrada.us20.list-manage.com; script-src-attr 'none'; frame-src ${allowedPlayers}; report-uri /api/csp-report/; report-to csp`,
           },
           {
             key: "Content-Security-Policy-Report-Only",

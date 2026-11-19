@@ -4,8 +4,6 @@ import { Suspense, type CSSProperties } from "react";
 import { BenefitsStrip } from "@/components/benefits-strip";
 import { HomeApplicatorsSection } from "@/components/home-applicators-section";
 import { HomeConexaoAncestralSection } from "@/components/home-conexao-ancestral-section";
-import { HomeNewsletterSection } from "@/components/home-newsletter-section";
-import { newsletterConfiguration } from "@/lib/newsletter";
 import { HomeCraftsSection } from "@/components/home-crafts-section";
 import { HomeKits, HomeProducts, HomeVideos, RitualJourney } from "@/components/home-live-sections";
 import { JsonLd } from "@/components/json-ld";
@@ -239,7 +237,6 @@ export default function Home() {
 
       <HomeConexaoAncestralSection />
 
-      {newsletterConfiguration() ? <HomeNewsletterSection /> : null}
 
       </div>
 
