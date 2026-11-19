@@ -38,3 +38,15 @@ async function requestEmail(action: "register" | "recover", form: FormData) {
 }
 export async function register(form: FormData) { await requestEmail("register", form); }
 export async function recover(form: FormData) { await requestEmail("recover", form); }
+
+export async function saveAccount(form: FormData) {
+  const section = String(form.get("section") ?? "");
+  const tab = section === "details" ? "details" : "addresses";
+  const body: Record<string, string> = { section };
+  for (const key of ["name","email","password","new_password","first_name","last_name","company","address_1","address_2","city","state","postcode","country"]) {
+    body[key] = String(form.get(key) ?? "");
+  }
+  let saved = false;
+  try { saved = (await accountRequest("save", body)).ok; } catch { /* Show retry feedback. */ }
+  redirect("/account/?tab=" + tab + "&saved=" + (saved ? "1" : "0"));
+}

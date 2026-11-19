@@ -1,4 +1,4 @@
-﻿.page {
+.page {
   width: min(52rem, calc(100% - 2rem));
   margin-inline: auto;
   padding-block: clamp(2rem, 5vw, 4rem);
@@ -34,3 +34,13 @@
 .login .check { display: flex; align-items: center; gap: .6rem; }
 .login .check input { width: 1.1rem; height: 1.1rem; min-height: 0; }
 .login h2 { font-size: 1.4rem; }
+.customerArea { display:grid;grid-template-columns:minmax(9rem,1fr) minmax(0,3fr);align-items:start;gap:1rem;margin-top:1.5rem }
+.accountNav,.editForm {display:grid;gap:.5rem}
+.accountNav a,.address summary {padding:.75rem;cursor:pointer}
+.accountNav a[aria-current] {background:#edf2ed;border-radius:.4rem;font-weight:700}
+.sectionBody,.editForm {padding:1rem}
+.sectionBody p {padding:0}
+.editForm label {display:grid;gap:.3rem}
+.editForm input:not([type=hidden]) {padding:.6rem;border:1px solid var(--line);border-radius:.3rem;min-width:0;width:100%}
+.address + .address {border-top:1px solid var(--line)}
+@media(max-width:650px){.customerArea{grid-template-columns:1fr}.accountNav{grid-template-columns:repeat(2,minmax(0,1fr))}}
