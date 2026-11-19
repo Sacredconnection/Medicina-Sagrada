@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Medicina Sagrada — Conexão Headless
  * Description: Revalidação do catálogo e conclusão da sacola do frontend Next.js. Os pagamentos continuam no plugin oficial Pagar.me.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Requires PHP: 7.4
  * Requires Plugins: woocommerce
  */
@@ -126,7 +126,7 @@ add_action( 'woocommerce_variation_set_stock', 'ms_headless_schedule_revalidatio
 add_action( 'edited_product_cat', 'ms_headless_schedule_revalidation' );
 
 add_action( 'rest_api_init', function () {
-    foreach ( array( 'login', 'profile', 'logout' ) as $action ) {
+    foreach ( array( 'login', 'profile', 'logout', 'register', 'recover' ) as $action ) {
         register_rest_route( 'ms-account/v1', '/' . $action, array(
             'methods' => 'POST',
             'permission_callback' => function ( $request ) {
@@ -135,7 +135,37 @@ add_action( 'rest_api_init', function () {
             },
             'callback' => function ( $request ) use ( $action ) {
                 $params = $request->get_json_params();
-                if ( 'login' === $action ) {
+                if ( in_array( $action, array( 'register', 'recover' ), true ) ) {
+                    $identity = trim( (string) ( $params['identity'] ?? '' ) );
+                    if ( ! $identity || strlen( $identity ) > 254 || ( 'register' === $action && ! is_email( $identity ) ) ) {
+                        return new WP_Error( 'invalid', 'Dados inv?lidos.', array( 'status' => 400 ) );
+                    }
+                    $limit = 'ms_email_' . hash( 'sha256', $action . strtolower( $identity ) );
+                    if ( get_transient( $limit ) ) {
+                        return new WP_Error( 'rate_limit', 'Aguarde.', array( 'status' => 429 ) );
+                    }
+                    set_transient( $limit, 1, 5 * MINUTE_IN_SECONDS );
+                    if ( 'register' === $action ) {
+                        if ( ! function_exists( 'wc_create_new_customer' ) || 'yes' !== get_option( 'woocommerce_enable_myaccount_registration' ) ) {
+                            return new WP_Error( 'unavailable', 'Cadastro indispon?vel.', array( 'status' => 503 ) );
+                        }
+                        if ( ! email_exists( $identity ) ) {
+                            if ( '1' === ( $params['newsletter'] ?? '' ) ) {
+                                $_POST['mailchimp_woocommerce_newsletter'] = '1';
+                            }
+                            $customer = wc_create_new_customer( $identity );
+                            if ( is_wp_error( $customer ) ) {
+                                return new WP_Error( 'unavailable', 'Cadastro indispon?vel.', array( 'status' => 503 ) );
+                            }
+                        }
+                    } else {
+                        $sent = retrieve_password( $identity );
+                        if ( is_wp_error( $sent ) && ! in_array( $sent->get_error_code(), array( 'invalid_email', 'invalidcombo', 'invalid_username' ), true ) ) {
+                            return new WP_Error( 'unavailable', 'Envio indispon?vel.', array( 'status' => 503 ) );
+                        }
+                    }
+                    $result = array( 'accepted' => true );
+                } elseif ( 'login' === $action ) {
                     $login = trim( (string) ( $params['login'] ?? '' ) );
                     $limit = 'ms_login_' . hash( 'sha256', strtolower( $login ) );
                     $attempts = (int) get_transient( $limit );
@@ -149,7 +179,7 @@ add_action( 'rest_api_init', function () {
                     }
                     delete_transient( $limit );
                     $session = bin2hex( random_bytes( 32 ) );
-                    set_transient( 'ms_customer_' . hash( 'sha256', $session ), $user->ID, HOUR_IN_SECONDS );
+                    set_transient( 'ms_customer_' . hash( 'sha256', $session ), $user->ID, ( $params['remember'] ?? '0' ) === '1' ? 14 * DAY_IN_SECONDS : HOUR_IN_SECONDS );
                     $result = array( 'session' => $session );
                 } else {
                     $key = 'ms_customer_' . hash( 'sha256', (string) ( $params['session'] ?? '' ) );

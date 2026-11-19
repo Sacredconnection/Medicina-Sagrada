@@ -26,3 +26,11 @@
 .login input { width: 100%; min-height: 46px; border: 1px solid #99a79c; border-radius: .5rem; padding-inline: .8rem; font: inherit; }
 .login button { background: var(--forest-800); border: 0; color: white; }
 .login p[role="alert"] { margin: 0; color: #87371f; }
+.tabs { display: flex; border-bottom: 1px solid var(--line); }
+.tabs a { flex: 1; padding: .8rem; text-align: center; }
+.tabs a[aria-current] { border-bottom: 3px solid var(--forest-800); font-weight: 700; }
+.login form { display: grid; gap: 1rem; }
+.login form a { text-decoration: underline; }
+.login .check { display: flex; align-items: center; gap: .6rem; }
+.login .check input { width: 1.1rem; height: 1.1rem; min-height: 0; }
+.login h2 { font-size: 1.4rem; }

@@ -1,13 +1,13 @@
 ﻿import styles from "./account.module.css";
 import { cookies } from "next/headers";
 import { accountRequest, cookieName } from "./api";
-import { login, logout } from "./actions";
+import { login, logout, register, recover } from "./actions";
 
 export const metadata = { title: "Minha conta", robots: { index: false, follow: false } };
 type Profile = { name: string; email: string; orders: { id: string; status: string; total: string }[] };
-export default async function Account({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+export default async function Account({ searchParams }: { searchParams: Promise<{ error?: string; tab?: string; sent?: string }> }) {
   let profile: Profile | undefined;
-  let { error } = await searchParams;
+  let { error, tab, sent } = await searchParams;
   if ((await cookies()).has(cookieName)) {
     try {
       const response = await accountRequest("profile");
@@ -32,11 +32,30 @@ export default async function Account({ searchParams }: { searchParams: Promise<
           </tr>)}</tbody>
         </table> : <p>Você ainda não tem pedidos.</p>}
       </section>
-    </> : <form className={styles.login} action={login}>
+    </> : <div className={styles.login}>
+      <nav aria-label="Acesso à conta" className={styles.tabs}>
+        <a href="/account/" aria-current={tab !== "register" ? "page" : undefined}>Entrar</a>
+        <a href="/account/?tab=register" aria-current={tab === "register" ? "page" : undefined}>Cadastre-se</a>
+      </nav>
       {error && messages[error] && <p role="alert">{messages[error]}</p>}
-      <label>E-mail ou usuário<input name="login" autoComplete="username" required /></label>
-      <label>Senha<input type="password" name="password" autoComplete="current-password" required /></label>
-      <button type="submit">Entrar</button>
-    </form>}
+      {sent === tab && sent && <p role="status">Confira seu e-mail. Se sua solicitação for aplicável, você receberá um link para definir sua senha.</p>}
+      {tab === "register" ? <form action={register}>
+        <label>Endereço de e-mail<input name="identity" type="email" autoComplete="email" maxLength={254} required /></label>
+        <p>Enviaremos um link por e-mail para você definir sua senha.</p>
+        <label className={styles.check}><input name="newsletter" type="checkbox" />Assinar nossa newsletter</label>
+        <a href="/politica-de-privacidade/">Política de privacidade</a>
+        <button>Cadastre-se</button>
+      </form> : tab === "recover" ? <form action={recover}>
+        <h2>Recuperar senha</h2>
+        <label>Nome de usuário ou e-mail<input name="identity" autoComplete="username" required /></label>
+        <button>Enviar link de recuperação</button>
+      </form> : <form action={login}>
+        <label>Nome de usuário ou e-mail<input name="login" autoComplete="username" required /></label>
+        <label>Senha<input type="password" name="password" autoComplete="current-password" required /></label>
+        <label className={styles.check}><input name="remember" type="checkbox" />Lembre-me</label>
+        <button>Acessar</button>
+        <a href="/account/?tab=recover">Perdeu sua senha?</a>
+      </form>}
+    </div>}
   </main>;
 }

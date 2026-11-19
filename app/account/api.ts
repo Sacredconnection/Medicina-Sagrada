@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { config } from "@/lib/config";
 
 export const cookieName = "ms_customer_session";
-export async function accountRequest(action: "login" | "profile" | "logout", body: Record<string, string> = {}) {
+export async function accountRequest(action: "login" | "profile" | "logout" | "register" | "recover", body: Record<string, string> = {}) {
   const secret = process.env.REVALIDATION_SECRET;
   if (!secret || secret.length < 32) throw new Error("Account API unavailable");
   const session = (await cookies()).get(cookieName)?.value;
