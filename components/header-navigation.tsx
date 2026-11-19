@@ -88,7 +88,7 @@ function Branch({ item, mobile, pathname, group = "mobile-navigation" }: { item:
       onBlur={(event) => { if (!mobile && !event.currentTarget.contains(event.relatedTarget)) event.currentTarget.open = false; }}
     >
       <summary>
-        <Link href={item.href} aria-current={isCurrentPage(pathname, item.href) ? "page" : undefined}>{item.label}</Link>
+        {item.label}
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
       </summary>
       {!mobile ? <MegaPanel item={item} pathname={pathname} /> : <ul className="navigation-submenu">
