@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Medicina Sagrada — Conexão Headless
  * Description: Revalidação do catálogo e conclusão da sacola do frontend Next.js. Os pagamentos continuam no plugin oficial Pagar.me.
- * Version: 1.0.1
+ * Version: 1.3.1
  * Requires PHP: 7.4
  * Requires Plugins: woocommerce
  */
@@ -124,3 +124,134 @@ add_action( 'save_post', function ( $post_id ) {
 add_action( 'woocommerce_product_set_stock', 'ms_headless_schedule_revalidation' );
 add_action( 'woocommerce_variation_set_stock', 'ms_headless_schedule_revalidation' );
 add_action( 'edited_product_cat', 'ms_headless_schedule_revalidation' );
+
+add_action( 'rest_api_init', function () {
+    foreach ( array( 'login', 'profile', 'logout', 'register', 'recover', 'save' ) as $action ) {
+        register_rest_route( 'ms-account/v1', '/' . $action, array(
+            'methods' => 'POST',
+            'permission_callback' => function ( $request ) {
+                return defined( 'MS_REVALIDATION_SECRET' ) && strlen( MS_REVALIDATION_SECRET ) >= 32
+                    && hash_equals( 'Bearer ' . hash_hmac( 'sha256', 'ms-account-v1', MS_REVALIDATION_SECRET ), $request->get_header( 'authorization' ) );
+            },
+            'callback' => function ( $request ) use ( $action ) {
+                $params = $request->get_json_params();
+                if ( in_array( $action, array( 'register', 'recover' ), true ) ) {
+                    $identity = trim( (string) ( $params['identity'] ?? '' ) );
+                    if ( ! $identity || strlen( $identity ) > 254 || ( 'register' === $action && ! is_email( $identity ) ) ) {
+                        return new WP_Error( 'invalid', 'Dados inv?lidos.', array( 'status' => 400 ) );
+                    }
+                    $limit = 'ms_email_' . hash( 'sha256', $action . strtolower( $identity ) );
+                    if ( get_transient( $limit ) ) {
+                        return new WP_Error( 'rate_limit', 'Aguarde.', array( 'status' => 429 ) );
+                    }
+                    set_transient( $limit, 1, 5 * MINUTE_IN_SECONDS );
+                    if ( 'register' === $action ) {
+                        if ( ! function_exists( 'wc_create_new_customer' ) || 'yes' !== get_option( 'woocommerce_enable_myaccount_registration' ) ) {
+                            return new WP_Error( 'unavailable', 'Cadastro indispon?vel.', array( 'status' => 503 ) );
+                        }
+                        if ( ! email_exists( $identity ) ) {
+                            if ( '1' === ( $params['newsletter'] ?? '' ) ) {
+                                $_POST['mailchimp_woocommerce_newsletter'] = '1';
+                            }
+                            $customer = wc_create_new_customer( $identity );
+                            if ( is_wp_error( $customer ) ) {
+                                return new WP_Error( 'unavailable', 'Cadastro indispon?vel.', array( 'status' => 503 ) );
+                            }
+                        }
+                    } else {
+                        $sent = retrieve_password( $identity );
+                        if ( is_wp_error( $sent ) && ! in_array( $sent->get_error_code(), array( 'invalid_email', 'invalidcombo', 'invalid_username' ), true ) ) {
+                            return new WP_Error( 'unavailable', 'Envio indispon?vel.', array( 'status' => 503 ) );
+                        }
+                    }
+                    $result = array( 'accepted' => true );
+                } elseif ( 'login' === $action ) {
+                    $login = trim( (string) ( $params['login'] ?? '' ) );
+                    $limit = 'ms_login_' . hash( 'sha256', strtolower( $login ) );
+                    $attempts = (int) get_transient( $limit );
+                    if ( $attempts >= 8 ) {
+                        return new WP_Error( 'rate_limit', 'Aguarde antes de tentar novamente.', array( 'status' => 429 ) );
+                    }
+                    $user = wp_authenticate( $login, (string) ( $params['password'] ?? '' ) );
+                    if ( is_wp_error( $user ) ) {
+                        set_transient( $limit, $attempts + 1, 10 * MINUTE_IN_SECONDS );
+                        return new WP_Error( 'invalid_login', 'Credenciais inválidas.', array( 'status' => 401 ) );
+                    }
+                    delete_transient( $limit );
+                    $session = bin2hex( random_bytes( 32 ) );
+                    set_transient( 'ms_customer_' . hash( 'sha256', $session ), $user->ID, ( $params['remember'] ?? '0' ) === '1' ? 14 * DAY_IN_SECONDS : HOUR_IN_SECONDS );
+                    $result = array( 'session' => $session );
+                } else {
+                    $key = 'ms_customer_' . hash( 'sha256', (string) ( $params['session'] ?? '' ) );
+                    $user = get_userdata( (int) get_transient( $key ) );
+                    if ( ! $user ) {
+                        return new WP_Error( 'expired', 'Sessão expirada.', array( 'status' => 401 ) );
+                    }
+                    if ( 'save' === $action ) {
+                        $section = $params['section'] ?? '';
+                        $customer = new WC_Customer( $user->ID );
+                        if ( in_array( $section, array( 'billing', 'shipping' ), true ) ) {
+                            foreach ( array( 'first_name', 'last_name', 'company', 'address_1', 'address_2', 'city', 'state', 'postcode', 'country' ) as $field ) {
+                                $value = sanitize_text_field( $params[$field] ?? '' );
+                                if ( in_array( $field, array( 'address_1','city','country' ), true ) && ! $value ) {
+                                    return new WP_Error( 'required', 'Preencha os campos obrigat?rios.', array( 'status' => 400 ) );
+                                }
+                                $setter = 'set_' . $section . '_' . $field;
+                                $customer->$setter( $value );
+                            }
+                            $customer->save();
+                        } elseif ( 'details' === $section ) {
+                            $name = sanitize_text_field( $params['name'] ?? '' );
+                            $email = sanitize_email( $params['email'] ?? '' );
+                            if ( ! $name || ! is_email( $email ) ) { return new WP_Error( 'invalid', 'Confira os dados.', array( 'status' => 400 ) ); }
+                            $changes = array( 'ID' => $user->ID, 'display_name' => $name );
+                            $password = (string) ( $params['new_password'] ?? '' );
+                            if ( $email !== $user->user_email || $password !== '' ) {
+                                if ( ! wp_check_password( (string) ( $params['password'] ?? '' ), $user->user_pass, $user->ID ) ) { return new WP_Error( 'invalid', 'Confira a senha atual.', array( 'status' => 400 ) ); }
+                                $changes['user_email'] = $email;
+                                if ( $password !== '' ) {
+                                    if ( strlen( $password ) < 12 ) { return new WP_Error( 'short', 'Senha muito curta.', array( 'status' => 400 ) ); }
+                                    $changes['user_pass'] = $password;
+                                }
+                            }
+                            if ( is_wp_error( wp_update_user( $changes ) ) ) { return new WP_Error( 'invalid', 'Confira os dados.', array( 'status' => 400 ) ); }
+                        } else { return new WP_Error( 'invalid', 'Se??o inv?lida.', array( 'status' => 400 ) ); }
+                        $result = array( 'ok' => true );
+                    } elseif ( 'logout' === $action ) {
+                        delete_transient( $key );
+                        $result = array( 'ok' => true );
+                    } else {
+                        if ( ! function_exists( 'wc_get_orders' ) ) {
+                            return new WP_Error( 'unavailable', 'WooCommerce indisponível.', array( 'status' => 503 ) );
+                        }
+                        $orders = wc_get_orders( array( 'customer_id' => $user->ID, 'type' => 'shop_order', 'limit' => 10, 'orderby' => 'date', 'order' => 'DESC' ) );
+                        $result = array( 'name' => $user->display_name, 'email' => $user->user_email, 'orders' => array_map( function ( $order ) use ( $params ) {
+                            $summary = array( 'id' => $order->get_order_number(), 'status' => wc_get_order_status_name( $order->get_status() ), 'total' => html_entity_decode( wp_strip_all_tags( $order->get_formatted_order_total() ), ENT_QUOTES, 'UTF-8' ) );
+                            if ( (string) $summary['id'] === ( $params['order'] ?? '' ) ) {
+                                $date = $order->get_date_created();
+                                $summary['date'] = $date ? wc_format_datetime( $date ) : '';
+                                $summary['payment'] = $order->get_payment_method_title();
+                                $summary['items'] = array_values( array_map( function ( $item ) use ( $order ) {
+                                    return array( 'name' => $item->get_name(), 'quantity' => $item->get_quantity(), 'amount' => html_entity_decode( wp_strip_all_tags( $order->get_formatted_line_subtotal( $item ) ), ENT_QUOTES, 'UTF-8' ) );
+                                }, $order->get_items() ) );
+                            }
+                            return $summary;
+                        }, $orders ) );
+                        $customer = new WC_Customer( $user->ID );
+                        $result['addresses'] = array( 'billing' => $customer->get_data()['billing'], 'shipping' => $customer->get_data()['shipping'] );
+                        $result['downloads'] = array_values( array_map( function ( $item ) {
+                            return array( 'name' => $item['download_name'], 'url' => $item['download_url'] );
+                        }, wc_get_customer_available_downloads( $user->ID ) ) );
+                        $result['payments'] = array_values( array_map( function ( $token ) {
+                            return $token->get_display_name();
+                        }, WC_Payment_Tokens::get_customer_tokens( $user->ID ) ) );
+                        $result['sections'] = array_keys( wc_get_account_menu_items() );
+                    }
+                }
+                $response = rest_ensure_response( $result );
+                $response->header( 'Cache-Control', 'private, no-store' );
+                return $response;
+            },
+        ) );
+    }
+} );

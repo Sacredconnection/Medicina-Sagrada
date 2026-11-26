@@ -131,12 +131,7 @@ export const getHomeKitBanners = (products: WooProduct[]) => {
       };
     });
 
-  const productHrefs = new Set(productBanners.map(({ href }) => href));
-
-  return [
-    ...productBanners,
-    ...kitBanners.filter(({ href }) => !productHrefs.has(href)),
-  ];
+  return productBanners;
 };
 
 const demoImage = (src: string, alt: string) => ({

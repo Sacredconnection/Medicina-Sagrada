@@ -1,7 +1,8 @@
 export class CartInputError extends Error {}
 
 export type CartAction =
-  | { action: "add"; id: number; quantity: number; variation?: Array<{ attribute: string; value: string }> }
+  | { action: "add-bundle"; items: Array<{ id: number; quantity: number }> }
+  | { action: "add" | "restore-item"; id: number; quantity: number; variation?: Array<{ attribute: string; value: string }> }
   | { action: "update"; key: string; quantity: number }
   | { action: "remove"; key: string }
   | { action: "apply-coupon" | "remove-coupon"; code: string };
@@ -11,11 +12,22 @@ const positiveInteger = (value: unknown) => typeof value === "number" && Number.
 export function parseCartAction(input: unknown): CartAction {
   if (!input || typeof input !== "object" || Array.isArray(input)) throw new CartInputError("Não foi possível atualizar a sacola. Atualize a página e tente novamente.");
   const value = input as Record<string, unknown>;
+  if (value.action === "add-bundle") {
+    if (!Array.isArray(value.items) || value.items.length !== 2) throw new CartInputError("Escolha os dois produtos do ritual.");
+    const items = value.items.map((entry: unknown) => {
+      if (!entry || typeof entry !== "object") throw new CartInputError("Escolha o produto novamente.");
+      const item = entry as Record<string, unknown>;
+      if (!positiveInteger(item.id) || !positiveInteger(item.quantity) || (item.quantity as number) > 20) throw new CartInputError("Confira os produtos e as quantidades escolhidas.");
+      return { id: item.id as number, quantity: item.quantity as number };
+    });
+    if (items[0].id === items[1].id) throw new CartInputError("Escolha produtos diferentes para o ritual.");
+    return { action: "add-bundle", items };
+  }
   const quantity = value.quantity === undefined ? 1 : value.quantity;
-  if (value.action === "add" || value.action === "update") {
+  if (value.action === "add" || value.action === "restore-item" || value.action === "update") {
     if (!positiveInteger(quantity) || (quantity as number) > 9999) throw new CartInputError("Informe uma quantidade entre 1 e 9999.");
   }
-  if (value.action === "add") {
+  if (value.action === "add" || value.action === "restore-item") {
     if (!positiveInteger(value.id)) throw new CartInputError("Escolha o produto novamente.");
     let variation: Array<{ attribute: string; value: string }> | undefined;
     if (value.variation !== undefined) {
@@ -27,7 +39,7 @@ export function parseCartAction(input: unknown): CartAction {
         return { attribute: option.attribute, value: option.value };
       });
     }
-    return { action: "add", id: value.id as number, quantity: quantity as number, ...(variation ? { variation } : {}) };
+    return { action: value.action, id: value.id as number, quantity: quantity as number, ...(variation ? { variation } : {}) };
   }
   if (value.action === "update" || value.action === "remove") {
     if (typeof value.key !== "string" || !/^[a-f0-9]{32}$/.test(value.key)) throw new CartInputError("Atualize a sacola e escolha o produto novamente.");

@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import ts from "typescript";
 import { isDemoContentPath } from "../lib/sitemap-policy.ts";
+import { getPurchasePrice } from "../lib/purchase-price.ts";
 
 const source = ts.transpileModule(readFileSync(new URL("../lib/seo.ts", import.meta.url), "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText;
 const compiledModule = { exports: {} };
@@ -12,6 +13,7 @@ const require = (name) => {
   if (name === "@/lib/ethnicity-colors") return { canonicalizeEthnicityNames: value => value };
   if (name === "@/lib/url") return { absoluteUrl: path => new URL(path, "https://medicinasagrada.com.br").toString() };
   if (name === "@/lib/sitemap-policy") return { isDemoContentPath };
+  if (name === "@/lib/purchase-price") return { getPurchasePrice };
   throw new Error(`Unexpected import: ${name}`);
 };
 new Function("require", "module", "exports", source)(require, compiledModule, compiledModule.exports);

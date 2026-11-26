@@ -1,4 +1,4 @@
-import { fetchAll, wpFetch } from "@/lib/api";
+import { fetchAll, wpFetch, wpCollection } from "@/lib/api";
 import type { WordPressContent, WordPressMedia } from "@/lib/types";
 
 export const HIDDEN_DEMO_POST_IDS = [10184, 500, 492] as const;
@@ -56,6 +56,18 @@ export type WordPressCategory = {
   description: string;
   count: number;
 };
+
+export async function getPostTagBySlug(slug: string) {
+  const tags = await wpFetch<WordPressCategory[]>("wp/v2/tags", { slug, per_page: 1 }, ["wordpress", "post-tags"]);
+  return tags.find(tag => tag.slug === slug) ?? null;
+}
+
+export const getPostsByTag = (tagId: number, page = 1) =>
+  wpCollection<WordPressContent>("wp/v2/posts", { ...embeddedQuery, tags: tagId, per_page: 12, page }, ["wordpress", "posts"]);
+
+export const getAllPostTags = () => fetchAll(page =>
+  wpFetch<WordPressCategory[]>("wp/v2/tags", { per_page: 100, page, hide_empty: true }, ["wordpress", "post-tags"]),
+);
 
 export async function getPostCategoryBySlug(slug: string) {
   const categories = await wpFetch<WordPressCategory[]>(

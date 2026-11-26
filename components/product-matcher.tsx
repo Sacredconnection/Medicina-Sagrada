@@ -806,9 +806,10 @@ export function ProductMatcher({ products = [], introTitle, questionnaire = fals
                         disabled={cartBusy || cartLoading || !bundleCanBeAdded}
                         onClick={async () => {
                           if (!pricedPrimaryProduct || !pricedApplicator || !bundleCanBeAdded) return;
-                          if (await mutate({ action: "add", id: pricedPrimaryProduct.id, quantity: 1 })) {
-                            await mutate({ action: "add", id: pricedApplicator.id, quantity: 1 });
-                          }
+                          await mutate({ action: "add-bundle", items: [
+                            { id: pricedPrimaryProduct.id, quantity: 1 },
+                            { id: pricedApplicator.id, quantity: 1 },
+                          ] });
                         }}
                         type="button"
                       >

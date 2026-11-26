@@ -7,8 +7,11 @@
     "app/api/cart/route.ts",
     "app/api/checkout/route.ts",
     "app/api/commerce-status/route.ts",
+    "app/api/csp-report/route.ts",
     "app/api/dev/asset-version/route.ts",
     "app/api/diagnostico/route.ts",
+    "app/api/health/route.ts",
+    "app/api/newsletter/route.ts",
     "app/api/revalidate/route.ts",
     "app/api/reviews/route.ts",
     "app/api/ritual-recommendation/route.ts",
@@ -37,9 +40,12 @@
     "app/not-found.tsx",
     "app/page.tsx",
     "app/product-category/[...slug]/page.tsx",
+    "app/product-tag/[...slug]/page.tsx",
     "app/product/[slug]/page.tsx",
+    "app/questionario/page.tsx",
     "app/robots.ts",
     "app/sitemap.ts",
+    "app/tag/[...slug]/page.tsx",
     "components/about-contact-section.tsx",
     "components/adobe-fonts-stylesheet.tsx",
     "components/article-content.tsx",
@@ -51,6 +57,7 @@
     "components/cart-link.tsx",
     "components/cart-page.tsx",
     "components/cart-provider.tsx",
+    "components/cart-undo.tsx",
     "components/catalog-filters.tsx",
     "components/catalog.tsx",
     "components/category-editorial-index.tsx",
@@ -65,6 +72,7 @@
     "components/home-conexao-ancestral-section.tsx",
     "components/home-crafts-section.tsx",
     "components/home-kit-grid.tsx",
+    "components/home-live-sections.tsx",
     "components/home-newsletter-section.tsx",
     "components/home-product-grid.tsx",
     "components/home-youtube-section.tsx",
@@ -97,6 +105,7 @@
     "components/shipping-calculator.tsx",
     "components/wholesale-page.tsx",
     "lib/api.ts",
+    "lib/archive-path.ts",
     "lib/article-cta.ts",
     "lib/cart-types.ts",
     "lib/cart-validation.ts",
@@ -105,6 +114,7 @@
     "lib/category-descriptions.ts",
     "lib/category-editorial.ts",
     "lib/checkout-destination.ts",
+    "lib/cms-urls.ts",
     "lib/commerce-diagnostics.ts",
     "lib/commerce.ts",
     "lib/config.ts",
@@ -116,9 +126,13 @@
     "lib/html.ts",
     "lib/intencoes.ts",
     "lib/learn-content.ts",
+    "lib/monthly-product.ts",
+    "lib/newsletter.ts",
     "lib/other-ethnicity-products.ts",
     "lib/plain-text.ts",
     "lib/purchase-price.ts",
+    "lib/rate-limit.ts",
+    "lib/revalidation.ts",
     "lib/reviews.ts",
     "lib/ritual-catalog.ts",
     "lib/ritual-product-selection.ts",
@@ -164,11 +178,11 @@
       "references": [
         {
           "file": "app/aprenda/aprenda.css",
-          "count": 2
+          "count": 4
         },
         {
           "file": "app/globals.css",
-          "count": 144
+          "count": 149
         }
       ]
     },
@@ -246,7 +260,7 @@
         },
         {
           "file": "app/globals.css",
-          "count": 94
+          "count": 96
         }
       ]
     },
@@ -287,11 +301,11 @@
       "references": [
         {
           "file": "app/aprenda/aprenda.css",
-          "count": 16
+          "count": 21
         },
         {
           "file": "app/globals.css",
-          "count": 109
+          "count": 114
         }
       ]
     },
@@ -338,8 +352,12 @@
       "referenced": true,
       "references": [
         {
+          "file": "app/aprenda/aprenda.css",
+          "count": 1
+        },
+        {
           "file": "app/globals.css",
-          "count": 11
+          "count": 12
         }
       ]
     },
@@ -402,7 +420,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 50
+          "count": 51
         }
       ]
     },
@@ -413,7 +431,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 82
+          "count": 83
         }
       ]
     },
@@ -468,7 +486,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 36
+          "count": 38
         }
       ]
     },
@@ -612,7 +630,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 13
+          "count": 14
         }
       ]
     },
@@ -650,13 +668,24 @@
       ]
     },
     {
+      "name": "--group-space-small",
+      "value": "1rem",
+      "referenced": true,
+      "references": [
+        {
+          "file": "app/globals.css",
+          "count": 7
+        }
+      ]
+    },
+    {
       "name": "--group-space-medium",
       "value": "1.5rem",
       "referenced": true,
       "references": [
         {
           "file": "app/globals.css",
-          "count": 4
+          "count": 9
         }
       ]
     },
@@ -667,7 +696,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 15
+          "count": 17
         }
       ]
     },
@@ -689,7 +718,7 @@
       "references": [
         {
           "file": "app/globals.css",
-          "count": 32
+          "count": 34
         }
       ]
     },
@@ -1338,6 +1367,66 @@
     },
     {
       "file": "app/aprenda/aprenda.css",
+      "selector": ".learn-questionnaire-cta",
+      "property": "color",
+      "value": "var(--white)"
+    },
+    {
+      "file": "app/aprenda/aprenda.css",
+      "selector": ".learn-guide-article .learn-questionnaire-cta h2",
+      "property": "color",
+      "value": "var(--white)"
+    },
+    {
+      "file": "app/aprenda/aprenda.css",
+      "selector": ".learn-guide-article .learn-questionnaire-cta h2",
+      "property": "font-size",
+      "value": "clamp(1.25rem, 2vw, 1.5rem)"
+    },
+    {
+      "file": "app/aprenda/aprenda.css",
+      "selector": ".learn-guide-article .learn-questionnaire-cta h2",
+      "property": "line-height",
+      "value": "1.2"
+    },
+    {
+      "file": "app/aprenda/aprenda.css",
+      "selector": ".learn-guide-article .learn-questionnaire-cta h2",
+      "property": "letter-spacing",
+      "value": "-.02em"
+    },
+    {
+      "file": "app/aprenda/aprenda.css",
+      "selector": ".learn-guide-article .learn-questionnaire-cta p",
+      "property": "color",
+      "value": "var(--white)"
+    },
+    {
+      "file": "app/aprenda/aprenda.css",
+      "selector": ".learn-guide-article .learn-questionnaire-cta p",
+      "property": "font-size",
+      "value": ".9375rem"
+    },
+    {
+      "file": "app/aprenda/aprenda.css",
+      "selector": ".learn-guide-article .learn-questionnaire-cta p",
+      "property": "line-height",
+      "value": "1.6"
+    },
+    {
+      "file": "app/aprenda/aprenda.css",
+      "selector": ".learn-questionnaire-cta .button",
+      "property": "background",
+      "value": "var(--white)"
+    },
+    {
+      "file": "app/aprenda/aprenda.css",
+      "selector": ".learn-questionnaire-cta .button:focus-visible",
+      "property": "outline",
+      "value": "2px solid var(--white)"
+    },
+    {
+      "file": "app/aprenda/aprenda.css",
       "selector": ".learn-first-guide .learn-article-step:nth-child(2) .learn-article-image img",
       "property": "background",
       "value": "var(--white)"
@@ -1980,9 +2069,69 @@
     },
     {
       "file": "app/globals.css",
+      "selector": ".intentions-journey",
+      "property": "color",
+      "value": "var(--white)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intentions-journey h2",
+      "property": "color",
+      "value": "var(--white)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intentions-journey h2",
+      "property": "font-size",
+      "value": "clamp(1.35rem, 2vw, 1.625rem)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intentions-journey h2",
+      "property": "font-weight",
+      "value": "var(--weight-bold)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intentions-journey h2",
+      "property": "letter-spacing",
+      "value": "-0.02em"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intentions-journey h2",
+      "property": "line-height",
+      "value": "1.15"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intentions-journey-prompt",
+      "property": "color",
+      "value": "var(--white)"
+    },
+    {
+      "file": "app/globals.css",
       "selector": ".intentions-journey-prompt",
       "property": "font-size",
       "value": "var(--type-body-small)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intentions-journey-prompt",
+      "property": "line-height",
+      "value": "1.6"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intentions-journey .intentions-journey-button",
+      "property": "background",
+      "value": "var(--white)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intentions-journey .intentions-journey-button:focus-visible",
+      "property": "outline",
+      "value": "2px solid var(--white)"
     },
     {
       "file": "app/globals.css",
@@ -2202,15 +2351,33 @@
     },
     {
       "file": "app/globals.css",
-      "selector": ".intention-pager span",
+      "selector": ".intention-pager-direction:hover",
+      "property": "background",
+      "value": "#edf3ef"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intention-pager-copy > span",
       "property": "font-size",
       "value": "var(--type-label)"
     },
     {
       "file": "app/globals.css",
-      "selector": ".intention-pager span",
+      "selector": ".intention-pager-copy > span",
       "property": "line-height",
       "value": "1.5"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intention-pager .intention-pager-all",
+      "property": "font-size",
+      "value": "var(--type-ui)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".intention-pager .intention-pager-all",
+      "property": "font-weight",
+      "value": "var(--weight-semibold)"
     },
     {
       "file": "app/globals.css",
@@ -3894,13 +4061,13 @@
     },
     {
       "file": "app/globals.css",
-      "selector": ".matcher-heading h2",
+      "selector": ".matcher-heading :is(h1, h2)",
       "property": "font-size",
       "value": "clamp(2.75rem, 5.2vw, 4.6rem)"
     },
     {
       "file": "app/globals.css",
-      "selector": ".matcher-heading h2",
+      "selector": ".matcher-heading :is(h1, h2)",
       "property": "line-height",
       "value": "0.96"
     },
@@ -3909,6 +4076,12 @@
       "selector": ".matcher-heading p",
       "property": "font-size",
       "value": "var(--type-card-title)"
+    },
+    {
+      "file": "app/globals.css",
+      "selector": ".questionnaire-navigation",
+      "property": "font-size",
+      "value": "var(--type-ui)"
     },
     {
       "file": "app/globals.css",
@@ -4110,7 +4283,7 @@
     },
     {
       "file": "app/globals.css",
-      "selector": ".matcher-result-heading h2",
+      "selector": ".matcher-result-heading :is(h1, h2)",
       "property": "font-size",
       "value": "clamp(2.65rem, 5vw, 4.4rem)"
     },
@@ -8460,7 +8633,7 @@
     },
     {
       "file": "app/globals.css",
-      "selector": ".matcher-heading h2",
+      "selector": ".matcher-heading :is(h1, h2)",
       "property": "font-size",
       "value": "clamp(2.55rem, 12vw, 3.5rem)"
     },
@@ -8508,7 +8681,7 @@
     },
     {
       "file": "app/globals.css",
-      "selector": ".matcher-result-heading h2",
+      "selector": ".matcher-result-heading :is(h1, h2)",
       "property": "font-size",
       "value": "clamp(2.55rem, 12vw, 3.5rem)"
     },

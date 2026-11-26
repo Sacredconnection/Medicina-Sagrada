@@ -1,3 +1,4 @@
+import { HomeNewsletterSection } from "@/components/home-newsletter-section";
 import type { Metadata, Viewport } from "next";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
@@ -54,6 +55,7 @@ export default function RootLayout({
         <CartProvider checkoutUrl={config.wooCheckoutUrl}>
           <Header />
           <main id="conteudo">{children}</main>
+          <HomeNewsletterSection />
           <Footer />
         </CartProvider>
         <JsonLd data={[organizationSchema, websiteSchema]} />

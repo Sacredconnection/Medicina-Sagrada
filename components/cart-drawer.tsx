@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, type RefObject } from "react";
 import { useCart } from "@/components/cart-provider";
+import { CartUndo } from "@/components/cart-undo";
 import { formatMoney } from "@/lib/cart-types";
 import { plainText } from "@/lib/plain-text";
 import { pathnameFromUrl } from "@/lib/url";
@@ -40,6 +41,7 @@ export function CartDrawer({ open, onClose, trigger }: { open: boolean; onClose:
     <div className="cart-drawer-items" aria-busy={busy || loading}>
       {error ? <div className="commerce-error" role="alert"><p>{error}</p><button className="commerce-text-button" disabled={busy || loading} onClick={() => void refresh()}>Atualizar sacola</button></div> : null}
       {loading && !cart ? <p>Carregando sua sacola…</p> : null}
+      <CartUndo />
       {cart?.items.length === 0 ? <p>Sua sacola está vazia. Continue explorando a loja.</p> : null}
       {cart?.items.map(item => <article className="cart-drawer-item" key={item.key}>
         {item.images[0] ? <Image src={item.images[0].thumbnail || item.images[0].src} alt="" width={88} height={88} /> : <span />}

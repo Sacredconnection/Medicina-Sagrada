@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import ts from "typescript";
 import * as jsxRuntime from "react/jsx-runtime";
-import { getPurchasePrice } from "../lib/purchase-price.ts";
+import { getPurchasePrice, withPurchasePrice } from "../lib/purchase-price.ts";
 
 const source = ts.transpileModule(readFileSync(new URL("../components/product-purchase.tsx", import.meta.url), "utf8"), {
   compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX },
@@ -35,6 +35,18 @@ test("envia preços numéricos sem HTML executável ao navegador e preserva o ca
 const currency = { price: "3000", regular_price: "3000", sale_price: "3000", price_range: null, currency_symbol: "R$", currency_prefix: "R$", currency_suffix: "", currency_decimal_separator: ",", currency_thousand_separator: ".", currency_minor_unit: 2 };
 const amount = value => `<span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#082;&#036;</span>${value}</span>`;
 const promotion = (original, discounted) => `<span class="yaydp-discounted-price"><span class="yaydp-original-prices"><del>${original.map(amount).join(' &#8211; ')}</del></span><span class="yaydp-calculated-prices"><ins aria-hidden="true">${discounted.map(amount).join(' &#8211; ')}</ins></span></span>`;
+
+test("normalizes display prices without changing source data or compounding discounts", () => {
+  const product = { id: 1, on_sale: false, prices: { ...currency, price_range: { min_amount: "3000", max_amount: "14500" } }, price_html: promotion(["30,00", "145,00"], ["24,00", "116,00"]) };
+  const before = structuredClone(product);
+  const normalized = withPurchasePrice(product);
+  assert.deepEqual(product, before);
+  assert.equal(normalized.on_sale, true);
+  assert.equal(normalized.prices.price, "2400");
+  assert.deepEqual(normalized.prices.price_range, { min_amount: "2400", max_amount: "11600" });
+  assert.deepEqual(withPurchasePrice(normalized), normalized);
+  assert.deepEqual(getPurchasePrice(normalized), getPurchasePrice(product));
+});
 
 test("lê a promoção dinâmica por peso mesmo quando os preços numéricos não têm desconto", () => {
   for (const [original, discounted, expected] of [["30,00", "24,00", "2400"], ["57,00", "45,60", "4560"], ["145,00", "116,00", "11600"]]) {

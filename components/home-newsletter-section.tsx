@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRef, useState, type FormEvent } from "react";
 
 type NewsletterResponse = {
-  status?: "subscribed" | "pending";
+  status?: "received";
   error?: string;
 };
 
@@ -53,15 +53,11 @@ export function HomeNewsletterSection({
         );
       }
 
-      if (result?.status !== "subscribed" && result?.status !== "pending") {
+      if (result?.status !== "received") {
         throw new Error(unavailableMessage);
       }
 
-      setMessage(
-        result.status === "pending"
-          ? "Quase lá! Confira seu e-mail para confirmar o cadastro."
-          : "Cadastro confirmado! Você receberá nossas histórias, saberes e novidades por e-mail.",
-      );
+      setMessage(String(values.get("email")).trim());
       form.reset();
     } catch (failure) {
       setError(
@@ -76,7 +72,7 @@ export function HomeNewsletterSection({
   }
 
   return (
-    <section className="newsletter-section" id="newsletter" aria-labelledby="newsletter-title">
+    <section className="newsletter-section" style={{ borderTop: "2px solid #cad6c9", backgroundColor: "#f6f8f3" }} id="newsletter" aria-labelledby="newsletter-title">
       <div className="container newsletter-layout">
         <div className="newsletter-copy">
           <h2 id="newsletter-title">Histórias, <span>saberes</span> e <span>ofertas</span> no seu e-mail.</h2>
@@ -86,8 +82,14 @@ export function HomeNewsletterSection({
           </p>
         </div>
 
-        <form
+        {message ? (
+          <div tabIndex={-1} ref={node => { node?.focus({ preventScroll: true }); }} aria-labelledby="newsletter-success-title" aria-describedby="newsletter-success-detail" style={{ background: "#edf5ef", color: "#173c29", borderLeft: "4px solid #346849", borderRadius: ".5rem", padding: "1.5rem", overflowWrap: "anywhere" }}>
+            <h3 id="newsletter-success-title"><span aria-hidden="true">✓ </span>Inscrição recebida!</h3>
+            <p id="newsletter-success-detail">Você cadastrou o e-mail <strong>{message}</strong>. Se receber uma mensagem de confirmação, clique no link para concluir.</p>
+          </div>
+        ) : <form
           className="newsletter-form"
+          method="post"
           onSubmit={submit}
           aria-label="Receba novidades por e-mail"
           aria-busy={busy}
@@ -131,8 +133,7 @@ export function HomeNewsletterSection({
           </label>
 
           {error ? <p className="newsletter-feedback commerce-error" role="alert">{error}</p> : null}
-          {message ? <p className="newsletter-feedback" role="status">{message}</p> : null}
-        </form>
+        </form>}
       </div>
     </section>
   );

@@ -11,6 +11,24 @@ export type PurchasePrice = {
 
 const validAmount = (value: string) => /^\d+$/.test(value) && Number.isSafeInteger(Number(value));
 
+// Server-side display data only. Cart and checkout totals remain authoritative
+// responses from WooCommerce; this never changes a price charged to a customer.
+export function withPurchasePrice(product: WooProduct): WooProduct {
+  const display = getPurchasePrice(product);
+  if (!display) return product;
+  return {
+    ...product,
+    on_sale: product.on_sale || !!display.regular,
+    prices: {
+      ...product.prices,
+      price: display.amount,
+      regular_price: display.regular ?? product.prices.regular_price,
+      sale_price: display.regular ? display.amount : product.prices.sale_price,
+      price_range: display.maximum ? { min_amount: display.amount, max_amount: display.maximum } : null,
+    },
+  };
+}
+
 // Some store discounts are published only in price_html. Read the exact amounts
 // for each product; never infer a variant's discount from its parent's range.
 export function getPurchasePrice(product: Pick<WooProduct, "prices" | "price_html">): PurchasePrice | null {

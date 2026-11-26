@@ -1,3 +1,4 @@
+import { limitRequest } from "@/lib/rate-limit";
 import { NextResponse } from "next/server";
 import { config } from "@/lib/config";
 import { CartInputError, isSameOrigin, readCartBody } from "@/lib/cart-validation";
@@ -9,6 +10,8 @@ export const maxDuration = 45;
 const headers = { "Cache-Control": "private, no-store", "X-Robots-Tag": "noindex, nofollow" };
 
 export async function POST(request: Request) {
+  const limited = await limitRequest(request, "shipping");
+  if (limited) return limited;
   if (!isSameOrigin(request, config.siteUrl)) return NextResponse.json({ error: "Atualize a página da loja e tente novamente." }, { status: 403, headers });
   let input;
   try { input = parseShippingInput(await readCartBody(request)); }

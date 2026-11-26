@@ -2,12 +2,13 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 // Read-only HTTP audit. Sequential requests, persisted progress and early stop
 // on infrastructure errors prevent another burst against the WordPress host.
-const origin = "https://medicinasagrada.com.br";
-const target = "https://medicina-sagrada.vercel.app";
-const file = "artifacts/slug-audit.json";
+const origin = new URL(process.env.AUDIT_ORIGIN ?? "https://medicinasagrada.com.br").origin;
+const target = new URL(process.env.AUDIT_TARGET ?? "http://127.0.0.1:3001").origin;
+const file = process.env.AUDIT_REPORT ?? "artifacts/slug-audit.json";
 const pause = () => new Promise(resolve => setTimeout(resolve, 750));
 const save = () => { state.updatedAt = new Date().toISOString(); writeFileSync(file, JSON.stringify(state, null, 2)); };
 const state = existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : { origin, target, startedAt: new Date().toISOString(), inventory: [], results: [], discoveredLinks: {} };
+if (state.origin !== origin || state.target !== target) throw new Error("O relatorio pertence a outras origens. Escolha AUDIT_REPORT para nao misturar evidencias.");
 const recheck = process.argv.slice(3).filter(arg => arg.startsWith("/"));
 if (recheck.length) state.results = state.results.filter(item => !recheck.includes(item.path));
 mkdirSync("artifacts", { recursive: true });
@@ -156,4 +157,4 @@ const report = [
   ...state.inventory.filter(item => item.sources.some(source => source.id) && !state.sitemapPaths?.includes(item.path)).map(item => `- ${item.path}`), "",
   "O JSON contém também os locais onde os links internos foram encontrados e o histórico de interrupções.", "",
 ];
-writeFileSync("artifacts/slug-audit.md", report.join("\n"));
+writeFileSync(file.replace(/\.json$/, "") + ".md", report.join("\n"));

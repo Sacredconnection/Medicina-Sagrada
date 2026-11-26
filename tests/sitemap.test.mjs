@@ -16,6 +16,8 @@ const fixtures = {
   getAllProducts: [{ slug: "kit-fogo" }],
   getAllProductCategories: [{ count: 1, permalink: "https://medicinasagrada.com.br/product-category/rape/" }],
   getAllPostCategories: [{ count: 1, slug: "cultura" }],
+  getAllPostTags: [{ count: 1, slug: "kuntanawa" }, { count: 0, slug: "vazio" }],
+  getAllProductTags: [{ count: 1, slug: "agua-de-cheiro" }],
 };
 
 function load(failingSource) {
@@ -44,6 +46,7 @@ test("real sitemap route combines all sources without duplicates or operational/
   const paths = result.map(item => new URL(item.url).pathname);
   assert.equal(paths.filter(path => path === "/rape/").length, 1);
   assert.ok(!paths.includes("/cart/") && !paths.includes("/sample-page/"));
+  assert.ok(paths.includes("/tag/kuntanawa/") && paths.includes("/product-tag/agua-de-cheiro/") && !paths.includes("/tag/vazio/"));
   for (const path of ["/", "/blog/", "/aprenda/primeiro-rape/", "/intencoes/", "/intencoes/foco-e-clareza/", "/product/kit-fogo/", "/product-category/rape/", "/category/cultura/"]) assert.ok(paths.includes(path));
 });
 

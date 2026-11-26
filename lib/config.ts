@@ -1,13 +1,6 @@
 const stripTrailingSlash = (value: string) => value.replace(/\/+$/, "");
-
-// Older deployments configured Woo's English default, but this installation
-// serves the account at /account/ (/my-account/ is a confirmed 404).
-const accountUrl = () => {
-  const wordpress = process.env.WORDPRESS_SITE_URL ?? "https://medicinasagrada.com.br";
-  const url = new URL(process.env.WOOCOMMERCE_ACCOUNT_URL ?? `${stripTrailingSlash(wordpress)}/account/`);
-  if (url.origin === new URL(wordpress).origin && /^\/my-account\/?$/.test(url.pathname)) url.pathname = "/account/";
-  return url.toString();
-};
+const wordpressSiteUrl = stripTrailingSlash(process.env.WORDPRESS_SITE_URL ?? "https://medicinasagrada.com.br");
+const wordpressApiUrl = stripTrailingSlash(process.env.WORDPRESS_API_URL ?? `${wordpressSiteUrl}/wp-json`);
 
 const parsePositiveInteger = (value: string | undefined, fallback: number) => {
   const parsed = Number(value);
@@ -24,29 +17,22 @@ export const config = {
           ? `https://${process.env.VERCEL_URL}`
           : "http://localhost:3000"),
   ),
-  wordpressSiteUrl: stripTrailingSlash(
-    process.env.WORDPRESS_SITE_URL ?? "https://medicinasagrada.com.br",
-  ),
-  wordpressApiUrl: stripTrailingSlash(
-    process.env.WORDPRESS_API_URL ??
-      "https://medicinasagrada.com.br/wp-json",
-  ),
+  wordpressSiteUrl,
+  wordpressApiUrl,
   wooStoreApiUrl: stripTrailingSlash(
     process.env.WOOCOMMERCE_STORE_API_URL ??
-      `${
-        process.env.WORDPRESS_API_URL ??
-        "https://medicinasagrada.com.br/wp-json"
-      }/wc/store/v1`,
+      `${wordpressApiUrl}/wc/store/v1`,
   ),
   contentRevalidate: parsePositiveInteger(
     process.env.CONTENT_REVALIDATE_SECONDS,
     900,
   ),
   wooCheckoutUrl: process.env.WOOCOMMERCE_CHECKOUT_URL ?? `${stripTrailingSlash(process.env.WORDPRESS_SITE_URL ?? "https://medicinasagrada.com.br")}/checkout/`,
-  wooAccountUrl: accountUrl(),
+  wooAccountUrl: "/account/",
 } as const;
 
 export const isProductionSite =
   process.env.NODE_ENV === "production" &&
   (!process.env.VERCEL_ENV || process.env.VERCEL_ENV === "production") &&
   config.siteUrl === "https://medicinasagrada.com.br";
+

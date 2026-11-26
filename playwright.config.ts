@@ -5,12 +5,13 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   timeout: 60_000,
-  use: { baseURL: "http://127.0.0.1:3017", channel: "chrome", headless: true, trace: "retain-on-failure" },
+  use: { baseURL: "http://127.0.0.1:3017", channel: process.env.CI ? "chromium" : "chrome", headless: true, trace: "retain-on-failure" },
   webServer: [
     { command: "node tests/fixtures/woo-server.mjs", url: "http://127.0.0.1:4010/health", reuseExistingServer: false },
     { command: "npm run dev -- --hostname 127.0.0.1 --port 3017", url: "http://127.0.0.1:3017/cart/", timeout: 120_000, reuseExistingServer: false,
       env: {
         NEXT_DIST_DIR: ".next-e2e",
+        REVALIDATION_SECRET: "test-only-revalidation-secret-not-for-production",
         NEXT_PUBLIC_SITE_URL: "http://127.0.0.1:3017",
         WORDPRESS_SITE_URL: "http://127.0.0.1:4010",
         WORDPRESS_API_URL: "http://127.0.0.1:4010/wp-json",

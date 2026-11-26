@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
-import type { WooCart } from "@/lib/cart-types";
+import type { WooCart, CartItem } from "@/lib/cart-types";
 import type { CartAction } from "@/lib/cart-validation";
 import { CartDrawer } from "@/components/cart-drawer";
 import { safeCheckoutDestination } from "@/lib/checkout-destination";
@@ -15,6 +15,8 @@ type CartContextValue = {
   mutate: (action: CartAction) => Promise<boolean>;
   checkout: () => Promise<void>;
   openCart: () => void;
+  removedItem: CartItem | null;
+  undoRemove: () => Promise<void>;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -27,6 +29,7 @@ export function CartProvider({ children, checkoutUrl }: { children: React.ReactN
   const [busy, setBusy] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [removedItem, setRemovedItem] = useState<CartItem | null>(null);
   const operation = useRef(false);
   const requestVersion = useRef(0);
   const channel = useRef<BroadcastChannel | null>(null);
@@ -58,9 +61,10 @@ export function CartProvider({ children, checkoutUrl }: { children: React.ReactN
     return () => { window.clearTimeout(initialLoad); window.removeEventListener("focus", onFocus); window.removeEventListener("pageshow", onPageShow); channel.current?.close(); };
   }, [refresh]);
 
-  const mutate = useCallback(async (action: CartAction) => {
+  const mutate = useCallback(async (action: CartAction, openDrawer = true) => {
     if (operation.current) return false;
-    if (action.action === "add") cartTrigger.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const adding = action.action === "add" || action.action === "add-bundle";
+    if (adding && openDrawer) cartTrigger.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     operation.current = true;
     ++requestVersion.current;
     setBusy(true); setError("");
@@ -69,7 +73,8 @@ export function CartProvider({ children, checkoutUrl }: { children: React.ReactN
       const data = await response.json();
       if (!response.ok) throw new CartRequestError(data.error);
       setCart(data.cart);
-      if (action.action === "add") setDrawerOpen(true);
+      if (action.action === "remove") setRemovedItem(cart?.items.find(item => item.key === action.key) ?? null);
+      if (adding && openDrawer) setDrawerOpen(true);
       channel.current?.postMessage("updated");
       return true;
     } catch (failure) {
@@ -82,7 +87,15 @@ export function CartProvider({ children, checkoutUrl }: { children: React.ReactN
       } catch { /* Keep last confirmed state and display the error. */ }
       return false;
     } finally { operation.current = false; setBusy(false); setLoading(false); }
-  }, []);
+  }, [cart]);
+
+  const undoRemove = useCallback(async () => {
+    if (!removedItem || operation.current) return;
+    const item = removedItem;
+    if (await mutate({ action: "restore-item", id: item.id, quantity: item.quantity, variation: item.variation }, false)) {
+      setRemovedItem(null);
+    }
+  }, [removedItem, mutate]);
 
   const checkout = useCallback(async () => {
     if (operation.current) return;
@@ -100,7 +113,7 @@ export function CartProvider({ children, checkoutUrl }: { children: React.ReactN
     finally { operation.current = false; setBusy(false); }
   }, [checkoutUrl]);
 
-  return <CartContext.Provider value={{ cart, busy, loading, error, refresh, mutate, checkout, openCart: () => { cartTrigger.current = document.activeElement instanceof HTMLElement ? document.activeElement : null; setDrawerOpen(true); } }}>{children}{drawerOpen ? <CartDrawer open={drawerOpen} trigger={cartTrigger} onClose={() => setDrawerOpen(false)} /> : null}</CartContext.Provider>;
+  return <CartContext.Provider value={{ cart, busy, loading, error, refresh, mutate, checkout, removedItem, undoRemove, openCart: () => { cartTrigger.current = document.activeElement instanceof HTMLElement ? document.activeElement : null; setDrawerOpen(true); } }}>{children}{drawerOpen ? <CartDrawer open={drawerOpen} trigger={cartTrigger} onClose={() => setDrawerOpen(false)} /> : null}</CartContext.Provider>;
 }
 
 export function useCart() {
