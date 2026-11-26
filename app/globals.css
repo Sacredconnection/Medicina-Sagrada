@@ -266,11 +266,15 @@
   .intentions-index .intention-card-link { min-height: 2.75rem; padding: 0.75rem 0.5rem; font-size: var(--type-action); }
 }
 @media (prefers-reduced-motion: reduce) { .intentions-index .intention-card-link { transition: none; } }
-.intention-detail { max-width: 52rem; }
-.intention-detail h1 { max-width: 20ch; font-size: clamp(2.25rem, 4vw, 3.5rem); line-height: 1.05; overflow-wrap: break-word; }
-.intention-detail-lede { max-width: 60ch; margin: 1rem 0; color: var(--forest-800); font-size: var(--type-editorial-body); line-height: 1.6; }
-.intention-products .section-heading h2 { font-size: var(--type-subsection-title); line-height: 1.1; }
-.intention-layout { display: grid; grid-template-columns: 14rem minmax(0, 1fr); grid-template-areas: "sidebar heading" "sidebar products" "sidebar pager"; column-gap: 2.5rem; row-gap: 1.5rem; align-items: start; }
+.intention-layout > .intention-card-media { grid-area: strip; align-self: stretch; aspect-ratio: auto; }
+.intention-detail h1 { max-width: 20ch; margin: 0; font-size: clamp(2.25rem, 4vw, 3.5rem); line-height: 1.05; overflow-wrap: break-word; }
+.intention-detail-lede { max-width: 60ch; margin: 1rem 0 0; color: var(--forest-800); font-size: var(--type-editorial-body); line-height: 1.6; }
+@media (max-width: 600px) {
+  .intention-detail h1 { font-size: clamp(1.75rem, 8vw, 2.25rem); }
+}
+.intention-count.section-heading { grid-area: count; margin: 0; }
+.intention-count.section-heading h2 { font-size: var(--type-subsection-title); line-height: 1.1; }
+.intention-layout { --intention-art-width: clamp(6rem, calc(50vw - 20rem), 21rem); display: grid; grid-template-columns: 14rem minmax(0, 1fr) var(--intention-art-width); grid-template-areas: "sidebar heading strip" "sidebar count strip" "sidebar products products" "sidebar pager pager"; column-gap: 2.5rem; row-gap: 1.5rem; align-items: start; }
 .intention-layout > .intention-detail { grid-area: heading; min-width: 0; }
 .intention-layout > .intention-products { grid-area: products; min-width: 0; }
 .intention-layout > .intention-pager { grid-area: pager; }
@@ -285,11 +289,13 @@
 .intention-sidebar :is(a, summary):focus-visible { outline: 2px solid var(--forest-650); outline-offset: 2px; }
 .intention-sidebar-mobile { display: none; }
 @media (max-width: 1000px) {
-  .intention-layout { grid-template-columns: 13rem minmax(0, 1fr); column-gap: 1.5rem; }
+  .intention-layout { grid-template-columns: 13rem minmax(0, 1fr) var(--intention-art-width); column-gap: 1.5rem; }
   .intention-layout .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 700px) {
-  .intention-layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: "heading" "sidebar" "products" "pager"; }
+  .intention-layout { grid-template-columns: minmax(0, 1fr) clamp(4.5rem, 22vw, 9rem); grid-template-areas: "heading strip" "sidebar sidebar" "count count" "products products" "pager pager"; }
+  .intention-layout > .intention-card-media { min-height: 11rem; }
+  .intention-detail { align-self: center; }
   .intention-sidebar { position: static; max-height: none; overflow: visible; padding: 0; }
   .intention-sidebar-desktop { display: none; }
   .intention-sidebar-mobile { display: block; border: 1px solid var(--line); border-radius: 0.5rem; }
@@ -298,6 +304,10 @@
   .intention-sidebar-mobile summary span { font-size: 1.25rem; line-height: 1; }
   .intention-sidebar-mobile[open] summary span { transform: rotate(180deg); }
   .intention-sidebar-mobile nav { padding: 0 0.75rem 0.75rem; }
+}
+@media (max-width: 600px) {
+  .intention-layout { column-gap: var(--group-space-small); }
+  .intention-layout > .intention-card-media { min-height: 6.5rem; }
 }
 @media (max-width: 360px) { .intention-layout .product-grid { grid-template-columns: minmax(0, 1fr); } }
 .intention-pager { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: var(--group-space-small); margin-top: var(--section-space-compact); padding-top: var(--group-space-medium); border-top: 1px solid var(--line); }

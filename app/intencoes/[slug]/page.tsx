@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getIntention, intentions } from "@/lib/intencoes";
+import { getIntention, intentionCardImages, intentions } from "@/lib/intencoes";
 import { getAllProducts } from "@/lib/woocommerce";
 import { ProductCard } from "@/components/product-card";
 import { IntentionSidebar } from "@/components/intention-sidebar";
+import { IntentionCardMedia } from "@/components/intention-card-media";
 
 export const dynamicParams = false;
 export const revalidate = 900;
@@ -44,16 +45,22 @@ export default async function IntentionPage({ params }: IntentionPageProps) {
         <Link href="/">Início</Link><span aria-hidden="true">/</span><Link href="/intencoes/">Intenções</Link><span aria-hidden="true">/</span><span>{intention.name}</span>
       </nav>
       <div className="intention-layout">
-        <article className="intention-detail">
+        <header className="intention-detail">
           <h1>{intention.name}</h1>
           <p className="intention-detail-lede">{intention.meaning}</p>
-        </article>
+        </header>
+        <IntentionCardMedia
+          src={intentionCardImages[intention.slug]}
+          objectPosition={intention.headerImagePosition}
+          loading="eager"
+          sizes="(max-width: 700px) clamp(4.5rem, 22vw, 9rem), clamp(6rem, 50vw - 20rem, 21rem)"
+        />
         <IntentionSidebar currentSlug={slug} />
+        <div className="intention-count section-heading">
+          <p className="eyebrow">Catálogo</p>
+          <h2 id="intention-products-title">{productsResult.failed ? "Produtos" : `${products.length} ${products.length === 1 ? "produto" : "produtos"}`}</h2>
+        </div>
         <section className="intention-products" aria-labelledby="intention-products-title">
-          <div className="section-heading">
-            <p className="eyebrow">Catálogo</p>
-            <h2 id="intention-products-title">{productsResult.failed ? "Produtos" : `${products.length} ${products.length === 1 ? "produto" : "produtos"}`}</h2>
-          </div>
           {productsResult.failed ? (
             <div className="catalog-empty" role="status">
               <h3>Não foi possível carregar os produtos</h3>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { IntentionCardMedia } from "@/components/intention-card-media";
 import { intentions, intentionCardImages } from "@/lib/intencoes";
 
 export const revalidate = 900;
@@ -30,9 +30,7 @@ export default function IntentionsPage() {
       <section className="intentions-list" aria-label="Explore as intenções">
         {intentions.map((intention, index) => (
           <Link className="intention-card" href={`/intencoes/${intention.slug}/`} key={intention.slug}>
-            <span className="intention-card-media" aria-hidden="true">
-              <Image src={intentionCardImages[intention.slug]} alt="" fill unoptimized={process.env.NODE_ENV === "development"} loading={index === 0 ? "eager" : "lazy"} sizes="(max-width: 1000px) 50vw, (max-width: 1216px) 25vw, 17rem" />
-            </span>
+            <IntentionCardMedia src={intentionCardImages[intention.slug]} loading={index === 0 ? "eager" : "lazy"} sizes="(max-width: 1000px) 50vw, (max-width: 1216px) 25vw, 17rem" />
             <h2 className="intention-card-title">{intention.cardTitle}</h2>
             <span className="intention-card-meaning">{intention.meaning}</span>
             <span className="intention-card-link">Explorar intenção</span>
