@@ -1,6 +1,7 @@
 import Image from "next/image";
+import { ResponsiveSurfaceImage } from "@/components/responsive-surface-image";
 import Link from "next/link";
-import { Suspense, type CSSProperties } from "react";
+import { Suspense } from "react";
 import { BenefitsStrip } from "@/components/benefits-strip";
 import { HomeApplicatorsSection } from "@/components/home-applicators-section";
 import { HomeConexaoAncestralSection } from "@/components/home-conexao-ancestral-section";
@@ -129,6 +130,7 @@ export default function Home() {
       <HomeCraftsSection />
 
       <section className="incense-section" aria-labelledby="incensos-title">
+        <ResponsiveSurfaceImage src="/assets/home/incense/background/medicina-sagrada-incensos-background-desktop.webp" mobileSrc="/assets/home/incense/background/medicina-sagrada-incensos-background-mobile.webp" mobileBreakpoint={600} />
         <div className="container incense-layout">
           <div className="incense-copy">
             <h2 id="incensos-title">Incensos e aromas da floresta</h2>
@@ -168,14 +170,11 @@ export default function Home() {
 
           <div className="story-pillars">
             <article className="story-pillar story-pillar-knowledge">
-              <div
+              <Image
                 className="story-pillar-image"
-                style={{
-                  "--story-pillar-image":
-                    'url("/assets/home/story/pillars/medicina-sagrada-conhecimentos-ancestrais.webp")',
-                } as CSSProperties}
-                role="img"
-                aria-label="Duas pessoas em um momento ritual ao lado do fogo"
+                src="/assets/home/story/pillars/medicina-sagrada-conhecimentos-ancestrais.webp"
+                alt="Duas pessoas em um momento ritual ao lado do fogo"
+                width={200} height={200} sizes="(max-width: 800px) 90vw, 200px"
               />
               <div className="story-pillar-copy">
                 <h3>Conhecimentos ancestrais</h3>
@@ -187,14 +186,11 @@ export default function Home() {
             </article>
 
             <article className="story-pillar story-pillar-culture">
-              <div
+              <Image
                 className="story-pillar-image"
-                style={{
-                  "--story-pillar-image":
-                    'url("/assets/home/story/pillars/medicina-sagrada-arte-cultura.webp")',
-                } as CSSProperties}
-                role="img"
-                aria-label="Peça artesanal com grafismos coloridos diante da floresta"
+                src="/assets/home/story/pillars/medicina-sagrada-arte-cultura.webp"
+                alt="Peça artesanal com grafismos coloridos diante da floresta"
+                width={200} height={200} sizes="(max-width: 800px) 90vw, 200px"
               />
               <div className="story-pillar-copy">
                 <h3>Arte e cultura</h3>
@@ -206,14 +202,11 @@ export default function Home() {
             </article>
 
             <article className="story-pillar story-pillar-community">
-              <div
+              <Image
                 className="story-pillar-image"
-                style={{
-                  "--story-pillar-image":
-                    'url("/assets/home/story/pillars/medicina-sagrada-historias-protagonismo.webp")',
-                } as CSSProperties}
-                role="img"
-                aria-label="Medicinas em pó, sementes e penas sobre uma superfície trançada"
+                src="/assets/home/story/pillars/medicina-sagrada-historias-protagonismo.webp"
+                alt="Medicinas em pó, sementes e penas sobre uma superfície trançada"
+                width={200} height={200} sizes="(max-width: 800px) 90vw, 200px"
               />
               <div className="story-pillar-copy">
                 <h3>Histórias e protagonismo</h3>

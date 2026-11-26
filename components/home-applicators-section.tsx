@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import { ResponsiveSurfaceImage } from "@/components/responsive-surface-image";
 import { useEffect, useRef, useState } from "react";
 
 const applicators = [
@@ -45,6 +45,7 @@ export function HomeApplicatorsSection() {
   const imageVersions = useRef<Partial<Record<ApplicatorId, string>>>({});
 
   useEffect(() => {
+    if (process.env.NODE_ENV !== "development") return;
     let active = true;
     let supportsPolling = true;
     let interval: number | undefined;
@@ -123,12 +124,8 @@ export function HomeApplicatorsSection() {
               data-image-slot={applicator.id}
               href={applicator.href}
               key={applicator.id}
-              style={
-                {
-                  "--applicator-image": `url("${images[applicator.id]}")`,
-                } as CSSProperties
-              }
             >
+              <ResponsiveSurfaceImage src={images[applicator.id]} sizes="(max-width: 800px) 90vw, 40vw" />
               <div className="applicator-card-content">
                 <h3>{applicator.name}</h3>
                 <p>{applicator.description}</p>

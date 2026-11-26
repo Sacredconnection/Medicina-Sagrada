@@ -623,15 +623,11 @@ export function ProductMatcher({ products = [], introTitle, questionnaire = fals
                       className="matcher-intro-intention-slot"
                       data-intention={option.introImageKey}
                       key={option.slug}
-                      style={
-                        {
-                          "--matcher-intention-image":
-                            liveImages[option.introImageKey] === "none"
-                              ? "none"
-                              : `url("${liveImages[option.introImageKey]}")`,
-                        } as CSSProperties
-                      }
-                    />
+                    >
+                      {liveImages[option.introImageKey] !== "none" && (
+                        <ResponsiveSurfaceImage src={liveImages[option.introImageKey]} sizes="80px" />
+                      )}
+                    </motion.span>
                   ))}
                 </div>
                 <p>
