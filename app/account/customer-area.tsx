@@ -1,4 +1,4 @@
-import { saveAccount } from "./actions";
+import { AccountEditForm } from "./account-edit-form";
 import styles from "./account.module.css";
 
 export type AccountProfile = {
@@ -13,10 +13,6 @@ const tabs = [
   ["dashboard", "dashboard", "Painel"], ["orders", "orders", "Pedidos"],
   ["downloads", "downloads", "Downloads"], ["addresses", "edit-address", "Endereços"],
   ["payments", "payment-methods", "Formas de pagamento"], ["details", "edit-account", "Detalhes da conta"],
-];
-const fields = [
-  ["first_name","Nome"], ["last_name","Sobrenome"], ["company","Empresa"], ["address_1","Rua e número"],
-  ["address_2","Complemento"], ["city","Cidade"], ["state","Estado (sigla)"], ["postcode","CEP"], ["country","País (sigla)"],
 ];
 export function CustomerArea({ profile, tab, saved, order }: { profile: AccountProfile; tab?: string; saved?: string; order?: string }) {
   const available = tabs.filter(([, endpoint]) => !profile.sections || profile.sections.includes(endpoint));
@@ -44,18 +40,11 @@ export function CustomerArea({ profile, tab, saved, order }: { profile: AccountP
         <tbody>{profile.orders.map(o => <tr key={o.id}><th scope="row"><a className={styles.orderLink} href={"/account/?tab=orders&order=" + encodeURIComponent(o.id)} aria-label={"Ver detalhes do pedido " + o.id}>#{o.id}</a></th><td><span className={styles.status}>{o.status}</span></td><td>{o.total}</td></tr>)}</tbody></table> : <p>Você ainda não tem pedidos.</p>)}
       {active[0] === "downloads" && <div className={styles.sectionBody}>{profile.downloads?.length ? <ul>{profile.downloads.map(d => <li key={d.url}><a href={d.url}>{d.name}</a></li>)}</ul> : "Nenhum download disponível."}</div>}
       {active[0] === "payments" && <div className={styles.sectionBody}>{profile.payments?.length ? <ul>{profile.payments.map((p,i) => <li key={i}>{p}</li>)}</ul> : "Nenhuma forma de pagamento salva."}</div>}
-      {active[0] === "addresses" && <div className={styles.sectionBody}>{["billing","shipping"].map(type =>
+      {active[0] === "addresses" && <div className={styles.sectionBody}>{(["billing", "shipping"] as const).map(type =>
         <details key={type} className={styles.address}><summary>{type === "billing" ? "Endereço de cobrança" : "Endereço de entrega"}</summary>
-          <form className={styles.editForm} action={saveAccount}><input type="hidden" name="section" value={type}/>
-          {fields.map(([key,label]) => <label key={key}>{label}<input required={["country","city","address_1"].includes(key)} name={key} defaultValue={profile.addresses?.[type]?.[key] ?? ""}/></label>)}
-          <button className={styles.exit}>Salvar endereço</button></form>
+          <AccountEditForm section={type} initialValues={profile.addresses?.[type] ?? {}} />
         </details>)}</div>}
-      {active[0] === "details" && <form action={saveAccount} className={styles.editForm}><input type="hidden" name="section" value="details"/>
-        <label>Nome de exibição<input name="name" defaultValue={profile.name} required/></label>
-        <label>E-mail<input type="email" name="email" defaultValue={profile.email} required/></label>
-        <label>Senha atual (para alterar e-mail ou senha)<input type="password" autoComplete="current-password" name="password"/></label>
-        <label>Nova senha (opcional, mínimo de 12 caracteres)<input type="password" autoComplete="new-password" minLength={12} name="new_password"/></label>
-        <button className={styles.exit}>Salvar alterações</button></form>}
+      {active[0] === "details" && <AccountEditForm section="details" initialValues={{ name: profile.name, email: profile.email }} />}
     </section>
   </div>;
 }

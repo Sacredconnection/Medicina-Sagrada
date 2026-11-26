@@ -130,6 +130,7 @@ function MobileFeaturedProduct({ feature }: { feature: NavigationFeature }) {
 }
 
 function Branch({ item, mobile, pathname, group = "mobile-navigation" }: { item: NavigationItem; mobile: boolean; pathname: string; group?: string }) {
+  const disclosure = useRef<HTMLDetailsElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const cancelClose = () => {
     if (closeTimer.current !== null) clearTimeout(closeTimer.current);
@@ -139,35 +140,36 @@ function Branch({ item, mobile, pathname, group = "mobile-navigation" }: { item:
   if (!item.children?.length) return <Link href={item.href} aria-current={isCurrentPage(pathname, item.href) ? "page" : undefined}>{item.label}</Link>;
 
   return (
-    <details className="navigation-disclosure" data-active={isCurrentSection(pathname, item) || undefined} name={mobile ? group : "desktop-navigation"}
-      onToggle={(event) => {
-        if (!mobile || event.currentTarget.open) return;
-        event.currentTarget.querySelectorAll<HTMLDetailsElement>("details[open]").forEach((detail) => { detail.open = false; });
-      }}
-      onMouseEnter={(event) => {
-        cancelClose();
-        if (!mobile && window.matchMedia("(hover: hover)").matches) event.currentTarget.open = true;
-      }}
+    <div className="navigation-branch" data-active={isCurrentSection(pathname, item) || undefined}
+      onMouseEnter={cancelClose}
       onMouseLeave={(event) => {
         if (mobile) return;
         cancelClose();
-        const detail = event.currentTarget;
+        const branch = event.currentTarget;
         closeTimer.current = setTimeout(() => {
-          if (!detail.contains(document.activeElement)) detail.open = false;
+          if (!branch.contains(document.activeElement) && disclosure.current) disclosure.current.open = false;
           closeTimer.current = null;
         }, 220);
       }}
-      onBlur={(event) => { if (!mobile && !event.currentTarget.contains(event.relatedTarget)) event.currentTarget.open = false; }}
+      onBlur={(event) => { if (!mobile && !event.currentTarget.contains(event.relatedTarget) && disclosure.current) disclosure.current.open = false; }}
     >
-      <summary>
-        <Link href={item.href} aria-current={isCurrentPage(pathname, item.href) ? "page" : undefined}>{item.label}</Link>
-        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
-      </summary>
-      {!mobile ? <MegaPanel item={item} pathname={pathname} /> : <ul className="navigation-submenu">
-        <li><Link className="navigation-view-all" href={item.href} aria-current={isCurrentPage(pathname, item.href) ? "page" : undefined}>{item.href === "/aprenda/" ? "Primeiros passos" : `Ver tudo em ${item.label}`}</Link></li>
-        {item.children.map((child) => <li key={child.href}><Branch item={child} mobile={mobile} pathname={pathname} group={`mobile-navigation-${item.href}`} /></li>)}
-      </ul>}
-    </details>
+      <Link className="navigation-branch-link" href={item.href} aria-current={isCurrentPage(pathname, item.href) ? "page" : undefined}
+        onMouseEnter={() => { if (!mobile && disclosure.current && window.matchMedia("(hover: hover)").matches) disclosure.current.open = true; }}
+      >{item.label}</Link>
+      <details ref={disclosure} className="navigation-disclosure" name={mobile ? group : "desktop-navigation"}
+        onToggle={(event) => {
+          if (!mobile || event.currentTarget.open) return;
+          event.currentTarget.querySelectorAll<HTMLDetailsElement>("details[open]").forEach((detail) => { detail.open = false; });
+        }}>
+        <summary aria-label={`Submenu de ${item.label}`}>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
+        </summary>
+        {!mobile ? <MegaPanel item={item} pathname={pathname} /> : <ul className="navigation-submenu">
+          <li><Link className="navigation-view-all" href={item.href} aria-current={isCurrentPage(pathname, item.href) ? "page" : undefined}>{item.href === "/aprenda/" ? "Primeiros passos" : `Ver tudo em ${item.label}`}</Link></li>
+          {item.children.map((child) => <li key={child.href}><Branch item={child} mobile={mobile} pathname={pathname} group={`mobile-navigation-${item.href}`} /></li>)}
+        </ul>}
+      </details>
+    </div>
   );
 }
 

@@ -90,7 +90,18 @@ test("categoria usa URL canônica, filtros no celular e estado vazio recuperáve
   await page.goto("/product-category/artesanato/colares/");
   await expect(page.getByRole("button", { name: "Aplicar filtros" })).not.toBeVisible();
   await page.getByRole("button", { name: "Filtros +" }).click();
-  await page.getByLabel("Mínimo", { exact: true }).fill("999");
+  const minimum = page.getByLabel("Mínimo", { exact: true });
+  await minimum.fill("5");
+  // A pause longer than the former auto-submit delay must allow continued typing.
+  await page.waitForTimeout(1000);
+  await expect(minimum).toBeFocused();
+  await page.keyboard.type("0");
+  await expect(minimum).toHaveValue("50");
+  expect(new URL(page.url()).searchParams.has("min")).toBe(false);
+  await page.getByRole("button", { name: "Aplicar preço" }).click();
+  await expect.poll(() => new URL(page.url()).searchParams.get("min")).toBe("50");
+  await minimum.fill("999");
+  await minimum.press("Enter");
   await expect.poll(() => new URL(page.url()).searchParams.get("min")).toBe("999");
   await expect(page.getByRole("heading", { name: "Nenhum produto encontrado" })).toBeVisible();
   await page.getByRole("link", { name: "Recomeçar a busca" }).click();

@@ -1,3 +1,18 @@
 {
-  "buildPath": "comp"
+  "buildPath": "comp",
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "components/home-newsletter-section.tsx"
+        ],
+        "createdAt": "2026-11-26T13:44:54.877Z",
+        "reason": "Revisão de UX: a borda acompanha o ícone e o texto Inscrição recebida no estado de sucesso da newsletter."
+      }
+    ]
+  }
 }

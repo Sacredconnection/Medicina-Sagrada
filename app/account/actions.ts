@@ -39,14 +39,31 @@ async function requestEmail(action: "register" | "recover", form: FormData) {
 export async function register(form: FormData) { await requestEmail("register", form); }
 export async function recover(form: FormData) { await requestEmail("recover", form); }
 
-export async function saveAccount(form: FormData) {
+type SaveState = { ok: boolean; values: Record<string, string>; message: string };
+
+export async function saveAccount(_previous: SaveState | null, form: FormData): Promise<SaveState> {
   const section = String(form.get("section") ?? "");
-  const tab = section === "details" ? "details" : "addresses";
-  const body: Record<string, string> = { section };
-  for (const key of ["name","email","password","new_password","first_name","last_name","company","address_1","address_2","city","state","postcode","country"]) {
-    body[key] = String(form.get(key) ?? "");
+  const keys = section === "details" ? ["name", "email"] :
+    ["first_name", "last_name", "company", "address_1", "address_2", "city", "state", "postcode", "country"];
+  const values = Object.fromEntries(keys.map(key => [key, String(form.get(key) ?? "")]));
+  const body: Record<string, string> = { section, ...values };
+  if (section === "details") {
+    body.password = String(form.get("password") ?? "");
+    body.new_password = String(form.get("new_password") ?? "");
   }
-  let saved = false;
-  try { saved = (await accountRequest("save", body)).ok; } catch { /* Show retry feedback. */ }
-  redirect("/account/?tab=" + tab + "&saved=" + (saved ? "1" : "0"));
+  let message = "Não foi possível confirmar o salvamento. Tente novamente em instantes.";
+  try {
+    const response = await accountRequest("save", body);
+    if (response.ok) return { ok: true, values, message: "Alterações salvas." };
+    if (response.status === 401) message = "Sua sessão expirou. Entre novamente para salvar.";
+    if (response.status === 429) message = "Aguarde alguns minutos antes de tentar salvar novamente.";
+    if (response.status === 400) {
+      const error = await response.json();
+      if (error.message === "Confira a senha atual.") message = "Confira a senha atual e digite-a novamente.";
+      else if (error.code === "short") message = "Digite uma nova senha com pelo menos 12 caracteres.";
+      else message = section === "details" ? "Confira o nome de exibição e o e-mail." : "Confira a rua e o número, a cidade e a sigla do país.";
+    }
+  } catch { /* Keep the draft available for a retry. */ }
+  if (body.new_password) message += " Para alterar a senha, preencha a nova senha novamente.";
+  return { ok: false, values, message };
 }

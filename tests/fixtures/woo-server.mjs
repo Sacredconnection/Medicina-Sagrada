@@ -65,6 +65,20 @@ createServer(async (req, res) => {
   const url = new URL(req.url, "http://127.0.0.1:4010");
   const send = (data, status = 200, headers = {}) => { res.writeHead(status, { "Content-Type": "application/json", ...headers }); res.end(JSON.stringify(data)); };
   if (url.pathname === "/health") return send({ ok: true, pendingEditorialRequests });
+  if (url.pathname.startsWith("/wp-json/ms-account/v1/")) {
+    const chunks = [];
+    for await (const chunk of req) chunks.push(chunk);
+    const data = JSON.parse(Buffer.concat(chunks).toString());
+    if (data.session !== "account-edit-test") return send({ code: "expired" }, 401);
+    if (url.pathname.endsWith("/profile")) return send({ name: "Cliente", email: "cliente@example.com", orders: [] });
+    if (url.pathname.endsWith("/save")) {
+      if (data.section === "details" && data.password !== "senha-correta") {
+        return send({ code: "invalid", message: "Confira a senha atual." }, 400);
+      }
+      if (data.city === "Indisponível") return send({}, 503);
+      return send({ ok: true });
+    }
+  }
   if (url.pathname === "/__test/editorial-delay" && req.method === "POST") {
     editorialDelayMs = Math.min(10_000, Math.max(0, Number(url.searchParams.get("ms")) || 0));
     return send({ editorialDelayMs });

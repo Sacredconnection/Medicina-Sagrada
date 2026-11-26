@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Form from "next/form";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { catalogSearch, sortOptions, type CatalogQuery } from "@/lib/catalog-query";
 import type { WooCategory } from "@/lib/types";
 import { pathnameFromUrl } from "@/lib/url";
@@ -11,29 +11,13 @@ import { intentions } from "@/lib/intencoes";
 
 export function CatalogFilters({ query, categories, basePath, categoryId }: { query: CatalogQuery; categories: WooCategory[]; basePath: string; categoryId?: number }) {
   const [open, setOpen] = useState(false);
-  const priceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const cancelPriceUpdate = () => {
-    if (priceTimer.current !== null) clearTimeout(priceTimer.current);
-    priceTimer.current = null;
-  };
-  useEffect(() => () => { if (priceTimer.current !== null) clearTimeout(priceTimer.current); }, []);
   return <aside className="catalog-sidebar" aria-label="Filtros do catálogo">
     <noscript><style>{".catalog-filter-fields{display:block!important}.catalog-filter-toggle{display:none!important}"}</style></noscript>
     <button className="catalog-filter-toggle commerce-button" aria-expanded={open} aria-controls="catalog-filter-fields" onClick={() => setOpen(!open)}>Filtros {open ? "−" : "+"}</button>
-    <Form key={catalogSearch(query).toString()} id="catalog-filter-form" action={basePath} scroll={false} className="catalog-filter-fields" data-open={open} onSubmit={cancelPriceUpdate} onChange={event => {
-      cancelPriceUpdate();
-      const form = event.currentTarget;
-      if (event.target instanceof HTMLSelectElement) {
-        form.requestSubmit();
-        return;
-      }
-      if (!(event.target instanceof HTMLInputElement)) return;
-      if (event.target.type === "checkbox") form.requestSubmit();
-      if (event.target.type === "number") {
-        priceTimer.current = setTimeout(() => {
-          priceTimer.current = null;
-          if (form.isConnected && form.checkValidity()) form.requestSubmit();
-        }, 600);
+    <Form key={catalogSearch(query).toString()} id="catalog-filter-form" action={basePath} scroll={false} className="catalog-filter-fields" data-open={open} onChange={event => {
+      const field = event.target;
+      if (field instanceof HTMLSelectElement || (field instanceof HTMLInputElement && field.type === "checkbox")) {
+        event.currentTarget.requestSubmit();
       }
     }}>
       <div id="catalog-filter-fields">
@@ -50,7 +34,7 @@ export function CatalogFilters({ query, categories, basePath, categoryId }: { qu
         <fieldset><legend>Preço (R$)</legend><div className="catalog-price-fields">
           <label className="commerce-field">Mínimo<input name="min" type="number" min="0" max="999999.99" step="0.01" defaultValue={query.min === undefined ? "" : query.min / 100} placeholder="0" /></label>
           <label className="commerce-field">Máximo<input name="max" type="number" min="0" max="999999.99" step="0.01" defaultValue={query.max === undefined ? "" : query.max / 100} placeholder="Sem limite" /></label>
-        </div></fieldset>
+        </div><button className="commerce-button" type="submit">Aplicar preço</button></fieldset>
         <label className="catalog-checkbox"><input name="estoque" type="checkbox" value="1" defaultChecked={query.stock} />Somente em estoque</label>
         <label className="catalog-checkbox"><input name="oferta" type="checkbox" value="1" defaultChecked={query.sale} />Em oferta</label>
         <noscript><button className="commerce-button" type="submit">Aplicar filtros</button></noscript>
